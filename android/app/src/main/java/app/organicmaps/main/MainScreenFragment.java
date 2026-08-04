@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.TextureView;
 import android.widget.HorizontalScrollView;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.widget.TextView;
@@ -52,8 +53,12 @@ public class MainScreenFragment extends Fragment
       return createDiscoverScreen(inflater, container);
     if ("feed".equals(destination))
       return createFeedScreen(inflater, container);
+    if ("chats".equals(destination))
+      return createChatsScreen(inflater, container);
     if (destination.startsWith("discover_all:"))
       return createDiscoverAllScreen(inflater, container, destination.substring("discover_all:".length()));
+    if (destination.startsWith("conversation:"))
+      return createConversationScreen(inflater, container, destination.substring("conversation:".length()));
 
     final View view = inflater.inflate(R.layout.main_screen, container, false);
     final TextView title = view.findViewById(R.id.main_screen_title);
@@ -73,6 +78,60 @@ public class MainScreenFragment extends Fragment
       headline.setText(R.string.chats_headline);
       body.setText(R.string.chats_body);
     }
+    return view;
+  }
+
+  @NonNull
+  private View createChatsScreen(@NonNull LayoutInflater inflater, @Nullable ViewGroup container)
+  {
+    final View view = inflater.inflate(R.layout.chats_screen, container, false);
+    view.findViewById(R.id.chats_search).setOnClickListener(v -> Toast.makeText(requireContext(), "Search messages, people, venues, and files", Toast.LENGTH_SHORT).show());
+    view.findViewById(R.id.chats_new).setOnClickListener(v -> Toast.makeText(requireContext(), "Start a new conversation", Toast.LENGTH_SHORT).show());
+    final LinearLayout categories = view.findViewById(R.id.chats_categories);
+    for (int i = 0; i < categories.getChildCount(); ++i)
+    {
+      final TextView category = (TextView) categories.getChildAt(i);
+      category.setOnClickListener(v -> selectChatCategory(categories, (TextView) v));
+    }
+    view.findViewById(R.id.chat_row_nightguard).setOnClickListener(v -> openConversation("NightGuard"));
+    view.findViewById(R.id.chat_row_alfred).setOnClickListener(v -> openConversation("Alfred M."));
+    view.findViewById(R.id.chat_row_truth).setOnClickListener(v -> openConversation("Truth Nightclub"));
+    view.findViewById(R.id.chat_row_group).setOnClickListener(v -> openConversation("Joburg Fridays"));
+    view.findViewById(R.id.chat_row_lerato).setOnClickListener(v -> openConversation("Lerato"));
+    return view;
+  }
+
+  private void selectChatCategory(@NonNull LinearLayout categories, @NonNull TextView selected)
+  {
+    for (int i = 0; i < categories.getChildCount(); ++i)
+    {
+      final TextView category = (TextView) categories.getChildAt(i);
+      final boolean active = category == selected;
+      category.setBackgroundResource(active ? R.drawable.chat_category_active : R.drawable.camera_look);
+      category.setTextColor(active ? Color.WHITE : 0xDE000000);
+    }
+  }
+
+  private void openConversation(@NonNull String name)
+  {
+    getParentFragmentManager().beginTransaction().replace(R.id.main_screen_container, newInstance("conversation:" + name)).addToBackStack("conversation").commit();
+  }
+
+  @NonNull
+  private View createConversationScreen(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @NonNull String name)
+  {
+    final View view = inflater.inflate(R.layout.chat_conversation, container, false);
+    ((TextView) view.findViewById(R.id.conversation_name)).setText(name);
+    view.findViewById(R.id.conversation_back).setOnClickListener(v -> getParentFragmentManager().popBackStack());
+    final EditText input = view.findViewById(R.id.conversation_input);
+    final TextView sent = view.findViewById(R.id.conversation_sent);
+    view.findViewById(R.id.conversation_send).setOnClickListener(v -> {
+      if (input.getText().length() > 0)
+      {
+        sent.setText(input.getText());
+        input.setText("");
+      }
+    });
     return view;
   }
 
