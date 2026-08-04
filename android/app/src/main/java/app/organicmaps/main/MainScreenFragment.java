@@ -50,6 +50,8 @@ public class MainScreenFragment extends Fragment
       return createCameraScreen(inflater, container);
     if ("discover".equals(destination))
       return createDiscoverScreen(inflater, container);
+    if ("feed".equals(destination))
+      return createFeedScreen(inflater, container);
     if (destination.startsWith("discover_all:"))
       return createDiscoverAllScreen(inflater, container, destination.substring("discover_all:".length()));
 
@@ -72,6 +74,52 @@ public class MainScreenFragment extends Fragment
       body.setText(R.string.chats_body);
     }
     return view;
+  }
+
+  @NonNull
+  private View createFeedScreen(@NonNull LayoutInflater inflater, @Nullable ViewGroup container)
+  {
+    final View view = inflater.inflate(R.layout.feed_screen, container, false);
+    final TextView context = view.findViewById(R.id.feed_context);
+    final TextView[] tabs = {view.findViewById(R.id.feed_for_you), view.findViewById(R.id.feed_following),
+                             view.findViewById(R.id.feed_nearby), view.findViewById(R.id.feed_live)};
+    final String[] details = {"2h ago • Sandton", "42m ago • Following", "5m ago • 280m away", "● LIVE • 2.4K watching"};
+    for (int i = 0; i < tabs.length; ++i)
+    {
+      final int index = i;
+      tabs[i].setOnClickListener(v -> selectFeedTab(tabs, index, context, details[index]));
+    }
+    view.findViewById(R.id.feed_search).setOnClickListener(
+        v -> Toast.makeText(requireContext(), "Search creators, venues, events, sounds, and hashtags", Toast.LENGTH_SHORT).show());
+    view.findViewById(R.id.feed_follow).setOnClickListener(v -> {
+      ((TextView) v).setText("✓\nFollowing");
+      v.setClickable(false);
+    });
+    view.findViewById(R.id.feed_like).setOnClickListener(v -> ((TextView) v).setText("♥\n2.8K"));
+    view.findViewById(R.id.feed_ripple).setOnClickListener(v -> ((TextView) v).setText("≋\nRippled"));
+    view.findViewById(R.id.feed_save).setOnClickListener(v -> ((TextView) v).setText("⌑\nSaved"));
+    view.findViewById(R.id.feed_comment).setOnClickListener(
+        v -> Toast.makeText(requireContext(), "Comments", Toast.LENGTH_SHORT).show());
+    view.findViewById(R.id.feed_share).setOnClickListener(
+        v -> Toast.makeText(requireContext(), "Share this Moment", Toast.LENGTH_SHORT).show());
+    view.findViewById(R.id.feed_lobby).setOnClickListener(
+        v -> Toast.makeText(requireContext(), "Opening Cocoon Nightclub lobby", Toast.LENGTH_SHORT).show());
+    view.findViewById(R.id.feed_route).setOnClickListener(
+        v -> Toast.makeText(requireContext(), "Opening route to Cocoon Nightclub", Toast.LENGTH_SHORT).show());
+    return view;
+  }
+
+  private void selectFeedTab(@NonNull TextView[] tabs, int selected, @NonNull TextView context, @NonNull String details)
+  {
+    for (int i = 0; i < tabs.length; ++i)
+    {
+      final boolean active = i == selected;
+      tabs[i].setSelected(active);
+      tabs[i].setBackgroundResource(active ? R.drawable.feed_glass_pill : 0);
+      tabs[i].setTextColor(active ? Color.WHITE : 0xCCFFFFFF);
+      tabs[i].setTypeface(null, active ? 1 : 0);
+    }
+    context.setText(details);
   }
 
   @NonNull
