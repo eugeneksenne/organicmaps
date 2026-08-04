@@ -21,6 +21,7 @@ The Android project now has native prototype screens for Chats, DMs, Calls, Grou
 
 - [x] Docker Compose definition for Redis and MinIO.
 - [x] Supabase local project configuration.
+- [x] Local database bootstrap/reset and reviewed schema-push scripts.
 - [ ] Verify `supabase start`, Docker Compose, migrations, and seed data on a machine with Docker/Supabase CLI.
 - [ ] Add health checks, metrics, structured logs, backups, and alerting.
 - [ ] Build CI jobs for migration validation, container scans, tests, and deployment.
