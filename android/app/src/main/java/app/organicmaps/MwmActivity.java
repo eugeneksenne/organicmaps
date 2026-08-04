@@ -64,6 +64,7 @@ import app.organicmaps.help.HelpActivity;
 import app.organicmaps.intent.Factory;
 import app.organicmaps.intent.IntentProcessor;
 import app.organicmaps.location.TrackRecordingService;
+import app.organicmaps.main.MainScreenFragment;
 import app.organicmaps.maplayer.MapButtonsController;
 import app.organicmaps.maplayer.MapButtonsViewModel;
 import app.organicmaps.maplayer.ToggleMapLayerFragment;
@@ -149,6 +150,9 @@ public class MwmActivity extends BaseMwmFragmentActivity
   private static final String LAYERS_MENU_ID = "LAYERS_MENU_BOTTOM_SHEET";
 
   private static final String POWER_SAVE_DISCLAIMER_SHOWN = "POWER_SAVE_DISCLAIMER_SHOWN";
+  private static final String MAIN_DESTINATION = "main_destination";
+  private static final String MAP_DESTINATION = "map";
+  private static final String MAIN_SCREEN_FRAGMENT_TAG = "main_screen";
 
   @SuppressWarnings("NotNullFieldNotInitialized")
   @NonNull
@@ -164,6 +168,12 @@ public class MwmActivity extends BaseMwmFragmentActivity
   private String mDonatesUrl;
 
   private int mNavBarHeight;
+
+  @SuppressWarnings("NotNullFieldNotInitialized")
+  private View mMainScreenContainer;
+  private View[] mMainTabs;
+  @NonNull
+  private String mMainDestination = MAP_DESTINATION;
 
   private RoutingPlanViewModel mRoutingPlanViewModel;
   private PlacePageViewModel mPlacePageViewModel;
@@ -534,6 +544,7 @@ public class MwmActivity extends BaseMwmFragmentActivity
     final Intent intent = getIntent();
     final boolean isLaunchByDeepLink = intent != null && !intent.hasCategory(Intent.CATEGORY_LAUNCHER);
     initViews(isLaunchByDeepLink);
+    initMainNavigation(savedInstanceState);
     updateViewsInsets();
 
     if (getIntent().getBooleanExtra(EXTRA_UPDATE_THEME, false))
@@ -612,6 +623,42 @@ public class MwmActivity extends BaseMwmFragmentActivity
     // TrafficManager.INSTANCE.attach(mNavigationController);
     initOnmapDownloader();
     initPositionChooser();
+  }
+
+  private void initMainNavigation(@Nullable Bundle savedInstanceState)
+  {
+    mMainScreenContainer = findViewById(R.id.main_screen_container);
+    mMainTabs = new View[] {findViewById(R.id.tab_discover), findViewById(R.id.tab_feed),
+                            findViewById(R.id.tab_camera), findViewById(R.id.tab_map),
+                            findViewById(R.id.tab_chats)};
+    final String[] destinations = {"discover", "feed", "camera", MAP_DESTINATION, "chats"};
+    for (int i = 0; i < mMainTabs.length; ++i)
+    {
+      final String destination = destinations[i];
+      mMainTabs[i].setOnClickListener(v -> selectMainDestination(destination));
+    }
+
+    if (savedInstanceState != null)
+      mMainDestination = savedInstanceState.getString(MAIN_DESTINATION, MAP_DESTINATION);
+    selectMainDestination(mMainDestination);
+  }
+
+  private void selectMainDestination(@NonNull String destination)
+  {
+    mMainDestination = destination;
+    final boolean isMap = MAP_DESTINATION.equals(destination);
+    final String[] destinations = {"discover", "feed", "camera", MAP_DESTINATION, "chats"};
+    for (int i = 0; i < mMainTabs.length; ++i)
+      mMainTabs[i].setSelected(destinations[i].equals(destination));
+
+    mMainScreenContainer.setVisibility(isMap ? View.GONE : View.VISIBLE);
+    mMapButtonsViewModel.setButtonsHidden(!isMap);
+    if (!isMap)
+    {
+      getSupportFragmentManager().beginTransaction()
+          .replace(R.id.main_screen_container, MainScreenFragment.newInstance(destination), MAIN_SCREEN_FRAGMENT_TAG)
+          .commit();
+    }
   }
 
   private void updateDrivingOptionCount()
@@ -878,6 +925,7 @@ public class MwmActivity extends BaseMwmFragmentActivity
 
     outState.putBoolean(POWER_SAVE_DISCLAIMER_SHOWN, mPowerSaveDisclaimerShown);
     outState.putBoolean(EXTRA_CONSUMED, mIntentConsumed);
+    outState.putString(MAIN_DESTINATION, mMainDestination);
     super.onSaveInstanceState(outState);
   }
 
@@ -1048,6 +1096,12 @@ public class MwmActivity extends BaseMwmFragmentActivity
   @Override
   public boolean handleBackPress()
   {
+    if (!MAP_DESTINATION.equals(mMainDestination))
+    {
+      selectMainDestination(MAP_DESTINATION);
+      return true;
+    }
+
     final RoutingController routingController = RoutingController.get();
     return (closeBottomSheet(MAIN_MENU_ID) || closeBottomSheet(LAYERS_MENU_ID) || collapseNavMenu() || closePlacePage()
             || closePositionChooser() || closeSearchFragment() || routingController.resetToPlanningStateIfNavigating()

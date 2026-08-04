@@ -916,4 +916,19 @@
     <string name="color_picker_grid">Grid</string>
     <!-- Accessibility label for the voice-search mic button in the search bar -->
     <string name="voice_search">Voice search</string>
+  <!-- Primary navigation -->
+  <string name="main_tab_discover">Discover</string>
+  <string name="main_tab_feed">Feed</string>
+  <string name="main_tab_camera">Camera</string>
+  <string name="main_tab_map">Map</string>
+  <string name="main_tab_chats">Chats</string>
+  <string name="discover_headline">Find something worth exploring</string>
+  <string name="discover_body">Browse places, food, and outdoor ideas around you.</string>
+  <string name="feed_headline">Your map activity</string>
+  <string name="feed_body">Updates and saved places will appear here.</string>
+  <string name="camera_headline">Share what you see</string>
+  <string name="camera_body">Capture a photo to add to your next map moment.</string>
+  <string name="camera_action">Take a photo</string>
+  <string name="chats_headline">Stay connected</string>
+  <string name="chats_body">Start a conversation with the people you explore with.</string>
 </resources>

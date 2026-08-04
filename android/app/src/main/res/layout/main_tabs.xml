@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/main_tabs"
+  android:layout_width="match_parent"
+  android:layout_height="72dp"
+  android:layout_alignParentBottom="true"
+  android:background="@color/bg_cards"
+  android:elevation="10dp"
+  android:orientation="horizontal"
+  android:paddingStart="4dp"
+  android:paddingTop="6dp"
+  android:paddingEnd="4dp"
+  android:paddingBottom="6dp">
+
+  <LinearLayout android:id="@+id/tab_discover" style="@style/MainTab" android:contentDescription="@string/main_tab_discover"><ImageView style="@style/MainTabIcon" android:src="@drawable/ic_tab_discover"/><TextView style="@style/MainTabLabel" android:text="@string/main_tab_discover"/></LinearLayout>
+  <LinearLayout android:id="@+id/tab_feed" style="@style/MainTab" android:contentDescription="@string/main_tab_feed"><ImageView style="@style/MainTabIcon" android:src="@drawable/ic_tab_feed"/><TextView style="@style/MainTabLabel" android:text="@string/main_tab_feed"/></LinearLayout>
+  <LinearLayout android:id="@+id/tab_camera" style="@style/MainTab" android:contentDescription="@string/main_tab_camera"><ImageView style="@style/MainTabIcon" android:src="@drawable/ic_tab_camera"/><TextView style="@style/MainTabLabel" android:text="@string/main_tab_camera"/></LinearLayout>
+  <LinearLayout android:id="@+id/tab_map" style="@style/MainTab" android:contentDescription="@string/main_tab_map"><ImageView style="@style/MainTabIcon" android:src="@drawable/ic_tab_map"/><TextView style="@style/MainTabLabel" android:text="@string/main_tab_map"/></LinearLayout>
+  <LinearLayout android:id="@+id/tab_chats" style="@style/MainTab" android:contentDescription="@string/main_tab_chats"><ImageView style="@style/MainTabIcon" android:src="@drawable/ic_tab_chats"/><TextView style="@style/MainTabLabel" android:text="@string/main_tab_chats"/></LinearLayout>
+</LinearLayout>
