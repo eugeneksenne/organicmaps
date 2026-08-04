@@ -196,3 +196,5 @@ iphone/metadata/**/keywords.txt
 
 # clangd cache
 .cache/clangd/
+# FOMO backend developer secrets
+fomo_backend/.env
