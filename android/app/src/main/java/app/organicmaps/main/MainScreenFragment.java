@@ -62,6 +62,10 @@ public class MainScreenFragment extends Fragment
       return createCallsScreen(inflater, container);
     if ("groups".equals(destination))
       return createGroupsScreen(inflater, container);
+    if ("stories".equals(destination))
+      return createStoriesScreen(inflater, container);
+    if (destination.startsWith("story:"))
+      return createStoryViewer(inflater, container, destination.substring("story:".length()));
     if (destination.startsWith("discover_all:"))
       return createDiscoverAllScreen(inflater, container, destination.substring("discover_all:".length()));
     if (destination.startsWith("conversation:"))
@@ -103,6 +107,8 @@ public class MainScreenFragment extends Fragment
           openCalls();
         else if ("Groups".contentEquals(((TextView) v).getText()))
           openGroups();
+        else if ("Stories".contentEquals(((TextView) v).getText()))
+          openStories();
         else
           selectChatCategory(categories, (TextView) v);
       });
@@ -112,6 +118,40 @@ public class MainScreenFragment extends Fragment
     view.findViewById(R.id.chat_row_truth).setOnClickListener(v -> openConversation("Truth Nightclub"));
     view.findViewById(R.id.chat_row_group).setOnClickListener(v -> openConversation("Joburg Fridays"));
     view.findViewById(R.id.chat_row_lerato).setOnClickListener(v -> openConversation("Lerato"));
+    return view;
+  }
+
+  private void openStories()
+  {
+    getParentFragmentManager().beginTransaction().replace(R.id.main_screen_container, newInstance("stories")).addToBackStack("stories").commit();
+  }
+
+  @NonNull
+  private View createStoriesScreen(@NonNull LayoutInflater inflater, @Nullable ViewGroup container)
+  {
+    final View view = inflater.inflate(R.layout.stories_screen, container, false);
+    view.findViewById(R.id.stories_back).setOnClickListener(v -> getParentFragmentManager().popBackStack());
+    view.findViewById(R.id.stories_camera).setOnClickListener(v -> showConversationNotice("Open FOMO Camera to add a story"));
+    view.findViewById(R.id.story_add).setOnClickListener(v -> showConversationNotice("Open FOMO Camera to add a story"));
+    view.findViewById(R.id.story_alfred).setOnClickListener(v -> openStory("Alfred M."));
+    view.findViewById(R.id.story_nomsa).setOnClickListener(v -> openStory("Nomsa"));
+    view.findViewById(R.id.story_vault).setOnClickListener(v -> openStory("The Vault"));
+    view.findViewById(R.id.story_lerato).setOnClickListener(v -> openStory("Lerato"));
+    return view;
+  }
+
+  private void openStory(@NonNull String name)
+  {
+    getParentFragmentManager().beginTransaction().replace(R.id.main_screen_container, newInstance("story:" + name)).addToBackStack("story").commit();
+  }
+
+  @NonNull
+  private View createStoryViewer(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @NonNull String name)
+  {
+    final View view = inflater.inflate(R.layout.story_viewer, container, false);
+    ((TextView) view.findViewById(R.id.story_viewer_name)).setText(name);
+    view.findViewById(R.id.story_viewer_close).setOnClickListener(v -> getParentFragmentManager().popBackStack());
+    view.findViewById(R.id.story_react).setOnClickListener(v -> ((TextView) v).setText("♥"));
     return view;
   }
 

@@ -441,4 +441,5 @@
   <style name="CallFavoriteName"><item name="android:layout_width">match_parent</item><item name="android:layout_height">wrap_content</item><item name="android:layout_marginTop">5dp</item><item name="android:ellipsize">end</item><item name="android:gravity">center</item><item name="android:maxLines">1</item><item name="android:textColor">@color/text_dark</item><item name="android:textSize">12sp</item></style>
   <style name="CallRow" parent="ChatRow"><item name="android:layout_height">70dp</item></style>
   <style name="GroupMeta"><item name="android:layout_width">wrap_content</item><item name="android:layout_height">wrap_content</item><item name="android:layout_marginTop">2dp</item><item name="android:textColor">@color/text_dark_hint</item><item name="android:textSize">11sp</item></style>
+  <style name="StoryAvatar" parent="ChatAvatar"><item name="android:background">@drawable/story_ring</item></style>
 </resources>
