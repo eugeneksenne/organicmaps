@@ -670,8 +670,12 @@ public class MwmActivity extends BaseMwmFragmentActivity
     }
     mFomoMapHud.findViewById(R.id.fomo_map_search).setOnClickListener(v -> showSearch(""));
     mFomoMapHud.findViewById(R.id.fomo_map_alerts).setOnClickListener(v -> Toast.makeText(this, "No new alerts", Toast.LENGTH_SHORT).show());
-    mFomoMapHud.findViewById(R.id.fomo_map_lobby).setOnClickListener(v -> Toast.makeText(this, "Opening The Vault club lobby", Toast.LENGTH_SHORT).show());
-    mFomoMapHud.findViewById(R.id.fomo_map_route).setOnClickListener(v -> Toast.makeText(this, "Route to The Vault", Toast.LENGTH_SHORT).show());
+    final View clubLobby = mFomoMapHud.findViewById(R.id.fomo_map_lobby);
+    if (clubLobby != null)
+      clubLobby.setOnClickListener(v -> Toast.makeText(this, "Opening The Vault club lobby", Toast.LENGTH_SHORT).show());
+    final View route = mFomoMapHud.findViewById(R.id.fomo_map_route);
+    if (route != null)
+      route.setOnClickListener(v -> Toast.makeText(this, "Route to The Vault", Toast.LENGTH_SHORT).show());
   }
 
   private void selectMainDestination(@NonNull String destination)
