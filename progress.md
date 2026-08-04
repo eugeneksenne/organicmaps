@@ -109,6 +109,17 @@ The Android project now has native prototype screens for Chats, DMs, Calls, Grou
 - [ ] Add privacy policy, terms, consent flows, data retention policy, and support/reporting workflows.
 - [ ] Conduct production readiness review and staged rollout.
 
+## Feed
+
+- [x] Native media-first Feed UI with tabs and local interaction states.
+- [x] Initial Moments, invitations, reactions, comments, and personalised feed-item schema migration.
+- [ ] Implement Android feed repository, paging, cache, optimistic interactions, and realtime delta updates.
+- [ ] Create signed upload/publish workflow from Camera with moderation state transitions.
+- [ ] Implement a trusted ranking worker for For You, Following, Nearby, and Live feeds; clients must not write rank scores.
+- [ ] Add follow graph, venue/event integration, live broadcast ingest/replay pipeline, and invitation expiry worker.
+- [ ] Add moderation, sponsored-content disclosure, reporting, blocking, privacy enforcement, analytics, and abuse/rate protections.
+- [ ] Add media CDN/transcode/thumbnail delivery, preload strategy, performance telemetry, and feed-load tests.
+
 ## Current committed foundations
 
 - `3e3b533` — Supabase communications backend foundation.
