@@ -60,6 +60,8 @@ public class MainScreenFragment extends Fragment
       return createChatsScreen(inflater, container);
     if ("calls".equals(destination))
       return createCallsScreen(inflater, container);
+    if ("groups".equals(destination))
+      return createGroupsScreen(inflater, container);
     if (destination.startsWith("discover_all:"))
       return createDiscoverAllScreen(inflater, container, destination.substring("discover_all:".length()));
     if (destination.startsWith("conversation:"))
@@ -99,6 +101,8 @@ public class MainScreenFragment extends Fragment
       category.setOnClickListener(v -> {
         if ("Calls".contentEquals(((TextView) v).getText()))
           openCalls();
+        else if ("Groups".contentEquals(((TextView) v).getText()))
+          openGroups();
         else
           selectChatCategory(categories, (TextView) v);
       });
@@ -108,6 +112,25 @@ public class MainScreenFragment extends Fragment
     view.findViewById(R.id.chat_row_truth).setOnClickListener(v -> openConversation("Truth Nightclub"));
     view.findViewById(R.id.chat_row_group).setOnClickListener(v -> openConversation("Joburg Fridays"));
     view.findViewById(R.id.chat_row_lerato).setOnClickListener(v -> openConversation("Lerato"));
+    return view;
+  }
+
+  private void openGroups()
+  {
+    getParentFragmentManager().beginTransaction().replace(R.id.main_screen_container, newInstance("groups")).addToBackStack("groups").commit();
+  }
+
+  @NonNull
+  private View createGroupsScreen(@NonNull LayoutInflater inflater, @Nullable ViewGroup container)
+  {
+    final View view = inflater.inflate(R.layout.groups_screen, container, false);
+    view.findViewById(R.id.groups_back).setOnClickListener(v -> getParentFragmentManager().popBackStack());
+    view.findViewById(R.id.groups_search).setOnClickListener(v -> showConversationNotice("Search groups, members, plans, and venues"));
+    view.findViewById(R.id.groups_create).setOnClickListener(v -> showConversationNotice("Create group: choose members, details, then permissions"));
+    view.findViewById(R.id.group_joburg).setOnClickListener(v -> openConversation("Joburg Fridays"));
+    view.findViewById(R.id.group_birthday).setOnClickListener(v -> openConversation("Bongi’s Birthday"));
+    view.findViewById(R.id.group_roadtrip).setOnClickListener(v -> openConversation("Durban Road Trip"));
+    view.findViewById(R.id.group_vault).setOnClickListener(v -> openConversation("The Vault Crew"));
     return view;
   }
 
