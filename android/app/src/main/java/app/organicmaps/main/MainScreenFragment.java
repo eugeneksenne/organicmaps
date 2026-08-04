@@ -6,6 +6,8 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,8 +34,11 @@ public class MainScreenFragment extends Fragment
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                            @Nullable Bundle savedInstanceState)
   {
-    final View view = inflater.inflate(R.layout.main_screen, container, false);
     final String destination = requireArguments().getString(ARG_DESTINATION);
+    if ("camera".equals(destination))
+      return createCameraScreen(inflater, container);
+
+    final View view = inflater.inflate(R.layout.main_screen, container, false);
     final TextView title = view.findViewById(R.id.main_screen_title);
     final TextView headline = view.findViewById(R.id.main_screen_headline);
     final TextView body = view.findViewById(R.id.main_screen_body);
@@ -51,15 +56,6 @@ public class MainScreenFragment extends Fragment
       headline.setText(R.string.feed_headline);
       body.setText(R.string.feed_body);
     }
-    else if ("camera".equals(destination))
-    {
-      title.setText(R.string.main_tab_camera);
-      headline.setText(R.string.camera_headline);
-      body.setText(R.string.camera_body);
-      action.setVisibility(View.VISIBLE);
-      ((TextView) action).setText(R.string.camera_action);
-      action.setOnClickListener(v -> openCamera());
-    }
     else
     {
       title.setText(R.string.main_tab_chats);
@@ -67,6 +63,70 @@ public class MainScreenFragment extends Fragment
       body.setText(R.string.chats_body);
     }
     return view;
+  }
+
+  @NonNull
+  private View createCameraScreen(@NonNull LayoutInflater inflater, @Nullable ViewGroup container)
+  {
+    final View view = inflater.inflate(R.layout.camera_screen, container, false);
+    view.findViewById(R.id.camera_close).setOnClickListener(v -> requireActivity().onBackPressed());
+    view.findViewById(R.id.camera_studio).setOnClickListener(v -> toggleStudio(view));
+    view.findViewById(R.id.camera_venue).setOnClickListener(
+        v -> Toast.makeText(requireContext(), "Truth Nightclub • venue details", Toast.LENGTH_SHORT).show());
+    view.findViewById(R.id.camera_gallery).setOnClickListener(v -> openGallery());
+    view.findViewById(R.id.camera_capture).setOnClickListener(v -> openCamera());
+    view.findViewById(R.id.camera_dual_shot).setOnClickListener(
+        v -> Toast.makeText(requireContext(), "Dual Shot is ready on supported cameras", Toast.LENGTH_SHORT).show());
+
+    final TextView[] modes = {view.findViewById(R.id.camera_photo), view.findViewById(R.id.camera_video),
+                              view.findViewById(R.id.camera_live)};
+    selectMode(modes, modes[0]);
+    for (TextView mode : modes)
+      mode.setOnClickListener(v -> selectMode(modes, (TextView) v));
+
+    final LinearLayout looks = view.findViewById(R.id.camera_looks);
+    for (int i = 0; i < looks.getChildCount(); ++i)
+    {
+      final View look = looks.getChildAt(i);
+      look.setOnClickListener(v -> selectLook(looks, v));
+      look.setOnLongClickListener(v -> {
+        Toast.makeText(requireContext(), "Look intensity adjustment", Toast.LENGTH_SHORT).show();
+        return true;
+      });
+    }
+    return view;
+  }
+
+  private void toggleStudio(@NonNull View view)
+  {
+    final View studio = view.findViewById(R.id.camera_studio_sheet);
+    studio.setVisibility(studio.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+  }
+
+  private void selectMode(@NonNull TextView[] modes, @NonNull TextView selected)
+  {
+    for (TextView mode : modes)
+      mode.setSelected(mode == selected);
+  }
+
+  private void selectLook(@NonNull LinearLayout looks, @NonNull View selected)
+  {
+    for (int i = 0; i < looks.getChildCount(); ++i)
+    {
+      final TextView look = (TextView) looks.getChildAt(i);
+      final boolean isSelected = look == selected;
+      look.setSelected(isSelected);
+      look.setBackgroundResource(isSelected ? R.drawable.camera_look_selected : R.drawable.camera_look);
+      look.setTextColor(isSelected ? 0xFF191423 : 0xFFFFFFFF);
+    }
+  }
+
+  private void openGallery()
+  {
+    final Intent intent = new Intent(Intent.ACTION_PICK);
+    intent.setType("image/*");
+    if (intent.resolveActivity(requireActivity().getPackageManager()) != null)
+      startActivity(intent);
   }
 
   private void openCamera()

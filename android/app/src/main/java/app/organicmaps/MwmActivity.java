@@ -28,6 +28,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -171,6 +172,7 @@ public class MwmActivity extends BaseMwmFragmentActivity
 
   @SuppressWarnings("NotNullFieldNotInitialized")
   private View mMainScreenContainer;
+  private View mMainTabsContainer;
   private View[] mMainTabs;
   @NonNull
   private String mMainDestination = MAP_DESTINATION;
@@ -628,6 +630,7 @@ public class MwmActivity extends BaseMwmFragmentActivity
   private void initMainNavigation(@Nullable Bundle savedInstanceState)
   {
     mMainScreenContainer = findViewById(R.id.main_screen_container);
+    mMainTabsContainer = findViewById(R.id.main_tabs);
     mMainTabs = new View[] {findViewById(R.id.tab_discover), findViewById(R.id.tab_feed),
                             findViewById(R.id.tab_camera), findViewById(R.id.tab_map),
                             findViewById(R.id.tab_chats)};
@@ -652,6 +655,13 @@ public class MwmActivity extends BaseMwmFragmentActivity
       mMainTabs[i].setSelected(destinations[i].equals(destination));
 
     mMainScreenContainer.setVisibility(isMap ? View.GONE : View.VISIBLE);
+    // Camera is intentionally immersive: its own controls occupy the full viewport.
+    final boolean isCamera = "camera".equals(destination);
+    mMainTabsContainer.setVisibility(isCamera ? View.GONE : View.VISIBLE);
+    final ViewGroup.MarginLayoutParams screenParams =
+        (ViewGroup.MarginLayoutParams) mMainScreenContainer.getLayoutParams();
+    screenParams.bottomMargin = isCamera ? 0 : Math.round(72 * getResources().getDisplayMetrics().density);
+    mMainScreenContainer.setLayoutParams(screenParams);
     mMapButtonsViewModel.setButtonsHidden(!isMap);
     if (!isMap)
     {

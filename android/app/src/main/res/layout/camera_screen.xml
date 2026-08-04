@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/camera_preview_background">
+
+  <View android:layout_width="180dp" android:layout_height="180dp" android:layout_gravity="center" android:background="@drawable/camera_look_selected" android:alpha="0.05" />
+
+  <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingStart="16dp" android:paddingTop="18dp" android:paddingEnd="16dp">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="48dp" android:gravity="center_vertical" android:orientation="horizontal">
+      <TextView android:id="@+id/camera_close" android:layout_width="40dp" android:layout_height="40dp" android:gravity="center" android:text="×" android:textColor="@android:color/white" android:textSize="32sp" android:contentDescription="@string/close" />
+      <LinearLayout android:id="@+id/camera_venue" android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:layout_marginStart="10dp" android:layout_marginEnd="10dp" android:background="@drawable/camera_venue_pill" android:gravity="center" android:orientation="horizontal">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="●" android:textColor="#71E8A0" android:textSize="11sp" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:text="Truth Nightclub" android:textColor="@android:color/white" android:textSize="14sp" android:textStyle="bold" />
+      </LinearLayout>
+      <TextView android:id="@+id/camera_studio" android:layout_width="62dp" android:layout_height="40dp" android:gravity="center" android:text="⚡ Studio" android:textColor="@android:color/white" android:textSize="12sp" />
+    </LinearLayout>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:text="Amapiano Fridays  •  LIVE NOW" android:textColor="#CCFFFFFF" android:textSize="12sp" />
+  </LinearLayout>
+
+  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="CAMERA READY" android:textColor="#99FFFFFF" android:textSize="11sp" android:letterSpacing="0.18" />
+
+  <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_gravity="bottom" android:orientation="vertical" android:paddingStart="16dp" android:paddingEnd="16dp" android:paddingBottom="12dp">
+    <HorizontalScrollView android:layout_width="match_parent" android:layout_height="42dp" android:scrollbars="none"><LinearLayout android:id="@+id/camera_looks" android:layout_width="wrap_content" android:layout_height="match_parent" android:gravity="center_vertical" android:orientation="horizontal">
+      <TextView android:id="@+id/look_pulse" style="@style/CameraLook.Selected" android:text="Pulse"/><TextView style="@style/CameraLook" android:text="Neon"/><TextView style="@style/CameraLook" android:text="Glow"/><TextView style="@style/CameraLook" android:text="Midnight"/><TextView style="@style/CameraLook" android:text="Vintage"/><TextView style="@style/CameraLook" android:text="Electric"/><TextView style="@style/CameraLook" android:text="Bloom"/>
+    </LinearLayout></HorizontalScrollView>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="48dp" android:layout_marginTop="12dp" android:gravity="center" android:orientation="horizontal">
+      <TextView android:id="@+id/camera_photo" style="@style/CameraMode" android:text="PHOTO"/><TextView android:id="@+id/camera_video" style="@style/CameraMode" android:text="VIDEO"/><TextView android:id="@+id/camera_live" style="@style/CameraMode" android:text="LIVE"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="76dp" android:gravity="center_vertical" android:orientation="horizontal">
+      <TextView android:id="@+id/camera_gallery" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center_vertical" android:text="Gallery" android:textColor="@android:color/white" android:textSize="14sp" />
+      <View android:id="@+id/camera_capture" android:layout_width="68dp" android:layout_height="68dp" android:background="@drawable/camera_capture_ring" android:contentDescription="@string/camera_action" />
+      <TextView android:id="@+id/camera_dual_shot" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center_vertical|right" android:text="Pulse  →" android:textColor="@android:color/white" android:textSize="14sp" />
+    </LinearLayout>
+  </LinearLayout>
+
+  <LinearLayout android:id="@+id/camera_studio_sheet" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_gravity="bottom" android:background="#F21B1724" android:elevation="12dp" android:orientation="vertical" android:padding="24dp" android:visibility="gone">
+    <View android:layout_width="36dp" android:layout_height="4dp" android:layout_gravity="center" android:background="@drawable/camera_look" />
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="FOMO Studio" android:textColor="@android:color/white" android:textSize="24sp" android:textStyle="bold" />
+    <TextView style="@style/CameraStudioItem" android:text="✦  Looks"/><TextView style="@style/CameraStudioItem" android:text="▣  Moment Templates"/><TextView style="@style/CameraStudioItem" android:text="◈  Effects"/><TextView style="@style/CameraStudioItem" android:text="♫  Sound Aware"/>
+  </LinearLayout>
+</FrameLayout>
