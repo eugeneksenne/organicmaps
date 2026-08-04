@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import android.view.TextureView;
 import android.widget.HorizontalScrollView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 import android.widget.TextView;
 import java.io.File;
@@ -123,16 +126,48 @@ public class MainScreenFragment extends Fragment
     final View view = inflater.inflate(R.layout.chat_conversation, container, false);
     ((TextView) view.findViewById(R.id.conversation_name)).setText(name);
     view.findViewById(R.id.conversation_back).setOnClickListener(v -> getParentFragmentManager().popBackStack());
+    view.findViewById(R.id.conversation_voice).setOnClickListener(v -> showConversationNotice("Starting voice call"));
+    view.findViewById(R.id.conversation_video).setOnClickListener(v -> showConversationNotice("Starting video call"));
+    view.findViewById(R.id.conversation_attach).setOnClickListener(v -> showConversationNotice("Camera • Gallery • Document • Venue • Event • Location"));
+    view.findViewById(R.id.conversation_cancel_reply).setOnClickListener(v -> view.findViewById(R.id.conversation_reply).setVisibility(View.GONE));
+    view.findViewById(R.id.conversation_menu).setOnClickListener(v -> showConversationMenu(v));
     final EditText input = view.findViewById(R.id.conversation_input);
     final TextView sent = view.findViewById(R.id.conversation_sent);
-    view.findViewById(R.id.conversation_send).setOnClickListener(v -> {
+    final TextView send = view.findViewById(R.id.conversation_send);
+    input.addTextChangedListener(new TextWatcher()
+    {
+      @Override public void beforeTextChanged(CharSequence text, int start, int count, int after) {}
+      @Override public void onTextChanged(CharSequence text, int start, int before, int count)
+      {
+        send.setText(text.length() == 0 ? "🎤" : "↑");
+      }
+      @Override public void afterTextChanged(Editable text) {}
+    });
+    send.setOnClickListener(v -> {
       if (input.getText().length() > 0)
       {
         sent.setText(input.getText());
         input.setText("");
       }
+      else
+        showConversationNotice("Hold to record a voice note");
     });
     return view;
+  }
+
+  private void showConversationNotice(@NonNull String message)
+  {
+    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+  }
+
+  private void showConversationMenu(@NonNull View anchor)
+  {
+    final PopupMenu menu = new PopupMenu(requireContext(), anchor);
+    for (String item : new String[] {"View Profile", "Search Conversation", "Shared Media", "Shared Files",
+                                     "Shared Venues", "Mute Notifications", "Block User", "Report User"})
+      menu.getMenu().add(item);
+    menu.setOnMenuItemClickListener(item -> { showConversationNotice(item.getTitle().toString()); return true; });
+    menu.show();
   }
 
   @NonNull
