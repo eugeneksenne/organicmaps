@@ -66,6 +66,8 @@ public class MainScreenFragment extends Fragment
       return createStoriesScreen(inflater, container);
     if (destination.startsWith("story:"))
       return createStoryViewer(inflater, container, destination.substring("story:".length()));
+    if (destination.startsWith("call:"))
+      return createCallScreen(inflater, container, destination.substring("call:".length()));
     if (destination.startsWith("discover_all:"))
       return createDiscoverAllScreen(inflater, container, destination.substring("discover_all:".length()));
     if (destination.startsWith("conversation:"))
@@ -196,10 +198,10 @@ public class MainScreenFragment extends Fragment
       final TextView filter = (TextView) filters.getChildAt(i);
       filter.setOnClickListener(v -> selectChatCategory(filters, (TextView) v));
     }
-    view.findViewById(R.id.call_alfred).setOnClickListener(v -> showConversationNotice("Calling Alfred M."));
-    view.findViewById(R.id.call_nomsa).setOnClickListener(v -> showConversationNotice("Calling Nomsa"));
-    view.findViewById(R.id.call_lerato).setOnClickListener(v -> showConversationNotice("Calling Lerato"));
-    view.findViewById(R.id.call_group).setOnClickListener(v -> showConversationNotice("Starting Joburg Fridays group call"));
+    view.findViewById(R.id.call_alfred).setOnClickListener(v -> openCall("outgoing_video", "Alfred M."));
+    view.findViewById(R.id.call_nomsa).setOnClickListener(v -> openCall("voice", "Nomsa"));
+    view.findViewById(R.id.call_lerato).setOnClickListener(v -> openCall("incoming_video", "Lerato"));
+    view.findViewById(R.id.call_group).setOnClickListener(v -> openCall("group_voice", "Joburg Fridays"));
     return view;
   }
 
@@ -225,8 +227,8 @@ public class MainScreenFragment extends Fragment
     final View view = inflater.inflate(R.layout.chat_conversation, container, false);
     ((TextView) view.findViewById(R.id.conversation_name)).setText(name);
     view.findViewById(R.id.conversation_back).setOnClickListener(v -> getParentFragmentManager().popBackStack());
-    view.findViewById(R.id.conversation_voice).setOnClickListener(v -> showConversationNotice("Starting voice call"));
-    view.findViewById(R.id.conversation_video).setOnClickListener(v -> showConversationNotice("Starting video call"));
+    view.findViewById(R.id.conversation_voice).setOnClickListener(v -> openCall("outgoing_voice", name));
+    view.findViewById(R.id.conversation_video).setOnClickListener(v -> openCall("outgoing_video", name));
     view.findViewById(R.id.conversation_attach).setOnClickListener(v -> showConversationNotice("Camera • Gallery • Document • Venue • Event • Location"));
     view.findViewById(R.id.conversation_cancel_reply).setOnClickListener(v -> view.findViewById(R.id.conversation_reply).setVisibility(View.GONE));
     view.findViewById(R.id.conversation_menu).setOnClickListener(v -> showConversationMenu(v));
@@ -251,6 +253,47 @@ public class MainScreenFragment extends Fragment
       else
         showConversationNotice("Hold to record a voice note");
     });
+    return view;
+  }
+
+  private void openCall(@NonNull String mode, @NonNull String name)
+  {
+    getParentFragmentManager().beginTransaction().replace(R.id.main_screen_container,
+        newInstance("call:" + mode + ":" + name)).addToBackStack("call").commit();
+  }
+
+  @NonNull
+  private View createCallScreen(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @NonNull String payload)
+  {
+    final String[] parts = payload.split(":", 2);
+    final String mode = parts[0];
+    final String name = parts.length > 1 ? parts[1] : "FOMO Call";
+    final View view = inflater.inflate(R.layout.call_screen, container, false);
+    ((TextView) view.findViewById(R.id.call_screen_name)).setText(name);
+    ((TextView) view.findViewById(R.id.call_screen_avatar)).setText(name.substring(0, 1).toUpperCase());
+    final boolean incoming = mode.startsWith("incoming");
+    final boolean video = mode.contains("video");
+    final boolean group = mode.startsWith("group");
+    ((TextView) view.findViewById(R.id.call_screen_status)).setText(incoming ? "Incoming " + (video ? "video" : "voice") + " call" : mode.startsWith("outgoing") ? "Calling…" : "00:12");
+    view.findViewById(R.id.call_screen_answer).setVisibility(incoming ? View.VISIBLE : View.GONE);
+    view.findViewById(R.id.call_screen_local_preview).setVisibility(video ? View.VISIBLE : View.GONE);
+    view.findViewById(R.id.call_screen_camera).setVisibility(video ? View.VISIBLE : View.GONE);
+    view.findViewById(R.id.call_screen_participant_button).setVisibility(group ? View.VISIBLE : View.GONE);
+    if (group)
+    {
+      final TextView participants = view.findViewById(R.id.call_screen_participants);
+      participants.setVisibility(View.VISIBLE);
+      participants.setText("8 participants • 3 speaking");
+    }
+    view.findViewById(R.id.call_screen_answer).setOnClickListener(v -> {
+      ((TextView) view.findViewById(R.id.call_screen_status)).setText("00:00");
+      v.setVisibility(View.GONE);
+    });
+    view.findViewById(R.id.call_screen_decline).setOnClickListener(v -> getParentFragmentManager().popBackStack());
+    view.findViewById(R.id.call_screen_mute).setOnClickListener(v -> ((TextView) v).setText("♩\nMuted"));
+    view.findViewById(R.id.call_screen_speaker).setOnClickListener(v -> ((TextView) v).setText("◖\nSpeaker on"));
+    view.findViewById(R.id.call_screen_camera).setOnClickListener(v -> ((TextView) v).setText("▣\nCamera off"));
+    view.findViewById(R.id.call_screen_participant_button).setOnClickListener(v -> showConversationNotice("Participants and moderator controls"));
     return view;
   }
 
