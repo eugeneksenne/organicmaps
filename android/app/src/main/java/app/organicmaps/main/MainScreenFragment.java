@@ -58,6 +58,8 @@ public class MainScreenFragment extends Fragment
       return createFeedScreen(inflater, container);
     if ("chats".equals(destination))
       return createChatsScreen(inflater, container);
+    if ("calls".equals(destination))
+      return createCallsScreen(inflater, container);
     if (destination.startsWith("discover_all:"))
       return createDiscoverAllScreen(inflater, container, destination.substring("discover_all:".length()));
     if (destination.startsWith("conversation:"))
@@ -94,13 +96,43 @@ public class MainScreenFragment extends Fragment
     for (int i = 0; i < categories.getChildCount(); ++i)
     {
       final TextView category = (TextView) categories.getChildAt(i);
-      category.setOnClickListener(v -> selectChatCategory(categories, (TextView) v));
+      category.setOnClickListener(v -> {
+        if ("Calls".contentEquals(((TextView) v).getText()))
+          openCalls();
+        else
+          selectChatCategory(categories, (TextView) v);
+      });
     }
     view.findViewById(R.id.chat_row_nightguard).setOnClickListener(v -> openConversation("NightGuard"));
     view.findViewById(R.id.chat_row_alfred).setOnClickListener(v -> openConversation("Alfred M."));
     view.findViewById(R.id.chat_row_truth).setOnClickListener(v -> openConversation("Truth Nightclub"));
     view.findViewById(R.id.chat_row_group).setOnClickListener(v -> openConversation("Joburg Fridays"));
     view.findViewById(R.id.chat_row_lerato).setOnClickListener(v -> openConversation("Lerato"));
+    return view;
+  }
+
+  private void openCalls()
+  {
+    getParentFragmentManager().beginTransaction().replace(R.id.main_screen_container, newInstance("calls")).addToBackStack("calls").commit();
+  }
+
+  @NonNull
+  private View createCallsScreen(@NonNull LayoutInflater inflater, @Nullable ViewGroup container)
+  {
+    final View view = inflater.inflate(R.layout.calls_screen, container, false);
+    view.findViewById(R.id.calls_back).setOnClickListener(v -> getParentFragmentManager().popBackStack());
+    view.findViewById(R.id.calls_search).setOnClickListener(v -> showConversationNotice("Search call history"));
+    view.findViewById(R.id.calls_start).setOnClickListener(v -> showConversationNotice("Start a voice or video call"));
+    final LinearLayout filters = view.findViewById(R.id.call_filters);
+    for (int i = 0; i < filters.getChildCount(); ++i)
+    {
+      final TextView filter = (TextView) filters.getChildAt(i);
+      filter.setOnClickListener(v -> selectChatCategory(filters, (TextView) v));
+    }
+    view.findViewById(R.id.call_alfred).setOnClickListener(v -> showConversationNotice("Calling Alfred M."));
+    view.findViewById(R.id.call_nomsa).setOnClickListener(v -> showConversationNotice("Calling Nomsa"));
+    view.findViewById(R.id.call_lerato).setOnClickListener(v -> showConversationNotice("Calling Lerato"));
+    view.findViewById(R.id.call_group).setOnClickListener(v -> showConversationNotice("Starting Joburg Fridays group call"));
     return view;
   }
 
