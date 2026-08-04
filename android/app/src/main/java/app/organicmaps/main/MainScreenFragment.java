@@ -3,12 +3,15 @@ package app.organicmaps.main;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.TextureView;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.widget.TextView;
@@ -45,6 +48,10 @@ public class MainScreenFragment extends Fragment
     final String destination = requireArguments().getString(ARG_DESTINATION);
     if ("camera".equals(destination))
       return createCameraScreen(inflater, container);
+    if ("discover".equals(destination))
+      return createDiscoverScreen(inflater, container);
+    if (destination.startsWith("discover_all:"))
+      return createDiscoverAllScreen(inflater, container, destination.substring("discover_all:".length()));
 
     final View view = inflater.inflate(R.layout.main_screen, container, false);
     final TextView title = view.findViewById(R.id.main_screen_title);
@@ -52,13 +59,7 @@ public class MainScreenFragment extends Fragment
     final TextView body = view.findViewById(R.id.main_screen_body);
     final View action = view.findViewById(R.id.main_screen_action);
 
-    if ("discover".equals(destination))
-    {
-      title.setText(R.string.main_tab_discover);
-      headline.setText(R.string.discover_headline);
-      body.setText(R.string.discover_body);
-    }
-    else if ("feed".equals(destination))
+    if ("feed".equals(destination))
     {
       title.setText(R.string.main_tab_feed);
       headline.setText(R.string.feed_headline);
@@ -70,6 +71,91 @@ public class MainScreenFragment extends Fragment
       headline.setText(R.string.chats_headline);
       body.setText(R.string.chats_body);
     }
+    return view;
+  }
+
+  @NonNull
+  private View createDiscoverScreen(@NonNull LayoutInflater inflater, @Nullable ViewGroup container)
+  {
+    final View view = inflater.inflate(R.layout.discover_screen, container, false);
+    view.findViewById(R.id.discover_hero_action).setOnClickListener(v -> openDiscoverAll("Tonight"));
+    final LinearLayout sections = view.findViewById(R.id.discover_sections);
+    addDiscoverSection(sections, "Closing Soon", new String[] {"The Living Room • 48 min", "The Royale • 1h 12m", "Rosebank Social • 1h 35m"}, 0xFFF9E2D1);
+    addDiscoverSection(sections, "Flash Drops", new String[] {"Free welcome drink • 12 left", "R100 ride credit • 8 left", "Guest-list upgrade • 5 left"}, 0xFFF8D8E8);
+    addDiscoverSection(sections, "My Circle", new String[] {"Nomsa • 3 mutual friends", "Kagiso • Same events", "Lerato • 1.2 km away"}, 0xFFDCE8FA);
+    addDiscoverSection(sections, "Live Moments", new String[] {"Amapiano at Truth", "Rooftop sunset", "Friends at Braam"}, 0xFFE6D9F9);
+    addDiscoverSection(sections, "Smart Places", new String[] {"The Living Room • 0.8 km", "Artivist • 1.1 km", "Marabi Club • 1.6 km"}, 0xFFD5EDE3);
+    addDiscoverSection(sections, "Trending Now", new String[] {"Braamfontein after dark", "Amapiano Fridays", "Rosebank rooftops"}, 0xFFFFE8B9);
+    addDiscoverSection(sections, "Events", new String[] {"Amapiano Fridays • Tonight", "Jazz on the Square • 20:00", "Night Market • Tomorrow"}, 0xFFE3E3E3);
+    addExploreCitySection(sections);
+    addDiscoverSection(sections, "Channels", new String[] {"Music", "Campus", "Food", "Photography"}, 0xFFD8E9F1);
+    addDiscoverSection(sections, "Prep Rooms", new String[] {"Tonight's outfits", "Fresh cut near you", "Beauty deals"}, 0xFFF5DCE4);
+    addDiscoverSection(sections, "Tonight", new String[] {"Build your timeline", "Dinner at 19:30", "Ride home ready"}, 0xFFDDE5D4);
+    return view;
+  }
+
+  private void addDiscoverSection(@NonNull LinearLayout parent, @NonNull String title, @NonNull String[] cards, int accent)
+  {
+    final LinearLayout section = new LinearLayout(requireContext());
+    section.setOrientation(LinearLayout.VERTICAL);
+    section.setPadding(dp(16), dp(24), 0, 0);
+    final LinearLayout header = new LinearLayout(requireContext());
+    header.setGravity(android.view.Gravity.CENTER_VERTICAL);
+    final TextView label = new TextView(requireContext());
+    label.setText(title); label.setTextColor(Color.rgb(25, 21, 29)); label.setTextSize(20); label.setTypeface(null, 1);
+    header.addView(label, new LinearLayout.LayoutParams(0, dp(34), 1));
+    final TextView all = new TextView(requireContext());
+    all.setText("See All  →"); all.setTextColor(Color.rgb(43, 111, 82)); all.setTextSize(13); all.setGravity(android.view.Gravity.CENTER_VERTICAL);
+    all.setOnClickListener(v -> openDiscoverAll(title));
+    header.addView(all, new LinearLayout.LayoutParams(dp(88), dp(34)));
+    section.addView(header);
+    final HorizontalScrollView scroll = new HorizontalScrollView(requireContext());
+    scroll.setHorizontalScrollBarEnabled(false);
+    final LinearLayout row = new LinearLayout(requireContext()); row.setOrientation(LinearLayout.HORIZONTAL); row.setPadding(0, dp(8), dp(16), 0);
+    for (String card : cards) row.addView(discoverCard(card, accent));
+    scroll.addView(row);
+    section.addView(scroll, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dp(126)));
+    parent.addView(section);
+  }
+
+  private void addExploreCitySection(@NonNull LinearLayout parent)
+  {
+    final LinearLayout section = new LinearLayout(requireContext()); section.setOrientation(LinearLayout.VERTICAL); section.setPadding(dp(16), dp(24), 0, 0);
+    final TextView heading = new TextView(requireContext()); heading.setText("Explore the City                                      See All  →"); heading.setTextSize(20); heading.setTextColor(Color.rgb(25, 21, 29)); heading.setTypeface(null, 1); heading.setOnClickListener(v -> openDiscoverAll("Explore the City")); section.addView(heading, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dp(38)));
+    final HorizontalScrollView chips = new HorizontalScrollView(requireContext()); chips.setHorizontalScrollBarEnabled(false); final LinearLayout chipRow = new LinearLayout(requireContext()); chipRow.setOrientation(LinearLayout.HORIZONTAL);
+    for (String category : new String[] {"All", "Nightlife", "Food", "Prep", "Travel", "24/7"}) { TextView chip = new TextView(requireContext()); chip.setText(category); chip.setGravity(android.view.Gravity.CENTER); chip.setTextSize(13); chip.setTextColor(Color.rgb(25, 21, 29)); chip.setBackground(roundBackground(category.equals("All") ? 0xFFE6A05B : 0xFFFFFFFF, 18)); LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dp(78), dp(34)); params.setMargins(0, 0, dp(8), 0); chipRow.addView(chip, params); }
+    chips.addView(chipRow); section.addView(chips);
+    final HorizontalScrollView venues = new HorizontalScrollView(requireContext()); venues.setHorizontalScrollBarEnabled(false); final LinearLayout venueRow = new LinearLayout(requireContext()); venueRow.setOrientation(LinearLayout.HORIZONTAL); venueRow.setPadding(0, dp(10), dp(16), 0);
+    for (String venue : new String[] {"The Living Room • 0.8 km", "Artivist • 1.1 km", "Marabi Club • 1.6 km"}) venueRow.addView(discoverCard(venue, 0xFFFFE5C7)); venues.addView(venueRow); section.addView(venues, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dp(134))); parent.addView(section);
+  }
+
+  @NonNull
+  private View discoverCard(@NonNull String text, int accent)
+  {
+    final TextView card = new TextView(requireContext()); card.setText(text); card.setTextColor(Color.rgb(25, 21, 29)); card.setTextSize(15); card.setTypeface(null, 1); card.setGravity(android.view.Gravity.BOTTOM); card.setPadding(dp(14), dp(14), dp(14), dp(14)); card.setBackground(roundBackground(accent, 18));
+    final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dp(180), dp(112)); params.setMargins(0, 0, dp(10), 0); card.setLayoutParams(params); return card;
+  }
+
+  @NonNull
+  private GradientDrawable roundBackground(int color, int radius)
+  {
+    final GradientDrawable background = new GradientDrawable(); background.setColor(color); background.setCornerRadius(dp(radius)); return background;
+  }
+
+  private int dp(int value) { return Math.round(value * requireContext().getResources().getDisplayMetrics().density); }
+
+  private void openDiscoverAll(@NonNull String title)
+  {
+    getParentFragmentManager().beginTransaction().replace(R.id.main_screen_container, newInstance("discover_all:" + title)).addToBackStack("discover_all").commit();
+  }
+
+  @NonNull
+  private View createDiscoverAllScreen(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @NonNull String title)
+  {
+    final View view = inflater.inflate(R.layout.main_screen, container, false);
+    ((TextView) view.findViewById(R.id.main_screen_title)).setText(title);
+    ((TextView) view.findViewById(R.id.main_screen_headline)).setText("Browse everything nearby");
+    ((TextView) view.findViewById(R.id.main_screen_body)).setText("Search, filters, and the complete " + title + " experience are ready here.");
     return view;
   }
 

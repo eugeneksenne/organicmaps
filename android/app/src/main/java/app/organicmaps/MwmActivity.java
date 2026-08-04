@@ -1108,6 +1108,11 @@ public class MwmActivity extends BaseMwmFragmentActivity
   {
     if (!MAP_DESTINATION.equals(mMainDestination))
     {
+      if (getSupportFragmentManager().getBackStackEntryCount() > 0)
+      {
+        getSupportFragmentManager().popBackStack();
+        return true;
+      }
       selectMainDestination(MAP_DESTINATION);
       return true;
     }
