@@ -172,6 +172,7 @@ public class MwmActivity extends BaseMwmFragmentActivity
 
   @SuppressWarnings("NotNullFieldNotInitialized")
   private View mMainScreenContainer;
+  private View mFomoMapHud;
   private View mMainTabsContainer;
   private View[] mMainTabs;
   @NonNull
@@ -630,11 +631,13 @@ public class MwmActivity extends BaseMwmFragmentActivity
   private void initMainNavigation(@Nullable Bundle savedInstanceState)
   {
     mMainScreenContainer = findViewById(R.id.main_screen_container);
+    mFomoMapHud = findViewById(R.id.fomo_map_hud);
     mMainTabsContainer = findViewById(R.id.main_tabs);
     mMainTabs = new View[] {findViewById(R.id.tab_discover), findViewById(R.id.tab_feed),
                             findViewById(R.id.tab_camera), findViewById(R.id.tab_map),
                             findViewById(R.id.tab_chats)};
     final String[] destinations = {"discover", "feed", "camera", MAP_DESTINATION, "chats"};
+    initFomoMapHud();
     for (int i = 0; i < mMainTabs.length; ++i)
     {
       final String destination = destinations[i];
@@ -646,6 +649,31 @@ public class MwmActivity extends BaseMwmFragmentActivity
     selectMainDestination(mMainDestination);
   }
 
+  private void initFomoMapHud()
+  {
+    final View categories = mFomoMapHud.findViewById(R.id.fomo_map_categories);
+    if (categories instanceof android.widget.LinearLayout)
+    {
+      final android.widget.LinearLayout categoryList = (android.widget.LinearLayout) categories;
+      for (int i = 0; i < categoryList.getChildCount(); ++i)
+      {
+        final View category = categoryList.getChildAt(i);
+        category.setOnClickListener(v -> {
+          for (int j = 0; j < categoryList.getChildCount(); ++j)
+          {
+            final View chip = categoryList.getChildAt(j);
+            chip.setSelected(chip == v);
+            chip.setBackgroundResource(chip == v ? R.drawable.fomo_map_chip_selected : R.drawable.fomo_map_chip);
+          }
+        });
+      }
+    }
+    mFomoMapHud.findViewById(R.id.fomo_map_search).setOnClickListener(v -> showSearch(""));
+    mFomoMapHud.findViewById(R.id.fomo_map_alerts).setOnClickListener(v -> Toast.makeText(this, "No new alerts", Toast.LENGTH_SHORT).show());
+    mFomoMapHud.findViewById(R.id.fomo_map_lobby).setOnClickListener(v -> Toast.makeText(this, "Opening The Vault club lobby", Toast.LENGTH_SHORT).show());
+    mFomoMapHud.findViewById(R.id.fomo_map_route).setOnClickListener(v -> Toast.makeText(this, "Route to The Vault", Toast.LENGTH_SHORT).show());
+  }
+
   private void selectMainDestination(@NonNull String destination)
   {
     mMainDestination = destination;
@@ -655,6 +683,7 @@ public class MwmActivity extends BaseMwmFragmentActivity
       mMainTabs[i].setSelected(destinations[i].equals(destination));
 
     mMainScreenContainer.setVisibility(isMap ? View.GONE : View.VISIBLE);
+    mFomoMapHud.setVisibility(isMap ? View.VISIBLE : View.GONE);
     // Camera is intentionally immersive: its own controls occupy the full viewport.
     final boolean isCamera = "camera".equals(destination);
     mMainTabsContainer.setVisibility(isCamera ? View.GONE : View.VISIBLE);

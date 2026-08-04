@@ -70,6 +70,8 @@
     android:layout_marginBottom="72dp"
     android:visibility="gone" />
 
+  <include layout="@layout/fomo_map_hud" />
+
   <include layout="@layout/main_tabs" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
