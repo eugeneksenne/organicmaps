@@ -442,4 +442,5 @@
   <style name="CallRow" parent="ChatRow"><item name="android:layout_height">70dp</item></style>
   <style name="GroupMeta"><item name="android:layout_width">wrap_content</item><item name="android:layout_height">wrap_content</item><item name="android:layout_marginTop">2dp</item><item name="android:textColor">@color/text_dark_hint</item><item name="android:textSize">11sp</item></style>
   <style name="StoryAvatar" parent="ChatAvatar"><item name="android:background">@drawable/story_ring</item></style>
+  <style name="ChatStoryPreview"><item name="android:layout_width">72dp</item><item name="android:layout_height">match_parent</item><item name="android:layout_marginEnd">8dp</item><item name="android:gravity">center</item><item name="android:orientation">vertical</item></style>
 </resources>

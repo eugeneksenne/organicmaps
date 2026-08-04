@@ -98,6 +98,10 @@ public class MainScreenFragment extends Fragment
     final View view = inflater.inflate(R.layout.chats_screen, container, false);
     view.findViewById(R.id.chats_search).setOnClickListener(v -> Toast.makeText(requireContext(), "Search messages, people, venues, and files", Toast.LENGTH_SHORT).show());
     view.findViewById(R.id.chats_new).setOnClickListener(v -> Toast.makeText(requireContext(), "Start a new conversation", Toast.LENGTH_SHORT).show());
+    view.findViewById(R.id.chats_story_add).setOnClickListener(v -> openStories());
+    view.findViewById(R.id.chats_story_alfred).setOnClickListener(v -> openStory("Alfred M."));
+    view.findViewById(R.id.chats_story_nomsa).setOnClickListener(v -> openStory("Nomsa"));
+    view.findViewById(R.id.chats_story_vault).setOnClickListener(v -> openStory("The Vault"));
     final LinearLayout categories = view.findViewById(R.id.chats_categories);
     for (int i = 0; i < categories.getChildCount(); ++i)
     {
