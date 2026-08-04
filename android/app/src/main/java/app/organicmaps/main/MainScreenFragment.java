@@ -1,14 +1,18 @@
 package app.organicmaps.main;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.TextureView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.widget.TextView;
+import java.io.File;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -18,6 +22,10 @@ import app.organicmaps.R;
 public class MainScreenFragment extends Fragment
 {
   public static final String ARG_DESTINATION = "destination";
+  private static final int CAMERA_PERMISSION_REQUEST = 104;
+
+  @Nullable
+  private CameraPreviewEngine mCameraPreviewEngine;
 
   @NonNull
   public static MainScreenFragment newInstance(@NonNull String destination)
@@ -74,9 +82,24 @@ public class MainScreenFragment extends Fragment
     view.findViewById(R.id.camera_venue).setOnClickListener(
         v -> Toast.makeText(requireContext(), "Truth Nightclub • venue details", Toast.LENGTH_SHORT).show());
     view.findViewById(R.id.camera_gallery).setOnClickListener(v -> openGallery());
-    view.findViewById(R.id.camera_capture).setOnClickListener(v -> openCamera());
+    view.findViewById(R.id.camera_capture).setOnClickListener(v -> capturePhoto());
     view.findViewById(R.id.camera_dual_shot).setOnClickListener(
         v -> Toast.makeText(requireContext(), "Dual Shot is ready on supported cameras", Toast.LENGTH_SHORT).show());
+
+    mCameraPreviewEngine = new CameraPreviewEngine(requireActivity(), view.findViewById(R.id.camera_preview),
+                                                    new CameraPreviewEngine.Listener()
+    {
+      @Override public void onPhotoCaptured(@NonNull File file)
+      {
+        Toast.makeText(requireContext(), "Moment captured and saved locally", Toast.LENGTH_SHORT).show();
+      }
+
+      @Override public void onCameraError(@NonNull String message)
+      {
+        requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show());
+      }
+    });
+    requestCameraAccess();
 
     final TextView[] modes = {view.findViewById(R.id.camera_photo), view.findViewById(R.id.camera_video),
                               view.findViewById(R.id.camera_live)};
@@ -119,6 +142,52 @@ public class MainScreenFragment extends Fragment
       look.setBackgroundResource(isSelected ? R.drawable.camera_look_selected : R.drawable.camera_look);
       look.setTextColor(isSelected ? 0xFF191423 : 0xFFFFFFFF);
     }
+  }
+
+  private void requestCameraAccess()
+  {
+    if (requireContext().checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)
+      mCameraPreviewEngine.start();
+    else
+      requestPermissions(new String[] {Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST);
+  }
+
+  private void capturePhoto()
+  {
+    if (requireContext().checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+    {
+      requestCameraAccess();
+      return;
+    }
+    mCameraPreviewEngine.capture();
+  }
+
+  @Override
+  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+  {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    if (requestCode == CAMERA_PERMISSION_REQUEST && grantResults.length > 0
+        && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+      mCameraPreviewEngine.start();
+    else if (requestCode == CAMERA_PERMISSION_REQUEST)
+      Toast.makeText(requireContext(), "Camera permission is needed to capture moments", Toast.LENGTH_LONG).show();
+  }
+
+  @Override
+  public void onPause()
+  {
+    if (mCameraPreviewEngine != null)
+      mCameraPreviewEngine.stop();
+    super.onPause();
+  }
+
+  @Override
+  public void onResume()
+  {
+    super.onResume();
+    if (mCameraPreviewEngine != null && requireContext().checkSelfPermission(Manifest.permission.CAMERA)
+                                      == PackageManager.PERMISSION_GRANTED)
+      mCameraPreviewEngine.start();
   }
 
   private void openGallery()

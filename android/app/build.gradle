@@ -310,8 +310,10 @@ def allowedPermissions = [
     // Android Auto
     "name='androidx.car.app.NAVIGATION_TEMPLATES'",
     "name='androidx.car.app.ACCESS_SURFACE'",
+    // camera
+    "name='android.permission.CAMERA'",
     // storage
-    "name='android.permission.READ_EXTERNAL_STORAGE' maxSdkVersion='22'",
+    "name='android.permission.READ_EXTERNAL_STORAGE' maxSdkVersion='22',
     // internal permissions
     // comes from androidx.work:work-runtime:2.10.5
     "name='android.permission.RECEIVE_BOOT_COMPLETED'",
