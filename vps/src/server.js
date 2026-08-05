@@ -56,7 +56,22 @@ io.on("connection", socket => {
   });
   socket.on("conversation:leave", ({ conversationId }) => socket.leave(`conversation:${conversationId}`));
   socket.on("typing:update", async ({ conversationId, isTyping }) => {
-    if (await isConversationMember(socket.data.userId, conversationId)) socket.to(`conversation:${conversationId}`).emit("typing:update", { userId: socket.data.userId, isTyping: Boolean(isTyping) });
+    if (await isConversationMember(socket.data.userId, conversationId))
+      socket.to(`conversation:${conversationId}`).emit("typing:update", { userId: socket.data.userId, isTyping: Boolean(isTyping), expiresInMs: 5_000 });
+  });
+  // Ephemeral events are intentionally not persisted here. Persisted state must be written to
+  // Supabase first, then clients may use this channel for low-latency UI hints.
+  socket.on("ephemeral:publish", async ({ conversationId, type, payload }, acknowledge = () => {}) => {
+    const allowed = new Set(["voice_recording", "media_uploading", "story_viewing", "call_ringing", "call_busy"]);
+    if (!allowed.has(type) || !(await isConversationMember(socket.data.userId, conversationId))) return acknowledge({ error: "forbidden" });
+    const encoded = JSON.stringify(payload ?? {});
+    if (encoded.length > 4_096) return acknowledge({ error: "payload_too_large" });
+    socket.to(`conversation:${conversationId}`).emit("ephemeral:update", { userId: socket.data.userId, type, payload: payload ?? {} });
+    acknowledge({ ok: true });
+  });
+  socket.on("receipt:hint", async ({ conversationId, messageId, state }) => {
+    if (["delivered", "read"].includes(state) && await isConversationMember(socket.data.userId, conversationId))
+      socket.to(`conversation:${conversationId}`).emit("receipt:hint", { userId: socket.data.userId, messageId, state });
   });
   // Persistence happens via authenticated Supabase/RPC. This gateway only fans out already-persisted events.
   socket.on("message:published", async ({ conversationId, message }) => {

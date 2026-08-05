@@ -36,6 +36,14 @@ The Android project now has native prototype screens for Chats, DMs, Calls, Grou
 - [ ] Add authorization RPCs for direct conversation creation, group management, invitations, moderation, and read receipts.
 - [ ] Add rate limits, abuse reporting, audit events, and administrator workflows.
 
+## Realtime engine
+
+- [x] Define Supabase-source-of-truth and Socket.IO-ephemeral event protocol.
+- [x] Add authenticated VPS event fanout for typing, low-frequency ephemeral status, delivery/read hints, and WebRTC signaling.
+- [ ] Implement Android connection/realtime/presence/sync/delivery/retry managers and connect them to the protocol.
+- [ ] Add Supabase Realtime subscriptions, presence, database reconciliation cursor, foreground/background handling, and network-change tests.
+- [ ] Add OpenTelemetry traces, rate limits, Redis-backed distributed presence, and operational dashboards.
+
 ## Direct messaging
 
 - [x] Native chats inbox and direct-message UI flow.
