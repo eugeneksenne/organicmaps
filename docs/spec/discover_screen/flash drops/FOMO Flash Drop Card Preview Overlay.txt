@@ -1,0 +1,435 @@
+FOMO Flash Drop Card Preview Overlay
+
+Full UI/UX Specification
+
+The uploaded reference establishes the Flash Drop card preview as a full-screen vertical overlay, rather than another card inside the Discover feed.
+
+Its purpose is to give the user the complete context of a Drop and provide the four contextual actions without cluttering the Discover card.
+
+1. Overlay structure
+
+┌───────────────────────────────────┐ │ × ⚡ FLASH DROPS ⇧ │ │ │ │ ─ ─ ─ ● ─ ─ ─ ─ ─ │ │ │ │ ┌───────────────────────────────┐ │ │ │ ⚡ JUST DROPPED SHARE│ │ │ │ │ │ │ │ HERO MEDIA │ │ │ │ │ │ │ │ 18:42 │ │ │ │ TIME LEFT │ │ │ └───────────────────────────────┘ │ │ │ │ ⚡ FREE COCKTAIL │ │ │ │ LIV Sandton ✓ │ │ 📍 250m away VENUE DROP │ │ │ │ ┌───────────────────────────────┐ │ │ │ 🍸 First 50 guests receive │ │ │ │ one complimentary cocktail │ │ │ └───────────────────────────────┘ │ │ │ │ TRENDING TONIGHT ONLY LIMITED │ │ │ │ CLUB ROUTE REMINDER PLAN │ │ LOBBY │ │ │ │ ♡ SAVE ↑ SWIPE ↑ ◉ NEARBY│ │ │ │ 1 / 6 │ └───────────────────────────────────┘ 
+
+2. Top navigation
+
+Close
+
+Icon: ×
+
+Position:
+
+Top-left
+
+Action:
+
+Returns to the previous screen.
+
+The overlay should feel like a dedicated immersive experience rather than a conventional modal.
+
+Title
+
+Centered:
+
+⚡ FLASH DROPS
+
+The lightning bolt is the primary Flash Drops brand mark.
+
+Share
+
+Icon: Share
+
+Position:
+
+Top-right
+
+Opens the system/FOMO sharing flow for the Drop.
+
+3. Drop pagination
+
+Immediately underneath the header is a horizontal pagination indicator.
+
+Example:
+
+──── ──── ──── ● ──── ──── ──── 
+
+The active Drop is highlighted.
+
+This communicates that the user can move between active Drops.
+
+The overlay should support:
+
+Horizontal swipe → next/previous Flash Drop
+
+4. Hero media
+
+The hero occupies the dominant portion of the upper screen.
+
+Content
+
+Can be:
+
+Venue photography
+
+Event photography
+
+Brand imagery
+
+Short video
+
+Live nightlife imagery
+
+Treatment
+
+Use:
+
+Full-bleed imagery
+
+Dark gradient toward the lower section
+
+Neon accent lighting
+
+Cinematic crop
+
+Minimal UI over the image
+
+The media should feel immersive rather than like a conventional product thumbnail.
+
+5. Status badge
+
+Top-left over the hero:
+
+Examples
+
+⚡ JUST DROPPED
+
+🔥 TRENDING
+
+⏳ ENDS SOON
+
+🌙 TONIGHT ONLY
+
+✨ LIMITED
+
+This is the Drop state, not the Drop category.
+
+6. Countdown
+
+The countdown is one of the strongest elements of the preview.
+
+Example:
+
+18:42 TIME LEFT 
+
+For a Drop that has not started:
+
+01:42:15 STARTS IN 
+
+For an active Drop:
+
+00:42:15 TIME LEFT 
+
+Critical timing rule
+
+The countdown must be calculated from the actual Flash Drop schedule.
+
+For example:
+
+Flash Drop: 19:00 → 21:00 
+
+If the current time is:
+
+18:17 
+
+the preview displays:
+
+STARTS IN 00:43:00 
+
+At 19:00 it transitions to:
+
+TIME LEFT 02:00:00 
+
+At 21:00:
+
+EXPIRED 
+
+This prevents the countdown from becoming an arbitrary decorative number.
+
+7. Flash Drop title
+
+The main title sits immediately below the hero/countdown area.
+
+Example:
+
+FREE COCKTAIL
+
+For the updated example:
+
+LADIES NIGHT
+
+or:
+
+HAPPY HOUR
+
+The title describes what the Flash Drop is called, not necessarily the venue or category.
+
+8. Source identity
+
+Under the title:
+
+LIV Sandton ✓
+
+The verification badge indicates a verified source.
+
+Depending on Drop type:
+
+Venue
+
+LIV Sandton ✓ 
+
+Event
+
+Rooftop Sundays ✓ 
+
+Brand
+
+Heineken ✓ 
+
+9. Location
+
+The preview displays the user's proximity.
+
+Example from the reference:
+
+📍 250m away 
+
+For the expanded design, the full address can also be displayed:
+
+📍 123 Open Street, Pretoria, 0003 
+
+The Discover card can keep the address compact, while the preview has enough room to present the complete location.
+
+10. Drop category
+
+The category is displayed alongside the source information.
+
+The three official categories remain:
+
+VENUE
+
+EVENT
+
+BRAND
+
+Example:
+
+LIV Sandton ✓ 🍸 VENUE DROP 
+
+11. Offer / description panel
+
+This is the main explanatory content area.
+
+Example:
+
+┌─────────────────────────────────────┐ │ 🍸 │ │ │ │ First 50 guests receive │ │ one complimentary cocktail. │ │ │ └─────────────────────────────────────┘ 
+
+For the updated Ladies Night Drop:
+
+┌─────────────────────────────────────┐ │ 🍸 │ │ │ │ Free cocktail for ladies │ │ during Ladies Night. │ │ │ └─────────────────────────────────────┘ 
+
+For Happy Hour:
+
+20:00 – 21:00 R15.00 HEINEKEN / AMSTEL / CORONA 
+
+The important distinction is:
+
+Title → Happy Hour
+
+Schedule → 20:00–21:00
+
+Offer → R15.00 Heineken / Amstel / Corona
+
+12. Dynamic Drop tags
+
+Below the offer:
+
+🔥 TRENDING 🌙 TONIGHT ONLY ✨ LIMITED 
+
+These are secondary discovery signals.
+
+A Drop can have multiple states simultaneously.
+
+13. Action icon row
+
+This is the major feature established in the reference.
+
+Four contextual actions:
+
+CLUB LOBBY 🏢 ROUTE ➤ REMINDER 🔔 PLAN 📅 
+
+1. Club Lobby
+
+Opens the venue's Club Lobby.
+
+Relevant primarily for Venue Drops.
+
+2. Route
+
+Opens the FOMO routing experience.
+
+3. Reminder
+
+Creates a reminder for the Drop.
+
+4. Plan
+
+Opens the FOMO planning flow.
+
+These actions belong to the Flash Drop preview, not the compact Discover card.
+
+14. Save
+
+Bottom-left:
+
+♡ SAVE
+
+This is separate from the four contextual action buttons.
+
+The user can save/like the Drop without entering another flow.
+
+When selected:
+
+♡ 
+
+becomes:
+
+♥ 
+
+The saved state should persist.
+
+15. Nearby
+
+Bottom-right:
+
+◉ NEARBY
+
+This allows the user to move toward nearby Flash Drops.
+
+It reinforces the location-based nature of Flash Drops.
+
+16. Swipe navigation
+
+The center bottom instruction:
+
+⌃ SWIPE UP FOR NEXT DROP 
+
+The user can swipe vertically to move through active Drops.
+
+The reference uses:
+
+1 / 6 
+
+to show the current position.
+
+So:
+
+1 / 6 2 / 6 3 / 6 ... 6 / 6 
+
+17. Interaction model
+
+From Discover
+
+Flash Drop card ↓ TAP ↓ Full-screen preview 
+
+Within preview
+
+SWIPE UP ↓ Next Flash Drop SWIPE DOWN ↓ Previous Flash Drop TAP LIKE ↓ Save / unsave TAP SHARE ↓ Share flow TAP CLUB LOBBY ↓ Club Lobby TAP ROUTE ↓ Route TAP REMINDER ↓ Reminder TAP PLAN ↓ Plan 
+
+18. Data model displayed by the preview
+
+The preview should be capable of rendering:
+
+FlashDrop │ ├── id ├── title ├── category │ ├── venue │ ├── event │ └── brand │ ├── status │ ├── just_dropped │ ├── trending │ ├── ending_soon │ ├── tonight_only │ └── limited │ ├── source │ ├── name │ └── verified │ ├── location │ ├── address │ ├── latitude │ ├── longitude │ └── distance │ ├── schedule │ ├── starts_at │ └── ends_at │ ├── offer │ ├── headline │ ├── description │ ├── price │ └── products │ ├── media │ ├── image │ └── video │ ├── engagement │ └── interested_count │ └── actions ├── club_lobby ├── route ├── reminder └── plan 
+
+19. Important timing states
+
+The UI should automatically transition based on the schedule.
+
+Before Drop
+
+STARTS IN 00:42:15 
+
+Active
+
+TIME LEFT 01:42:15 
+
+Ending soon
+
+TIME LEFT 00:07:24 
+
+Expired
+
+The Drop should no longer appear in the active Flash Drops stack.
+
+20. Relationship to Discover card
+
+The two experiences now have very clear responsibilities.
+
+Discover Flash Drop card
+
+300dp × 200dp
+
+Shows:
+
+Status
+
+Image
+
+Title
+
+Source
+
+Full address
+
+Distance
+
+Countdown
+
+Schedule/offer
+
+Interested count
+
+Category
+
+Like
+
+Full-screen preview
+
+Shows everything above plus:
+
+Larger hero media
+
+Full description
+
+Full countdown
+
+Full address
+
+Share
+
+Save
+
+Club Lobby
+
+Route
+
+Reminder
+
+Plan
+
+Nearby
+
+Swipe navigation
+
+So the Discover card is the hook.
+
+The preview is the complete Flash Drop experience.

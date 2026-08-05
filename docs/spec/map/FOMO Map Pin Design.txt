@@ -1,0 +1,103 @@
+FOMO Map Pin Design
+The FOMO map pin is designed as a premium social location marker that combines live venue identity, visual energy, and navigation clarity.
+
+Map Pin Structure
+1. Circular Neon Ring
+A glowing circular ring acts as the main visual container of the pin.
+Purpose
+Represents venue energy and popularity
+Creates visibility on dark maps
+Gives the pin a premium nightlife aesthetic
+Design Characteristics
+Circular shape
+Neon glow effect
+Dynamic color system
+Soft outer bloom
+Slight elevation shadow
+Color System Examples
+Purple → Trending / Main hotspot
+Pink → Live activity
+Orange → Busy venue
+Blue → Chill vibe
+Gold → Luxury / VIP
+
+2. Venue Image Inside
+Inside the circular ring is a live venue thumbnail image.
+Purpose
+Instantly communicates venue vibe
+Makes the map feel social and alive
+Improves recognition speed
+Design Characteristics
+Circular image crop
+Full-bleed image
+High contrast nightlife imagery
+Edge-lit border glow
+Example Content
+Club interior
+Rooftop view
+DJ booth
+Crowd atmosphere
+Cocktails
+Live events
+
+3. Pin Tail / Drop Marker
+Attached below the circular image is a minimal pin tail.
+Purpose
+Anchors the pin to an exact map location
+Maintains map precision
+Preserves recognizable map-pin behavior
+Design Characteristics
+Rounded triangular drop shape
+Soft neon fill
+Slight transparency
+Glow continuation from ring
+Minimal and elegant
+
+4. Venue Name
+Displayed below
+Purpose
+Identifies the venue quickly
+Helps with map scanning
+Design Characteristics
+Bold typography
+White primary text
+Slight glow or shadow for readability
+Adaptive truncation for long names
+Example
+The Vault
+Skyline Rooftop
+Neon Room
+
+5. Distance Indicator
+Small distance text shown below the venue name.
+Purpose
+Provides quick proximity awareness
+Encourages immediate decision-making
+Design Characteristics
+Smaller secondary typography
+Muted color tone
+Compact spacing
+Example
+0.1 km
+2 min walk
+Nearby
+
+6. Location Dot
+A small colored dot positioned beneath the pin.
+Purpose
+Reinforces exact location point
+Adds depth and hierarchy
+Creates visual connection to the map
+Design Characteristics
+Small glowing circle
+Color-matched to pin category
+Subtle pulse animation optional
+
+Overall Visual Identity
+The complete pin system creates the feeling of:
+Live social energy
+Urban nightlife activity
+Real-time venue discovery
+Premium futuristic navigation
+Instead of traditional navigation pins, these behave like:
+live social beacons on the city map.

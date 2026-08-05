@@ -1,0 +1,780 @@
+# FOMO Feed System
+
+## Full Updated Production Implementation Plan (Billion-Dollar Scale)
+
+> **People create Moments.**
+>
+> **Moments create FOMO.**
+>
+> **FOMO turns digital discovery into real-world experiences.**
+
+The FOMO Feed is a premium, full-screen, media-first experience where every Moment has the potential to inspire someone to visit a venue, attend an event, discover a restaurant, or connect with people in real life. The feed is powered by the Ripple Engine and enhanced by contextual Moment Invitations that connect content with physical places.
+
+---
+
+# Core Product Principles
+
+The Feed is built around six principles:
+
+* Moments are always the hero.
+* Premium simplicity over visual clutter.
+* Realtime momentum over historical popularity.
+* Discovery should always lead to action.
+* Intelligence remains invisible.
+* Privacy is always user-controlled.
+
+---
+
+# Feed Architecture
+
+```text
+Feed
+├── For You
+├── Following
+├── Nearby
+└── Live
+```
+
+Every tab uses the same Moment component.
+
+Only the ranking algorithm changes.
+
+---
+
+# Screen Layout
+
+```text
+┌──────────────────────────────────────────────┐
+│ Status Bar                                   │
+├──────────────────────────────────────────────┤
+│ For You Following Nearby Live           🔍    │
+├──────────────────────────────────────────────┤
+│                                              │
+│                                              │
+│              Full Screen Moment              │
+│                                              │
+│                              Right Action    │
+│                                  Rail        │
+│                                              │
+├──────────────────────────────────────────────┤
+│ Moment Metadata Stack                        │
+│ Moment Invitation Card (optional)            │
+├──────────────────────────────────────────────┤
+│ Bottom Navigation                            │
+└──────────────────────────────────────────────┘
+```
+
+Media always occupies almost the entire display.
+
+---
+
+# Top Navigation
+
+```text
+For You   Following   Nearby   Live 🔴                  🔍
+```
+
+## Active Tab
+
+* Glass capsule
+* Spring animation
+* Animated underline
+* Premium typography
+
+---
+
+## Search
+
+Always visible.
+
+Supports:
+
+* Creators
+* Venues
+* Events
+* Channels
+* Sounds
+* Hashtags
+
+---
+
+# Feed Tabs
+
+## For You
+
+Personalized recommendations.
+
+Ranking considers:
+
+* Ripple velocity
+* Watch completion
+* Interests
+* Friend activity
+* Venue popularity
+* Time of day
+* Distance
+* Sponsored content
+
+---
+
+## Following
+
+Displays:
+
+* Friends
+* Creators
+* Followed venues (future)
+
+Sorted by newest.
+
+---
+
+## Nearby
+
+Prioritizes nearby Moments.
+
+Instead of city names, display:
+
+```text
+280m away
+```
+
+or
+
+```text
+1.4km away
+```
+
+---
+
+## Live
+
+Contains only active broadcasts.
+
+Sorted using:
+
+* Live viewers
+* Ripple velocity
+* Friend activity
+* Distance
+
+---
+
+# Live Broadcast Lifecycle
+
+## Live Starts
+
+Appears in:
+
+* Live
+* Optional recommendation in For You
+
+Displays:
+
+```text
+🔴 LIVE
+
+2.4K Watching
+```
+
+---
+
+## Live Ends
+
+Immediately:
+
+```text
+LIVE
+
+↓
+
+Replay Processing
+
+↓
+
+Replay Ready
+```
+
+Automatically leaves the Live tab.
+
+Replay is redistributed into:
+
+* For You
+* Following
+* Nearby
+* Creator Profile
+
+No replay remains inside Live.
+
+---
+
+# Supported Moment Types
+
+* Photo
+* Video
+* Live Broadcast
+* Live Replay
+* Template Moment
+* Sponsored Moment
+
+All use identical layouts.
+
+---
+
+# Moment Metadata Stack
+
+Positioned above the Moment Invitation Card.
+
+Contains:
+
+* Creator avatar
+* Username
+* Verification badge
+* Time / Live status
+* Location or distance
+* Caption
+* Friend Intelligence (when applicable)
+
+---
+
+## Context Behaviour
+
+### For You / Following
+
+```text
+Amanda ✓
+
+2h ago • Sandton
+```
+
+### Nearby
+
+```text
+Amanda ✓
+
+5m ago • 280m away
+```
+
+### Live
+
+```text
+Amanda ✓
+
+🔴 LIVE • 2.4K Watching
+```
+
+### Replay
+
+```text
+Amanda ✓
+
+Replay • Ended 5m ago
+```
+
+---
+
+# Verification
+
+One reusable verification system.
+
+Supported for:
+
+* Creators
+* Venues
+* DJs
+* Artists
+* Event Organisers
+* Brands
+* Sponsors
+
+---
+
+# Caption
+
+Maximum:
+
+3 lines.
+
+Supports:
+
+* Mentions
+* Hashtags
+* Emojis
+* Translation
+* See More
+
+---
+
+# Friend Intelligence
+
+Displayed only when relevant.
+
+Examples:
+
+* 👥 8 friends rippled this
+* 🔥 Your circle is pulling up
+* ✨ 3 friends routed here tonight
+
+---
+
+# Right Action Rail
+
+```text
+Profile Avatar
+
+↓
+
++ Follow (only when not following)
+
+↓
+
+❤️ Like
+
+↓
+
+🌊 Ripple
+
+↓
+
+💬 Comment
+
+↓
+
+🔖 Save
+
+↓
+
+↗ Share
+```
+
+Uses:
+
+* 56px touch targets
+* Invisible alignment grid
+* Premium spacing
+
+The timestamp badge has been removed.
+
+---
+
+## Avatar
+
+Tap:
+
+Open creator profile.
+
+Long press:
+
+Profile preview.
+
+---
+
+## Follow
+
+Visible only when:
+
+* User isn't following
+* Not viewing own content
+
+Flow:
+
+```text
++ Follow
+
+↓
+
+✓ Following
+
+↓
+
+Button disappears
+```
+
+---
+
+## Ripple
+
+One Ripple per user.
+
+Meaning:
+
+> "More people should experience this."
+
+States:
+
+* Idle
+* Active
+* Heating
+* Hot
+* Viral
+
+---
+
+# Moment Invitation Card
+
+The Moment Invitation Card is created from the **Camera** when the creator chooses to attach a location and share an invitation.
+
+It is **not** a venue information card.
+
+It represents a temporary invitation to join the creator's current experience.
+
+The card always remains attached to the Moment while the venue exists.
+
+Only its state changes.
+
+---
+
+## Creating an Invitation
+
+Camera Flow:
+
+```text
+Camera
+
+↓
+
+Record Moment
+
+↓
+
+Attach Location
+
+↓
+
+Share Moment Invitation
+
+↓
+
+Choose Duration
+
+15 min
+
+30 min
+
+1 hour
+
+2 hours
+
+Until I Leave
+
+↓
+
+Publish
+```
+
+The chosen duration determines how long the invitation remains active.
+
+---
+
+# Moment Invitation States
+
+## State 1 — Active Invitation
+
+The creator is still available.
+
+```text
+📍 Cocoon Nightclub ✓
+
+🟢 Alfred is here now
+
+Available for
+
+04:45
+
+[ Club Lobby ]   [ Route ]
+```
+
+The countdown represents **remaining invitation availability**, not venue closing time.
+
+---
+
+## State 2 — Invitation Ended
+
+The creator leaves, manually ends sharing, or the invitation expires.
+
+```text
+📍 Cocoon Nightclub ✓
+
+⚪ Alfred has left
+
+[ Club Lobby ]   [ Route ]
+```
+
+The invitation has ended.
+
+The venue remains available.
+
+Users can still:
+
+* Open Club Lobby
+* Navigate to the venue
+* Discover ongoing activity
+
+---
+
+## State 3 — Venue Closed
+
+Venue intelligence detects the venue is currently closed.
+
+```text
+📍 Cocoon Nightclub ✓
+
+🔴 Venue Closed
+
+Opens Friday 18:00
+
+[ Club Lobby ]   [ Route ]
+```
+
+Users may still view the venue and plan a future visit.
+
+---
+
+# Camera & Invitation Relationship
+
+The Moment Invitation is configured entirely within the Camera.
+
+Background location does **not** automatically create invitations.
+
+The creator explicitly chooses:
+
+* Whether to share an invitation.
+* How long it remains active.
+
+---
+
+# Venue Presence System ("Who's Here")
+
+This system is **independent** from the Feed.
+
+It does **not** affect the Moment Invitation.
+
+After approximately 5 minutes inside a venue geofence, FOMO asks:
+
+```text
+You're at
+
+📍 Cocoon Nightclub
+
+Would you like to appear in
+
+Who's Here?
+
+○ Public
+
+○ Followers
+
+○ Friends
+
+● Private (Default)
+
+[ Share Presence ]
+
+[ Not Now ]
+```
+
+This only controls visibility inside the venue's **Who's Here** section.
+
+It does **not** modify feed posts or Moment Invitations.
+
+---
+
+# Feed Ranking Engine
+
+Every Moment receives a live FOMO Score.
+
+Signals include:
+
+* Ripple velocity
+* Watch completion
+* Likes
+* Comments
+* Shares
+* Saves
+* Friend activity
+* Venue popularity
+* Distance
+* Recency
+* Trust score
+
+Momentum always outweighs historical popularity.
+
+---
+
+# Live Replay Retention
+
+Temporary Lives:
+
+* 7 days
+
+Standard Lives:
+
+* 30 days
+
+High-Momentum Lives:
+
+* 90 days
+
+Verified Venue / Creator Lives:
+
+* 180 days
+
+Pinned Replays:
+
+* Maximum of 10 per creator
+* Remain until manually removed
+
+---
+
+# Motion Design
+
+Uses:
+
+* GPU transforms
+* Micro-interactions
+* Premium easing
+* Haptic feedback
+
+Avoids:
+
+* Heavy particle effects
+* Flashing animations
+* Unnecessary motion
+
+---
+
+# Performance
+
+Optimized for billion-scale usage.
+
+Includes:
+
+* FlashList virtualization
+* Lazy loading
+* Next-item preloading
+* Visible-item realtime updates only
+* Delta synchronization
+* Automatic low-power optimization
+
+---
+
+# Creator Analytics
+
+Creators can view:
+
+* Views
+* Watch Time
+* Likes
+* Ripples
+* Comments
+* Shares
+* Saves
+* Followers Gained
+* Profile Visits
+* Venue Clicks
+* Route Clicks
+* Club Lobby Opens
+* Live Viewers
+* Replay Views
+
+---
+
+# Bottom Navigation
+
+```text
+Discover
+
+Feed
+
+Camera
+
+Map
+
+Chats
+```
+
+Camera remains the central action.
+
+* Largest button
+* Floating appearance
+* Premium glow
+
+---
+
+# Complete Feed Ecosystem
+
+```text
+Camera
+      │
+      ▼
+Create Moment
+      │
+      ▼
+(Optional) Attach Location
+      │
+      ▼
+(Optional) Create Moment Invitation
+      │
+      ▼
+Publish
+      │
+      ▼
+Feed Distribution
+├── For You
+├── Following
+├── Nearby
+└── Live (active broadcasts only)
+      │
+      ▼
+User Interactions
+├── ❤️ Like
+├── 🌊 Ripple
+├── 💬 Comment
+├── 🔖 Save
+├── ↗ Share
+└── 📍 Moment Invitation Card
+      │
+      ▼
+Club Lobby / Route
+      │
+      ▼
+Real-World Experience
+      │
+      ▼
+Venue Intelligence + Ripple Engine
+      │
+      ▼
+Improved Feed Ranking
+
+────────────────────────────────────
+
+Background Location
+      │
+      ▼
+Venue Detection
+      │
+      ▼
+Stayed ~5 Minutes
+      │
+      ▼
+Who's Here Prompt
+      │
+      ▼
+Public
+Followers
+Friends
+Private (Default)
+      │
+      ▼
+Visible only inside Club Lobby → Who's Here
+```
+
+## Final Architecture
+
+The Feed now has three clearly separated systems:
+
+1. **Moments** — the content users create and consume.
+2. **Moment Invitation Card** — a temporary invitation created from the Camera that invites others to join the creator while they're still there, then gracefully transitions to show that the creator has left while preserving venue actions.
+3. **Venue Presence ("Who's Here")** — an independent, privacy-first system that lets users opt into being visible at a venue after they've been there for a few minutes, with **Private** as the default.
+
+This separation keeps the feed focused on storytelling, the invitation focused on real-time social connection, and venue presence focused on user-controlled visibility, creating a scalable architecture that fits FOMO's vision of connecting digital moments with real-world experiences.

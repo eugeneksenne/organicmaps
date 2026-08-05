@@ -1,0 +1,2089 @@
+# FOMO Global Venue Intelligence Platform
+
+## Production Architecture Specification v1.0
+
+This is the **upstream permanent venue intelligence system**. I am keeping its role distinct from the **FOMO Global Venue Pack Creation Intelligence Platform** and the **Country Pack Installation Strategy**.
+
+The uploaded architecture defines Global Venue Intelligence as the system that creates the permanent venue universe, with the Canonical Venue Store as its authoritative source of truth. 
+
+---
+
+# 1. Vision
+
+The **FOMO Global Venue Intelligence Platform** is the permanent data foundation of FOMO.
+
+Its purpose is to discover, understand, identify, verify, normalize, classify and continuously maintain the world's supported physical venues.
+
+It creates the authoritative venue universe that downstream FOMO systems consume.
+
+```text
+GLOBAL VENUE INTELLIGENCE
+          ↓
+CANONICAL VENUE STORE
+          ↓
+GLOBAL VENUE PACK CREATION
+          ↓
+COUNTRY PACKS
+          ↓
+DEVICE VENUE REPLICAS
+          ↓
+FOMO MAP ENGINE
+```
+
+The Canonical Venue Store is the source of truth. Country Packs are distribution snapshots, and device databases are local runtime replicas. 
+
+---
+
+# 2. Mission
+
+> **Create the most reliable permanent venue intelligence layer for FOMO's global social and lifestyle ecosystem.**
+
+Every production venue should be:
+
+* uniquely identified
+* geographically anchored
+* normalized
+* deduplicated
+* classified
+* verified
+* quality-scored
+* permanently identifiable
+* geographically indexed
+* continuously maintainable
+* ready for downstream packaging
+
+The platform is concerned with **venue truth**, not the user-facing FOMO experience.
+
+---
+
+# 3. What This Platform Owns
+
+```text
+✓ Global venue discovery
+✓ Multi-source acquisition
+✓ Source adapters
+✓ Geographic intelligence
+✓ Regional Cells
+✓ Venue normalization
+✓ Duplicate resolution
+✓ Permanent FOMO Venue IDs
+✓ Canonical Venue Records
+✓ Provider references
+✓ Verification
+✓ Classification
+✓ Quality/completeness
+✓ Venue lifecycle
+✓ Geographic indexing
+✓ Coverage intelligence
+✓ Canonical Venue Store
+```
+
+It does **not** own:
+
+```text
+✗ Feed
+✗ Chats
+✗ Club Lobby
+✗ Events
+✗ Flash Drops
+✗ Stories
+✗ Live activity
+✗ Friend presence
+✗ AI recommendations
+✗ Map rendering
+✗ Navigation
+✗ Device pack installation
+```
+
+Those systems consume its output.
+
+The source documents explicitly separate permanent venue infrastructure from dynamic events and realtime activity. 
+
+---
+
+# 4. Four FOMO Infrastructure Layers
+
+The broader FOMO ecosystem is:
+
+```text
+1. GLOBAL VENUE INTELLIGENCE
+             ↓
+2. PERMANENT VENUE INFRASTRUCTURE
+             ↓
+3. DYNAMIC EVENT INFRASTRUCTURE
+             ↓
+4. REALTIME ACTIVITY INFRASTRUCTURE
+```
+
+Each layer has a different lifecycle.
+
+
+
+The Global Venue Intelligence Platform owns the first layer.
+
+---
+
+# 5. Global Architecture
+
+```text
+                     GLOBAL SOURCES
+                           │
+        ┌──────────────────┼──────────────────┐
+        ▼                  ▼                  ▼
+       OSM               Google            Foursquare
+        │                  │                  │
+        └──────────────────┼──────────────────┘
+                           ▼
+                   SOURCE ADAPTERS
+                           │
+                           ▼
+                  ACQUISITION ENGINE
+                           │
+                           ▼
+                 REGIONAL CELL ENGINE
+                           │
+                           ▼
+               NORMALIZATION ENGINE
+                           │
+                           ▼
+              DUPLICATE RESOLUTION
+                           │
+                           ▼
+                  IDENTITY ENGINE
+                           │
+                           ▼
+             CANONICAL VENUE RECORD
+                           │
+                           ▼
+                VERIFICATION ENGINE
+                           │
+                           ▼
+              CLASSIFICATION ENGINE
+                           │
+                           ▼
+             GEOGRAPHIC INDEX ENGINE
+                           │
+                           ▼
+                 QUALITY ENGINE
+                           │
+                           ▼
+             CANONICAL VENUE STORE
+                           │
+                           ▼
+          GLOBAL VENUE PACK CREATION
+```
+
+The acquisition pipeline in the source follows this same progression from source data through canonical storage. 
+
+---
+
+# 6. Global Geographic Model
+
+FOMO uses a deterministic geographic hierarchy:
+
+```text
+WORLD
+  ↓
+COUNTRY
+  ↓
+PROVINCE / STATE
+  ↓
+METRO
+  ↓
+CITY / TOWN
+  ↓
+DISTRICT / MUNICIPALITY
+  ↓
+SUBURB / NEIGHBOURHOOD
+  ↓
+POSTAL CODE
+  ↓
+REGIONAL CELL
+  ↓
+VENUE
+```
+
+This hierarchy allows the platform to organize, scan, verify and measure coverage systematically. 
+
+---
+
+# 7. Country Configuration
+
+Each supported country has a configuration describing its geographic and operational structure.
+
+```text
+Country Configuration
+│
+├── Country Code
+├── Country Name
+├── Administrative Hierarchy
+├── Postal Code System
+├── Time Zones
+├── Coordinate Rules
+├── Languages
+├── Supported Packs
+├── Geographic Boundaries
+└── Regional Cell Rules
+```
+
+A new country should therefore be introduced through configuration and geographic data rather than by creating an entirely new venue architecture.
+
+The uploaded global architecture explicitly describes country-specific administrative structures being mapped into a universal hierarchy. 
+
+---
+
+# 8. Regional Cell Engine
+
+A **Regional Cell** is the smallest operational unit of the Global Venue Intelligence Platform.
+
+Each cell contains:
+
+```text
+Cell ID
+Geographic Boundary
+Country
+Province / State
+Metro
+City
+District
+Suburb
+Postal Code Range
+Coverage Status
+Venue Count
+Verified Venue Count
+Supported Packs
+Scan Version
+Last Scan
+Next Scan
+Pack Status
+```
+
+Regional Cells are used for:
+
+* discovery
+* scanning
+* acquisition
+* verification
+* quality control
+* coverage measurement
+* refresh
+* synchronization
+
+The source architecture explicitly defines Regional Cells as the operational unit for these functions. 
+
+---
+
+# 9. Regional Cell Lifecycle
+
+```text
+PENDING
+   ↓
+SCANNING
+   ↓
+IMPORTING
+   ↓
+NORMALIZING
+   ↓
+DEDUPLICATING
+   ↓
+VERIFYING
+   ↓
+INDEXING
+   ↓
+COMPLETE
+   ↓
+MONITORING
+   ↓
+REFRESH
+```
+
+Only a completed cell should be eligible for production Country Pack generation.
+
+This lifecycle is defined in the Global Venue Pack architecture. 
+
+---
+
+# 10. Venue Acquisition Engine
+
+The acquisition engine collects venue intelligence from permitted sources.
+
+Supported sources in the uploaded architecture include:
+
+```text
+OpenStreetMap
+Google Places
+Foursquare
+Official Business Registries
+Business Self-Registration
+Venue Owner Claims
+Community Submissions
+```
+
+Each source contributes information, but no external source becomes FOMO's canonical schema. 
+
+---
+
+# 11. Source Adapter Architecture
+
+Every provider receives its own adapter.
+
+```text
+OSM Adapter
+Google Adapter
+Foursquare Adapter
+Registry Adapter
+Owner Adapter
+Community Adapter
+```
+
+All adapters output into the same FOMO acquisition model:
+
+```text
+SOURCE
+  ↓
+SOURCE ADAPTER
+  ↓
+FOMO INGESTION MODEL
+  ↓
+NORMALIZATION
+```
+
+This prevents provider-specific schemas from contaminating the permanent architecture. 
+
+---
+
+# 12. Provider Independence
+
+External provider identifiers are **reference fields only**.
+
+Examples:
+
+```text
+OSM ID
+Google Place ID
+Foursquare ID
+Other Provider IDs
+```
+
+They can change.
+
+They can disappear.
+
+They can be replaced.
+
+They must never become the permanent identity of a FOMO venue.
+
+---
+
+# 13. Permanent FOMO Venue Identity
+
+Every genuine permanent venue receives:
+
+```text
+FOMO Venue ID
+```
+
+Example:
+
+```text
+FMO-ZA-GP-JHB-00000127
+```
+
+The fundamental rule is:
+
+> **This identifier never changes.**
+
+The source explicitly requires permanent FOMO Venue identity independent of provider changes and venue metadata changes. 
+
+---
+
+# 14. Identity Persistence
+
+The FOMO Venue ID survives:
+
+```text
+Name changes
+Display-name changes
+Ownership changes
+Provider changes
+Category changes
+Opening-hour changes
+Contact changes
+Media changes
+Pack rebuilds
+Pack version changes
+Provider record deletion
+```
+
+The identity itself remains permanent.
+
+---
+
+# 15. Identity Recycling Prohibition
+
+A retired FOMO Venue ID must **never** be assigned to another physical venue.
+
+```text
+FMO-ZA-GP-JHB-00000127
+        ↓
+CLOSED
+        ↓
+RETIRED
+```
+
+It must never become:
+
+```text
+FMO-ZA-GP-JHB-00000127
+        ↓
+NEW RESTAURANT
+```
+
+The uploaded architecture explicitly establishes that FOMO Venue IDs are never recycled. 
+
+---
+
+# 16. Duplicate Resolution Engine
+
+The system must distinguish between:
+
+```text
+Same Venue
+Different Branch
+Same Brand / Different Location
+Temporary Event
+Temporary Location
+Closed Venue
+Moved Venue
+```
+
+Candidate matching considers:
+
+```text
+Name
+Coordinates
+Address
+Postal Code
+Business Information
+Provider IDs
+Geographic Proximity
+```
+
+These are the matching signals specified in the source architecture. 
+
+---
+
+# 17. Duplicate Resolution Flow
+
+```text
+NEW RECORD
+    ↓
+Candidate Search
+    ↓
+Geographic Match
+    ↓
+Name Similarity
+    ↓
+Address Match
+    ↓
+Business Match
+    ↓
+Provider Reference Match
+    ↓
+Confidence Evaluation
+    │
+    ├── SAME VENUE
+    │      ↓
+    │   MERGE
+    │
+    ├── DIFFERENT BRANCH
+    │      ↓
+    │   NEW FOMO ID
+    │
+    └── UNCERTAIN
+           ↓
+       REVIEW QUEUE
+```
+
+---
+
+# 18. Venue Normalization Engine
+
+Every acquired record is converted into the FOMO canonical model.
+
+Normalize:
+
+```text
+Name
+Display Name
+Slug
+Description
+Address
+Phone
+Email
+Website
+Coordinates
+Categories
+Operating Hours
+Social Links
+Business Information
+Media References
+```
+
+The Global Pack architecture explicitly requires all providers to produce one internal schema. 
+
+---
+
+# 19. Canonical Venue Record
+
+Every permanent venue stores the complete canonical representation.
+
+## Identity
+
+```text
+FOMO Venue ID
+Name
+Display Name
+Slug
+Description
+Status
+Verification Level
+```
+
+## Geographic Information
+
+```text
+Country
+Province
+Metro
+City
+District
+Suburb
+Postal Code
+Regional Cell ID
+Latitude
+Longitude
+PostGIS Point
+Time Zone
+```
+
+## Address
+
+```text
+Street Address
+Building Name
+Municipality
+Postal Code
+```
+
+## Classification
+
+```text
+Country Pack
+Primary Category
+Secondary Categories
+Venue Type
+Search Tags
+```
+
+## Business Information
+
+```text
+Business Name
+Brand
+Chain
+Branch
+```
+
+## Contact Information
+
+```text
+Phone
+Email
+Website
+```
+
+## Social Media
+
+```text
+Instagram
+Facebook
+TikTok
+X
+YouTube
+```
+
+## Operating Information
+
+```text
+Opening Days
+Opening Hours
+Closing Hours
+Seasonal Hours
+Public Holiday Hours
+```
+
+## Static Amenities
+
+```text
+Parking
+Wheelchair Access
+Outdoor Seating
+Indoor Seating
+Smoking Area
+Wi-Fi
+Card Payments
+Reservations
+Pet Friendly
+```
+
+## Media References
+
+```text
+Logo
+Hero Image
+Cover Image
+Gallery References
+```
+
+This complete record structure is explicitly present in the uploaded architecture. 
+
+---
+
+# 20. Media Architecture
+
+The Global Venue Intelligence Platform stores **references**, not large media binaries.
+
+```text
+VENUE RECORD
+     │
+     ├── Logo Reference
+     ├── Hero Reference
+     ├── Cover Reference
+     └── Gallery References
+             │
+             ▼
+       OBJECT STORAGE
+```
+
+Large images and videos must not be embedded into Country Pack SQLite databases. 
+
+---
+
+# 21. Venue Status
+
+Venue identity and venue status are separate.
+
+Possible lifecycle states include:
+
+```text
+ACTIVE
+TEMPORARILY_CLOSED
+PERMANENTLY_CLOSED
+MOVED
+PENDING_VERIFICATION
+RETIRED
+```
+
+A venue becoming temporarily closed does not automatically destroy its permanent identity.
+
+---
+
+# 22. Pack Membership Is Separate
+
+A venue's identity is independent from its pack membership.
+
+Example:
+
+```text
+FMO-ZA-GP-JHB-00000127
+       │
+       ├── CORE
+       ├── NIGHTLIFE
+       └── FOOD
+```
+
+Removing a venue from a pack does not delete the venue.
+
+Removing a pack from a device does not delete the global venue.
+
+The source explicitly separates venue status from pack membership. 
+
+---
+
+# 23. Classification Engine
+
+Each venue receives:
+
+```text
+Primary Category
+Secondary Categories
+Venue Type
+Search Tags
+Pack Membership
+```
+
+Example:
+
+```text
+Primary:
+Nightclub
+
+Secondary:
+Bar
+Live Music
+Late Night
+
+Pack:
+Core
+Nightlife
+
+Tags:
+Dancing
+DJ
+Late Night
+Social
+```
+
+One physical venue can legitimately participate in multiple FOMO discovery categories.
+
+---
+
+# 24. Pack Taxonomy
+
+The permanent pack system is:
+
+```text
+CORE
+NIGHTLIFE
+FOOD
+PREP
+WELLNESS
+TRAVEL
+```
+
+A venue can belong to multiple packs.
+
+The Global Venue Intelligence Platform determines the venue's classification and pack eligibility.
+
+The **Global Venue Pack Creation Platform** subsequently turns that canonical data into distribution databases.
+
+---
+
+# 25. Core
+
+Core represents the permanent venue foundation.
+
+It includes information required to identify and locate the venue:
+
+```text
+FOMO Venue Identity
+Core Geographic Identity
+Regional Cell
+Search Identity
+Pack Metadata
+Runtime References
+```
+
+---
+
+# 26. Nightlife
+
+Nightlife includes venues such as:
+
+```text
+Nightclubs
+Lounges
+Bars
+Pubs & Grills
+Shisanyamas
+Taverns
+```
+
+The resulting data supports downstream:
+
+```text
+Nightlife Discovery
+Nightlife Filters
+Nightlife Pins
+Venue Energy
+Heatmaps
+Live Activity
+```
+
+Dynamic activity itself does **not** belong in this static venue intelligence record.
+
+The source specifically separates static packs from realtime crowd state. 
+
+---
+
+# 27. Food
+
+Food classification can include:
+
+```text
+Restaurants
+Cafés
+Brunch
+Rooftop Dining
+Sushi
+Wine Bars
+Food Halls
+Night Markets
+Late-Night Eats
+Scenic Restaurants
+```
+
+The exact categories can evolve by country without changing the permanent identity system.
+
+---
+
+# 28. Prep
+
+Prep includes lifestyle destinations such as:
+
+```text
+Barbershops
+Salons
+Tattoo Studios
+Nail Studios
+Sneaker Stores
+Fashion Boutiques
+Jewelry Stores
+Gyms
+Pilates Studios
+```
+
+---
+
+# 29. Wellness
+
+Examples:
+
+```text
+Yoga Studios
+Spas
+Wellness Retreats
+Recovery Clubs
+Healthy Cafés
+Meditation Spaces
+Social Coffee Shops
+```
+
+---
+
+# 30. Travel
+
+Examples:
+
+```text
+Airports
+Resorts
+Scenic Viewpoints
+Tourist Attractions
+Hotels
+Travel Experiences
+Travel Meetups
+```
+
+---
+
+# 31. Verification Engine
+
+A venue must pass verification before production release.
+
+Verification can consider:
+
+```text
+Source Agreement
+Data Freshness
+Geographic Consistency
+Business Existence
+Contact Validity
+Operating Information
+Owner Confirmation
+Community Confirmation
+```
+
+The source provides the following suggested levels: 
+
+```text
+UNVERIFIED
+SOURCE_VERIFIED
+MULTI_SOURCE_VERIFIED
+OWNER_VERIFIED
+COMMUNITY_VERIFIED
+PRODUCTION_VERIFIED
+```
+
+---
+
+# 32. Verification Is Field-Aware
+
+Verification should not be treated as a single yes/no property.
+
+For example:
+
+```text
+Venue Identity       ✓ Verified
+Coordinates          ✓ Verified
+Phone                ✓ Verified
+Opening Hours        ? Unknown
+Instagram            ✓ Verified
+Amenities            ? Unknown
+```
+
+This preserves useful partial knowledge rather than falsely implying that every field has equal confidence.
+
+---
+
+# 33. Data Freshness
+
+Every important record should retain freshness information.
+
+Conceptually:
+
+```text
+Created
+Last Imported
+Last Normalized
+Last Verified
+Last Provider Sync
+Last Canonical Update
+```
+
+This allows the platform to prioritize stale venues for refresh.
+
+---
+
+# 34. Venue Quality Engine
+
+The quality engine evaluates:
+
+```text
+Identity
+Coordinates
+Address
+Category
+Geographic Hierarchy
+Verification
+Operating Information
+Pack Assignment
+```
+
+Optional enrichment:
+
+```text
+Phone
+Website
+Social Media
+Amenities
+Media
+```
+
+The source architecture explicitly defines these quality dimensions. 
+
+---
+
+# 35. Missing Data Semantics
+
+FOMO must distinguish:
+
+```text
+UNKNOWN
+NOT_AVAILABLE
+NOT_APPLICABLE
+MISSING
+```
+
+These are not interchangeable.
+
+For example:
+
+```text
+Pet Friendly = NOT_AVAILABLE
+```
+
+means something different from:
+
+```text
+Pet Friendly = NOT_APPLICABLE
+```
+
+The quality system must preserve these distinctions. 
+
+---
+
+# 36. Completeness Engine
+
+Every venue receives a completeness assessment.
+
+Production-required fields include:
+
+```text
+Name
+Coordinates
+Address
+Category
+Geographic Hierarchy
+Operating Hours
+Verification Source
+Pack Assignment
+```
+
+Where publicly available, the system should enrich:
+
+```text
+Contact Details
+Website
+Social Media
+Amenities
+Media References
+```
+
+The source architecture defines completeness thresholds before publication. 
+
+---
+
+# 37. Geographic Intelligence Engine
+
+Every venue is indexed against:
+
+```text
+Country
+Province / State
+Metro
+City
+District
+Suburb
+Postal Code
+Regional Cell
+```
+
+This enables:
+
+```text
+Geographic Search
+Regional Coverage
+Pack Generation
+Offline Organization
+Cell Scanning
+Analytics
+Progressive Synchronization
+```
+
+---
+
+# 38. Geographic Indexes
+
+The platform maintains indexes for:
+
+```text
+Countries
+Administrative Level 1
+Administrative Level 2
+Cities
+Suburbs
+Postal Codes
+Regional Cells
+```
+
+Each geographic unit can maintain aggregated venue counts by pack.
+
+The source architecture explicitly describes these indexes and aggregated counts. 
+
+---
+
+# 39. Coverage Intelligence
+
+Coverage is measured independently by:
+
+```text
+Country
+Province
+Metro
+City
+District
+Suburb
+Postal Code
+Regional Cell
+Pack
+```
+
+Metrics include:
+
+```text
+Expected Venues
+Discovered Venues
+Verified Venues
+Coverage %
+Completeness %
+Duplicate Rate
+Last Scan
+```
+
+Example:
+
+| Pack      | Coverage |
+| --------- | -------: |
+| Nightlife |     100% |
+| Food      |    99.8% |
+| Prep      |     100% |
+| Wellness  |     100% |
+| Travel    |     100% |
+
+The uploaded architecture uses coverage measurements to determine whether cells are ready for production. 
+
+---
+
+# 40. Pack-Specific Discovery
+
+Discovery can operate independently by pack:
+
+```text
+Country
+│
+├── Nightlife Scanner
+├── Food Scanner
+├── Prep Scanner
+├── Wellness Scanner
+└── Travel Scanner
+```
+
+Benefits:
+
+* independent updates
+* independent validation
+* independent coverage reporting
+* faster synchronization
+
+This architecture is explicitly defined in the Global Venue Pack document. 
+
+---
+
+# 41. Permanent Venue vs Dynamic Event
+
+This boundary is non-negotiable.
+
+```text
+PERMANENT VENUE
+FMO-ZA-GP-JHB-00000127
+       │
+       ├── Event A
+       ├── Event B
+       └── Event C
+```
+
+An event occurring at a venue does not create another permanent venue.
+
+The venue remains the anchor.
+
+---
+
+# 42. Realtime Separation
+
+Static venue intelligence:
+
+```text
+Venue
+Address
+Category
+Amenities
+Hours
+Contact
+```
+
+Realtime:
+
+```text
+Crowd
+Queue
+Check-ins
+Friend Presence
+Live Activity
+Stories
+Current Energy
+```
+
+If a venue becomes busy:
+
+```text
+STATIC PACK
+    ↓
+UNCHANGED
+
+REALTIME
+    ↓
+CROWD = HIGH
+```
+
+The source explicitly requires realtime state to remain outside static Country Packs. 
+
+---
+
+# 43. Venue Intelligence Does Not Own FOMO Score
+
+The canonical venue record may provide the data foundation for downstream ranking.
+
+But dynamic:
+
+```text
+FOMO Score
+Trending Score
+Crowd Score
+AI Recommendation Score
+Social Energy Score
+```
+
+must not overwrite permanent venue identity.
+
+These belong to downstream intelligence/runtime systems.
+
+The source explicitly states that AI-generated dynamic scores remain separate from canonical identity. 
+
+---
+
+# 44. Canonical Venue Store
+
+The **Canonical Venue Store** is the authoritative database.
+
+```text
+CANONICAL VENUE STORE
+│
+├── FOMO Venue Identity
+├── Canonical Venue Record
+├── Provider References
+├── Geographic Data
+├── Classification
+├── Verification
+├── Operating Information
+├── Amenities
+├── Media References
+└── Regional Cell
+```
+
+It is **not**:
+
+```text
+Country Pack
+Device Database
+Organic Maps Database
+Realtime Store
+Event Database
+```
+
+The source explicitly defines it as the authoritative permanent venue database. 
+
+---
+
+# 45. Relationship With Global Venue Pack Creation Platform
+
+This distinction is important.
+
+```text
+FOMO GLOBAL VENUE INTELLIGENCE
+          │
+          │ creates/maintains
+          ▼
+CANONICAL VENUE STORE
+          │
+          │ consumed by
+          ▼
+FOMO GLOBAL VENUE PACK CREATION
+          │
+          │ generates
+          ▼
+COUNTRY PACKS
+```
+
+### Global Venue Intelligence asks:
+
+> **What is this venue?**
+
+### Global Venue Pack Creation asks:
+
+> **How should this verified venue be packaged and distributed?**
+
+This separation prevents the Canonical Venue Store from becoming confused with the SQLite distribution layer.
+
+The uploaded Pack Creation Platform explicitly describes itself as responsible for packaging the permanent venue database into optimized Country Packs. 
+
+---
+
+# 46. Country Pack Creation Boundary
+
+The Global Venue Intelligence Platform provides:
+
+```text
+Verified Canonical Venue Records
+```
+
+The Pack Creation Platform performs:
+
+```text
+Pack Selection
+SQLite Generation
+Pack Optimization
+Pack Validation
+Manifest
+Checksum
+Version
+Delta Generation
+Publishing
+```
+
+The intelligence platform should not become the device installer.
+
+---
+
+# 47. Country Pack Boundary
+
+```text
+CANONICAL VENUE STORE
+          │
+          ▼
+PACK CREATION PLATFORM
+          │
+          ▼
+south_africa_core.db
+south_africa_nightlife.db
+south_africa_food.db
+south_africa_prep.db
+south_africa_wellness.db
+south_africa_travel.db
+```
+
+The uploaded Pack Creation architecture defines these SQLite outputs and independent pack versioning. 
+
+---
+
+# 48. Delta Source
+
+Canonical changes are keyed by:
+
+```text
+FOMO Venue ID
+```
+
+Never by:
+
+```text
+Google Place ID
+OSM ID
+Foursquare ID
+```
+
+Potential changes include:
+
+```text
+NEW
+UPDATED
+CLOSED
+RENAMED
+RECLASSIFIED
+MOVED
+HOURS_CHANGED
+CONTACT_CHANGED
+MEDIA_CHANGED
+VERIFICATION_CHANGED
+```
+
+The source explicitly defines these change types and permanent FOMO Venue ID as the update key. 
+
+---
+
+# 49. Venue Change Lifecycle
+
+```text
+SOURCE CHANGE
+      ↓
+SOURCE ADAPTER
+      ↓
+NORMALIZATION
+      ↓
+MATCH EXISTING FOMO ID
+      ↓
+FIELD-LEVEL CHANGE DETECTION
+      ↓
+CANONICAL UPDATE
+      ↓
+REVERIFY IF REQUIRED
+      ↓
+QUALITY CHECK
+      ↓
+CANONICAL STORE
+      ↓
+PACK CREATION
+```
+
+The FOMO Venue ID survives the entire process.
+
+---
+
+# 50. Closed Venue Handling
+
+A closed venue is not automatically deleted.
+
+```text
+ACTIVE
+  ↓
+TEMPORARILY CLOSED
+```
+
+or:
+
+```text
+ACTIVE
+  ↓
+PERMANENTLY CLOSED
+  ↓
+RETIRED
+```
+
+Historical identity remains preserved.
+
+This protects references from:
+
+```text
+Events
+Analytics
+Social Graph
+Saved Places
+Historical Activity
+```
+
+while keeping the active venue universe accurate.
+
+---
+
+# 51. Moved Venue Handling
+
+If a venue genuinely moves:
+
+```text
+Existing physical venue
+        ↓
+New address
+```
+
+the platform evaluates whether the business represents:
+
+```text
+same continuous venue identity
+```
+
+or:
+
+```text
+old physical venue closed
++
+new physical venue opened
+```
+
+The decision must be made by the identity engine, not simply by a provider ID.
+
+---
+
+# 52. Branch Handling
+
+A chain is not one venue.
+
+```text
+Brand
+ │
+ ├── Branch A → FOMO Venue ID A
+ ├── Branch B → FOMO Venue ID B
+ └── Branch C → FOMO Venue ID C
+```
+
+The:
+
+```text
+Brand
+Chain
+Branch
+```
+
+fields preserve the relationship without collapsing physical locations into one identity.
+
+---
+
+# 53. Business Ownership
+
+Ownership changes do not automatically create a new venue.
+
+```text
+VENUE
+FMO-ZA-GP-JHB-00000127
+        ↓
+NEW OWNER
+        ↓
+SAME PHYSICAL VENUE
+```
+
+The identity remains unless the identity engine determines that a genuinely new physical venue has replaced it.
+
+---
+
+# 54. User and Owner Claims
+
+Business owners may claim an existing venue.
+
+```text
+OWNER
+ ↓
+CLAIM REQUEST
+ ↓
+VENUE MATCH
+ ↓
+VERIFICATION
+ ↓
+OWNER_VERIFIED
+```
+
+A claim should attach to an existing FOMO Venue ID whenever the venue already exists.
+
+It should not create a duplicate venue.
+
+---
+
+# 55. Community Submissions
+
+User-submitted places enter a controlled pipeline:
+
+```text
+USER SUBMISSION
+       ↓
+PENDING
+       ↓
+VALIDATION
+       ↓
+DUPLICATE CHECK
+       ↓
+VERIFICATION
+       ↓
+CANONICAL VENUE
+```
+
+They must not immediately bypass the canonical identity system.
+
+---
+
+# 56. Source Conflict Resolution
+
+When sources disagree:
+
+```text
+OSM:
+Open 22:00
+
+Google:
+Open 23:00
+
+Owner:
+Open 00:00
+```
+
+the platform must retain source-level evidence and determine the canonical value through verification and confidence rules.
+
+It must not blindly overwrite one source with another.
+
+---
+
+# 57. Confidence Model
+
+The platform should maintain confidence information around important canonical fields.
+
+Conceptually:
+
+```text
+Field
+Value
+Source
+Observed At
+Verified At
+Confidence
+```
+
+Example:
+
+```text
+Opening Hours
+22:00–03:00
+Owner
+2026-07-31
+PRODUCTION_VERIFIED
+```
+
+This is an extension of the source's verification and completeness architecture.
+
+---
+
+# 58. Operational Metadata
+
+The canonical infrastructure can maintain:
+
+```text
+Import Date
+Last Sync
+Last Verification
+Source Provider
+Version
+Checksum
+Confidence Score
+```
+
+These metadata fields appear in the uploaded global architecture. 
+
+---
+
+# 59. Search Infrastructure
+
+The platform prepares venue data for downstream search through:
+
+```text
+Name Index
+Slug Index
+Category Index
+Geographic Index
+Postal Code Index
+Regional Cell Index
+Provider Reference Index
+```
+
+The actual user-facing FOMO search engine consumes these indexes after pack distribution.
+
+---
+
+# 60. No Organic Maps Ownership
+
+Organic Maps is not the Canonical Venue Store.
+
+The architectural relationship is:
+
+```text
+ORGANIC MAPS
+    ↓
+Geographic / Map Infrastructure
+
+FOMO GLOBAL VENUE INTELLIGENCE
+    ↓
+Venue Intelligence
+```
+
+The FOMO Offline Map Engine later combines the two.
+
+This separation is central to the map architecture.
+
+---
+
+# 61. Offline Relationship
+
+Permanent venue data ultimately becomes available offline through:
+
+```text
+Canonical Venue Store
+       ↓
+Pack Creation
+       ↓
+Country Pack
+       ↓
+Installation
+       ↓
+Local Venue Database
+       ↓
+FOMO Offline Map Engine
+```
+
+The Global Venue Intelligence Platform itself is not responsible for installing those databases on user devices.
+
+---
+
+# 62. Quality Gate
+
+A venue becomes production eligible only when:
+
+```text
+Identity ✓
+Coordinates ✓
+Address ✓
+Category ✓
+Geographic hierarchy ✓
+Verification ✓
+Pack assignment ✓
+Required completeness ✓
+```
+
+Optional enrichment is added when available.
+
+Only venues meeting the configured threshold should enter production pack generation.
+
+The source explicitly establishes production completeness thresholds. 
+
+---
+
+# 63. Cell Quality Gate
+
+A Regional Cell should be considered production-ready when:
+
+```text
+Coverage target achieved
++
+Venue discovery complete
++
+Duplicate processing complete
++
+Verification complete
++
+Classification complete
++
+Quality threshold achieved
+```
+
+Only then:
+
+```text
+CELL
+ ↓
+PACK CREATION ELIGIBLE
+```
+
+---
+
+# 64. Coverage Dashboard
+
+The Global Venue Intelligence Platform should expose:
+
+```text
+Countries
+Provinces
+Cities
+Districts
+Suburbs
+Postal Codes
+Regional Cells
+
+Total Venues
+Verified Venues
+Venues by Pack
+Duplicate Rate
+Coverage %
+Completeness %
+Last Synchronization
+```
+
+These are the coverage metrics defined by the uploaded platform architecture. 
+
+---
+
+# 65. Global Scaling Model
+
+The same architecture supports:
+
+```text
+1 Country
+   ↓
+10 Countries
+   ↓
+50 Countries
+   ↓
+100+ Countries
+```
+
+Country-specific geographic structures are represented through configuration rather than custom data architecture.
+
+---
+
+# 66. Production Data Flow
+
+```text
+                   SOURCE
+                     │
+                     ▼
+              SOURCE ADAPTER
+                     │
+                     ▼
+              RAW INGESTION
+                     │
+                     ▼
+             NORMALIZATION
+                     │
+                     ▼
+          GEOGRAPHIC RESOLUTION
+                     │
+                     ▼
+           DUPLICATE RESOLUTION
+                     │
+                     ▼
+             IDENTITY ENGINE
+                     │
+                     ▼
+          FOMO VENUE ID ASSIGNED
+                     │
+                     ▼
+          CANONICAL VENUE RECORD
+                     │
+                     ▼
+             VERIFICATION
+                     │
+                     ▼
+             CLASSIFICATION
+                     │
+                     ▼
+          COMPLETENESS / QUALITY
+                     │
+                     ▼
+          REGIONAL CELL INDEX
+                     │
+                     ▼
+        CANONICAL VENUE STORE
+                     │
+                     ▼
+      GLOBAL VENUE PACK CREATION
+```
+
+---
+
+# 67. Authoritative Data Hierarchy
+
+There must be exactly one authoritative permanent venue layer:
+
+```text
+                CANONICAL VENUE STORE
+                         │
+              SOURCE OF TRUTH
+                         │
+          ┌──────────────┴──────────────┐
+          ▼                             ▼
+   PACK CREATION                  OTHER SYSTEMS
+          │
+          ▼
+   COUNTRY PACKS
+          │
+          ▼
+   DEVICE REPLICAS
+```
+
+Neither a Country Pack nor a device database can become authoritative.
+
+---
+
+# 68. Non-Negotiable Rules
+
+### Rule 1
+
+**Every permanent venue has exactly one FOMO Venue ID.**
+
+### Rule 2
+
+**The FOMO Venue ID never changes.**
+
+### Rule 3
+
+**FOMO Venue IDs are never recycled.**
+
+### Rule 4
+
+**Provider IDs remain reference fields only.**
+
+### Rule 5
+
+**Canonical Venue Store is the authoritative source of truth.**
+
+### Rule 6
+
+**Country Packs are distribution snapshots.**
+
+### Rule 7
+
+**Device databases are local replicas.**
+
+### Rule 8
+
+**Pack membership is independent of venue identity.**
+
+### Rule 9
+
+**Events never create duplicate permanent venues.**
+
+### Rule 10
+
+**Realtime activity never becomes static Country Pack data.**
+
+### Rule 11
+
+**Media references are stored in venue records, while media assets live in object storage.**
+
+### Rule 12
+
+**All venue changes are keyed by FOMO Venue ID.**
+
+### Rule 13
+
+**Temporary closure does not automatically destroy venue identity.**
+
+### Rule 14
+
+**Duplicate branches must receive distinct FOMO Venue IDs.**
+
+### Rule 15
+
+**External provider schemas never become the FOMO canonical schema.**
+
+These rules are directly supported by the uploaded Global Venue and geographic architecture. 
+
+---
+
+# 69. Relationship With the Other FOMO Platforms
+
+The final separation is:
+
+```text
+┌───────────────────────────────────────────┐
+│ FOMO GLOBAL VENUE INTELLIGENCE            │
+│                                           │
+│ "WHAT IS THIS VENUE?"                     │
+│                                           │
+│ Identity                                  │
+│ Geography                                 │
+│ Verification                              │
+│ Classification                            │
+│ Canonical Record                          │
+│ Quality                                   │
+└─────────────────────┬─────────────────────┘
+                      │
+                      ▼
+┌───────────────────────────────────────────┐
+│ GLOBAL VENUE PACK CREATION                │
+│                                           │
+│ "HOW DO WE PACKAGE IT?"                   │
+│                                           │
+│ SQLite                                    │
+│ Pack membership                           │
+│ Versioning                                │
+│ Manifest                                  │
+│ Checksums                                 │
+│ Deltas                                    │
+└─────────────────────┬─────────────────────┘
+                      │
+                      ▼
+┌───────────────────────────────────────────┐
+│ COUNTRY PACK INSTALLATION                 │
+│                                           │
+│ "HOW DO WE DELIVER IT?"                   │
+│                                           │
+│ Download                                  │
+│ Verify                                    │
+│ Install                                   │
+│ Update                                    │
+│ Expand                                    │
+└─────────────────────┬─────────────────────┘
+                      │
+                      ▼
+┌───────────────────────────────────────────┐
+│ FOMO OFFLINE MAP ENGINE                   │
+│                                           │
+│ "HOW DO WE USE IT?"                       │
+│                                           │
+│ Organic Maps                              │
+│ Local Venues                              │
+│ Search                                    │
+│ Routing                                   │
+│ FOMO Layers                               │
+└───────────────────────────────────────────┘
+```
+
+---
+
+# 70. Final End-to-End Architecture
+
+```text
+                       GLOBAL SOURCES
+                              │
+                              ▼
+                    SOURCE ADAPTERS
+                              │
+                              ▼
+                    VENUE ACQUISITION
+                              │
+                              ▼
+                    REGIONAL CELLS
+                              │
+                              ▼
+                     NORMALIZATION
+                              │
+                              ▼
+                 DUPLICATE RESOLUTION
+                              │
+                              ▼
+                    IDENTITY ENGINE
+                              │
+                              ▼
+                  FOMO VENUE ID
+                              │
+                              ▼
+                CANONICAL VENUE RECORD
+                              │
+                              ▼
+                     VERIFICATION
+                              │
+                              ▼
+                    CLASSIFICATION
+                              │
+                              ▼
+                 GEOGRAPHIC INDEXING
+                              │
+                              ▼
+                   QUALITY ENGINE
+                              │
+                              ▼
+              CANONICAL VENUE STORE
+                   SOURCE OF TRUTH
+                              │
+                              ▼
+       FOMO GLOBAL VENUE PACK CREATION
+                              │
+                              ▼
+                   COUNTRY PACKS
+                              │
+                              ▼
+              COUNTRY PACK INSTALLER
+                              │
+                              ▼
+                 DEVICE LOCAL REPLICA
+                              │
+                              ▼
+                FOMO OFFLINE MAP ENGINE
+                              │
+             ┌────────────────┼────────────────┐
+             ▼                ▼                ▼
+          VENUES           EVENTS          REALTIME
+             │                │                │
+             └────────────────┼────────────────┘
+                              ▼
+                         FOMO EXPERIENCE
+```
+
+## The key architectural distinction
+
+The three venue systems now have very clean boundaries:
+
+**FOMO Global Venue Intelligence Platform**
+
+> **Creates and maintains the truth about venues.**
+
+**FOMO Global Venue Pack Creation Intelligence Platform**
+
+> **Turns that truth into optimized, versioned Country Packs.**
+
+**FOMO Final Country Pack Installation Strategy**
+
+> **Moves those packs onto devices and keeps them current.**
+
+And finally:
+
+**FOMO Offline Map Engine**
+
+> **Combines the installed venue intelligence with Organic Maps to power the actual FOMO map.**
+
+That separation is strongly supported by the uploaded architecture, particularly its distinction between the Canonical Venue Store, Country Packs, device replicas, and Organic Maps. 

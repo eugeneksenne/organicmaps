@@ -1,0 +1,362 @@
+Here's the redesigned FOMO Flash Drops System, reimagined as a flagship feature that meets the standard of a billion-dollar consumer app while staying true to FOMO's philosophy:
+FOMO never distributes or redeems Flash Drops. It simply helps users discover them and get there before they end.
+
+FOMO — Flash Drops System  ⚡
+Vision
+Flash Drops are real-world, limited-time opportunities that create urgency, movement, and social excitement across the city.
+Their purpose is to make users feel:
+"Something amazing is happening nearby right now—I need to get there before I miss it."
+Flash Drops are not digital coupons or in-app rewards. They are real-world experiences hosted by venues, creators, event organizers, and brands.
+
+Core Principles
+Every Flash Drop must be:
+Time-limited
+Location-based
+High urgency
+Authentic
+Easy to discover
+Designed to move people into the real world
+FOMO never manages redemption.
+
+FOMO's Responsibility
+FOMO is responsible for:
+Discovering Flash Drops
+Showing relevant nearby Drops
+Explaining the offer
+Showing remaining time
+Showing the venue or organizer
+Showing distance
+Helping users preview the destination
+Providing navigation
+FOMO is NOT responsible for:
+Claims
+Vouchers
+Redemption
+QR scanning
+Digital rewards
+Reward verification
+Everything after arrival is handled by the venue or organizer.
+
+Flash Drop Categories
+🍾 Venue Drops
+Created by bars, clubs, lounges and nightlife venues.
+Examples:
+Free cocktail
+Free entry before 11PM
+VIP upgrade
+Bottle specials
+Ladies Night rewards
+Birthday perks
+
+🎵 Event Drops
+Created for events.
+Examples:
+Last-minute tickets
+Backstage access
+Surprise guest appearance
+Free merchandise
+VIP lounge access
+
+🎤 Creator Drops
+Created by verified creators.
+Examples:
+Rooftop meetup
+Dance challenge
+Content shoot
+Meet & greet
+Afterparty invitation
+
+🛍 Brand Drops
+Sponsored campaigns.
+Examples:
+Product giveaways
+Sampling
+Pop-up experiences
+Treasure hunts
+
+👀 Mystery Drops
+Reveal only partial information until activation.
+Examples:
+Secret DJ
+Hidden rooftop
+Surprise location
+Mystery reward
+
+Flash Drop Lifecycle
+Venue / Creator publishes Flash Drop
+
+↓
+
+AI moderation
+
+↓
+
+Scheduled
+
+↓
+
+Armed
+
+↓
+
+Live
+
+↓
+
+Users discover nearby
+
+↓
+
+Users preview destination
+
+↓
+
+Users navigate
+
+↓
+
+Users arrive
+
+↓
+
+Venue provides reward
+
+↓
+
+Flash Drop expires
+
+Flash Drop States
+
+Discover Screen
+Flash Drops appear near the top of Discover during peak hours.
+━━━━━━━━━━━━━━━━━━━━
+
+⚡ FLASH DROPS
+
+[ Horizontal Cards ]
+
+━━━━━━━━━━━━━━━━━━━━
+Priority increases:
+Evenings
+Weekends
+Holidays
+Festivals
+Concert nights
+
+Flash Drop Screen
+Tapping a Flash Drop opens a premium full-screen experience.
+Hero
+Large cinematic image or looping video.
+Examples:
+Venue interior
+DJ performance
+Crowd
+Cocktail
+Rooftop view
+
+Flash Drop Information
+Display:
+Title
+Description
+Venue name
+Venue verification badge
+Distance
+Remaining time
+Category
+Reward summary
+Example:
+⚡ FREE COCKTAIL
+
+LIV Sandton
+
+✓ Verified Venue
+
+250m away
+
+Ends in 18 minutes
+
+First 50 guests receive one complimentary cocktail.
+
+Smart Urgency Layer
+Dynamic labels include:
+⚡ Just Dropped
+🔥 Trending
+⏳ Ends Soon
+🚨 Final Minutes
+🌙 Tonight Only
+🎉 Limited Availability
+
+Action Buttons
+The available actions depend on the Flash Drop type.
+Nightlife Venue
+[ Club Lobby ]   [ Route ]
+Club Lobby
+Allows users to preview the venue before leaving.
+Shows:
+Live Moments
+Crowd Pulse
+Music genre
+Events tonight
+Opening hours
+Reviews
+Venue photos
+Friends currently there (if shared)
+Venue information
+
+Route
+Opens FOMO's route preview.
+Displays:
+ETA
+Walking time
+Driving time
+Distance
+Users can then continue using FOMO routing or open Google Maps, Apple Maps, or Waze.
+
+Event Flash Drop
+[ Event ]   [ Route ]
+
+Creator Flash Drop
+[ Creator ]   [ Route ]
+
+Brand Flash Drop
+[ Details ]   [ Route ]
+
+Map Integration
+Flash Drops appear on the Map as animated lightning markers.
+Marker states:
+Charging
+Live
+Trending
+Ending Soon
+Selecting a marker opens a compact preview card with Route and contextual actions.
+
+Smart Distribution Engine
+Flash Drops are personalized based on:
+Distance
+Current city
+Time of day
+Favourite venues
+Favourite music genres
+Previous attendance
+Friends' activity (where shared)
+User interests
+This ensures users only receive relevant opportunities.
+
+Notifications
+Examples:
+⚡ A Flash Drop just appeared 300 m away.
+🍾 Free entry ends in 20 minutes at LIV Sandton.
+🎵 A surprise DJ set just started nearby.
+🔥 Tonight's hottest venue has released a Flash Drop.
+Notifications are personalized and rate-limited to prevent spam.
+
+Anti-Spam & Quality Control
+To maintain quality:
+Venue verification required for nightlife promotions.
+AI moderation checks content before publishing.
+Cooldown periods prevent excessive posting.
+Trust scores influence visibility.
+Users can report misleading or expired promotions.
+Repeat offenders face reduced reach or suspension.
+
+Creator Studio
+Eligible creators include:
+Nightclub owners
+Venue managers
+Event organizers
+DJs
+Music artists
+They can:
+Create Flash Drops.
+Schedule activation times.
+Upload hero media.
+Target specific cities or venues.
+View performance analytics.
+Pause or cancel active Drops.
+
+Venue Analytics
+Venue owners can measure impact through:
+Impressions
+Opens
+Shares
+Saves
+Route starts
+Estimated foot traffic
+Peak viewing times
+Campaign performance
+Analytics focus on discovery and engagement rather than redemption.
+
+Safety
+Safety measures include:
+Verified venues and organizers.
+Community reporting.
+Content moderation.
+Location validation.
+Integration with NightGuard features for safer travel.
+Emergency contact access from venue pages.
+
+Design Philosophy
+Flash Drops should feel cinematic, premium, and effortless.
+The experience emphasizes:
+Full-screen visuals.
+Large countdown timers.
+Minimal text.
+Strong typography.
+Glassmorphism overlays.
+Smooth motion and haptic feedback.
+Clear, uncluttered actions.
+The interface should encourage users to make one decision:
+"This looks worth it. Let's go."
+
+User Journey
+Discover
+
+↓
+
+See Flash Drop
+
+↓
+
+Open Flash Drop
+
+↓
+
+Preview Club Lobby / Event / Creator
+
+↓
+
+Route
+
+↓
+
+Arrive at destination
+
+↓
+
+Venue provides reward
+
+↓
+
+Capture Moments
+
+↓
+
+Share to Feed
+
+↓
+
+Inspire others to join
+Success Metric
+A successful Flash Drop is not measured by in-app claims. It is measured by how effectively FOMO inspires people to leave their current location and experience the city's nightlife in real time.
+This keeps Flash Drops aligned with FOMO's mission: discover what's happening now, preview the experience, and get there before you miss it.
+
+
+=== TABLE ===
+State	Description
+Scheduled	Planned but not visible
+Armed	Preparing to go live
+Live	Fully visible
+Trending	High engagement
+Ending Soon	High urgency
+Expired	Removed from discovery
+=== END TABLE ===

@@ -1,0 +1,2191 @@
+# FOMO Offline Map Engine
+
+## Full Production Specification v5.2
+
+**Foundation:** Organic Maps native C++ map engine + OpenStreetMap data
+**FOMO role:** Venue intelligence, offline venue discovery, social map layers, events, realtime overlays, AI discovery and FOMO-specific map experience
+**Platforms:** Android + iOS
+**Architecture:** Kotlin Multiplatform shared logic + native Organic Maps engine bindings
+**Organic Maps repository:** `D:\Android-fomo-main\engine`
+
+This version consolidates the uploaded **FOMO Offline Map Engine**, the updated **FOMO Map Engine v5.1**, and the **MAP_AGENT_LOOP** architecture. The uploaded documents establish Organic Maps as the core offline mapping engine and FOMO as the layer above it.  
+
+---
+
+# 1. Mission
+
+The FOMO Offline Map Engine is an **offline-first, venue-first map platform** built on Organic Maps and OpenStreetMap.
+
+Its purpose is not to replace a generic navigation application.
+
+Its purpose is:
+
+> **Help users discover venues, decide where to go, plan their night and navigate there, whether they are online or offline.**
+
+The map must remain useful without:
+
+* mobile data
+* Wi-Fi
+* Supabase
+* realtime services
+* FOMO Live
+* AI services
+
+When connectivity returns, the map progressively reconnects to FOMO's social and realtime ecosystem.
+
+The original Offline Map Engine establishes this offline-first principle explicitly. 
+
+---
+
+# 2. Core Architecture
+
+```text
+                    OPENSTREETMAP
+                         │
+                         ▼
+              ORGANIC MAPS C++ ENGINE
+                         │
+              ┌──────────┴──────────┐
+              │                     │
+       Map Rendering           Navigation
+       Offline Maps            Routing
+       Offline Search          GPS
+       Gestures                Downloads
+              │                     │
+              └──────────┬──────────┘
+                         ▼
+                FOMO MAP ENGINE
+                         │
+       ┌─────────────────┼─────────────────┐
+       ▼                 ▼                 ▼
+ FOMO VENUES         FOMO EVENTS       FOMO REALTIME
+       │                 │                 │
+       └─────────────────┼─────────────────┘
+                         ▼
+                FOMO SOCIAL LAYER
+                         │
+                         ▼
+                FOMO AI DISCOVERY
+                         │
+                         ▼
+                   FOMO MAP UI
+```
+
+The uploaded architecture explicitly defines:
+
+**OSM → Organic Maps → FOMO Offline Map Engine → FOMO Social Layer → AI Discovery Layer → FOMO Live Engine.** 
+
+---
+
+# 3. Ownership Boundary
+
+This boundary is critical.
+
+## Organic Maps owns
+
+```text
+Map rendering
+Vector map data
+Offline map regions
+Routing
+Turn-by-turn navigation
+Offline search
+GPS integration
+Compass
+Camera movement
+Zoom
+Rotation
+Gestures
+Map downloads
+Map performance
+```
+
+## FOMO owns
+
+```text
+FOMO Venue IDs
+Venue intelligence
+Country Packs
+Venue categories
+Venue filtering
+Venue discovery
+FOMO Score
+Venue pins
+Nearest Venue Card
+Nearby Venue Carousel
+Events
+Flash Drops
+Friends
+Plans
+Creators
+Channels
+Heatmaps
+AI recommendations
+Realtime social activity
+FOMO branding
+FOMO UI
+```
+
+The migration specification explicitly says not to recreate Organic Maps functionality, but to reuse it and build FOMO functionality above it. 
+
+---
+
+# 4. Authoritative Venue Architecture
+
+The Offline Map Engine **does not become the source of truth for venues**.
+
+The hierarchy is:
+
+```text
+GLOBAL VENUE INTELLIGENCE
+          │
+          ▼
+CANONICAL VENUE STORE
+     SOURCE OF TRUTH
+          │
+          ▼
+GLOBAL VENUE PACK CREATION
+          │
+          ▼
+COUNTRY PACKS
+          │
+          ▼
+DEVICE LOCAL VENUE STORE
+          │
+          ▼
+FOMO MAP ENGINE
+```
+
+Country Packs are distribution snapshots.
+
+The device is a replica.
+
+Organic Maps' internal POI database is not the FOMO venue database.
+
+The Country Pack architecture explicitly establishes this separation. 
+
+---
+
+# 5. FOMO Venue Identity
+
+Every permanent venue uses:
+
+```text
+FOMO Venue ID
+```
+
+Example:
+
+```text
+FMO-ZA-GP-JHB-00000127
+```
+
+The identifier:
+
+> **Never changes.**
+
+Provider IDs such as:
+
+```text
+OSM ID
+Google Place ID
+Foursquare ID
+```
+
+remain reference fields only.
+
+The local map engine must always use:
+
+```text
+fomoVenueId
+```
+
+as the permanent venue reference.
+
+---
+
+# 6. Local Venue Database
+
+The FOMO device maintains a local replica of installed venue data.
+
+Example:
+
+```text
+/local/fomo/
+    venues/
+        south_africa_core.db
+        south_africa_nightlife.db
+        south_africa_food.db
+        south_africa_prep.db
+        south_africa_wellness.db
+        south_africa_travel.db
+```
+
+The local databases support:
+
+```text
+Offline search
+Spatial queries
+Category filtering
+Venue pins
+Nearest venue
+Nearby carousel
+Venue details
+Saved venues
+Offline planning
+```
+
+They must remain usable without Supabase.
+
+The installation strategy explicitly requires installed venue packs to remain queryable offline. 
+
+---
+
+# 7. Organic Maps Data
+
+Organic Maps provides the geographic world.
+
+Its offline map data includes:
+
+```text
+Roads
+Buildings
+Rivers
+Lakes
+Parks
+Forests
+Coastlines
+Walking paths
+Cycling paths
+Landmarks
+Geographic features
+```
+
+The uploaded Offline Map Engine defines these as part of the downloaded offline package. 
+
+---
+
+# 8. Offline Region Architecture
+
+FOMO should not require users to download an entire country.
+
+Instead:
+
+```text
+Country
+   ↓
+Province / State
+   ↓
+Region
+   ↓
+Local map package
+```
+
+Example:
+
+```text
+South Africa
+
+✓ Mpumalanga
+✓ Gauteng
+
+⬇ Limpopo
+⬇ North West
+⬇ Free State
+⬇ KwaZulu-Natal
+⬇ Western Cape
+⬇ Eastern Cape
+⬇ Northern Cape
+```
+
+The uploaded specification explicitly uses province/state/region downloads rather than requiring an entire country. 
+
+---
+
+# 9. Smart Region Detection
+
+FOMO detects:
+
+```text
+Country
+Province
+State
+Region
+```
+
+using the device's location context.
+
+The system suggests:
+
+> **Download your Offline Map**
+
+Example:
+
+```text
+📍 South Africa
+
+Mpumalanga
+
+Download your Offline Map?
+
+39 MB
+
+✓ Roads
+✓ Navigation
+✓ Buildings
+✓ Places
+✓ FOMO Venues
+
+[ Download ]
+```
+
+Users can:
+
+```text
+Download
+Skip
+Select another region
+```
+
+This is the defined first-launch flow in the source specification. 
+
+---
+
+# 10. First Launch
+
+```text
+FOMO installed
+      ↓
+Location permission
+      ↓
+Detect region
+      ↓
+Check available map pack
+      ↓
+Show download recommendation
+      ↓
+User chooses
+      ├── Download
+      ├── Skip
+      └── Select Region
+```
+
+Skipping must **not** prevent the application from launching.
+
+The map can operate online without the local region package.
+
+---
+
+# 11. Offline Package Composition
+
+A region installation consists of two major components:
+
+```text
+REGION
+│
+├── ORGANIC MAP DATA
+│
+└── FOMO VENUE PACKS
+```
+
+Conceptually:
+
+```text
+Mpumalanga
+│
+├── Organic Maps geographic package
+│
+├── Core venue database
+├── Nightlife database
+├── Food database
+├── Prep database
+├── Wellness database
+└── Travel database
+```
+
+Not every category needs to be installed immediately.
+
+---
+
+# 12. Core + Nightlife Priority
+
+Initial FOMO installation prioritizes:
+
+```text
+CORE
++
+NIGHTLIFE
+```
+
+Then:
+
+```text
+FOOD
+PREP
+WELLNESS
+TRAVEL
+```
+
+progressively install.
+
+This matches the Country Pack installation architecture. 
+
+---
+
+# 13. Installed Pack States
+
+Every pack has a lifecycle:
+
+```text
+NOT_INSTALLED
+      ↓
+QUEUED
+      ↓
+DOWNLOADING
+      ↓
+VERIFYING
+      ↓
+INSTALLING
+      ↓
+INDEXING
+      ↓
+ACTIVE
+```
+
+Failure states:
+
+```text
+DOWNLOAD_FAILED
+VERIFY_FAILED
+INSTALL_FAILED
+INDEX_FAILED
+```
+
+A failed update must never destroy the currently active version.
+
+---
+
+# 14. FOMO Offline Maps Manager
+
+The settings interface should expose:
+
+```text
+Offline Maps
+
+Storage Used
+101 MB
+
+Downloaded
+✓ Mpumalanga
+✓ Gauteng
+
+Available
+↓ Limpopo
+↓ North West
+↓ Free State
+↓ KwaZulu-Natal
+↓ Western Cape
+↓ Eastern Cape
+↓ Northern Cape
+```
+
+Settings:
+
+```text
+Auto Download Nearby Regions
+Wi-Fi Only
+Delete Maps
+Check for Updates
+```
+
+This structure is directly represented in the uploaded Offline Map Engine specification. 
+
+---
+
+# 15. Offline Capability Matrix
+
+Without internet:
+
+### Map
+
+```text
+✓ Browse
+✓ Pan
+✓ Zoom
+✓ Rotate
+✓ GPS position
+✓ Compass
+```
+
+### Search
+
+```text
+✓ Streets
+✓ Cities
+✓ Suburbs
+✓ Downloaded POIs
+✓ FOMO venues
+```
+
+### Navigation
+
+```text
+✓ Driving
+✓ Walking
+✓ Cycling
+✓ Turn-by-turn
+✓ Route recalculation
+✓ Distance
+✓ ETA
+```
+
+### FOMO
+
+```text
+✓ Venue discovery
+✓ Saved venues
+✓ Bookmarks
+✓ Cached venue details
+✓ Offline planning
+```
+
+The source document explicitly lists browsing, navigation, GPS, offline search, saved venues, planning and cached venue information as offline capabilities. 
+
+---
+
+# 16. Offline Search
+
+FOMO search combines two search domains:
+
+```text
+ORGANIC MAPS SEARCH
+        +
+FOMO VENUE SEARCH
+```
+
+Example:
+
+```text
+"clubs near Sandton"
+```
+
+Results can contain:
+
+```text
+FOMO venues
+Organic Maps POIs
+Streets
+Landmarks
+Other geographic entities
+```
+
+The FOMO search engine should present one unified result experience.
+
+---
+
+# 17. Venue Search Priority
+
+When searching for a venue:
+
+```text
+FOMO Venue
+   ↓
+Permanent FOMO Venue ID
+   ↓
+Installed local venue record
+```
+
+If online:
+
+```text
+Local result
+   +
+server freshness
+```
+
+If offline:
+
+```text
+Local result only
+```
+
+Offline operation must never require a Supabase request.
+
+---
+
+# 18. FOMO Venue Layer
+
+The venue layer is the primary FOMO map layer.
+
+It renders:
+
+```text
+Clubs
+Bars
+Lounges
+Restaurants
+Cafés
+Hotels
+Wellness
+Prep
+Shopping
+Attractions
+Entertainment
+Temporary venues
+```
+
+The Map Engine v5.1 establishes the venue-first philosophy and one permanent venue-pin type. 
+
+---
+
+# 19. Venue Pin Design
+
+Every venue uses the same fundamental pin system.
+
+```text
+       ╭────────╮
+       │ PHOTO  │ 🔥92%
+       ╰────┬───╯
+            ▼
+        The Vault
+          0.1 km
+```
+
+The approved design uses:
+
+* circular venue photo
+* colored ring
+* teardrop pointer
+* venue name
+* distance
+* FOMO Score badge
+
+The specification explicitly corrected the earlier glyph-style pin design to this circular photo/avatar-style design. 
+
+---
+
+# 20. Venue Pin States
+
+Normal:
+
+```text
+PHOTO
++
+FOMO SCORE
+```
+
+Live:
+
+```text
+PHOTO
++
+LIVE
+```
+
+A live broadcast replaces the FOMO Score badge.
+
+The map specification explicitly states that a pin shows either its score or LIVE, never both. 
+
+---
+
+# 21. FOMO Score
+
+There are two different scores.
+
+## Personal FOMO Score
+
+Belongs to the user.
+
+Displayed in the top bar:
+
+```text
+🔥 92%
+```
+
+## Venue FOMO Score
+
+Belongs to the venue.
+
+Displayed on:
+
+```text
+Venue pins
+Nearest Venue Card
+Nearby Venue Carousel
+Venue cards
+```
+
+They must never share the same field.
+
+Use:
+
+```text
+userFomoScore
+venueFomoScore
+```
+
+The v5.1 specification explicitly corrected this distinction. 
+
+---
+
+# 22. Map Layers
+
+The FOMO Map Engine supports:
+
+```text
+Venue
+Friends
+Events
+Flash Drops
+Creators
+Live Moments
+Plans
+AI Recommendations
+Heatmap
+Channels
+```
+
+The shared KMP architecture defines these as the principal FOMO layers. 
+
+---
+
+# 23. Layer Manager
+
+```kotlin
+enum class FomoLayerType {
+    VENUES,
+    FRIENDS,
+    EVENTS,
+    FLASH_DROPS,
+    CREATORS,
+    LIVE_MOMENTS,
+    PLANS,
+    AI_RECOMMENDATIONS,
+    HEATMAP,
+    CHANNELS
+}
+```
+
+The Layer Manager controls:
+
+```text
+enable
+disable
+refresh
+visibility
+priority
+```
+
+---
+
+# 24. Friend Layer
+
+The Friend Layer must **not** create a second location-sharing engine.
+
+It consumes:
+
+```text
+Night Guard Presence Engine
+Buddy Pair Live Presence Engine
+```
+
+Friend pins appear when:
+
+```text
+Friend Layer enabled
+OR
+Active Night Guard session
+```
+
+When Night Guard ends:
+
+```text
+friend pins disappear
+```
+
+This reuse requirement is explicitly defined in the map specification. 
+
+---
+
+# 25. Events
+
+Events are temporary overlays.
+
+```text
+Event
+   ↓
+Event ID
+   ↓
+Venue ID
+```
+
+If an event occurs at:
+
+```text
+FMO-ZA-GP-JHB-00000127
+```
+
+the event references that venue.
+
+It does not create another permanent venue.
+
+---
+
+# 26. Flash Drops
+
+Flash Drops are dynamic FOMO activity.
+
+They may appear:
+
+```text
+On venue cards
+On venue overlays
+In map context
+In discovery
+```
+
+They should not create a new permanent venue identity.
+
+---
+
+# 27. Live Moments
+
+Live content can be attached to a venue.
+
+When a venue is broadcasting:
+
+```text
+Venue Pin
+     ↓
+LIVE badge
+```
+
+The Live Engine overlays:
+
+```text
+Live broadcasts
+Live Moments
+Reactions
+Comments
+Creator streams
+Venue activity
+Crowd levels
+Event status
+```
+
+The source specification defines these as online overlays above the offline map. 
+
+---
+
+# 28. Channels
+
+Channels can surface:
+
+```text
+Venue communities
+Nightlife communities
+Events
+Local groups
+Creator communities
+```
+
+They remain a social layer.
+
+The map itself remains functional if channels are unavailable.
+
+---
+
+# 29. AI Discovery Layer
+
+AI enhances the map without becoming a dependency for core map functionality.
+
+Potential functions:
+
+```text
+Personalized venue recommendations
+Nightlife hotspot prediction
+Safe route suggestions
+Parking recommendations
+Intelligent search
+Trip planning
+Crowd prediction
+Venue similarity
+Personalized nightlife itineraries
+```
+
+The source specification defines these as the intended AI discovery layer. 
+
+---
+
+# 30. Offline AI
+
+Future offline AI may operate using:
+
+```text
+Cached venues
+Cached user preferences
+Cached plans
+Cached regional data
+```
+
+But:
+
+> **Offline AI is optional. Offline maps are mandatory.**
+
+AI failure must never disable:
+
+```text
+Map
+GPS
+Search
+Routing
+Venue browsing
+```
+
+---
+
+# 31. Online Synchronization
+
+When online:
+
+```text
+Supabase
+   ↓
+MapRepository
+   ↓
+FomoMapLayerSyncer
+   ↓
+Layer Manager
+   ↓
+FOMO Maps
+```
+
+The synchronization pipeline is shared KMP logic.
+
+The native Organic Maps engine does not directly perform FOMO networking.
+
+---
+
+# 32. Realtime Data
+
+Realtime can include:
+
+```text
+Venue updates
+Events
+Flash Drops
+Creator broadcasts
+Venue check-ins
+Crowd activity
+Friend presence
+Live moments
+```
+
+The v5.1 map architecture specifies Supabase Realtime WebSockets for these online updates. 
+
+---
+
+# 33. Offline → Online Transition
+
+When connectivity disappears:
+
+```text
+ONLINE
+  ↓
+NETWORK LOST
+  ↓
+LOCAL MODE
+```
+
+The map continues.
+
+When connectivity returns:
+
+```text
+LOCAL MODE
+  ↓
+NETWORK RESTORED
+  ↓
+AUTHENTICATE
+  ↓
+SYNC CHANGES
+  ↓
+UPDATE LOCAL CACHE
+  ↓
+REALTIME RESUME
+```
+
+The user should not need to restart the map.
+
+---
+
+# 34. Smart Background Updates
+
+FOMO should not unnecessarily redownload entire regions.
+
+Updates should be incremental where supported:
+
+```text
+OSM map changes
++
+New venues
++
+Venue edits
++
+Event updates
++
+Cached media
++
+Navigation updates
+```
+
+The uploaded Offline Map Engine specifically calls for smart background updates rather than repeatedly downloading whole provinces. 
+
+---
+
+# 35. Map Screen
+
+The approved map architecture is:
+
+```text
+┌────────────────────────────────────────────┐
+│ Status Bar                                 │
+├────────────────────────────────────────────┤
+│ Floating Top Bar                           │
+├────────────────────────────────────────────┤
+│ Country Pack Chips                         │
+├────────────────────────────────────────────┤
+│ Enhanced Nearest Venue Card                │
+├────────────────────────────────────────────┤
+│                                            │
+│          ORGANIC MAPS SURFACE              │
+│                                            │
+│                              + Add Location│
+│                              Layers        │
+│                              Night Guard   │
+│                              Recenter      │
+│                                            │
+├────────────────────────────────────────────┤
+│ Route Active Banner                        │
+├────────────────────────────────────────────┤
+│ Venue Preview / Friend Details             │
+├────────────────────────────────────────────┤
+│ Nearby Venue Carousel                      │
+└────────────────────────────────────────────┘
+```
+
+The approved v5.1 structure defines this layout. 
+
+---
+
+# 36. Floating Top Bar
+
+```text
+[Avatar]   FOMO Score          🔍  🔔•  💬•
+           🔥 92%          >
+```
+
+Functions:
+
+```text
+Avatar → Profile
+FOMO Score → Score breakdown
+Search → Global map/search
+Bell → Notifications
+Chat → Chats
+```
+
+The top bar's score is explicitly the user's personal FOMO Score. 
+
+---
+
+# 37. Country Pack Chips
+
+Dynamic chips:
+
+```text
+All
+🌙 Nightlife
+🍔 Food
+✨ Prep
+☕ Wellness
+✈ Travel
+🎫 Events
+```
+
+Changing the chip immediately updates:
+
+```text
+Venue pins
+Nearest Venue Card
+Nearby Carousel
+```
+
+without reloading the map.
+
+---
+
+# 38. Enhanced Nearest Venue Card
+
+The primary card contains:
+
+```text
+HOT TONIGHT
+FOMO Score
+
+NEAREST VENUE
+Venue Name ✓
+Category
+
+Address
+Distance
+Walk time
+
+Open status
+Closing time
+Weekly hours
+
+Rating
+Review count
+View Reviews
+
+Amenities / vibe tags
+
+Primary action
+Route
+```
+
+The approved specification explicitly defines the distance/walk-time combination, expandable hours, review link and vibe/amenity chips. 
+
+---
+
+# 39. Adaptive Venue Action
+
+Primary action changes by category.
+
+| Category  | Primary action |
+| --------- | -------------- |
+| Nightlife | Club Lobby     |
+| Events    | Event Lobby    |
+| Food      | Website        |
+| Prep      | Website        |
+| Wellness  | Website        |
+| Travel    | Reserve        |
+
+Second action:
+
+```text
+Route
+```
+
+This reuses the existing Venue Web Experience Engine where appropriate rather than creating duplicate implementations. 
+
+---
+
+# 40. Nearby Venue Carousel
+
+Example:
+
+```text
+Nightlife Nearby                     See All
+
+┌──────────────────────────┐
+│        HERO IMAGE     🔥92%│
+│                            │
+│ The Vault ✓                │
+│ Techno Club                │
+│ ★ 4.7 (2.4K)               │
+│ 0.1 km · Open Now           │
+│                            │
+│ [ 👥 Lobby ] [ ↗ Route ]   │
+└──────────────────────────┘
+```
+
+The approved specification requires the FOMO Score, abbreviated reviews, status/distance line and Lobby/Route actions. 
+
+---
+
+# 41. Venue Preview Overlay
+
+Venue tap:
+
+```text
+[Hero Image]
+
+Venue Name ✓
+🌙 Nightlife · 🟢 Open until 3:00 AM
+
+★ 4.6 (312)
+1.8 km · 6 min walk
+
+[ Club Lobby ]
+[ Route ]
+[ Plan ]
+[ Share ]
+```
+
+The map specification defines this as the venue-tap overlay. 
+
+---
+
+# 42. Friend Details
+
+Friend details are only available during appropriate active presence sharing.
+
+Example:
+
+```text
+[Avatar] Friend
+
+🟢 Walking
+340 m away
+Battery 61%
+```
+
+The system should reuse Night Guard's existing presence/card system rather than creating a parallel map-specific friend-location architecture. 
+
+---
+
+# 43. Map Controls
+
+Floating controls:
+
+```text
++ Add Location
+Layers
+Night Guard
+Recenter
+```
+
+These controls sit above the Organic Maps native rendering surface.
+
+---
+
+# 44. Camera Controller
+
+FOMO exposes a shared camera interface.
+
+```kotlin
+interface FomoCameraController {
+
+    fun moveCamera()
+    fun focusVenue()
+    fun focusFriend()
+    fun fitBounds()
+    fun restorePosition()
+    fun animateTo()
+}
+```
+
+Actual rendering/camera calls are platform-specific.
+
+Shared FOMO logic remains platform-independent.
+
+---
+
+# 45. Routing
+
+Organic Maps remains responsible for the actual navigation engine.
+
+FOMO extends it with:
+
+```text
+Route to venue
+Route to event
+Route to meeting point
+Multi-stop nightlife plans
+Walking-first routing
+Active route banner
+```
+
+The map specification explicitly requires one shared routing implementation rather than separate routing systems for Map, Venue Web and Night Guard. 
+
+---
+
+# 46. Walking-First FOMO Routing
+
+For nightlife:
+
+```text
+Venue
+ ↓
+Walking route preferred
+ ↓
+Distance
+ ↓
+Walk time
+ ↓
+Route
+```
+
+When walking isn't practical, alternative transport modes can be used.
+
+---
+
+# 47. Navigation Banner
+
+During navigation:
+
+```text
+┌─────────────────────────────────────┐
+│ ← 2 min                             │
+│ Walk 180 m                          │
+│ Head toward Main Street             │
+└─────────────────────────────────────┘
+```
+
+The exact visual treatment follows the approved Map Engine UI specification.
+
+---
+
+# 48. KMP Architecture
+
+The map feature uses:
+
+```text
+feature/maps/
+```
+
+with:
+
+```text
+commonMain
+androidMain
+iosMain
+```
+
+The uploaded migration architecture explicitly requires Android and iOS to share the same KMP logic while the native engine binding remains platform-specific. 
+
+---
+
+# 49. Shared KMP Structure
+
+```text
+feature/maps/
+│
+├── src/commonMain/
+│   └── kotlin/com/fomo/maps/
+│       ├── api/
+│       │   └── FomoMaps.kt
+│       │
+│       ├── layers/
+│       │   ├── FomoLayerType.kt
+│       │   ├── FomoLayerManager.kt
+│       │   ├── VenueLayer.kt
+│       │   ├── FriendLayer.kt
+│       │   ├── EventLayer.kt
+│       │   └── FlashDropLayer.kt
+│       │
+│       ├── markers/
+│       │   └── FomoMarkerProvider.kt
+│       │
+│       ├── camera/
+│       │   └── FomoCameraController.kt
+│       │
+│       ├── routing/
+│       │   └── FomoRoutingController.kt
+│       │
+│       ├── search/
+│       │   └── FomoSearchEngine.kt
+│       │
+│       ├── offline/
+│       │   └── FomoOfflineMapsManager.kt
+│       │
+│       ├── sync/
+│       │   └── FomoMapLayerSyncer.kt
+│       │
+│       └── state/
+│           └── FomoMapsState.kt
+```
+
+---
+
+# 50. Android Architecture
+
+```text
+androidMain/
+│
+├── engine/
+│   ├── OrganicMapsBridge.kt
+│   └── OrganicMapsEngineAndroid.kt
+│
+├── ui/
+│   ├── OrganicMapCanvas.kt
+│   ├── MapScreen.kt
+│   ├── LayerControlOverlay.kt
+│   └── RouteActiveBanner.kt
+│
+└── viewmodel/
+    └── FomoMapsViewModel.kt
+```
+
+The Android side uses the native Organic Maps engine through JNI and a native rendering surface. 
+
+---
+
+# 51. iOS Architecture
+
+```text
+iosMain/
+│
+├── engine/
+│   └── OrganicMapsEngineIOS.kt
+│
+└── ui/
+    └── SwiftUI Map Experience
+```
+
+The iOS engine binding uses an Objective-C++ bridge/cinterop path to the same native C++ Drape core used by Organic Maps' iOS application. 
+
+---
+
+# 52. FomoMaps Facade
+
+No application feature should directly import Organic Maps types.
+
+The public boundary is:
+
+```kotlin
+interface FomoMaps {
+
+    fun moveCamera()
+
+    fun focusVenue()
+
+    fun focusFriend()
+
+    fun navigateToVenue()
+
+    fun navigateToEvent()
+
+    fun search()
+
+    fun downloadRegion()
+
+    fun showVenue()
+
+    fun enableLayer()
+
+    fun disableLayer()
+}
+```
+
+The migration specification makes this facade the boundary between FOMO and Organic Maps. 
+
+---
+
+# 53. Marker Provider
+
+```kotlin
+interface FomoMarkerProvider {
+
+    fun venueMarkers()
+
+    fun friendMarkers()
+
+    fun flashDropMarkers()
+
+    fun creatorMarkers()
+
+    fun eventMarkers()
+
+    fun planMarkers()
+}
+```
+
+FOMO decides which markers exist.
+
+Organic Maps renders them.
+
+This prevents the UI/business layer from becoming coupled to the native map engine. 
+
+---
+
+# 54. Native Engine Rule
+
+Only this layer knows Organic Maps implementation details:
+
+```text
+FomoMaps
+   ↓
+Platform Engine Adapter
+   ↓
+Organic Maps C++
+```
+
+Nothing else should directly depend on:
+
+```text
+JNI
+Drape
+Organic Maps C++ classes
+Organic Maps native marker types
+Organic Maps native camera objects
+```
+
+---
+
+# 55. Repository Integration
+
+The Organic Maps source is located at:
+
+```text
+D:\Android-fomo-main\engine
+```
+
+The implementation agent must inspect the actual repository before making integration decisions.
+
+Do not assume:
+
+```text
+API names
+C++ classes
+JNI signatures
+Drape interfaces
+iOS bridge structure
+download APIs
+routing APIs
+```
+
+The MAP_AGENT_LOOP explicitly requires studying the actual upstream source rather than guessing. 
+
+---
+
+# 56. Upstream Preservation
+
+The objective is:
+
+> **Migrate Organic Maps into FOMO, then evolve it into FOMO Maps.**
+
+Not:
+
+> Rewrite a mapping engine from scratch.
+
+Do not recreate:
+
+```text
+Rendering
+Routing
+Navigation
+Offline maps
+Offline search
+GPS
+Compass
+Gestures
+Downloads
+Performance optimizations
+```
+
+Reuse the mature upstream systems. 
+
+---
+
+# 57. Upstream Change Policy
+
+If Organic Maps source must be modified:
+
+```text
+UPSTREAM_CHANGES.md
+```
+
+must document:
+
+```text
+File
+Change
+Reason
+FOMO dependency
+Upstream impact
+Merge risk
+```
+
+Changes should be:
+
+```text
+Minimal
+Isolated
+Documented
+Reversible
+Upstream-compatible
+```
+
+---
+
+# 58. License Compliance
+
+The map must expose OpenStreetMap attribution.
+
+Example:
+
+```text
+© OpenStreetMap contributors
+```
+
+It must be reachable from the map experience and not buried so deeply that users cannot reasonably find it.
+
+Organic Maps licensing/copyright notices must also be included in the application's open-source notices.
+
+The uploaded migration specification explicitly identifies both OSM ODbL attribution and Organic Maps Apache 2.0 notice requirements. 
+
+---
+
+# 59. Security
+
+Offline pack downloads require:
+
+```text
+Checksum validation
+Version validation
+Corruption detection
+Atomic activation
+Resume support
+```
+
+Online synchronization requires:
+
+```text
+HTTPS
+WebSockets
+Supabase authentication
+JWT validation
+```
+
+The map specification also requires privacy controls around friend location data. 
+
+---
+
+# 60. Friend Privacy
+
+Friend locations are never simply globally visible.
+
+They require appropriate permission/session state.
+
+Especially:
+
+```text
+Night Guard
+Buddy Pair
+Walk Me Home
+Safety Check
+Shared Meeting Point
+Emergency Location Sharing
+```
+
+When the sharing session ends:
+
+```text
+Friend Map Presence
+        ↓
+REMOVE
+```
+
+---
+
+# 61. User-Submitted Places
+
+FOMO may allow users to submit venues.
+
+However:
+
+```text
+USER SUBMISSION
+      ↓
+venue_submissions
+      ↓
+Pending
+      ↓
+Automated validation
+      ↓
+Moderation
+      ↓
+Approved
+      ↓
+Canonical Venue Store
+      ↓
+Country Pack
+```
+
+It must not immediately become a permanent production venue.
+
+The Map Engine v5.1 explicitly added this moderation flow. 
+
+---
+
+# 62. Overpass
+
+The client must **not** directly hammer a public Overpass endpoint.
+
+If Overpass is needed:
+
+```text
+FOMO Client
+    ↓
+FOMO Edge Function
+    ↓
+Cache
+    ↓
+Self-hosted / permitted Overpass provider
+```
+
+The v5.1 specification specifically resolves this production concern by routing Overpass through a cached server-side function. 
+
+---
+
+# 63. Storage Architecture
+
+Conceptually:
+
+```text
+DEVICE
+│
+├── Organic Maps
+│   └── .mwm regional data
+│
+├── FOMO Venue Packs
+│   ├── Core
+│   ├── Nightlife
+│   ├── Food
+│   ├── Prep
+│   ├── Wellness
+│   └── Travel
+│
+├── FOMO Local Indexes
+│
+├── Saved Places
+│
+├── Cached Events
+│
+└── Cached Media References
+```
+
+Large media assets should remain outside the venue databases.
+
+---
+
+# 64. Pack Update Architecture
+
+```text
+GLOBAL CANONICAL DATA
+       ↓
+PACK VERSION
+       ↓
+DEVICE MANIFEST
+       ↓
+COMPARE INSTALLED VERSION
+       ↓
+FULL UPDATE OR DELTA
+       ↓
+DOWNLOAD
+       ↓
+CHECKSUM
+       ↓
+VALIDATE
+       ↓
+ACTIVATE
+```
+
+Installed version remains active until the new version passes validation.
+
+---
+
+# 65. Corruption Recovery
+
+If:
+
+```text
+Checksum fails
+Database fails integrity
+Version incompatible
+Download incomplete
+```
+
+then:
+
+```text
+NEW VERSION
+    ↓
+REJECT
+    ↓
+KEEP PREVIOUS VERSION
+```
+
+Never leave the user with a partially installed map.
+
+---
+
+# 66. Storage Optimization
+
+The engine should:
+
+```text
+Prefer deltas
+Avoid duplicate packs
+Compress downloads
+Remove obsolete versions
+Respect user Wi-Fi preference
+Prioritize current region
+Pause when storage is low
+Resume interrupted downloads
+```
+
+The original engine specifies Zstandard compression as part of the open-source technology stack. 
+
+---
+
+# 67. Performance Goals
+
+Target:
+
+```text
+Instant startup
+60+ FPS map rendering
+Low battery usage
+Fast offline search
+Efficient memory usage
+Optimized storage
+Smooth pinch-to-zoom
+Background synchronization
+```
+
+These are the performance goals stated in the uploaded engine specification. 
+
+---
+
+# 68. Graceful Degradation
+
+If FOMO backend is unavailable:
+
+```text
+Map → continues
+GPS → continues
+Routing → continues
+Offline search → continues
+Venue packs → continue
+```
+
+If realtime is unavailable:
+
+```text
+Live layer → unavailable
+Static map → continues
+```
+
+If AI is unavailable:
+
+```text
+AI recommendations → unavailable
+Map → continues
+```
+
+If a category pack isn't installed:
+
+```text
+That category → unavailable locally
+Other installed categories → continue
+```
+
+---
+
+# 69. Online Feature Layer
+
+When connected, FOMO adds:
+
+```text
+Live Feed
+Live Moments
+Live Videos
+Comments
+Reactions
+Messages
+Friends
+Events
+Trending venues
+Live occupancy
+Creator updates
+```
+
+These belong above the offline engine. 
+
+---
+
+# 70. Android Auto & Apple CarPlay
+
+The architecture should support:
+
+```text
+Offline navigation
+Route guidance
+Saved destinations
+Planned nights
+Favourite venues
+Voice-guided navigation
+Automatic route continuation
+```
+
+Online connectivity may add appropriate live FOMO information.
+
+The original Offline Map Engine explicitly identifies Android Auto and Apple CarPlay as supported targets. 
+
+---
+
+# 71. Technology Stack
+
+| Layer                 | Technology                         |
+| --------------------- | ---------------------------------- |
+| Geographic data       | OpenStreetMap                      |
+| Map engine            | Organic Maps                       |
+| Native renderer       | Organic Maps C++ / Drape           |
+| Offline map data      | Organic Maps regional packages     |
+| FOMO venue storage    | SQLite Country Packs               |
+| Routing               | Organic Maps routing engine        |
+| Search                | Organic Maps + FOMO unified search |
+| Compression           | Zstandard                          |
+| GPS                   | Android/iOS native location        |
+| Shared business logic | Kotlin Multiplatform               |
+| Android bridge        | JNI                                |
+| iOS bridge            | Objective-C++ / cinterop           |
+| Realtime              | Supabase Realtime                  |
+| FOMO networking       | Shared KMP layer                   |
+
+The core technology choices are derived from the uploaded Offline Map Engine and Map Engine specifications.  
+
+---
+
+# 72. Complete Runtime Architecture
+
+```text
+                       OSM
+                        │
+                        ▼
+             ORGANIC MAPS C++ ENGINE
+                        │
+        ┌───────────────┼────────────────┐
+        │               │                │
+     Rendering        Routing          Search
+        │               │                │
+        └───────────────┼────────────────┘
+                        ▼
+                 FOMO MAP ENGINE
+                        │
+        ┌───────────────┼────────────────┐
+        ▼               ▼                ▼
+    VENUE LAYER     EVENT LAYER     FRIEND LAYER
+        │               │                │
+        ▼               ▼                ▼
+   Flash Drops      Live Moments     Night Guard
+        │               │                │
+        └───────────────┼────────────────┘
+                        ▼
+                FOMO LAYER MANAGER
+                        │
+              ┌─────────┴─────────┐
+              ▼                   ▼
+       OFFLINE STORAGE       REALTIME SYNC
+              │                   │
+              ▼                   ▼
+       SQLite + .mwm           Supabase
+              │                   │
+              └─────────┬─────────┘
+                        ▼
+                 FOMO MAP EXPERIENCE
+                        │
+              ┌─────────┼─────────┐
+              ▼         ▼         ▼
+          Discover    Plan      Navigate
+              │         │         │
+              └─────────┼─────────┘
+                        ▼
+                     FOMO
+```
+
+---
+
+# 73. Production Definition of Done
+
+The Offline Map Engine is **not complete** merely because the map appears.
+
+It is complete only when:
+
+### Native Engine
+
+```text
+□ Organic Maps native renderer works
+□ Android JNI bridge works
+□ iOS native bridge works
+□ C++ engine is stable
+□ No WebView map remains
+```
+
+### Offline
+
+```text
+□ Region download works
+□ Map works in airplane mode
+□ Offline routing works
+□ Offline search works
+□ FOMO venue search works
+□ Installed venue packs work offline
+□ Saved places work offline
+```
+
+### FOMO
+
+```text
+□ Venue pins work
+□ FOMO Score works
+□ LIVE state works
+□ Nearest Venue Card works
+□ Nearby Carousel works
+□ Venue Preview works
+□ Layers work
+□ Events work
+□ Flash Drops work
+□ Plans work
+```
+
+### Realtime
+
+```text
+□ Supabase sync works
+□ Reconnect works
+□ Realtime failure doesn't break map
+□ Friend presence respects Night Guard
+```
+
+### Country Packs
+
+```text
+□ Manifest works
+□ Versioning works
+□ Checksum validation works
+□ Delta updates work
+□ Atomic activation works
+□ Rollback works
+```
+
+### Cross-platform
+
+```text
+□ Android verified
+□ iOS verified
+□ Shared KMP logic verified
+□ Native rendering verified on both
+```
+
+The MAP_AGENT_LOOP explicitly requires cross-platform verification and real offline testing rather than assuming Android completion means iOS completion. 
+
+---
+
+# 74. Required Testing
+
+Test:
+
+```text
+Engine startup
+Native bridge
+Rendering
+Camera movement
+Zoom
+Rotation
+GPS
+Search
+Routing
+Region downloads
+Offline mode
+Venue markers
+Venue filtering
+FOMO Score
+Layer toggling
+Realtime sync
+Reconnect
+Pack updates
+Delta updates
+Corruption recovery
+Performance
+Battery behavior
+```
+
+Every relevant capability must be tested on:
+
+```text
+Android
++
+iOS
+```
+
+and offline testing must include a genuine network-disabled scenario, not merely a mocked network response. 
+
+---
+
+# 75. Final System Boundary
+
+The final FOMO architecture is:
+
+```text
+┌──────────────────────────────────────────┐
+│ GLOBAL VENUE INTELLIGENCE                │
+│                                          │
+│ Canonical Venue Store                    │
+│ Permanent FOMO Venue IDs                 │
+└─────────────────────┬────────────────────┘
+                      │
+                      ▼
+┌──────────────────────────────────────────┐
+│ GLOBAL VENUE PACK CREATION               │
+│                                          │
+│ Core / Nightlife / Food / Prep /         │
+│ Wellness / Travel                        │
+└─────────────────────┬────────────────────┘
+                      │
+                      ▼
+┌──────────────────────────────────────────┐
+│ COUNTRY PACK INSTALLATION                │
+│                                          │
+│ Download / Verify / Install / Update     │
+└─────────────────────┬────────────────────┘
+                      │
+                      ▼
+┌──────────────────────────────────────────┐
+│ FOMO OFFLINE MAP ENGINE                  │
+│                                          │
+│ Organic Maps + Local FOMO Venue Store    │
+└─────────────────────┬────────────────────┘
+                      │
+          ┌───────────┼────────────┐
+          ▼           ▼            ▼
+       VENUES      EVENTS      REALTIME
+          │           │            │
+          └───────────┼────────────┘
+                      ▼
+               FOMO MAP EXPERIENCE
+```
+
+---
+
+# 76. Final Principle
+
+The entire system can be summarized as:
+
+```text
+OSM
+ ↓
+ORGANIC MAPS
+ ↓
+FOMO OFFLINE MAP ENGINE
+ ↓
+FOMO VENUE INTELLIGENCE
+ ↓
+FOMO SOCIAL LAYERS
+ ↓
+FOMO AI
+ ↓
+FOMO LIVE
+```
+
+Or, more precisely:
+
+> **Organic Maps provides the geographic world. Country Packs provide FOMO's permanent venue intelligence. The FOMO Offline Map Engine unifies those two systems into a single native offline map, while Events, Social, AI and Realtime add the living layer on top.**
+
+This preserves the central rule from the uploaded architecture: **do not rebuild the mapping engine. Reuse Organic Maps' mature native capabilities and make FOMO the intelligence and experience layer above them.** 
+
+And with your repository at `D:\Android-fomo-main\engine`, the implementation should treat that Organic Maps source as the **native map-engine foundation**, while the FOMO-specific KMP module remains the controlled interface between the rest of the application and that engine.

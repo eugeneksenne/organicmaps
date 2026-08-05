@@ -1,0 +1,377 @@
+FOMO — My Circle
+Full Updated Production Plan (Apple-tier Premium)
+This redesign shifts My Circle away from looking like a social media feed and turns it into a premium social hub for your nightlife community. It focuses on people first, with elegant spacing, immersive visuals, and WhatsApp/Facebook-inspired stories adapted for FOMO.
+
+Purpose
+My Circle helps users:
+Stay connected with friends
+Discover new people nearby
+Meet people at venues and events
+View stories from friends and creators
+Coordinate nights out
+
+Screen Structure
+Header
+
+↓
+
+My Circle Stories
+
+↓
+
+Social Overview
+
+↓
+
+Search
+
+↓
+
+Tabs
+
+↓
+
+Activity Feed
+
+↓
+
+Bottom Navigation
+
+Header
+Large premium title.
+My Circle
+
+Your people. Your vibe.
+Top-right actions
+🔍 Search
+
+👥 Add Friend
+
+＋ Quick Actions
+Quick Actions opens:
+Add Friend
+Scan QR
+My QR Code
+Invite Contacts
+Find Nearby People
+
+Stories (Redesigned)
+This section is inspired by the latest WhatsApp and Facebook story experiences, but redesigned with FOMO's premium nightlife identity.
+Layout
+A horizontally scrollable row of large circular avatars with rich visual treatments.
+＋ Your Story
+
+Amanda
+
+Jason
+
+Sarah
+
+Tyler
+
+Jessica
+
+...
+Unlike previous designs:
+Large, edge-to-edge profile photos
+Soft glowing status rings
+Premium portrait crops
+Clean typography underneath
+No bulky story cards
+
+Story Ring Colors
+Instead of one generic ring:
+🟣 Purple — Story
+🔴 Red — Live
+🟡 Gold — Event
+🔵 Blue — Venue Check-in
+🟢 Green — Close Friends
+⚪ Grey — Viewed
+This lets users understand what's happening before opening a story.
+
+Story Indicators
+Small badges appear on the bottom-right of each avatar.
+Examples:
+📸 Story
+🔴 Live
+🎉 Event
+📍 Venue
+⭐ Close Friends
+These badges are subtle and don't overpower the avatar.
+
+Story Viewer
+A full-screen immersive experience.
+Displays:
+Full-screen photo/video
+Venue name
+Event name (if applicable)
+Music playing
+Timestamp
+Bottom actions adapt dynamically:
+At a venue:
+Route
+View Venue
+Join Friends
+At an event:
+View Event
+Buy Ticket
+Invite Friends
+Live:
+Watch Live
+
+Social Overview
+Instead of oversized cards, use a compact premium horizontal metrics row.
+🟢 18 Online
+
+📸 9 Stories
+
+🔴 4 Live
+
+🎉 12 Events
+
+📍 7 Nearby
+Each metric is tappable and filters the feed.
+
+Search
+Search friends, venues or discover people...
+Supports:
+Name
+Username
+Venue
+Event
+Music genre
+Mutual friends
+City
+Filter button on the right opens advanced filters.
+
+Tabs
+Activity
+
+Friends
+
+Discover
+
+Nearby
+
+Requests
+The selected tab uses a glowing underline and animated transition.
+
+Activity Feed
+A premium social timeline using full-width cards.
+Each card includes:
+Large avatar
+Live status badge
+User name
+Activity description
+Timestamp
+Rich media preview (if available)
+Context-aware actions
+Example
+Amanda
+
+📸 Sharing a Moment
+
+Altitude Club
+
+3 min ago
+
+[ View ]
+
+[ Route ]
+
+Live Card
+Jason
+
+🔴 Live at Madison Lounge
+
+182 Watching
+
+[ Watch ]
+
+[ Route ]
+
+Event Card
+Sarah
+
+🎉 Amapiano Fridays
+
+Tonight
+
+[ View Event ]
+
+Nearby Friend
+Mike
+
+📍 650 m Away
+
+Rockets
+
+[ Route ]
+
+[ Invite Out ]
+
+Friends Tab
+Displays premium profile cards with:
+Large avatar
+Verification badge (if applicable)
+Friend status
+Mutual friends
+Current activity
+Quick actions
+Actions:
+Message
+Call
+Invite Out
+View Profile
+Long press:
+Share Profile
+Remove Friend
+Mute Activity
+
+Discover Tab
+AI-powered people discovery.
+Sections:
+People You May Know
+Met Tonight
+Same Venue Lovers
+Same Event Attendees
+Nearby People
+Trending People
+Recently Joined
+Suggested for You
+Each suggestion clearly explains why it appears.
+Examples:
+12 Mutual Friends
+Met at Rockets Lounge
+Loves Amapiano
+Going to the same event
+Each card offers:
+Add Friend
+Follow
+
+Nearby Tab
+Switch between:
+List
+
+Map
+List
+Shows:
+Avatar
+Distance
+Venue
+Activity
+Route
+Invite
+Map
+Displays only friends (never followers) with:
+Live avatars
+Venue pins
+Story indicators
+Live indicators
+Event markers
+
+Requests Tab
+Sub-tabs:
+Incoming
+Outgoing
+Suggestions
+Each request card includes:
+Large avatar
+Mutual friends
+Reason for recommendation
+Accept
+Decline
+
+Floating Action Button
+Persistent floating button.
+＋
+Actions:
+Add Friend
+Create Story
+Scan QR
+My QR
+Find Nearby
+
+Bottom Navigation
+Maintains the FOMO standard navigation:
+Discover
+
+Feed
+
+Camera
+
+Map
+
+Chats
+When My Circle is accessed, it opens from the Discover screen rather than replacing the primary navigation.
+
+Premium Motion
+The screen should feel alive with subtle, polished animations:
+Story rings animate softly when new content arrives.
+Live badges pulse gently.
+Cards lift slightly on touch with haptic feedback.
+Story transitions use immersive full-screen animations.
+Activity updates fade in smoothly without disrupting scrolling.
+
+Design Principles
+Apple-inspired spacing and typography.
+Large, high-quality avatars as the visual focus.
+Minimal use of neon—reserved for status accents only.
+Glassmorphism used sparingly for overlays and action buttons.
+Consistent rounded corners across cards and controls.
+Clear visual hierarchy with generous whitespace.
+
+Final Information Architecture
+My Circle
+│
+├── Header
+│   ├── Search
+│   ├── Add Friend
+│   └── Quick Actions
+│
+├── My Circle Stories
+│   ├── Your Story
+│   ├── Friends' Stories
+│   ├── Live Stories
+│   ├── Event Stories
+│   ├── Venue Stories
+│   └── Close Friends Stories
+│
+├── Social Overview
+│
+├── Search
+│
+├── Activity
+│   ├── Stories
+│   ├── Live
+│   ├── Venue Check-ins
+│   ├── Events
+│   └── Nearby Friends
+│
+├── Friends
+│
+├── Discover
+│   ├── People You May Know
+│   ├── Met Tonight
+│   ├── Same Venues
+│   ├── Same Events
+│   ├── Nearby People
+│   ├── Trending
+│   └── AI Suggestions
+│
+├── Nearby
+│   ├── List
+│   └── Friends Map
+│
+├── Requests
+│   ├── Incoming
+│   ├── Outgoing
+│   └── Suggestions
+│
+└── Floating Action Button
+    ├── Add Friend
+    ├── Create Story
+    ├── Scan QR
+    ├── My QR
+    └── Find Nearby
+One additional refinement I recommend is moving the Friends / Followers / Following counters out of the main content area and onto the user's profile screen. That keeps My Circle focused on what users came to do—see what their friends are doing and discover people—while giving the stories row much more visual prominence, resulting in a cleaner, more premium first impression.

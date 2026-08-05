@@ -1,0 +1,862 @@
+# FOMO Flash Drops: “See All” Screen
+
+## Full UI/UX Design Specification
+
+The **See All Flash Drops screen** is the dedicated discovery hub for every currently active Flash Drop around the user. It is different from the Discover carousel and different again from the individual Flash Drop preview.
+
+The current reference has the right overall structure: **nearest hero → active Drops → category filtering → live countdowns → compact cards**.
+
+The existing FOMO product is positioned around real-time social discovery and location-aware experiences, so this screen should remain highly location-driven rather than becoming a generic deals list. ([App Store][1])
+
+---
+
+# 1. Screen purpose
+
+### Primary objective
+
+Let the user answer:
+
+> **“What can I do right now?”**
+
+within seconds.
+
+The screen prioritizes:
+
+1. Drops closest to the user
+2. Drops that are currently active
+3. Drops ending soon
+4. Newly created Drops
+5. Relevant category
+6. Exact location
+7. Time remaining
+
+---
+
+# 2. Screen hierarchy
+
+```text
+┌─────────────────────────────────────┐
+│ ←     ⚡ FLASH DROPS          ⚙/☷   │
+│       Live opportunities near you   │
+│                                     │
+│ ALL   VENUE   EVENT   BRAND         │
+│                                     │
+│ ┌─────────────────────────────────┐ │
+│ │      NEAREST FLASH DROP         │ │
+│ │                                 │ │
+│ │          HERO DROP              │ │
+│ │                                 │ │
+│ └─────────────────────────────────┘ │
+│                                     │
+│ ACTIVE FLASH DROPS          12 LIVE │
+│ ● Live opportunities happening now  │
+│                                     │
+│ ┌─────────────────────────────────┐ │
+│ │ DROP CARD                       │ │
+│ └─────────────────────────────────┘ │
+│ ┌─────────────────────────────────┐ │
+│ │ DROP CARD                       │ │
+│ └─────────────────────────────────┘ │
+│ ┌─────────────────────────────────┐ │
+│ │ DROP CARD                       │ │
+│ └─────────────────────────────────┘ │
+│                                     │
+│          bottom navigation          │
+└─────────────────────────────────────┘
+```
+
+---
+
+# 3. Header
+
+### Left
+
+Circular back button:
+
+**←**
+
+Returns to Discover.
+
+### Center
+
+```text
+⚡ FLASH DROPS
+Live opportunities near you
+```
+
+### Right
+
+Filter/settings icon:
+
+**☷ / sliders**
+
+Opens Flash Drop filtering and sorting.
+
+---
+
+# 4. Filter categories
+
+Immediately below the header:
+
+```text
+[ ALL ] [ VENUE ] [ EVENT ] [ BRAND ]
+```
+
+These are the **three official Flash Drop categories** plus All.
+
+### ALL
+
+Shows every active Drop.
+
+### VENUE
+
+Venue-created or venue-based opportunities.
+
+Examples:
+
+* Happy Hour
+* Ladies Night
+* Free Cocktail
+* Free Entry
+
+### EVENT
+
+Event-based Drops.
+
+Examples:
+
+* Surprise DJ Set
+* Rooftop Meetup
+* Secret Party
+
+### BRAND
+
+Brand activations.
+
+Examples:
+
+* Free Samples
+* Pop-up Experience
+* Brand Activation
+
+### Selected state
+
+The active filter uses the FOMO purple neon treatment.
+
+Unselected filters remain dark with subtle category-specific accents.
+
+---
+
+# 5. Dynamic hero section
+
+This is the most important part of the screen.
+
+## “Nearest to you”
+
+The hero should dynamically select the **most relevant nearby Flash Drop**, rather than permanently displaying a particular venue.
+
+```text
+📍 NEAREST TO YOU
+```
+
+The selection can consider:
+
+* Distance
+* Active status
+* Start/end time
+* Drop freshness
+* Relevance
+* Category
+* User preferences
+* Engagement
+
+The hero should therefore change as the user's location or active Drops change.
+
+---
+
+# 6. Hero card
+
+The hero is substantially larger than the cards below.
+
+### Example
+
+```text
+┌──────────────────────────────────────┐
+│ 📍 NEAREST TO YOU                    │
+│                                      │
+│ ⚡ JUST DROPPED                       │
+│                                      │
+│            HERO IMAGE                │
+│                                      │
+│ FREE COCKTAIL             18:42      │
+│ LIV Sandton ✓              ENDS IN   │
+│                                      │
+│ First 50 guests receive              │
+│ one complimentary cocktail.          │
+│                                      │
+│ 📍 250m away   🚶 3 min   VENUE     │
+└──────────────────────────────────────┘
+```
+
+### Hero behavior
+
+The hero can automatically rotate through the highest-priority nearby Drops.
+
+Pagination indicators communicate that more hero Drops are available.
+
+---
+
+# 7. Hero countdown
+
+The countdown must always correspond to the **actual Drop schedule**.
+
+For example:
+
+### Ladies Night
+
+```text
+19:00 → 21:00
+```
+
+Before 19:00:
+
+```text
+STARTS IN
+00:42:15
+```
+
+At 19:00:
+
+```text
+ENDS IN
+02:00:00
+```
+
+At 20:30:
+
+```text
+ENDS IN
+00:30:00
+```
+
+At 21:00:
+
+```text
+EXPIRED
+```
+
+The countdown must never be independently authored as promotional text.
+
+---
+
+# 8. Active Flash Drops section
+
+Under the hero:
+
+```text
+ACTIVE FLASH DROPS                    12 LIVE
+● Live opportunities happening right now
+```
+
+### Left
+
+**ACTIVE FLASH DROPS**
+
+### Right
+
+Dynamic count:
+
+**12 LIVE**
+
+This number represents currently active Drops, not the total number of Drops in the database.
+
+---
+
+# 9. Active Drop card
+
+The list uses compact horizontal cards.
+
+The reference establishes a split layout:
+
+```text
+┌───────────────┬──────────────────────────┐
+│               │                          │
+│    IMAGE      │      DROP CONTENT        │
+│               │                          │
+│               │                          │
+└───────────────┴──────────────────────────┘
+```
+
+Recommended card height:
+
+**~150–165dp**
+
+depending on the target device and typography scale.
+
+---
+
+# 10. Card image
+
+Approximately **35–40% of card width**.
+
+The image should immediately communicate the experience.
+
+Examples:
+
+* Cocktail photography
+* DJ
+* Crowd
+* Rooftop
+* Venue
+* Product
+* Brand activation
+
+A dark gradient can transition from image → information area.
+
+---
+
+# 11. Card status badge
+
+Top-left over the image.
+
+Examples:
+
+```text
+🔥 TRENDING
+```
+
+```text
+⏳ ENDS SOON
+```
+
+```text
+🌙 TONIGHT ONLY
+```
+
+```text
+⚡ JUST DROPPED
+```
+
+```text
+✨ LIMITED
+```
+
+This represents the **Drop status**, not category.
+
+---
+
+# 12. Like icon
+
+The **❤️ Like icon is permanently visible**.
+
+It should sit in the upper-right of the card.
+
+It does not require opening the card.
+
+States:
+
+```text
+♡
+```
+
+Not interested/saved.
+
+and:
+
+```text
+♥
+```
+
+Interested/saved.
+
+The engagement count can be displayed separately where appropriate.
+
+---
+
+# 13. Drop title
+
+Large primary text.
+
+Examples:
+
+### FREE ENTRY BEFORE 11PM
+
+### SURPRISE DJ SET
+
+### ROOFTOP MEETUP
+
+### FREE SAMPLES
+
+### POP-UP EXPERIENCE
+
+For the updated Drops:
+
+### HAPPY HOUR
+
+### LADIES NIGHT
+
+The title is **the name of the Flash Drop**.
+
+---
+
+# 14. Source
+
+Below title:
+
+```text
+LIV Sandton ✓
+```
+
+or:
+
+```text
+Rooftop Sundays ✓
+```
+
+or:
+
+```text
+Heineken ✓
+```
+
+The verification badge indicates a verified source.
+
+---
+
+# 15. Description
+
+One or two lines maximum.
+
+Example:
+
+```text
+Skip the line and get in free
+before 11PM tonight.
+```
+
+The See All screen is intentionally concise.
+
+Full details appear when the user opens the Flash Drop preview.
+
+---
+
+# 16. Full address
+
+The card should show the address as a **single line** where possible.
+
+Example:
+
+```text
+📍 123 Open Street, Pretoria, 0003
+```
+
+This is preferable to hiding the address behind another interaction.
+
+If the address physically exceeds the available width, truncate visually:
+
+```text
+📍 123 Open Street, Pretoria, 0003…
+```
+
+The full address remains available in the preview.
+
+---
+
+# 17. Distance
+
+Distance sits on the same information line as the address when space allows.
+
+Example:
+
+```text
+📍 123 Open Street, Pretoria, 0003 · 250m away
+```
+
+This creates a very useful combination:
+
+**exact destination + proximity**
+
+without requiring the user to open Route.
+
+---
+
+# 18. Flash Drop schedule and offer
+
+This is where the newer design direction becomes important.
+
+Instead of generic copy such as:
+
+> “First 50 guests receive…”
+
+the card can expose the actual Drop offer.
+
+### Happy Hour
+
+```text
+20:00–21:00
+R15.00
+HEINEKEN / AMSTEL / CORONA
+```
+
+### Ladies Night
+
+```text
+19:00–21:00
+FREE COCKTAIL
+FOR LADIES
+```
+
+The **time displayed here must be the actual Flash Drop schedule**.
+
+---
+
+# 19. Countdown placement
+
+The countdown should remain highly visible on every active card.
+
+Example:
+
+```text
+ENDS IN
+32:17
+```
+
+or:
+
+```text
+ENDS IN
+07:34
+```
+
+For Drops that haven't started:
+
+```text
+STARTS IN
+42:15
+```
+
+### Important
+
+Do not show:
+
+```text
+20:00–21:00
+```
+
+and then an unrelated countdown.
+
+The countdown is derived from that exact schedule.
+
+---
+
+# 20. Bottom metadata
+
+The bottom row should no longer contain “time left” because the countdown already handles that.
+
+Instead:
+
+```text
+📍 1.2 km away
+❤️ 34 interested
+VENUE
+```
+
+or:
+
+```text
+🚶 3 min walk
+❤️ 18 interested
+EVENT
+```
+
+### Interested
+
+FOMO does **not** use claims for Flash Drops.
+
+Therefore:
+
+❌ `34 / 50 claimed`
+
+should not appear.
+
+Instead:
+
+✅ `34 interested`
+
+This is a genuine engagement signal that fits the FOMO interaction model.
+
+---
+
+# 21. Category badge
+
+The final element identifies the Drop type.
+
+### Venue
+
+```text
+🍸 VENUE
+```
+
+### Event
+
+```text
+♫ EVENT
+```
+
+### Brand
+
+```text
+◇ BRAND
+```
+
+This is deliberately different from the status badge.
+
+For example:
+
+```text
+⚡ JUST DROPPED
+```
+
+is status.
+
+```text
+🍸 VENUE
+```
+
+is category.
+
+---
+
+# 22. Card interaction
+
+### Tap anywhere on card
+
+Opens:
+
+**Full-screen Flash Drop Preview**
+
+### Tap Like
+
+Toggles interest/save state without opening the Drop.
+
+### Tap address
+
+Can open location/venue context.
+
+### Tap countdown
+
+No separate action. It is informational.
+
+---
+
+# 23. Full-screen preview relationship
+
+The See All screen should **not duplicate all of the preview actions**.
+
+It is the discovery layer.
+
+```text
+SEE ALL
+   ↓
+Flash Drop card
+   ↓
+Tap
+   ↓
+FULL-SCREEN PREVIEW
+   ↓
+Club Lobby
+Route
+Reminder
+Plan
+Share
+Save
+Nearby
+```
+
+This keeps the See All screen visually dense but interactionally simple.
+
+---
+
+# 24. Empty state
+
+If there are no active Drops:
+
+```text
+⚡
+
+NO FLASH DROPS RIGHT NOW
+
+Nothing is happening nearby yet.
+
+We'll show you when something drops.
+
+[ EXPLORE NEARBY ]
+```
+
+Do not show stale expired Drops simply to fill the screen.
+
+---
+
+# 25. Expired Drop behavior
+
+When:
+
+```text
+current_time >= ends_at
+```
+
+the Drop leaves the **Active Flash Drops** collection.
+
+It should not remain with:
+
+```text
+00:00
+```
+
+or:
+
+```text
+EXPIRED
+```
+
+unless the user is already viewing its preview.
+
+---
+
+# 26. Dynamic ordering
+
+Recommended ranking:
+
+```text
+1. Currently active
+        ↓
+2. Distance
+        ↓
+3. Ending soon
+        ↓
+4. Freshness
+        ↓
+5. Engagement
+        ↓
+6. Personal relevance
+```
+
+The ranking should be dynamic.
+
+A Drop 300m away ending in 8 minutes may deserve higher placement than one 500m away ending in 4 hours.
+
+---
+
+# 27. Complete information architecture
+
+```text
+FLASH DROPS
+│
+├── Header
+│   ├── Back
+│   ├── Flash Drops title
+│   ├── Subtitle
+│   └── Filters
+│
+├── Category filters
+│   ├── All
+│   ├── Venue
+│   ├── Event
+│   └── Brand
+│
+├── Dynamic nearest hero
+│   ├── Nearest indicator
+│   ├── Status
+│   ├── Hero media
+│   ├── Countdown
+│   ├── Title
+│   ├── Source
+│   ├── Address
+│   ├── Distance
+│   └── Offer
+│
+├── Active Flash Drops
+│   ├── Live count
+│   └── Drop list
+│       ├── Drop
+│       ├── Drop
+│       ├── Drop
+│       └── ...
+│
+└── Bottom navigation
+    ├── Discover
+    ├── Feed
+    ├── Camera
+    ├── Map
+    └── Chats
+```
+
+---
+
+# 28. Bottom navigation
+
+The Flash Drops screen remains inside the main FOMO application shell.
+
+```text
+DISCOVER | FEED | CAMERA | MAP | CHATS
+```
+
+Discover remains highlighted because Flash Drops are part of the discovery experience.
+
+The Chats badge remains visible when unread messages exist.
+
+---
+
+# 29. Final design rules
+
+### Flash Drops use exactly three categories
+
+**VENUE · EVENT · BRAND**
+
+### Every active Drop has
+
+* Title
+* Source
+* Media
+* Location
+* Schedule
+* Countdown
+* Category
+* Like
+* Relevant status
+
+### Address
+
+**Full address, single line where possible.**
+
+### Distance
+
+**Same line as address where possible.**
+
+### Timer
+
+**Always derived from the Drop's actual start/end time.**
+
+### Engagement
+
+**Interested, not claimed.**
+
+### Discover carousel
+
+**300dp × 200dp landscape cards, horizontal scrolling.**
+
+### See All
+
+**Dedicated full-screen vertical discovery hub.**
+
+### Preview
+
+**Immersive full-screen Drop with Club Lobby, Route, Reminder and Plan actions.**
+
+That gives FOMO a clean three-level hierarchy:
+
+**Discover carousel → Flash Drops See All → Flash Drop Preview**
+
+Each level reveals more information without turning the first screen into a tiny spreadsheet wearing nightclub lighting. ⚡
+
+[1]: https://apps.apple.com/za/app/fomo-no-more-guessing/id6742233140?utm_source=chatgpt.com "‎FOMO - No More Guessing App - App Store"

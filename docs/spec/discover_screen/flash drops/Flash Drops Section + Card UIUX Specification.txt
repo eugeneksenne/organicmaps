@@ -1,0 +1,377 @@
+FOMO Discover
+
+Flash Drops Section + Card UI/UX Specification
+
+1. Section purpose
+
+The Flash Drops section on Discover is a horizontally scrollable, high-visibility discovery module showing active Flash Drops that are relevant to the user.
+
+It is a preview surface, not the dedicated Flash Drops screen.
+
+⚡ FLASH DROPS See all › Live opportunities near you ┌─────────────────────────┐ ┌─────────────────────────┐ │ │ │ │ │ DROP CARD 1 │ │ DROP CARD 2 │ │ │ │ │ └─────────────────────────┘ └─────────────────────────┘ ← horizontal scrolling → 
+
+2. Card dimensions
+
+Each Flash Drop card:
+
+Width: 300dp
+
+Height: 200dp
+
+Aspect ratio: 1.5:1
+
+Horizontal carousel
+
+No vertical stacking inside the section
+
+Recommended gap: 12dp
+
+Discover screen horizontal padding: 16dp
+
+The next card should partially peek into view where screen width permits, making the carousel discoverable through visual affordance.
+
+3. Card visual hierarchy
+
+The card uses the Flash Drop's media as the background with a dark gradient overlay.
+
+┌──────────────────────────────────────┐ │ ⚡ JUST DROPPED ♡ │ │ │ │ │ │ NIGHTLIFE IMAGE │ │ │ │ ⏱ 01:42:15 │ │ STARTS IN │ │ │ │ HAPPY HOUR │ │ LIV Sandton ✓ │ │ 📍 123 Open Street, Pretoria, 0003 │ │ · 250m away │ │ │ │ 🕐 20:00–21:00 🏷 R15.00 │ │ HEINEKEN / AMSTEL / CORONA │ │ │ │ 🚶 3 min walk ❤️ 34 interested │ │ VENUE │ └──────────────────────────────────────┘ 
+
+The actual 300 × 200dp implementation will need to compress this information carefully, so the visual treatment should prioritize title, offer, timing, location and countdown.
+
+4. Flash Drop title
+
+The title is the actual Flash Drop name.
+
+Examples:
+
+Venue
+
+HAPPY HOUR
+
+Venue
+
+LADIES NIGHT
+
+Event
+
+SURPRISE DJ SET
+
+Brand
+
+FREE SAMPLES
+
+The title is not:
+
+Just Dropped
+
+Trending
+
+Ends Soon
+
+Venue
+
+Event
+
+Brand
+
+Those are metadata/state/category elements.
+
+5. Dynamic status badge
+
+Top-left of the card.
+
+Examples:
+
+⚡ JUST DROPPED
+
+🔥 TRENDING
+
+⏳ ENDS SOON
+
+🌙 TONIGHT ONLY
+
+🎉 LIMITED
+
+The status is dynamically determined by the Flash Drop system.
+
+It does not replace the Drop title.
+
+Example:
+
+⚡ JUST DROPPED HAPPY HOUR 
+
+6. Like button
+
+The ❤️ Like icon is permanently visible in the top-right corner.
+
+It is independent from card expansion.
+
+Unliked
+
+♡
+
+Liked
+
+♥
+
+Tapping the Like button:
+
+toggles the user's interest
+
+updates the interested count when applicable
+
+does not open the Flash Drop
+
+does not trigger the card's action area
+
+This gives the user an extremely fast interaction from Discover.
+
+7. Countdown system
+
+The countdown must correspond directly to the Flash Drop's actual schedule.
+
+This is important.
+
+For:
+
+HAPPY HOUR
+20:00–21:00
+
+the countdown must represent the actual state of that Flash Drop.
+
+Before start
+
+STARTS IN 01:42:15 
+
+During the Drop
+
+ENDS IN 00:42:15 
+
+After expiration
+
+The Drop leaves the active Flash Drops carousel.
+
+Therefore, the system must never show a countdown that contradicts the displayed Flash Drop time.
+
+8. Flash Drop schedule
+
+The card displays the actual operating window:
+
+🕐 20:00–21:00 
+
+For the Ladies Night example:
+
+🕐 19:00–21:00 
+
+The schedule and countdown are linked to the same Flash Drop time model.
+
+9. Offer information
+
+This is one of the most important areas of the card.
+
+For Happy Hour:
+
+R15.00 HEINEKEN / AMSTEL / CORONA 
+
+For Ladies Night:
+
+FREE COCKTAIL FOR LADIES 
+
+The offer should be visually prominent without becoming the Flash Drop title.
+
+Example
+
+HAPPY HOUR 🕐 20:00–21:00 🏷 R15.00 HEINEKEN / AMSTEL / CORONA 
+
+10. Address
+
+The full detailed address should be displayed.
+
+Example:
+
+📍 123 Open Street, Pretoria, 0003
+
+The address should remain one line in the card where possible.
+
+The distance appears on the same line:
+
+📍 123 Open Street, Pretoria, 0003 · 250m away
+
+If the available width is insufficient, the UI should use controlled truncation rather than turning the address into several visually dominant lines.
+
+The full address remains available in the Flash Drop preview.
+
+11. Distance
+
+Distance remains useful because Flash Drops are location-driven.
+
+Example:
+
+250m away
+
+The card should not duplicate distance elsewhere.
+
+Recommended presentation:
+
+📍 123 Open Street, Pretoria, 0003 · 250m away 
+
+12. Bottom information row
+
+Since FOMO does not use claims, the card should not display:
+
+❌ 34 / 50 claimed
+
+Instead, the social signal is:
+
+Interested
+
+Example:
+
+❤️ 34 interested
+
+This is tied to actual FOMO user interest.
+
+If there is insufficient interest data, the count should simply be omitted.
+
+The card can then show:
+
+🚶 3 min walk · VENUE
+
+rather than inventing a social signal.
+
+13. Walk time
+
+Where available:
+
+🚶 3 min walk
+
+This gives the user more useful context than distance alone.
+
+The ideal information combination is:
+
+📍 Address · 250m away 🚶 3 min walk · ❤️ 34 interested · VENUE 
+
+14. Category
+
+Every Flash Drop belongs to one of the three primary categories:
+
+VENUE
+
+Cocktail specials, happy hours, venue promotions, etc.
+
+EVENT
+
+DJ sets, parties, special events, etc.
+
+BRAND
+
+Brand activations, sampling, pop-ups, etc.
+
+The category is displayed as the final element in the bottom row.
+
+Example:
+
+🚶 3 min walk ❤️ 34 interested VENUE 
+
+15. Example: Happy Hour
+
+┌────────────────────────────────────┐ │ ⚡ JUST DROPPED ♡ │ │ │ │ [ LIV NIGHTLIFE IMAGE ] │ │ │ │ ┌──────────────┐ │ │ │ STARTS IN │ │ │ │ 01:42:15 │ │ │ └──────────────┘ │ │ │ │ HAPPY HOUR │ │ LIV Sandton ✓ │ │ 📍 123 Open Street, Pretoria, │ │ 0003 · 250m away │ │ │ │ 🕐 20:00–21:00 R15.00 │ │ HEINEKEN / AMSTEL / CORONA │ │ │ │ 🚶 3 min walk ❤️ 34 interested │ │ VENUE │ └────────────────────────────────────┘ 
+
+16. Example: Ladies Night
+
+┌────────────────────────────────────┐ │ ⚡ JUST DROPPED ♡ │ │ │ │ [ LADIES NIGHT IMAGE ] │ │ │ │ ┌──────────────┐ │ │ │ STARTS IN │ │ │ │ 00:42:15 │ │ │ └──────────────┘ │ │ │ │ LADIES NIGHT │ │ LIV Sandton ✓ │ │ 📍 123 Open Street, Pretoria, │ │ 0003 · 250m away │ │ │ │ 🕐 19:00–21:00 FREE COCKTAIL │ │ FOR LADIES │ │ │ │ 🚶 3 min walk ❤️ 28 interested │ │ VENUE │ └────────────────────────────────────┘ 
+
+17. Card interaction
+
+Tap card
+
+Opens the Flash Drop full-screen preview.
+
+The preview contains the larger Flash Drop presentation and the action icons:
+
+Club Lobby
+
+Route
+
+Reminder
+
+Plan
+
+Share
+
+Save/Like
+
+Tap ❤️
+
+Likes/unlikes the Drop without opening it.
+
+Horizontal swipe
+
+Moves through the Discover Flash Drop carousel.
+
+See all
+
+Opens the dedicated Flash Drops full-screen hub, showing all active Drops.
+
+18. Discover section structure
+
+DISCOVER │ ├── Other Discover content │ ├── ⚡ FLASH DROPS │ └── Live opportunities near you │ │ ┌───────────────┐ ┌───────────────┐ │ │ HAPPY HOUR │ │ LADIES NIGHT │ │ │ VENUE │ │ VENUE │ │ │ │ │ │ │ └───────────────┘ └───────────────┘ │ ← horizontal → │ └── Other Discover content 
+
+19. Data rules
+
+The card should only display information that FOMO actually knows.
+
+Valid
+
+Flash Drop title
+
+Category
+
+Venue/event/brand
+
+Verified status
+
+Full address
+
+Distance
+
+Walking time
+
+Start/end time
+
+Live countdown
+
+Offer
+
+Interested count
+
+Dynamic status
+
+Never fabricate
+
+Friends attending
+
+Claims
+
+Tickets remaining
+
+Viewers
+
+Popularity metrics
+
+unless those signals are genuinely provided by the FOMO backend.
+
+20. Final design principle
+
+The Discover Flash Drop card should answer the user's decision in roughly three seconds:
+
+What is happening?
+Where is it?
+What do I get?
+When does it happen?
+How close is it?
+Is anyone interested?
+
+Everything else belongs behind the tap.
+
+The result is a 300dp × 200dp landscape Flash Drop card that feels like a compact piece of the FOMO nightlife world, while the full-screen Flash Drop experience remains the deeper interaction layer.

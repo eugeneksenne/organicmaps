@@ -1,0 +1,208 @@
+You are working autonomously on the Feed screen and Ripple Engine of my FOMO Android 
+application via a connected local MCP tool (shell/terminal access to my Windows 
+machine). This is a real device debugging session — never fabricate, assume, or 
+report success without verifying it through actual tool output.
+
+STEP 0 — CONFIRM CAPABILITIES (do this before anything else)
+- List the MCP tools/connectors currently available to you.
+- Confirm you have a working shell/terminal tool that can execute commands on 
+  D:\Android-fomo-main and run `adb`. If no such tool is available or connected, 
+  stop immediately and tell me exactly what's missing — do not simulate, describe, 
+  or assume command output.
+- Run a trivial sanity command first (e.g. `echo test` or `dir D:\Android-fomo-main`) 
+  and show me the raw result, to confirm the connector is actually live before 
+  proceeding.
+
+PROJECT CONTEXT
+- Project root: D:\Android-fomo-main
+- Stack: Kotlin Multiplatform (KMP), shared business logic across Android (Jetpack 
+  Compose) and iOS (SwiftUI) — NOT Android-only, treat shared modules accordingly
+- Backend: Supabase (Postgres + Auth), Redis, Railway deployment
+- Media: Telegram Bot API integration (bot-as-admin posting to a single private 
+  channel) — NOT MTProto, NOT a local Bot API server
+- Build: Gradle | Language: Kotlin | UI: Jetpack Compose
+
+⚠️ SCOPE AND ARCHITECTURE REALITY CHECK — READ BEFORE STARTING
+Two documents drive this session, and they are not the same kind of thing:
+- Full_feed_screen_July.txt — a screen spec (Feed tabs, Moment card, right action 
+  rail, Moment Invitation Card, Who's Here system).
+- FOMO_Ripple_System.txt — a cross-cutting engine, NOT a Feed-only feature. Per its 
+  own architecture section, Ripple integrates with Feed, Discover, Smart Places, 
+  Club Lobby, Events, Flash Drops, Live, Search, Channels, Creator Profiles, Venue 
+  Profiles, Notifications, and Analytics.
+
+Consequence: build the Ripple Engine as its own module with a single clean API 
+surface (see "Ripple Engine Ownership Boundary" below) — do not build Ripple logic 
+inline inside Feed screen code. Other screens (Live, Discover, Club Lobby, etc.) may 
+already call into an existing Ripple implementation, or may need to in future 
+sessions — check for this before assuming Ripple is Feed-private.
+
+This combined task (full Feed screen + full Ripple engine, both to real production 
+depth — deterministic momentum calculation, anti-abuse/trust scoring, realtime 
+cross-system distribution, horizontal scalability) is large. You will NOT complete 
+all of it to true production depth in one session. Work through the priority order 
+below, and:
+- Before implementing anything, determine via actual code inspection whether it 
+  already exists, partially exists, or doesn't exist. Do not assume from either 
+  spec doc that something described is already built.
+- Only mark a component "done" when you have real evidence (Definition of Done, 
+  below).
+- If you run out of session time, STOP and give an honest status report of exactly 
+  what's verified-done, partial, or untouched. Do not imply broader completion than 
+  what you verified.
+- If a component is too large to finish this session, implement the smallest real 
+  (non-mocked) vertical slice rather than a stub, and say so explicitly.
+
+RIPPLE ENGINE OWNERSHIP BOUNDARY (build this first — Feed depends on it)
+- Ripple Engine owns: the ripple interaction itself, momentum scoring (Moment → 
+  Venue → Event → City layers), trend detection, feed ranking signals, discovery 
+  signals, anti-abuse validation, ripple analytics.
+- Ripple Engine must be deterministic, realtime, privacy-first, abuse-resistant, 
+  modular, observable, and fault-tolerant (its own stated architecture principles).
+- Clients (Feed, Live, Discover, etc.) never calculate momentum locally — they only 
+  submit a ripple event (user ID, moment ID, timestamp, optional venue/event/live 
+  ID) and read momentum state back from the engine. If you find any client-side 
+  momentum math, that's a real bug against this spec, not a stylistic choice.
+- HARD PRIVACY BOUNDARY: Ripple must never expose live location, venue presence, 
+  "Who's Here" visibility, or Moment Invitation settings. These are separate systems 
+  (see Feed doc). If implementing Ripple integration touches any of that data, stop 
+  and flag it — don't wire them together to "simplify."
+
+PRIORITY ORDER FOR THIS SESSION
+1. Ripple core lifecycle — tap → permission validation → duplicate check → trust 
+   validation → realtime update → momentum calculation → cross-system distribution 
+   → analytics. One ripple per user per Moment; removable at any time.
+2. Momentum layers — User Ripple → Moment Momentum (count, velocity, completion 
+   rate, comments, shares, saves, time decay) → Venue Momentum → Event Momentum → 
+   City Momentum. Shared momentum vocabulary (Quiet/Active/Heating/Hot/Viral) used 
+   consistently everywhere it's displayed.
+3. Trust & anti-abuse — account reputation/age/verification/device integrity/
+   behavior consistency feeding a trust score; validation against bots, fake 
+   accounts, rapid repeat interactions, device farms, emulator abuse, impossible 
+   travel, coordinated attacks. Low-trust ripples contribute reduced/zero momentum.
+4. Ripple API contract — verify the actual event schema (user ID, moment ID, 
+   timestamp, trust score, optional venue/event/live ID) matches what's implemented; 
+   verify momentum is engine-side only.
+5. Feed architecture — For You / Following / Nearby / Live tabs, all sharing one 
+   Moment component with only the ranking algorithm differing per tab.
+6. Feed ranking — verify real signals feed ranking (ripple velocity, watch 
+   completion, likes, comments, shares, saves, friend activity, venue popularity, 
+   distance, recency, trust score) with momentum outweighing historical popularity — 
+   not a mocked/static ranking.
+7. Moment Metadata Stack + right action rail — creator avatar/username/verification/
+   time-or-live-status/location/caption/friend intelligence; Follow/Like/Ripple/
+   Comment/Save/Share actions wired to real backend state (e.g. Follow actually 
+   changes a follow relationship, Ripple actually calls the Ripple Engine from 
+   step 1 — not a local toggle).
+8. Moment Invitation Card — created only explicitly from Camera (never auto-created 
+   from background location); three states (Active/Ended/Venue Closed) driven by 
+   real venue + presence data; countdown reflects actual invitation duration, not 
+   venue hours.
+9. Venue Presence ("Who's Here") — independent system, default Private, ~5-minute 
+   geofence-triggered prompt, visibility scoped to Public/Followers/Friends/Private 
+   and confined to Club Lobby's Who's Here section only. Verify it does not leak 
+   into Feed posts or Moment Invitations (this is a named hard requirement in the 
+   spec).
+10. Live broadcast lifecycle — Live start/end transition, replay processing, 
+    redistribution into For You/Following/Nearby/Creator Profile, automatic removal 
+    from Live tab with no replay remaining inside it.
+11. Live Replay Retention — temporary (7d) / standard (30d) / high-momentum (90d) / 
+    verified (180d) / pinned (max 10/creator, until manually removed) — verify 
+    actual retention/cleanup logic exists, not just documented policy.
+12. Creator Analytics — views, watch time, likes, ripples, comments, shares, saves, 
+    followers gained, profile visits, venue/route clicks, Club Lobby opens, live 
+    viewers, replay views — backed by real aggregated data.
+13. Performance & motion — see explicit targets below; GPU-transform animations, 
+    haptics, avoid heavy particles/flashing/unnecessary motion.
+14. Offline behavior for Ripple — local queue when offline, auto-sync on 
+    reconnect, no duplicate ripples, no lost interactions.
+
+PERFORMANCE TARGETS (measure, don't estimate)
+- FlashList/virtualized list rendering with lazy loading and next-item preloading
+- Only visible-item realtime updates (not the whole feed re-subscribing)
+- Delta synchronization, not full refetches
+- Smooth 60fps+ scroll — verify via `adb shell dumpsys gfxinfo <package>`
+- Ripple tap → visual/haptic feedback should feel instant (sub-100ms perceived) — 
+  measure via logcat timestamps around the tap handler and the realtime ack, not 
+  by eyeballing it
+
+ENVIRONMENT CHECK (after Step 0 passes)
+1. Run `adb devices` and confirm exactly one authorized device is listed. If zero 
+   devices or status "unauthorized"/"offline," stop and report the raw output.
+2. Confirm Android SDK, Gradle wrapper, and JDK versions match what the project 
+   expects (gradle.properties, gradle-wrapper.properties, build.gradle.kts). Flag 
+   mismatches before building.
+
+WORKFLOW PER COMPONENT (repeat for each item in priority order; paste actual 
+command + actual raw output at every step)
+1. Inspect the current implementation (existing Feed/Ripple modules, ViewModels, 
+   repositories, Supabase schema/tables involved). Don't assume either spec doc 
+   reflects current reality — they're targets, not status reports.
+2. If something is broken or missing, identify the real gap before writing code.
+3. Build via existing Gradle config only (`gradlew.bat assembleDebug` on Windows) — 
+   don't modify build scripts unless the failure is genuinely in the build config.
+4. If the build fails: show the actual error, diagnose the real cause, fix it, 
+   rebuild. Never stub failing code just to make it compile.
+5. Install the debug APK via ADB. Confirm install succeeded from actual exit 
+   code/output.
+6. Launch the app, navigate to Feed.
+7. Exercise the specific behavior via UI automation (uiautomator dump, 
+   `adb shell input tap/text/swipe`) and, where realtime/cross-system behavior is 
+   involved, a second device/account (e.g. ripple from account B, confirm momentum 
+   updates on account A's view without refresh).
+8. Screenshot relevant states via `adb shell screencap` and pull locally.
+9. Pull logcat filtered to the app's package; inspect for exceptions/ANRs/the 
+   specific behavior in question.
+10. Only after 7–9 produce real evidence, mark the component done in your report. 
+    Otherwise mark it partial/blocked and state exactly what's missing.
+
+HARD CONSTRAINTS
+- Don't replace working FOMO architecture unless the task explicitly requires it.
+- Don't create mock/fake data or stub implementations where a real backend call, 
+  Supabase query, or Telegram integration already exists and is reachable. This 
+  applies to momentum numbers, ripple counts, "X friends rippled this," live 
+  viewer counts — all must be real, not placeholder.
+- Preserve existing navigation, auth, database, realtime, and engine architecture.
+- Inspect a subsystem's current implementation before touching it.
+- Do not let Ripple, Moment Invitation, and Who's Here leak into each other's data 
+  — this privacy separation is a named success criterion in the Ripple doc, not a 
+  nice-to-have.
+- If you're about to write "should work" or "this should fix it" without having 
+  actually run and observed it — stop and run it instead.
+- If any MCP tool call fails or returns an auth error mid-task, say so explicitly 
+  rather than continuing on stale assumptions.
+- Do not silently narrow scope (e.g. quietly skipping anti-abuse/trust scoring 
+  because it's hard) — if you're deprioritizing or skipping something this session, 
+  say so explicitly in the report.
+
+DEFINITION OF DONE — PER COMPONENT
+A component is only "done," not "attempted," when:
+1. Confirmed zero mock/placeholder data via grep + manual read of touched code
+2. Relevant UI states (loading/empty/error/populated, where applicable) 
+   screenshotted
+3. Realtime/cross-system behavior demonstrated across two real clients/accounts 
+   with logcat/network evidence, where applicable
+4. No crash under basic rapid-interaction (fast ripple-tapping, fast tab switching, 
+   fast scroll) and airplane-mode stress test for the touched surface
+5. Any performance target claimed for this component actually measured, not estimated
+6. For Ripple-adjacent work specifically: confirmed no leakage across the Ripple / 
+   Moment Invitation / Who's Here privacy boundary
+
+END-OF-SESSION REPORT (mandatory, even if session is cut short)
+- Component-by-component status: Done (with evidence) / Partial (what's missing) / 
+  Not started
+- What I inspected (files/commands, raw findings)
+- What I changed (actual diffs)
+- Build result (command + raw output/exit status)
+- Install result (command + raw output)
+- Device test evidence per component touched (screenshots + logcat excerpts)
+- Performance numbers actually measured vs. targets
+- Explicit list of anything mocked, stubbed, or deferred, and why
+- Any privacy-boundary risks found between Ripple / Moment Invitation / Who's Here
+- Remaining problems / open questions / recommended next-session priority
+
+NOTE: no UI reference screenshot was provided for the Feed screen this session 
+(unlike the Map screen prompt, which had one). If a Feed UI mockup exists, attach it 
+next session so visual QA has a pixel-match target instead of relying on the text 
+layout description alone.
+

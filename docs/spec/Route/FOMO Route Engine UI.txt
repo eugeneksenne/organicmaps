@@ -1,0 +1,329 @@
+FOMO Route Engine UI
+
+Version 4.0 — Apple-Class Navigation Experience
+
+Built on Organic Maps, enhanced by FOMO Intelligence.
+
+The UI is designed around one principle:
+
+Navigation should always remind users why they're going, not just how to get there.
+
+Screen 1 — Navigation App Picker
+
+Appears after tapping 📍 Route.
+
+Header
+
+← Choose Navigation Select how you'd like to get there. 
+
+Recommended Card
+
+⭐ Recommended [FOMO] FOMO Navigation Powered by Organic Maps ✓ Offline Maps ✓ Live Crowd ✓ Friends ✓ NightGuard ──────────────────── Navigate 
+
+Large premium card with:
+
+Glass background
+
+Hero gradient
+
+Organic Maps badge
+
+Soft glow
+
+Installed Navigation Apps
+
+Automatically detects installed apps.
+
+Google Maps → Waze → Organic Maps → Uber → Bolt → 
+
+Each row shows
+
+Icon
+
+Name
+
+Supported modes
+
+Launch indicator
+
+Bottom
+
+☑ Always use this app 
+
+Screen 2 — Transport Selection
+
+Shown after selecting a navigation provider.
+
+← Choose Transport ────────────────── 🚶 Walk ────────────────── 🚗 Drive 
+
+Large Apple-style cards.
+
+Selected option animates with
+
+Border glow
+
+Slight scale
+
+Haptic feedback
+
+Screen 3 — Route Preview
+
+Full-screen map.
+
+Organic Maps already loaded.
+
+Top
+
+Back button
+
+Search
+
+Layers
+
+Map
+
+Shows
+
+Current location
+
+Destination
+
+Alternative routes
+
+Traffic overlays
+
+NightGuard overlay
+
+Bottom Sheet
+
+[Venue Image] The Groove ✓ 🟢 Open 🔥 Lit 👥 12 Friends Here 📍 4.3 km ETA 18 min ────────────────── Fastest Safest ⭐ Nightlife Route ────────────────── Share ETA Save Start Navigation 
+
+Bottom sheet supports
+
+Collapsed
+
+Half
+
+Expanded
+
+Screen 4 — Active Navigation
+
+This becomes the signature FOMO navigation experience.
+
+Instead of a turn banner, the destination venue remains visible throughout the journey.
+
+Destination Venue Card
+
+Pinned at the top.
+
+┌───────────────────────────────┐ [Venue Image] The Groove ✓ 🟢 Open until 04:00 🔥 Lit 👥 12 Friends Here 📍 4.3 km ETA 18 min └───────────────────────────────┘ 
+
+Navigation Instruction
+
+Appears directly below the venue card.
+
+⬅ Turn left in 300 m Nelson Mandela Drive 
+
+This updates live.
+
+Main Map
+
+Entire center
+
+Organic Maps
+
+Shows
+
+Current location
+
+Route line
+
+Destination
+
+Friends
+
+Temporary venues
+
+Flash Drops
+
+NightGuard alerts
+
+Road closures
+
+Floating Controls
+
+Right side
+
+🔇 Voice 🧭 Compass 📍 Recenter 🗺 Layers 
+
+Left side
+
+🛡 NightGuard ⚠ Report Hazard 
+
+Bottom Navigation Bar
+
+──────────────────── ETA 22:41 18 min 4.3 km 62 km/h ──────────────────── 
+
+Minimal.
+
+No duplicated venue information.
+
+Live Venue Updates
+
+While navigating, the destination card updates automatically.
+
+Examples
+
+🔥 Crowd changed Legendary 👥 3 more friends arrived 🎧 Live DJ started 🎟 Event begins in 10 minutes 
+
+These updates animate inside the card without interrupting navigation.
+
+Screen 5 — Navigation Mini Player
+
+If the user leaves navigation.
+
+Small floating card.
+
+⬅ Next turn 220 m ETA 15 min Tap to Resume 
+
+Works over
+
+Feed
+
+Discover
+
+Chats
+
+Camera
+
+Profile
+
+Never covers important content.
+
+Screen 6 — Arrival Experience
+
+Navigation finishes with a premium arrival screen.
+
+Background
+
+Venue hero image.
+
+Foreground
+
+Glass card.
+
+🎉 Welcome to The Groove 🟢 Open 🔥 Lit 👥 12 Friends Here ──────────────────── Check In Open Club Lobby Join Live Moment Share Arrival 
+
+Buttons animate upward.
+
+Screen 7 — Crowd Update
+
+Only shown to users currently at the venue.
+
+🔥 Help others discover tonight's vibe How's the crowd? ○ Low Key ○ Building ○ Lit ○ Legendary ────────────── Submit 
+
+Appears only after the user has had enough time to experience the venue.
+
+Screen 8 — Navigation Summary
+
+Displayed after navigation ends.
+
+Trip Complete ──────────────── 18 min 4.3 km Average Speed 58 km/h ──────────────── Rate Route Save Route Favourite Venue Return to Map 
+
+Shared UI Components
+
+Destination Venue Card
+
+Appears on:
+
+Route Preview
+
+Active Navigation
+
+Arrival Screen
+
+Contains:
+
+Hero image
+
+Venue name
+
+Verification badge
+
+Open/Closed status
+
+Closing time
+
+Crowd level
+
+Friends at venue
+
+Distance
+
+ETA
+
+Crowd Badge
+
+Always uses the same four branded levels:
+
+🟢 Low Key
+
+🟡 Building
+
+🟠 Lit
+
+🔴 Legendary
+
+Buttons
+
+Primary
+
+Large pill button
+
+Example
+
+Start Navigation 
+
+Secondary
+
+Rounded glass buttons
+
+Example
+
+Save Route 
+
+Bottom Sheets
+
+Used on:
+
+Route Preview
+
+Venue Details
+
+Transport Selection
+
+Snap positions:
+
+25%
+
+50%
+
+90%
+
+Motion System
+
+Organic Maps remains continuously rendered between screens to avoid reloads.
+
+Venue cards fade and resize smoothly between preview, navigation, and arrival.
+
+Route lines animate when switching between alternative routes.
+
+Crowd and friend updates animate in place instead of using intrusive pop-ups.
+
+Arrival transitions use a subtle hero image reveal and card expansion rather than dramatic effects.
+
+Complete Navigation Flow
+
+📍 Route │ ▼ Navigation App Picker │ ▼ Transport Selection │ ▼ Route Preview │ ▼ Active Navigation │ ▼ Mini Navigation (optional) │ ▼ Arrival Experience │ ▼ Crowd Update (venue users only) │ ▼ Navigation Summary 
+
+This updated UI keeps the destination venue at the heart of the experience. Organic Maps handles navigation, while FOMO continuously layers in venue intelligence, friend presence, NightGuard safety, and community-powered crowd updates, creating a navigation flow that feels native to a social nightlife platform rather than a conventional maps application.

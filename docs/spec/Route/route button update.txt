@@ -1,0 +1,620 @@
+﻿# FOMO Route Engine
+
+## Native Navigation System (Organic Maps Foundation)
+
+**Version 4.0 — Production Architecture**
+
+---
+
+# Vision
+
+The Route button is a universal navigation entry point available everywhere in FOMO.
+
+Unlike traditional navigation apps, FOMO combines **native navigation**, **social intelligence**, and **live venue data** into a single experience.
+
+Users are always free to choose their preferred navigation app, but **FOMO Navigation (powered by Organic Maps)** is recommended because it provides the richest experience.
+
+The Route Engine is built on:
+
+* Organic Maps (native navigation engine)
+* OpenStreetMap (map data)
+* OSRM (routing engine)
+* FOMO Venue Intelligence
+* FOMO Social Intelligence
+* NightGuard Safety
+
+This preserves user choice while making the in-app experience the best option. 
+
+---
+
+# Route Button
+
+The same Route button appears anywhere a destination exists.
+
+```text
+📍 Route
+```
+
+The experience is identical regardless of where it is pressed.
+
+### Supported Screens
+
+* Map
+* Discover
+* Feed
+* Venue Card
+* Club Lobby
+* Event Screen
+* Search
+* Saved Places
+* Flash Drops
+* Friend Profiles
+* Shared Locations
+* Chat Location Messages
+* Mayor Screen
+
+
+
+---
+
+# Route Flow
+
+```text
+User taps Route
+        │
+        ▼
+Destination Intelligence
+        │
+        ▼
+Navigation App Picker
+        │
+        ▼
+Transport Selection
+        │
+        ▼
+Navigation Session
+        │
+        ▼
+Arrival Experience
+        │
+        ▼
+Navigation Summary
+```
+
+---
+
+# Step 1 — Destination Intelligence
+
+Before showing navigation options, FOMO gathers live information about the destination.
+
+Displayed:
+
+* Venue image
+* Venue name
+* Address
+* Distance
+* Estimated travel time
+* Opening status
+* Friends currently there
+* Live crowd level
+* Current event (if available)
+
+Queue estimates have been removed.
+
+---
+
+# Step 2 — Navigation App Picker
+
+Every Route action opens the Navigation Picker unless the user has enabled **Always use this app**.
+
+## Header
+
+**Choose Navigation**
+
+*"Select how you'd like to get there."*
+
+---
+
+## ⭐ Recommended
+
+### FOMO Navigation
+
+**Powered by Organic Maps**
+
+Badge
+
+**Recommended**
+
+Benefits
+
+* Native navigation
+* Offline maps
+* Turn-by-turn guidance
+* Live venue intelligence
+* Friends at venue
+* Live crowd updates
+* NightGuard safety
+* Arrival check-in
+* Works offline
+
+Primary Button
+
+**Navigate with FOMO**
+
+---
+
+## Installed Navigation Apps
+
+Only applications installed on the user's device are shown.
+
+Examples
+
+* Google Maps
+* Waze
+* Apple Maps
+* HERE WeGo
+* Organic Maps
+* Uber
+* Bolt
+
+Each provider displays:
+
+* App icon
+* App name
+* Supported transport modes
+* Open button
+
+---
+
+## Remember Choice
+
+Checkbox
+
+**Always use this app**
+
+When enabled:
+
+Future Route taps immediately launch the selected provider.
+
+Users can change this anytime in Settings.
+
+---
+
+# Step 3 — Transport Selection
+
+After choosing a navigation provider, FOMO asks how the user wants to travel.
+
+Only two transport modes are supported in Version 1.
+
+```
+Choose Transport
+
+🚶 Walk
+
+🚗 Drive
+```
+
+The selected mode is passed to the chosen navigation provider.
+
+---
+
+# Step 4 — FOMO Navigation Preview
+
+Only shown when using **FOMO Navigation**.
+
+Displays:
+
+* Interactive Organic Maps view
+* Current location
+* Destination
+* Multiple route options
+* ETA
+* Arrival time
+* NightGuard overlay
+* Weather
+* Road closures
+
+---
+
+## Bottom Card
+
+Venue image
+
+Venue name
+
+Address
+
+Distance
+
+ETA
+
+Arrival time
+
+Venue status
+
+### Crowd
+
+Current crowd level
+
+Friends currently there
+
+Buttons
+
+* Start Navigation
+* Save Route
+* Share ETA
+* Choose Route
+
+---
+
+# Alternative Routes
+
+OSRM calculates multiple routes.
+
+### Fastest
+
+18 min
+
+---
+
+### Safest ⭐
+
+20 min
+
+Recommended during late hours.
+
+---
+
+### Least Busy Roads
+
+22 min
+
+Avoids congested roads.
+
+---
+
+### Nightlife Route
+
+21 min
+
+Passes through active nightlife districts.
+
+---
+
+# Active Navigation
+
+Powered by Organic Maps.
+
+Top Banner
+
+* Next maneuver
+* Road name
+* Distance to turn
+* Lane guidance
+* Compass
+* GPS accuracy
+
+Main Map
+
+* Organic Maps vector map
+* Navigation line
+* Current location
+* Destination
+* Friend locations
+* Live events
+* Flash Drops
+* Safety alerts
+* Road closures
+
+Floating Controls
+
+* Voice
+* Overview
+* Recenter
+* Report Issue
+* Layers
+* Exit Navigation
+
+Bottom Panel
+
+* Remaining distance
+* ETA
+* Arrival time
+* Speed
+* Offline status
+* GPS quality
+
+---
+
+# Live Crowd Intelligence
+
+Instead of queue estimates, FOMO uses community-powered crowd updates.
+
+Users currently at the venue occasionally receive a lightweight prompt.
+
+```
+🔥 Help others discover tonight's vibe
+
+How's the crowd?
+
+🟢 Low Key
+
+🟡 Building
+
+🟠 Lit
+
+🔴 Legendary
+
+Submit
+```
+
+The popup appears intelligently, for example:
+
+* After spending time at the venue
+* After posting a Moment
+* After checking in
+* While browsing the Club Lobby
+
+To maintain quality:
+
+* Only users at the venue can respond.
+* One update every 30–60 minutes.
+* Responses expire over time so the displayed crowd reflects current conditions.
+
+---
+
+# Crowd Levels
+
+🟢 **Low Key**
+
+* Relaxed atmosphere.
+* Plenty of space.
+
+🟡 **Building**
+
+* The venue is filling up.
+* Energy is growing.
+
+🟠 **Lit**
+
+* Great atmosphere.
+* Lively and buzzing.
+
+🔴 **Legendary**
+
+* Peak energy.
+* Everyone wants to be here tonight.
+
+---
+
+# Live Venue Card
+
+```
+The Groove
+
+🟢 Open
+
+🔥 Crowd
+
+Lit
+
+Updated 2 min ago
+
+12 friends here
+```
+
+---
+
+# Mini Navigation Overlay
+
+If users leave navigation, a floating navigation card follows them throughout FOMO.
+
+Shows
+
+* Next turn
+* Remaining distance
+* ETA
+
+Tap to resume navigation.
+
+Appears over:
+
+* Feed
+* Discover
+* Chats
+* Camera
+* Profile
+* Map
+
+---
+
+# Arrival Experience
+
+When the destination is reached:
+
+```
+Welcome to
+
+The Groove
+
+🟢 Open
+
+🔥 Crowd
+
+Lit
+
+12 friends here
+```
+
+Actions
+
+* Check In
+* Open Club Lobby
+* Join Live Moment
+* View Current Event
+* Share Arrival
+* Start NightGuard Safety Check
+
+---
+
+# Navigation Summary
+
+After navigation ends:
+
+Displays
+
+* Travel time
+* Distance
+* Average speed
+* Route quality
+* Battery usage
+
+Actions
+
+* Rate Route
+* Save Route
+* Favorite Venue
+* Return to Map
+
+---
+
+# GPS Recovery
+
+If GPS becomes unreliable:
+
+Displays
+
+* Searching for GPS
+* Accuracy
+* Signal quality
+
+Actions
+
+* Retry
+* Continue without voice
+* Offline navigation
+* Open external navigation app
+
+---
+
+# Error Handling
+
+If routing fails:
+
+Possible reasons
+
+* No internet
+* OSRM unavailable
+* Invalid destination
+* Road unavailable
+
+Actions
+
+* Retry
+* Different Route
+* Open another navigation app
+* Report Issue
+
+---
+
+# Core Services
+
+### Organic Maps Engine
+
+* Native map rendering
+* Offline maps
+* Navigation UI
+* Turn-by-turn navigation
+* Voice guidance
+
+### OSRM Service
+
+* Route calculation
+* Alternative routes
+* ETA
+* Map matching
+* Multi-stop routing
+* Rerouting
+
+### Navigation Session Service
+
+* Active navigation
+* Pause and resume
+* Arrival detection
+* Navigation history
+
+### Navigation Provider Registry
+
+* Detect installed navigation apps
+* Launch external providers
+* Cache provider capabilities
+
+### Venue Intelligence Service
+
+* Venue status
+* Events
+* Friends at venue
+* Live crowd
+* Flash Drops
+
+### NightGuard Service
+
+* Safe routing
+* Safety alerts
+* Emergency features
+
+---
+
+# Performance Optimizations
+
+* Cache installed navigation apps
+* Predictive route calculation when venue cards open
+* Background route prefetching
+* Offline route storage
+* Tile caching
+* Incremental rerouting
+* Lazy overlay loading
+* Battery-aware GPS polling
+* Background navigation optimization
+
+---
+
+# Security
+
+* GPS spoofing detection
+* Coordinate validation
+* Destination validation
+* Secure deep-link verification
+* Signed navigation sessions
+* Encrypted location logs
+* API rate limiting
+
+---
+
+# Analytics
+
+Anonymous insights include:
+
+* Preferred navigation provider
+* Preferred transport mode
+* Route completion rate
+* Arrival success
+* Reroute frequency
+* Favorite destinations
+* Popular nightlife routes
+* Crowd contribution participation rate
+
+---
+
+# FOMO Competitive Advantage
+
+Traditional navigation apps answer:
+
+> **"What's the fastest way to get there?"**
+
+FOMO answers:
+
+> **"What's the best way to experience tonight?"**
+
+By combining **Organic Maps**, **OSRM**, **live venue intelligence**, **community-powered crowd updates**, **friend activity**, and **NightGuard safety**, the Route Engine becomes more than navigation—it becomes an intelligent guide to the city's nightlife while still respecting each user's preferred navigation app.
+

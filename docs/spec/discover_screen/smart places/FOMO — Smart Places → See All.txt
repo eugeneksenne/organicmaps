@@ -1,0 +1,694 @@
+# FOMO Smart Places — Full Updated Production Plan (Billion-Dollar Edition)
+
+This version positions **Smart Places** as FOMO's **premium nightlife concierge**, while **Explore the City** remains the discovery engine.
+
+The distinction is simple:
+
+**Explore the City**
+
+> "Show me what's happening."
+
+**Smart Places**
+
+> "Tell me where I should go."
+
+The goal isn't to show every venue. It's to help users confidently decide where to spend their night.
+
+---
+
+# Product Vision
+
+Smart Places is the intelligence layer of FOMO.
+
+It combines:
+
+* AI-assisted recommendations (without feeling like AI)
+* Real-time nightlife intelligence
+* Curated collections
+* Editorial guidance
+* Venue intelligence
+* Event intelligence
+* Routing
+
+It should feel like a luxury concierge that already knows the city's best options.
+
+---
+
+# Core Principles
+
+Every screen should:
+
+✅ Reduce decision fatigue
+
+✅ Feel curated instead of crowded
+
+✅ Prioritize quality over quantity
+
+✅ Explain recommendations
+
+✅ Update in real time
+
+Never become:
+
+* another venue directory
+* another endless feed
+* another map
+
+---
+
+# Screen Structure
+
+```
+Header
+
+↓
+
+Tonight Recommendation
+
+↓
+
+Tonight Context
+
+↓
+
+Mood Filters
+
+↓
+
+Editor's Guides
+
+↓
+
+Tonight Timeline
+
+↓
+
+Smart City Pulse
+
+↓
+
+Bottom Sheet
+(Sort & Filters)
+```
+
+---
+
+# 1. Premium Header
+
+Minimal.
+
+Elegant.
+
+Glassmorphism.
+
+## Left
+
+Smart Places
+
+Curated for you in Johannesburg
+
+Updated moments ago
+
+## Right
+
+Notifications
+
+Profile
+
+Future
+
+Saved Plans
+
+Recommendation History
+
+---
+
+# 2. Tonight Recommendation (Hero)
+
+This replaces generic hero banners.
+
+Purpose:
+
+Answer
+
+> "If you only visit one place tonight,
+> this is our recommendation."
+
+Large cinematic card.
+
+Shows
+
+Hero image
+
+Venue name
+
+Verification badge
+
+Rating
+
+Open until
+
+Distance
+
+Reason chips
+
+Examples
+
+⭐ Recommended
+
+❤️ Perfect for Date Night
+
+🎵 Live DJ at 9 PM
+
+🌇 Rooftop
+
+CTA
+
+Route
+
+View Venue
+
+Save
+
+Share
+
+The hero uses the **same reusable FOMO Venue Card**, simply displayed in its expanded state.
+
+---
+
+# 3. Tonight Context
+
+A small information strip.
+
+Example
+
+Tonight in Johannesburg
+
+Friday
+
+8:34 PM
+
+22°C
+
+63 venues open
+
+18 live shows
+
+Light traffic
+
+Rain after midnight
+
+No hype.
+
+Only useful intelligence.
+
+---
+
+# 4. Mood & Occasion Filters
+
+Horizontal chips.
+
+Examples
+
+🔥 Tonight
+
+❤️ Date Night
+
+🎉 Party
+
+🍸 Cocktails
+
+🍽 Dinner
+
+🎵 Live Music
+
+🌇 Rooftops
+
+💎 Luxury
+
+☕ Chill
+
+🌃 Late Night
+
+✨ Hidden Gems
+
+Selecting a chip instantly reranks all recommendations.
+
+No page reload.
+
+---
+
+# 5. Editor's Guides (Core Experience)
+
+This replaces traditional categories.
+
+Each guide represents a nightlife scenario.
+
+Examples
+
+Tonight's Best Picks
+
+Dinner Before Dancing
+
+Perfect First Date
+
+Luxury Evenings
+
+Live Music Tonight
+
+After Midnight
+
+Hidden Rooftops
+
+Worth Leaving Your Area
+
+Each guide contains reusable venue cards.
+
+No custom card design.
+
+Only different recommendation logic.
+
+---
+
+## Guide Card
+
+Large cinematic image
+
+Guide title
+
+Venue count
+
+Last updated
+
+Context
+
+Example
+
+Perfect First Date
+
+10 places
+
+Updated 2 min ago
+
+Ideal before midnight
+
+Tap
+
+↓
+
+Guide
+
+↓
+
+Venue List
+
+↓
+
+Venue Detail
+
+---
+
+# 6. Smart Venue Lists
+
+Opening a guide reveals a curated venue list.
+
+Every venue uses the standard reusable FOMO Venue Card.
+
+Stage 1
+
+Compact card
+
+↓
+
+Stage 2
+
+Expanded floating preview
+
+↓
+
+Venue Details
+
+Exactly the same interaction as:
+
+Explore
+
+Map
+
+Events
+
+Search
+
+Saved Places
+
+---
+
+## Smart Places Adds One Thing
+
+Recommendation reason.
+
+Examples
+
+⭐ Recommended for you
+
+❤️ Romantic atmosphere
+
+🎵 Live music begins soon
+
+🌅 Amazing sunset views
+
+🍸 Signature cocktails
+
+💎 Editor's Pick
+
+This chip sits above the shared venue card.
+
+---
+
+# 7. Tonight Timeline
+
+A signature FOMO feature.
+
+Instead of endless scrolling, users see a suggested flow for the evening.
+
+Example
+
+8:00 PM
+
+Dinner
+
+↓
+
+9:30 PM
+
+Cocktails
+
+↓
+
+11:00 PM
+
+Live DJ
+
+↓
+
+1:00 AM
+
+Late Night Lounge
+
+Each stop links directly to recommended venues.
+
+Users can save the plan or customize it.
+
+---
+
+# 8. Smart City Pulse
+
+A compact intelligence dashboard.
+
+Example
+
+145 Events Tonight
+
+38 Rooftops Open
+
+21 Live Shows
+
+Most Busy After 10 PM
+
+Safe Routes Available
+
+No fake crowd numbers.
+
+Only trusted data.
+
+---
+
+# 9. Sorting & Filters
+
+Hidden inside a bottom sheet.
+
+Not permanently visible.
+
+Sort
+
+Recommended
+
+Nearest
+
+Open Now
+
+Highest Rated
+
+Newest
+
+Filters
+
+Distance
+
+Open Hours
+
+Music
+
+Cuisine
+
+Venue Type
+
+Price
+
+Accessibility
+
+Outdoor Seating
+
+The recommendation engine remains the default.
+
+---
+
+# 10. Shared Venue Card System
+
+Everywhere in FOMO uses the same design.
+
+Shared between
+
+Explore
+
+Smart Places
+
+Map
+
+Events
+
+Search
+
+Saved Places
+
+Flash Drops
+
+Club Lobby
+
+Recommendations
+
+This creates consistency across the app.
+
+---
+
+## Stage 1
+
+Hero image
+
+Venue
+
+Verified badge
+
+Open
+
+Distance
+
+Rating
+
+Address
+
+Category chips
+
+---
+
+## Stage 2
+
+Large cinematic preview
+
+Gallery
+
+Description
+
+Opening hours
+
+Upcoming events
+
+Club Lobby
+
+Route
+
+Save
+
+Share
+
+Reaction
+
+Exactly the same everywhere.
+
+---
+
+# 11. Recommendation Engine
+
+Smart Places doesn't sort by popularity alone.
+
+Ranking considers:
+
+Open now
+
+Distance
+
+Venue quality
+
+Current events
+
+Weather suitability
+
+Opening hours
+
+Time of day
+
+Selected mood
+
+User preferences
+
+Safety
+
+Transport convenience
+
+The system explains recommendations instead of showing opaque rankings.
+
+---
+
+# 12. Smart Integrations
+
+Smart Places connects every major FOMO feature.
+
+## Events
+
+Shows venues hosting relevant events tonight.
+
+## Club Lobby
+
+Preview the live atmosphere before deciding.
+
+## Flash Drops
+
+Highlights nearby rewards users can claim by visiting the venue.
+
+## My Circle
+
+Displays places where friends have plans or recently checked in (with privacy controls).
+
+## NightGuard
+
+Prioritizes safer routes and travel recommendations when appropriate.
+
+## Map
+
+One tap opens navigation to the selected venue.
+
+---
+
+# 13. Motion & Visual Design
+
+Dark mode first.
+
+Apple-quality animations.
+
+Motion principles:
+
+* Smooth card elevation
+* Soft neon glow
+* Gentle hero parallax
+* Animated recommendation transitions
+* Glassmorphism surfaces
+* Cinematic image fades
+* Spring-based interactions
+* Haptic feedback on key actions
+
+Avoid:
+
+* Busy animations
+* Flashing effects
+* Social-feed style motion
+
+Smart Places should feel calm, confident, and premium.
+
+---
+
+# Future Roadmap
+
+Not part of MVP, but designed into the architecture:
+
+* AI Concierge
+* Voice recommendations
+* Auto-generated Night Plans
+* Group planning
+* Collaborative itineraries
+* Smart reservations
+* Creator-curated guides
+* Seasonal guides
+* Personalized recommendation learning
+* Travel mode
+* Weekend planner
+
+---
+
+# Final User Journey
+
+```
+Discover
+
+↓
+
+Tap Smart Places
+
+↓
+
+See Tonight's Recommendation
+
+↓
+
+Browse Mood Filters
+
+↓
+
+Open an Editor's Guide
+
+↓
+
+View Shared Venue Cards
+
+↓
+
+Expand Floating Venue Preview
+
+↓
+
+Open Venue Details
+
+↓
+
+Join Club Lobby
+
+↓
+
+Navigate to Venue
+
+↓
+
+Experience the Night
+```
+
+## Why this architecture scales
+
+This design transforms Smart Places from a venue browser into FOMO's **decision engine**. By reusing the same premium venue cards and venue detail experience across Explore, Map, Events, and Smart Places, the app maintains a cohesive design language while letting different recommendation engines drive different user goals. Explore inspires discovery; Smart Places delivers confident decisions. Together, they create a seamless, premium nightlife experience that can scale as new features are added without fragmenting the user experience.

@@ -1,0 +1,138 @@
+# FOMO Venue Web Experience Engine — Autonomous Implementation Agent (Loop Prompt)
+
+You are a Principal Software Architect, Senior Kotlin Multiplatform Engineer, WebView/Platform Integration Engineer, Security Engineer, and Mobile UX Architect.
+
+Your job is to take the **FOMO Venue Web Experience Engine** from its current state to fully production-ready — deployable to Google Play Store and Apple App Store — by working through `VENUEWEB_PROGRESS.md` autonomously, one run after another, without waiting for approval between items.
+
+This is a loop, not a one-shot generation. Every time you're invoked against this prompt, you resume exactly where the tracker left off.
+
+---
+
+## 0. Source of Truth
+
+Read these in full before touching code — they are the actual spec, not this prompt:
+
+1. `FOMO_Venue_Web_Experience_Engine_Spec_v2.0.md` — architecture, screens, delegation model, resolved defaults, data model
+2. `VENUEWEB_PROGRESS.md` — current state; read first, write last, every run
+
+Do not re-derive feature requirements from this prompt or memory. If the spec and this prompt ever disagree, the spec wins — flag the conflict as a blocker (§4) rather than silently picking one.
+
+The engine's core constraint governs every decision you make: **it never implements business logic belonging to another FOMO engine.** Route, Call Venue, Share, and Plan delegate out; this engine owns only display, session, security, and performance for the venue website surface itself. If an implementation choice would duplicate logic that belongs in Route Engine, Communication Engine, or Share Engine, that's a design smell — stop and re-read §Action Delegation in the spec before proceeding.
+
+---
+
+## 1. Loop Mechanics
+
+Every run, in order:
+
+1. **Read** `VENUEWEB_PROGRESS.md`. Identify the highest-priority item still `Not Started` or `In Progress`, respecting phase order in §5.
+2. **Read** the relevant section(s) of the spec for that item.
+3. **Implement it completely** per the Definition of Done (§3). No placeholders, TODOs, mocked network calls, or stub WebView behavior.
+4. **Verify**: the module must compile, and its tests must pass. If either fails, keep working the same item.
+5. **Update the tracker**: mark `Complete` with date, or `In Progress` with what remains, or `Blocked` with the specific blocker — then move to the next unblocked item. Log every assumption made, even small ones (e.g. "used 5 min preload TTL per spec §Preloading").
+6. **Repeat** until everything is `Complete`, everything remaining is `Blocked`, or you hit a safe context stopping point.
+7. **Before ending the run**, prepend a session summary to the tracker's Session Log.
+
+---
+
+## 2. Autonomy Rules
+
+- **No approval checkpoints.** Work the full phase list in one run.
+- **Default to shipping-safe assumptions, log them, keep moving.** Ambiguity gets a production-safe default and a tracker note, not a pause.
+- **Escalate only true blockers** — see §4.
+- **Never fake completion.** Stub WebView delegate methods, a hardcoded "success" instead of real redirect-loop detection, or a Planning Overlay that doesn't actually persist a plan — these mean `Not Started`, regardless of whether the screen renders.
+- **Past runs are not re-litigated** unless you find a concrete defect while working an adjacent module — log it as a new item instead of silently rewriting history.
+
+---
+
+## 3. Definition of Done (per module)
+
+**Architecture**
+- [ ] Folder structure follows Clean Architecture + feature-module boundaries (§5 module list)
+- [ ] Domain layer: entities (`VenueWebSession`, `VenueDownload`, etc.), use cases, repository interfaces
+- [ ] Data layer: repository implementations, DTOs, mappers
+- [ ] Shared KMP logic in `commonMain`, with `expect`/`actual` only where a platform WebView API genuinely requires it
+
+**Client**
+- [ ] Android: `WebView` integration via Jetpack Compose (`AndroidView` interop), per-venue `CookieManager` partitioning
+- [ ] iOS: `WKWebView` integration via SwiftUI (`UIViewRepresentable`), per-venue `WKWebsiteDataStore`
+- [ ] Top navigation bar + bottom action bar implemented natively on both platforms, replacing standard FOMO nav for the session's duration
+- [ ] Navigation graph entry from Venue Details → Website button (both platforms), and correct return path to the originating FOMO screen on Close
+- [ ] DI wiring (both platforms)
+
+**Backend**
+- [ ] Supabase Postgres schema: `venue_web_sessions`, `venue_downloads`, `venue_web_events`, `venue_web_errors` (tables + RLS policies, not just shape)
+- [ ] Object storage abstraction for `venue_downloads.fileRef`
+- [ ] Versioned, idempotent API contracts for session creation/expiry and download retrieval
+
+**Cross-cutting**
+- [ ] Session isolation implemented per §Session Isolation (not just "cookies are separate" — actual per-venue data store instances, with the 30-day inactivity expiry wired to a real cleanup job)
+- [ ] Redirect-loop detection at the resolved threshold (5 redirects), routing to Error Recovery
+- [ ] URL scheme handling implemented per the spec's full allowlist table (`tel:`, `mailto:`, `maps:` → Route Engine, unknown schemes blocked except session-recovery handoff) — not just HTTPS/HTTP
+- [ ] WebView pool (max 3 warm instances, LRU eviction) actually evicting, not just capped by config
+- [ ] Preloading triggered on Venue Details open (not app launch, not feed scroll) with the 5-minute TTL release
+- [ ] Session Recovery: scroll position, active form, and website session restoration verified against at least one real external-auth redirect flow (e.g. a test payment provider redirect), not just same-page reload
+- [ ] Error handling + retry policy; Error Recovery screen wired to real failure types (`LoadFailure`, `RedirectLoop`, `UnsupportedScheme`, `Timeout`)
+- [ ] Unit tests + integration tests (real assertions — including a test that two venue sessions' cookies do not leak into each other)
+- [ ] Module-level README
+
+**App Store / Play Store readiness** — this engine's specific compliance risk is payments/IAP, not permissions, so the checklist differs from Night Guard's:
+- [ ] **Apple Guideline 3.1.1 (In-App Purchase) audit**: confirm every venue category using the engine sells physical goods/services (tickets to a physical event, table reservations, food, merchandise) rather than digital-only content — physical goods/services are exempt from requiring Apple IAP when purchased on the venue's own website; digital-only purchases would not be. Flag any venue category where this is unclear as a blocker (§4), not an assumption.
+- [ ] **Apple Guideline 4.2 (Minimum Functionality) note**: confirmed acceptable since the engine is one feature among FOMO's full native feature set, not the app's primary purpose — document this reasoning in the module README for App Review notes.
+- [ ] **Google Play equivalent payment/WebView policy audit**: same physical-vs-digital goods distinction under Play's Payments policy.
+- [ ] App Review notes drafted explaining the venue-website delegation model in plain terms, so a reviewer testing the Website button understands it's the venue's own site, not FOMO circumventing store payment policy
+- [ ] "Report Website" path confirmed functional end-to-end, since it's the abuse/moderation mechanism for third-party (venue-controlled) web content embedded in the app — both stores expect a reporting path for embedded third-party content
+
+A module missing any checkbox stays `In Progress`.
+
+---
+
+## 4. What Counts as a True Blocker (stop and ask)
+
+- Missing credentials, API keys, or infrastructure access (e.g. object storage bucket not provisioned)
+- A genuine conflict between the spec and this prompt that can't be resolved by picking the more conservative option
+- Any venue category or transaction type where the Apple 3.1.1 physical-vs-digital goods distinction is genuinely unclear — this is a real rejection risk, not a stylistic judgment call
+- An irreversible or destructive action (e.g. a migration that drops existing `venue_downloads` records)
+- A hard platform constraint with no workaround (e.g. a required `WKWebsiteDataStore` API unavailable on a targeted minimum iOS version)
+
+Everything else — exact spacing/copy, cache size tuning within reason, minor retry backoff timing — gets decided and logged, not asked.
+
+---
+
+## 5. Phase Order
+
+```
+Phase 0 — Foundation
+  venueweb-core (VenueWebSessionController interface, venue context layer)
+  venueweb-security (URL validation, scheme allowlist, redirect-loop detection)
+
+Phase 1 — Session & Performance
+  venueweb-session (per-venue isolation, session recovery)
+  venueweb-preloading (DNS/SSL warm-up, TTL release)
+  venueweb-performance (WebView pooling, caching, memory optimisation)
+
+Phase 2 — UI Shell
+  venueweb-ui (top nav, bottom action bar, full-screen container, both platforms)
+  Navigation entry wiring: Venue Details → Website button → engine → Close → return path
+
+Phase 3 — Action Delegation
+  venueweb-action-delegation (Route/Comms/Share hooks into existing FOMO engines — thin, no duplicated logic)
+  venueweb-planning-overlay (bottom sheet, Save Plan use case)
+
+Phase 4 — Support Systems
+  venueweb-download-centre (screen + storage + backend schema)
+  venueweb-error-recovery (screen + error taxonomy + reporting)
+
+Phase 5 — Analytics & Store Readiness
+  venueweb-analytics
+  App Store / Play Store compliance audit (§3 checklist) across every module touching
+  payments-adjacent flows or third-party embedded content
+```
+
+Do not start a later-phase module if its Phase 0–2 dependency isn't `Complete` — mark it `Blocked` with the dependency named.
+
+---
+
+## 6. Stopping Criteria for a Run
+
+End the run and write the session summary when every tracker item is `Complete`, every remaining item is `Blocked`, or you reach a safe context stopping point mid-phase (leave the current item `In Progress` with a precise note on where you stopped).
