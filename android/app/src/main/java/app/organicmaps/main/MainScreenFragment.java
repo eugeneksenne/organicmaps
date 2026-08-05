@@ -25,6 +25,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import app.organicmaps.R;
 import app.organicmaps.discover.data.DiscoverHeroRepository;
+import app.organicmaps.discover.data.OpenMeteoWeatherRepository;
 
 /** The non-map destinations in the app's primary navigation. */
 public class MainScreenFragment extends Fragment
@@ -364,6 +365,7 @@ public class MainScreenFragment extends Fragment
   {
     final View view = inflater.inflate(R.layout.discover_screen, container, false);
     bindDiscoverHero(view);
+    refreshDiscoverWeather(view);
     view.findViewById(R.id.discover_hero_action).setOnClickListener(v -> openDiscoverAll("Tonight"));
     final LinearLayout sections = view.findViewById(R.id.discover_sections);
     addDiscoverSection(sections, "Closing Soon", new String[] {"The Living Room • 48 min", "The Royale • 1h 12m", "Rosebank Social • 1h 35m"}, 0xFFF9E2D1);
@@ -378,6 +380,24 @@ public class MainScreenFragment extends Fragment
     addDiscoverSection(sections, "Prep Rooms", new String[] {"Tonight's outfits", "Fresh cut near you", "Beauty deals"}, 0xFFF5DCE4);
     addDiscoverSection(sections, "Tonight", new String[] {"Build your timeline", "Dinner at 19:30", "Ride home ready"}, 0xFFDDE5D4);
     return view;
+  }
+
+  private void refreshDiscoverWeather(@NonNull View view)
+  {
+    new OpenMeteoWeatherRepository().loadJohannesburg(new OpenMeteoWeatherRepository.Callback()
+    {
+      @Override public void onLoaded(@NonNull String summary)
+      {
+        if (!isAdded())
+          return;
+        requireActivity().runOnUiThread(() -> {
+          ((TextView) view.findViewById(R.id.discover_weather)).setText(summary);
+          // Refresh while Discover remains open. The Supabase hero remains the offline fallback.
+          view.postDelayed(() -> { if (isAdded()) refreshDiscoverWeather(view); }, 10 * 60 * 1000L);
+        });
+      }
+      @Override public void onUnavailable() {}
+    });
   }
 
   private void bindDiscoverHero(@NonNull View view)

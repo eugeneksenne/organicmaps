@@ -125,6 +125,7 @@ The Android project now has native prototype screens for Chats, DMs, Calls, Grou
 ## Discover
 
 - [x] Add city-level Dynamic Hero snapshot schema and Android repository with offline UI fallback.
+- [x] Add keyless real-time Open-Meteo weather refresh for the Johannesburg Hero.
 - [ ] Deploy a trusted city aggregation worker for weather, venue/event/drop counts, energy score, and personalised recommendations.
 - [ ] Implement repository-backed Discover sections, distance sorting, filters, See All pages, venue/event/people APIs, and privacy-aware location handoff.
 
