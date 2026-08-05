@@ -1,0 +1,842 @@
+# FOMO Profile System
+
+## The Digital Passport
+
+---
+
+# Product Vision
+
+The FOMO Profile is not a traditional social media profile.
+
+It is a **living digital passport** that evolves with a person's real-world experiences.
+
+Unlike Instagram, which captures who you were, FOMO reflects:
+
+* Who you are
+* Where you've been
+* What you enjoy
+* The experiences that define your lifestyle
+
+The profile should feel:
+
+* Alive
+* Premium
+* Cinematic
+* Personal
+* Trustworthy
+* Dynamic
+
+A visitor should understand someone's social identity in **under five seconds**.
+
+---
+
+# Design Principles
+
+* **Identity over popularity**
+* **Experiences over content**
+* **Presence over activity**
+* **Privacy by design**
+* **AI enhances, never replaces**
+* **Premium simplicity**
+
+---
+
+# Information Hierarchy
+
+The profile unfolds like a story.
+
+```
+Hero
+
+?
+
+Live Presence
+
+?
+
+Stories
+
+?
+
+Identity
+
+?
+
+Moments
+
+?
+
+Places
+
+?
+
+Activity
+
+?
+
+Compatibility
+
+?
+
+Creator (Conditional)
+
+?
+
+Saved (Owner Only)
+```
+
+Each section answers a different human question.
+
+| Section       | Question                             |
+| ------------- | ------------------------------------ |
+| Hero          | Who is this person?                  |
+| Presence      | What are they doing now?             |
+| Stories       | What's happening today?              |
+| Identity      | What kind of lifestyle do they have? |
+| Moments       | What experiences define them?        |
+| Places        | Where have they been?                |
+| Activity      | What have they done recently?        |
+| Compatibility | Would we get along?                  |
+| Creator       | What do they create?                 |
+| Saved         | What do they want to keep private?   |
+
+---
+
+# Hero
+
+## Purpose
+
+Immediately introduce the person.
+
+The hero occupies almost the entire first screen.
+
+---
+
+## Dynamic Background
+
+Automatically changes based on:
+
+* Time of day
+* Weather
+* Season
+* Latest Living Moment
+* AI-generated premium gradients
+
+Examples
+
+Morning
+
+Soft sunrise lighting
+
+Weekend
+
+Neon nightlife
+
+Rain
+
+Wet reflections
+
+Late Night
+
+Purple city lights
+
+Everything moves subtly with parallax and glass effects.
+
+---
+
+## Hero Content
+
+Large profile photo
+
+Verification badge
+
+Display name
+
+Username
+
+AI Identity
+
+Current city
+
+Presence status
+
+Vibe tags
+
+Relationship context
+
+Examples
+
+```
+12 Mutual Friends
+```
+
+```
+You've both visited Konka.
+```
+
+---
+
+# AI Identity
+
+One dynamic sentence generated from real experiences.
+
+Examples
+
+> Usually found discovering rooftop lounges and Amapiano nights.
+
+---
+
+> Luxury foodie exploring Johannesburg's nightlife one venue at a time.
+
+---
+
+> Weekend explorer chasing unforgettable experiences.
+
+The AI updates this over time.
+
+---
+
+# Hero Actions
+
+Adaptive based on relationship.
+
+### Stranger
+
+* Follow
+* Message
+* Invite Out
+
+### Friend
+
+* Message
+* Invite
+* Share Live Location
+
+### Creator
+
+* Follow
+* Book
+* Message
+
+---
+
+# Live Presence
+
+The signature feature of FOMO.
+
+A floating premium card beneath the hero.
+
+---
+
+## Presence Status
+
+Simple, clear, and privacy-friendly.
+
+### ?? Online
+
+The user is active on FOMO.
+
+---
+
+### ?? Busy
+
+The user prefers not to be disturbed.
+
+Can be set manually or suggested automatically when attending events or using Focus Mode.
+
+---
+
+### ? Offline
+
+The user is inactive or has chosen to appear offline.
+
+---
+
+## Live Presence Card
+
+Example
+
+```
+?? Online
+
+?? Konka
+
+?? Amapiano
+
+?? With 5 Friends
+
+Outside for 2h
+
+[Route]
+```
+
+Privacy enabled
+
+```
+?? Busy
+
+?? Location Hidden
+
+Outside Tonight
+```
+
+Offline
+
+```
+? Offline
+
+Last Active
+
+Yesterday
+```
+
+Presence Status answers:
+
+**"Are they available?"**
+
+Live Presence answers:
+
+**"What are they experiencing?"**
+
+---
+
+# Stories
+
+Located directly beneath the hero.
+
+Supports
+
+* Public Stories
+* Close Friends
+* Venue Stories
+* Event Stories
+
+24-hour expiry.
+
+---
+
+## AI Highlight Rings
+
+Automatically generated collections.
+
+Examples
+
+* Birthday Weekend
+* Summer Nights
+* Cape Town
+* Festivals
+* Rooftops
+* Cocktails
+
+Users can edit or pin them.
+
+---
+
+# Identity
+
+Replaces the traditional "Overview."
+
+---
+
+## Vibe DNA
+
+### Music
+
+* Amapiano
+* Afro House
+* Hip Hop
+
+---
+
+### Nightlife
+
+* Rooftops
+* Cocktail Bars
+* Festivals
+* Afterhours
+
+---
+
+### Lifestyle
+
+* Luxury
+* Fashion
+* Foodie
+* Travel
+
+---
+
+### Social Style
+
+* Explorer
+* Connector
+* Squad Leader
+* Creator
+
+Animated icons bring each category to life.
+
+---
+
+# Social Energy
+
+Meaningful lifestyle insights instead of vanity metrics.
+
+Displays
+
+Weekend Energy
+
+Outside Streak
+
+Favorite District
+
+Venue Diversity
+
+Cities Explored
+
+Social Rhythm
+
+Example
+
+```
+Weekend Energy
+
+96%
+```
+
+```
+Outside Streak
+
+8 Weekends
+```
+
+```
+Most Active
+
+Rosebank
+```
+
+```
+42 Venues Explored
+```
+
+---
+
+# Reputation
+
+Premium achievement cards.
+
+Examples
+
+* Verified
+* Trusted Community Member
+* NightGuard Trusted
+* Creator
+* Early Supporter
+
+No public scores.
+
+---
+
+# Moments
+
+The public lifestyle gallery.
+
+Premium masonry layout.
+
+Supports
+
+* Photos
+* Videos
+* Living Moments
+* Event Moments
+* Venue Moments
+
+---
+
+## Filters
+
+* All
+* Photos
+* Videos
+* Living Moments
+* Events
+* Tagged
+
+---
+
+Each moment displays
+
+Venue
+
+Event
+
+Date
+
+Friends
+
+Reactions
+
+Comments
+
+Music
+
+Weather
+
+AI Caption
+
+---
+
+## Living Memories
+
+Interactive memories.
+
+Photos animate.
+
+Music resumes.
+
+Venue ambience plays.
+
+Creates an immersive memory.
+
+---
+
+## AI Collections
+
+Automatically grouped.
+
+Examples
+
+* Summer Nights
+* Festival Season
+* Best Rooftops
+* Birthday Weekend
+* Golden Hour
+* Late Nights
+
+---
+
+# Places
+
+One of FOMO's biggest differentiators.
+
+---
+
+## Nightlife Passport
+
+Displays
+
+Countries
+
+Cities
+
+Districts
+
+Venues
+
+Events
+
+Collected like achievements.
+
+---
+
+## Sections
+
+Favorite Venues
+
+Recently Visited
+
+Cities Explored
+
+Venue Reviews
+
+Venue Wishlist
+
+Visited Events
+
+Friends Met
+
+---
+
+## Heatmap
+
+Interactive map showing
+
+Favorite districts
+
+Nightlife footprint
+
+Most visited areas
+
+Venue history
+
+---
+
+# Activity
+
+Chronological lifestyle timeline.
+
+Example
+
+```
+Friday Night
+
+Visited Konka
+
+Stayed 5h
+
+Posted 3 Moments
+
+Met 4 Friends
+
+Unlocked Rooftop Badge
+```
+
+---
+
+# Compatibility
+
+Premium recommendation card.
+
+Example
+
+```
+Excellent Match
+
+You both enjoy
+
+• Rooftops
+
+• Amapiano
+
+• Cocktails
+
+Frequently visit
+
+Rosebank
+
+Sandton
+```
+
+AI explains *why* you're compatible instead of showing a simple percentage.
+
+---
+
+# Creator (Conditional)
+
+Visible only to verified creators.
+
+Contains
+
+* Events
+* Venue Partnerships
+* Flash Drops
+* Creator Analytics
+* Media Kit
+* Bookings
+* Creator Moments
+
+---
+
+# Saved (Owner Only)
+
+Private section.
+
+Contains
+
+* Camera Roll
+* Drafts
+* Favorites
+* Hidden Moments
+* Downloads
+* Living Memories
+* AI Collections
+
+Anything can later be published without re-uploading.
+
+---
+
+# Search
+
+Profile-wide search.
+
+Examples
+
+* Konka
+* Birthday
+* Cape Town
+* Rooftops
+* Amapiano
+* Cocktails
+* Friends
+
+---
+
+# Floating Action Bar
+
+Always available while scrolling.
+
+Contains
+
+* Follow
+* Message
+* Invite
+* Share
+* More
+
+Designed as a premium floating glass pill with subtle motion.
+
+---
+
+# Settings
+
+Accessible via the top-right settings icon.
+
+### Account
+
+* Edit Profile
+* Username
+* Bio
+* Verification
+* Linked Accounts
+
+### Privacy
+
+* Presence Status
+* Live Presence
+* Location Sharing
+* Stories
+* Moments
+* Places
+* Activity
+
+### Notifications
+
+* Feed
+* Chats
+* Stories
+* Events
+* Flash Drops
+* NightGuard
+
+### Appearance
+
+* Theme
+* Motion
+* Accessibility
+
+### Camera & Media
+
+* Upload Quality
+* Storage
+* Saved Moments
+
+### NightGuard
+
+* Emergency Contacts
+* Buddy Pair
+* Walk Me Home
+* SOS
+
+### Connected Apps
+
+* Uber
+* Bolt
+* Google Maps
+* Spotify
+* Apple Music
+
+### Creator Studio
+
+Visible only to verified creators.
+
+### Data & Storage
+
+### Support
+
+### About
+
+---
+
+# AI Intelligence Layer
+
+The profile evolves automatically through AI.
+
+Features include:
+
+* Dynamic identity summaries
+* Smart bio suggestions
+* Automatic highlight creation
+* Memory organization
+* Weekend recap cards
+* Seasonal profile themes
+* Compatibility insights
+* Venue recommendations
+* Friend recommendations
+* Annual "Nightlife Wrapped"
+
+AI acts as a **personal curator**, not a chatbot.
+
+---
+
+# Journey & Milestones
+
+Celebrate long-term experiences.
+
+Examples
+
+* First venue visited
+* 100th venue unlocked
+* First festival attended
+* First creator partnership
+* One year on FOMO
+* Favorite venue of the year
+* Longest outside streak
+* Most memorable night
+* Cities explored over time
+
+Transforms the profile into a living timeline rather than just a gallery.
+
+---
+
+# Motion & Visual Language
+
+### Colors
+
+* Deep Black
+* Glassmorphism Surfaces
+* Electric Purple
+* Neon Cyan
+* Warm Amber
+
+### Motion
+
+* Hero parallax
+* Animated story rings
+* Live glowing indicators
+* Glass reflections
+* Smooth card elevation
+* Soft background transitions
+* Fluid scrolling
+* GPU-accelerated animations with graceful fallbacks
+
+Every interaction should feel polished, lightweight, and intentional.
+
+---
+
+# Performance & Scalability
+
+Designed for millions of users.
+
+* Lazy-load profile sections
+* Progressive media loading
+* Stream only Live Presence updates in real time
+* Intelligent caching
+* Adaptive image/video quality
+* Offline support for cached profile data
+* Optimized animations for low-end devices
+
+---
+
+# Final Positioning
+
+The FOMO Profile is **the digital passport of a person's nightlife life**. It is not a collection of posts or follower counts, but a living identity built from authentic experiences, meaningful places, memorable moments, and real-world connections. By combining AI-powered curation, privacy-first presence, immersive storytelling, and premium design, it becomes the central hub of the entire FOMO ecosystem—where every venue, event, friendship, and memory contributes to an evolving story that feels deeply personal and unmistakably alive.

@@ -1,0 +1,186 @@
+That's the right approach because the action users want depends on the category.
+
+A nightclub's primary digital destination is its **Club Lobby**.
+
+A restaurant's primary destination is usually its **website/menu**.
+
+A barbershop or salon's primary destination is **booking or website**.
+
+So instead of forcing every venue into the same action model, the **expanded nearby venue card** should adapt dynamically.
+
+# FOMO Nearby Venue Card Actions
+
+## 🌙 Nightlife
+
+```text
+[ Club Lobby ] [ Route ]
+```
+
+Club Lobby contains:
+
+* Moments
+* Live Streams
+* Events
+* Photos
+* Venue Feed
+
+---
+
+## 🎫 Events
+
+```text
+[ Event Lobby ] [ Route ]
+```
+
+Event Lobby contains:
+
+* Event Details
+* Moments
+* Lineup
+* Attendees
+* Live Streams
+
+---
+
+## 🍔 Food
+
+```text
+[ Website ] [ Route ]
+```
+
+Website opens:
+
+* website link
+
+Route opens navigation.
+
+---
+
+## ✨ Prep
+
+```text
+[ Website ] [ Route ]
+```
+
+Website opens:
+
+* Booking System
+* Services
+* Pricing
+* Contact Information
+
+Examples:
+
+```text
+Barbershop
+Salon
+Spa
+Nail Studio
+```
+
+---
+
+## 💎 Luxury
+
+### Option A (Recommended)
+
+```text
+[ Website ] [ Route ]
+```
+
+Luxury venues usually already have sophisticated booking systems.
+
+Examples:
+
+```text
+Hotels
+Rooftop Lounges
+Private Clubs
+Luxury Restaurants
+```
+
+---
+
+
+## 📡 Live
+
+```text
+[ Watch ] [ Route ]
+```
+
+Watch:
+
+* Opens livestream
+
+Route:
+
+* Navigate to broadcast location
+
+---
+
+# Nearby Venue Card Expansion
+
+### Collapsed
+
+```text
+┌────────────────────┐
+│ PHOTO      🔥92%   │
+│                    │
+│ Burger Republic ✓  │
+│ Restaurant         │
+│                    │
+│ ⭐4.8              │
+│ 📍0.4km • Open     │
+└────────────────────┘
+```
+
+---
+
+### Expanded
+
+```text
+┌────────────────────┐
+│ PHOTO      🔥92%   │
+│                    │
+│ Burger Republic ✓  │
+│ Restaurant         │
+│                    │
+│ ⭐4.8              │
+│ 📍0.4km • Open     │
+│                    │
+│[Website][Route]    │
+└────────────────────┘
+```
+
+---
+
+# Hero Card Actions
+
+The same logic should apply to the **Nearest Venue Hero Card**:
+
+| Category  | Primary Button    | Secondary Button |
+| --------- | ----------------- | ---------------- |
+| Nightlife | Club Lobby        | Route            |
+| Events    | Event Lobby       | Route            |
+| Food      | Website           | Route            |
+| Prep      | Website           | Route            |
+| Luxury    | Website / Reserve | Route            |
+| Live      | Watch             | Route            |
+
+---
+
+# FOMO Design Principle
+
+The action button should always answer:
+
+> "What's the most useful thing I can do digitally before I physically go there?"
+
+For nightlife, that's the Lobby.
+
+For food and prep, that's the Website.
+
+For luxury, that's Reservations or Website.
+
+For events, that's the Event Lobby.
+
+This keeps the experience intuitive because users don't have to learn different behaviors—the card always presents the most relevant digital action alongside the physical navigation action.

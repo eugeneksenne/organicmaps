@@ -1,0 +1,631 @@
+# FOMO — Explore the City
+
+## Billion-Dollar Discover Experience (MVP)
+
+---
+
+# Product Vision
+
+**Explore the City** is FOMO's intelligent venue discovery experience.
+
+It helps users discover **the best places around them** based on the city's rhythm, their location, and what's happening right now.
+
+Unlike Google Maps, Explore is not a business directory.
+
+Unlike Instagram, it isn't a social feed.
+
+Unlike TripAdvisor, it isn't a review platform.
+
+Explore exists to answer one simple question:
+
+> **"Where should I go right now?"**
+
+---
+
+# User Journey
+
+```text
+Open Explore
+
+        ?
+
+Feel the City's Energy
+
+        ?
+
+Choose a Discovery World
+
+        ?
+
+Browse Curated Venues
+
+        ?
+
+Open Venue
+
+        ?
+
+Get Directions
+
+        ?
+
+Go Out
+```
+
+---
+
+# Screen Layout
+
+```text
+------------------------------------
+
+Dynamic Hero Card
+
+------------------------------------
+
+Discover Places Around You
+
+?? Nightlife   ?? Food   ? Prep
+?? Wellness   ?? Travel   ?? 24/7
+
+------------------------------------
+
+Dynamic Discovery Section
+
+------------------------------------
+
+Venue Cards
+
+------------------------------------
+```
+
+Everything has one purpose.
+
+No unnecessary widgets.
+
+No fake activity.
+
+No clutter.
+
+---
+
+# 1. Dynamic Hero Card
+
+The emotional entry point.
+
+The Hero changes automatically throughout the day to reflect the city's rhythm.
+
+---
+
+## Morning
+
+```text
+?? Good Morning
+
+Johannesburg
+
+Coffee, brunch and places to start your day.
+```
+
+Background
+
+* Sunrise
+* Warm lighting
+* Coffee culture
+* Soft animations
+
+---
+
+## Afternoon
+
+```text
+?? Explore Johannesburg
+
+Great food,
+shopping
+and places to discover nearby.
+```
+
+Background
+
+* City streets
+* Outdoor cafés
+* Lifestyle imagery
+
+---
+
+## Evening
+
+```text
+?? The City Is Coming Alive
+
+Nightlife,
+rooftops
+and unforgettable experiences await.
+```
+
+Background
+
+* Neon skyline
+* Rooftops
+* Golden hour
+* City lights
+
+---
+
+## Late Night
+
+```text
+?? Johannesburg Never Sleeps
+
+Find places still open around you.
+```
+
+Background
+
+* Purple city lights
+* Motion blur
+* Cinematic nightlife
+
+---
+
+## Hero Features
+
+Displays:
+
+* Dynamic title
+* Dynamic subtitle
+* City name
+* Time-aware artwork
+* Glassmorphism overlay
+* Ambient motion
+* Optional weather accent (future)
+
+---
+
+# 2. Discover Places Around You
+
+Instead of categories, users browse **Discovery Worlds**.
+
+Horizontal scroll.
+
+```text
+?? Nightlife
+
+?? Food
+
+? Prep
+
+?? Wellness
+
+?? Travel
+
+?? 24/7
+```
+
+Selected chip expands with a filled background and subtle glow.
+
+---
+
+# Discovery Worlds
+
+## ?? Nightlife
+
+Discover:
+
+* Nightclubs
+* Lounges
+* Cocktail Bars
+* Sports Bars
+* Wine Bars
+* Pubs
+* Shisanyamas
+* Hookah Lounges
+* Beach Bars
+* Pool Bars
+
+---
+
+## ?? Food
+
+Discover:
+
+* Restaurants
+* Fine Dining
+* Casual Dining
+* Cafés
+* Coffee Shops
+* Dessert Bars
+* Food Markets
+* Food Halls
+* Brunch Spots
+
+---
+
+## ? Prep
+
+Everything before going out.
+
+Discover:
+
+* Barbers
+* Hair Salons
+* Nail Studios
+* Makeup Artists
+* Lash Studios
+* Fashion Boutiques
+* Sneaker Stores
+* Perfume Stores
+* Jewelry Stores
+* Gyms
+* Pilates Studios
+
+---
+
+## ?? Wellness
+
+Recharge and reset.
+
+Discover:
+
+* Spas
+* Wellnessy Clubs
+* Yoga Studios
+* Wellness Retreats
+* Healthy Cafés
+* Social Coffee Shops
+
+---
+
+## ?? Travel
+
+Discover the city like a visitor.
+
+Includes:
+
+* Hotels
+* Resorts
+* Scenic Viewpoints
+* Tourist Attractions
+* Wine Estates
+* Beach Clubs
+* Resort Experiences
+
+---
+
+## ?? 24/7
+
+Places available any time.
+
+Includes:
+
+* 24-hour Restaurants
+* 24-hour Cafés
+* Fast Food
+* Casinos
+* 24-hour Gyms
+* 24-hour Filling Stations
+
+---
+
+# 3. Dynamic Discovery Section
+
+This section changes based on the selected Discovery World.
+
+Instead of a generic heading, the content adapts.
+
+---
+
+### ?? Nightlife
+
+```text
+Tonight's Hotspots
+
+Discover the city's best nightlife venues.
+```
+
+---
+
+### ?? Food
+
+```text
+Places to Eat
+
+Restaurants, cafés and dining experiences nearby.
+```
+
+---
+
+### ? Prep
+
+```text
+Get Ready
+
+Everything you need before heading out.
+```
+
+---
+
+### ?? Wellness
+
+```text
+Time to Recharge
+
+Wellness and Wellnessy experiences nearby.
+```
+
+---
+
+### ?? Travel
+
+```text
+Explore Local Gems
+
+Discover iconic places and memorable experiences.
+```
+
+---
+
+### ?? 24/7
+
+```text
+Always Open
+
+Places you can visit any time of the day or night.
+```
+
+Each section includes a **See All ?** action to open a dedicated discovery page.
+
+---
+
+# 4. Venue Cards
+
+The core content of Explore.
+
+Large immersive cards designed for browsing.
+
+---
+
+## Card Layout
+
+```text
+????????????????????????????
+
+[Hero Image]
+
+Konka
+
+Rosebank
+
+????? 4.8
+
+?? Open • Closes 04:00
+
+?? Cocktail Bar
+
+?? Live DJ
+
+?? Dance Floor
+
+?? 12 min away
+
+? Save
+
+View Venue ?
+
+????????????????????????????
+```
+
+---
+
+# Card Information
+
+Every venue card displays:
+
+* Hero image
+* Venue name
+* Category
+* Area/Suburb
+* Rating
+* Open/Closed status
+* Closing time
+* Distance
+* Experience tags
+* Save button
+* View Venue CTA
+
+No fake metrics.
+
+No "2,000 people here."
+
+No inflated popularity scores.
+
+---
+
+# Smart Ranking
+
+Venues are ranked by:
+
+1. Open now
+2. Distance
+3. Operating hours
+4. Venue quality
+5. User ratings
+6. Featured experiences
+7. Recently updated information
+
+This ensures users always see the most relevant options.
+
+---
+
+# Dynamic Discovery Rhythm
+
+The order of Discovery Worlds adapts throughout the day.
+
+### Morning
+
+```text
+? Prep
+
+?? Wellness
+
+?? Food
+
+?? Travel
+
+?? 24/7
+
+?? Nightlife
+```
+
+---
+
+### Afternoon
+
+```text
+?? Food
+
+? Prep
+
+?? Travel
+
+?? Wellness
+
+?? 24/7
+
+?? Nightlife
+```
+
+---
+
+### Evening
+
+```text
+?? Nightlife
+
+?? Food
+
+? Prep
+
+?? 24/7
+
+?? Wellness
+
+?? Travel
+```
+
+---
+
+### Late Night
+
+```text
+?? 24/7
+
+?? Nightlife
+
+?? Food
+
+?? Wellness
+
+?? Travel
+
+? Prep
+```
+
+Users don't need to think about what's relevant—the app naturally prioritizes it.
+
+---
+
+# Motion & Visual Language
+
+The experience should feel alive without being distracting.
+
+## Motion
+
+* Hero background transitions
+* Chip selection animation
+* Smooth horizontal scrolling
+* Card elevation on press
+* Image parallax
+* Shimmer loading
+* Soft glow effects
+
+Avoid:
+
+* Loud animations
+* Aggressive bouncing
+* Infinite carousels
+* Distracting motion
+
+---
+
+# Color System
+
+Dark-mode first.
+
+Palette:
+
+* Charcoal Black
+* Deep Graphite
+* Electric Purple
+* Neon Cyan
+* Warm Amber
+
+Discovery Worlds use subtle accent colors while maintaining a cohesive visual identity.
+
+---
+
+# Performance
+
+Designed for scalability.
+
+* Lazy-load venue cards
+* Progressive image loading
+* Cached discovery data
+* Adaptive image quality
+* Smooth 60fps scrolling
+* Lightweight animations
+* Background refresh for venue status
+
+---
+
+# MVP Scope
+
+### Included
+
+* ? Dynamic Hero
+* ? Discovery Worlds
+* ? Time-aware ordering
+* ? Dynamic section titles
+* ? Venue cards
+* ? Smart ranking
+* ? Save venue
+* ? View venue
+* ? Directions
+
+### Future
+
+* AI recommendations
+* Personalized discovery
+* Friend activity
+* Live venue occupancy
+* Exclusive offers
+* Creator picks
+* Seasonal collections
+* Smart itineraries
+
+---
+
+# Product Principles
+
+* **Nightlife-first:** Every place should support social experiences and going out.
+* **Discover worlds, not databases:** Users browse experiences, not exhaustive business categories.
+* **Adapt to the city's rhythm:** Content changes naturally with the time of day.
+* **Authenticity over hype:** Use real venue data instead of artificial popularity.
+* **Fast decision-making:** Every element should help users answer, *"Where should I go right now?"*
+
+---
+
+# Final Positioning
+
+The **Explore the City** screen is the heartbeat of FOMO. It combines a dynamic city-aware hero, intuitive Discovery Worlds, and curated venue recommendations into a seamless experience that evolves with the day. Rather than overwhelming users with endless lists or categories, it presents the city's best social destinations in context—making it effortless to discover, decide, and head out. This focused approach establishes FOMO as a premium nightlife discovery platform while providing a scalable foundation for future personalization, AI, and global expansion.

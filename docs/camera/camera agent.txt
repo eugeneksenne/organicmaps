@@ -1,0 +1,212 @@
+You are working autonomously on the Camera Engine of my FOMO Android application via 
+a connected local MCP tool (shell/terminal access to my Windows machine). This is a 
+real device debugging session — never fabricate, assume, or report success without 
+verifying it through actual tool output.
+
+STEP 0 — CONFIRM CAPABILITIES (do this before anything else)
+- List the MCP tools/connectors currently available to you.
+- Confirm you have a working shell/terminal tool that can execute commands on 
+  D:\Android-fomo-main and run `adb`. If no such tool is available or connected, 
+  stop immediately and tell me exactly what's missing — do not simulate, describe, 
+  or assume command output.
+- Run a trivial sanity command first (e.g. `echo test` or `dir D:\Android-fomo-main`) 
+  and show me the raw result, to confirm the connector is actually live before 
+  proceeding.
+
+PROJECT CONTEXT
+- Project root: D:\Android-fomo-main
+- Stack: Kotlin Multiplatform (KMP), shared business logic across Android (Jetpack 
+  Compose) and iOS (SwiftUI) — NOT Android-only, treat shared modules accordingly
+- Backend: Supabase (Postgres + Auth), Redis, Railway deployment
+- Media: Telegram Bot API integration (bot-as-admin posting to a single private 
+  channel) — NOT MTProto, NOT a local Bot API server
+- Established Camera architecture decisions from prior sessions (verify these are 
+  actually reflected in code — don't assume): CameraX (Android) / AVFoundation 
+  (iOS) for capture, ML Kit (Android) / Core ML (iOS) for on-device recognition 
+  models, LiveKit WebRTC for Live broadcast, a 105MB total on-device model budget 
+  shared across all camera ML pipelines, achieved by reusing existing stateless 
+  model weights across pipelines rather than loading separate models per feature.
+- Build: Gradle | Language: Kotlin | UI: Jetpack Compose
+
+⚠️ CRITICAL GAP IN THE SOURCE SPEC — READ BEFORE STARTING
+Full_FOMO_Camera_.txt (the attached spec) does not mention UGC content moderation 
+anywhere. In prior FOMO sessions, moderation was established as a hard Phase 0 
+dependency for the Camera Intelligence Engine — required before Live broadcast or 
+any public-visibility publish path is enabled, for App Store compliance reasons. 
+This spec's silence on moderation is a gap in the document, not evidence that 
+moderation isn't required. Treat moderation as mandatory and gate Live/public-
+publish behind it regardless of what this spec says. If moderation isn't already 
+implemented, it takes priority over every "nice" feature below (Looks, Sound Aware, 
+Dual Shot, etc.) — do not ship a more polished capture experience while leaving the 
+publish path unmoderated.
+
+⚠️ SCOPE REALITY CHECK
+This spec describes a very large system: real-time on-device beat/BPM/scene 
+detection, GPU-accelerated live filters, simultaneous multi-camera capture with 
+freeform layout editing, adaptive-bitrate live streaming with local backup and 
+automatic recovery, and a full AI post-processing pipeline — each of which is a 
+substantial subsystem on its own. You will NOT complete all of this to true 
+production depth in one session. Work through the priority order below, and:
+- Before implementing anything, determine via actual code inspection whether it 
+  already exists, partially exists, or doesn't exist. Do not assume from the spec 
+  that something described is already built.
+- Only mark a component "done" when you have real evidence (Definition of Done, 
+  below).
+- If you run out of session time, STOP and give an honest status report of exactly 
+  what's verified-done, partial, or untouched.
+- If a component is too large to finish this session, implement the smallest real 
+  (non-mocked) vertical slice rather than a stub, and say so explicitly.
+
+RIPPLE ENGINE BOUNDARY (if a Ripple Engine module already exists from prior 
+sessions — check before assuming)
+- The Camera's "every capture contributes automatically to Ripple" behavior means 
+  Camera submits ripple events (moment ID, user ID, timestamp, optional venue/event/
+  live ID) to the existing Ripple Engine API — it does NOT calculate momentum 
+  itself. If no Ripple Engine module exists yet, flag this as a blocking dependency 
+  rather than building ripple/momentum logic inline inside Camera code.
+
+ON-DEVICE MODEL BUDGET CONSTRAINT
+- AI Scene Recognition, Sound Aware beat/BPM/bass detection, and content moderation 
+  are all on-device ML features competing for the same ~105MB budget. Before adding 
+  or modifying any model, check what's already loaded and whether weights can be 
+  shared/reused rather than adding a new standalone model. If implementing a 
+  feature would blow the budget, say so explicitly and propose the trade-off rather 
+  than silently exceeding it or silently skipping the feature.
+
+PRIORITY ORDER FOR THIS SESSION
+1. Moderation gate (see critical gap above) — verify or implement before anything 
+   touching Live or public-visibility publish.
+2. Core capture — Photo/Video/Live modes with horizontal swipe switching, <250ms 
+   cold launch to camera-ready, 60fps preview. This is the foundation everything 
+   else sits on; verify it's solid before layering features on top.
+3. Venue Intelligence — GPS → offline venue pack lookup → cloud verification → 
+   confidence score → venue identified, with low-confidence fallback (Nearby 
+   Venues / Search Venue / Skip). Verify offline pack lookup actually works 
+   offline, not just in the happy-path online case.
+4. Event Intelligence — automatic linking to tonight's event/concert/festival/
+   Flash Drop without manual tagging.
+5. AI Scene Recognition — nightclub/concert/restaurant/rooftop/stadium/beach/
+   lounge/sunset detection adjusting camera settings automatically. Verify against 
+   the model budget constraint above.
+6. Sound Aware Engine — on-device beat/BPM/bass/rhythm/crowd-energy/drop detection 
+   driving beat-reactive effects, with theme selection (Chill/Party/Festival/
+   Concert/Creator). Verify against model budget; verify it runs fully on-device 
+   (no network round-trip for the detection itself).
+7. FOMO Studio — Looks (GPU real-time color grading), Moment Templates, Creative 
+   Effects. Verify GPU-accelerated real-time rendering, not a post-capture filter 
+   applied after the fact if the spec implies real-time preview.
+8. Dual Shot Engine — simultaneous multi-camera capture with draggable/resizable 
+   layouts (Side by Side, PiP, Grid, etc.), changeable mid-recording/mid-Live. This 
+   is hardware-dependent (needs concurrent camera stream support) — verify actual 
+   device capability before assuming it's universally possible.
+9. Moment Processing pipeline — best frame selection, noise reduction, 
+   stabilization, face optimization, thumbnail selection, venue/event confirmation, 
+   sound sync, ripple generation — verify each stage actually runs, not just that 
+   the pipeline is wired to a stub.
+10. Moment Preview + Publish Settings — visibility (Private/Followers/Public), 
+    destination (Feed/Venue/Club Lobby/Event/Profile), location sharing toggle. 
+    Verify user's choice is actually respected end-to-end, not just captured in UI.
+11. Upload Engine — per-destination progress display (Venue ✓ / Feed ✓ / Ripple ✓ / 
+    Profile ✓), not a generic spinner. Verify with a real multi-destination publish.
+12. Offline Engine — drafts, local queue, automatic upload on reconnect for photos 
+    and videos captured offline.
+13. Live Engine — venue/event-aware Live, adaptive bitrate, local recording backup, 
+    automatic recovery after connection loss. This should use the existing LiveKit 
+    WebRTC integration if one exists — check before adding a second streaming stack.
+14. Creator Tools — scheduled Live, multi-camera Live, replay editor, event 
+    branding, audience analytics, venue collaboration, ticket promotion, sponsored 
+    moments. Lowest priority — only attempt if everything above is solid.
+
+PERFORMANCE TARGETS (measure, don't estimate)
+- Camera launch (tap icon → camera preview ready): <250ms — measure via logcat 
+  timestamps around the actual launch path, not a stopwatch guess
+- 60fps camera preview sustained; 120fps UI animations on supported devices
+- GPU-accelerated rendering for Looks/Effects — confirm actual GPU shader usage, 
+  not CPU-side bitmap filtering mislabeled as "GPU accelerated"
+- Native hardware encoding for video/Live, not software encoding
+- Thermal/battery-aware processing — test with extended recording session and 
+  check for throttling behavior, not just that a setting exists
+
+ENVIRONMENT CHECK (after Step 0 passes)
+1. Run `adb devices` and confirm exactly one authorized device is listed. If zero 
+   devices or status "unauthorized"/"offline," stop and report the raw output.
+2. Confirm Android SDK, Gradle wrapper, and JDK versions match what the project 
+   expects (gradle.properties, gradle-wrapper.properties, build.gradle.kts). Flag 
+   mismatches before building.
+3. Confirm the physical device's actual camera hardware (number of cameras, 
+   concurrent stream support) before assuming Dual Shot is feasible on it — 
+   `adb shell dumpsys media.camera` or equivalent.
+
+WORKFLOW PER COMPONENT (repeat for each item in priority order; paste actual 
+command + actual raw output at every step)
+1. Inspect the current implementation (existing Camera modules, ViewModels, native 
+   CameraX/AVFoundation usage, ML model files/assets, related Supabase tables). 
+   Don't assume the spec doc reflects current reality.
+2. If something is broken or missing, identify the real gap before writing code.
+3. Build via existing Gradle config only (`gradlew.bat assembleDebug` on Windows) — 
+   don't modify build scripts unless the failure is genuinely in the build config.
+4. If the build fails: show the actual error, diagnose the real cause, fix it, 
+   rebuild. Never stub failing code just to make it compile.
+5. Install the debug APK via ADB. Confirm install succeeded from actual exit 
+   code/output.
+6. Launch the app, navigate to Camera.
+7. Exercise the specific behavior on-device: actually point the camera at a real 
+   scene, actually play music near the device for Sound Aware testing, actually 
+   capture and publish a real Moment end-to-end where relevant.
+8. Screenshot/screen-record relevant states via `adb shell screencap`/`screenrecord` 
+   and pull locally.
+9. Pull logcat filtered to the app's package; inspect for exceptions/ANRs/dropped 
+   frames/the specific behavior in question.
+10. Only after 7–9 produce real evidence, mark the component done in your report. 
+    Otherwise mark it partial/blocked and state exactly what's missing.
+
+HARD CONSTRAINTS
+- Don't replace working FOMO architecture unless the task explicitly requires it.
+- Don't create mock/fake data or stub implementations where a real backend call, 
+  Supabase query, venue detection, or Telegram integration already exists and is 
+  reachable. This applies to venue confidence scores, ripple contribution, upload 
+  progress per destination — all must be real, not placeholder.
+- Preserve existing navigation, auth, database, realtime, and engine architecture.
+- Preserve the CameraX/AVFoundation + ML Kit/Core ML + LiveKit WebRTC architecture 
+  decisions already established — don't introduce a competing camera/streaming 
+  stack.
+- Moderation gates Live/public-publish, full stop, regardless of what feels like 
+  the "fun" feature to build next.
+- Respect the on-device model budget — don't silently add models that blow it.
+- If you're about to write "should work" or "this should fix it" without having 
+  actually run and observed it — stop and run it instead.
+- If any MCP tool call fails or returns an auth error mid-task, say so explicitly 
+  rather than continuing on stale assumptions.
+- Do not silently narrow scope (e.g. quietly skipping moderation because it's 
+  tedious) — if you're deprioritizing or skipping something this session, say so 
+  explicitly in the report.
+
+DEFINITION OF DONE — PER COMPONENT
+A component is only "done," not "attempted," when:
+1. Confirmed zero mock/placeholder data via grep + manual read of touched code
+2. Relevant UI states screenshotted (including low-confidence venue detection, 
+   offline capture, publish failure/retry — not just the happy path)
+3. Demonstrated on real hardware with a real scene/sound where the feature depends 
+   on real-world input (scene recognition, beat detection, venue GPS)
+4. No crash under rapid interaction (fast mode-swiping, rapid Look-switching, 
+   backgrounding mid-capture) and airplane-mode stress test for the touched surface
+5. Any performance target claimed for this component actually measured, not 
+   estimated
+6. On-device model budget checked and still within bounds after the change
+7. For Live/publish-adjacent work specifically: confirmed moderation gate is active
+
+END-OF-SESSION REPORT (mandatory, even if session is cut short)
+- Component-by-component status: Done (with evidence) / Partial (what's missing) / 
+  Not started
+- Moderation status specifically called out (this is the one blocking item)
+- What I inspected (files/commands, raw findings)
+- What I changed (actual diffs)
+- Build result (command + raw output/exit status)
+- Install result (command + raw output)
+- Device test evidence per component touched (screenshots/screen recordings + 
+  logcat excerpts)
+- Performance numbers actually measured vs. targets
+- On-device model budget usage after changes (actual size, not estimate)
+- Explicit list of anything mocked, stubbed, or deferred, and why
+- Remaining problems / open questions / recommended next-session priority
+

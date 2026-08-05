@@ -1,0 +1,2105 @@
+============================================================
+FINDLYTS FIRST-LAUNCH + AUTHENTICATION + PROFILE SYSTEM
+============================================================
+
+ROLE
+
+You are the implementation agent responsible for completing,
+connecting, testing, and hardening the Findlyts:
+
+ONBOARDING
+AUTHENTICATION
+SESSION MANAGEMENT
+PROFILE INTEGRATION
+AUTHENTICATION RECOVERY
+AUTHENTICATION ERROR STATES
+PROFILE INITIALIZATION
+
+Do not treat these as isolated screens.
+
+They form ONE continuous production flow:
+
+ONBOARDING
+    ↓
+AUTHENTICATION
+    ↓
+AUTH SESSION
+    ↓
+PROFILE SYNCHRONIZATION
+    ↓
+PROFILE READY
+    ↓
+FINDLYTS APPLICATION
+
+
+============================================================
+PRIMARY OBJECTIVE
+============================================================
+
+Build the complete production-ready first-launch experience
+from the supplied visual references and existing project
+architecture.
+
+The final experience must be:
+
+- visually faithful to the supplied Findlyts references
+- responsive
+- accessible
+- production-ready
+- securely authenticated
+- correctly connected to the user's Findlyts profile
+- resilient to errors
+- resilient to network failures
+- resilient to process death
+- resilient to session expiration
+- free of fake authentication
+- free of duplicate profile creation
+- free of navigation loops
+- free of inconsistent authentication states
+
+Do NOT create mock authentication merely to make the UI appear
+complete.
+
+If a backend integration already exists, use it.
+
+If authentication infrastructure exists, inspect it first and
+extend it rather than replacing it unnecessarily.
+
+
+============================================================
+CRITICAL IMPLEMENTATION RULE
+============================================================
+
+Before changing code:
+
+1. Inspect the existing project.
+2. Inspect authentication implementation.
+3. Inspect profile implementation.
+4. Inspect navigation.
+5. Inspect existing onboarding state.
+6. Inspect database/schema models.
+7. Inspect Supabase configuration if present.
+8. Inspect existing repositories/services/use-cases.
+9. Inspect existing UI components.
+10. Identify duplicate implementations.
+
+Do NOT immediately create new authentication, profile,
+navigation, or state-management systems.
+
+Reuse existing architecture where appropriate.
+
+Do not create:
+
+- duplicate onboarding state
+- duplicate auth state
+- duplicate profile state
+- duplicate user tables
+- duplicate navigation systems
+- duplicate session managers
+
+============================================================
+SOURCE OF TRUTH
+============================================================
+
+VISUAL SOURCE OF TRUTH:
+
+The supplied Findlyts reference images.
+
+ARCHITECTURAL SOURCE OF TRUTH:
+
+The existing application architecture.
+
+BACKEND SOURCE OF TRUTH:
+
+The configured authentication/backend implementation.
+
+If Supabase Auth already exists, use it as the authentication
+authority.
+
+Do not invent a second authentication provider.
+
+============================================================
+IMPORTANT TERMINOLOGY
+============================================================
+
+There are TWO different concepts:
+
+1. PRODUCT INTRODUCTION ONBOARDING
+
+The three visual onboarding pages introducing Findlyts.
+
+2. AUTHENTICATED PROFILE ONBOARDING
+
+The process of establishing/completing the user's Findlyts
+profile after authentication.
+
+Do NOT confuse them.
+
+Recommended:
+
+Product introduction:
+local onboarding state.
+
+Authenticated profile:
+server/profile state.
+
+Do not mark profile onboarding complete merely because the
+three introductory screens were displayed.
+
+
+============================================================
+PART 1
+FIRST-LAUNCH EXPERIENCE
+============================================================
+
+The user must experience Findlyts as a premium nightlife/social
+product before entering authentication.
+
+Do not reduce the experience to one welcome screen.
+
+The first-launch experience consists of THREE onboarding pages.
+
+PAGE 1
+Findlyts introduction
+
+PAGE 2
+Live social / club lobby experience
+
+PAGE 3
+Personalized nightlife discovery
+
+
+============================================================
+ONBOARDING PAGE 1
+============================================================
+
+BRAND HERO
+
+Display the official Findlyts logo and wordmark.
+
+Use:
+
+FIND YOUR LEVEL,
+LIVE THE MOMENT
+
+Hero environment:
+
+- premium nightlife crowd
+- club lighting
+- purple
+- magenta
+- pink
+- red
+- orange
+- silhouettes
+- energetic atmosphere
+
+Do not substitute a generic gradient background.
+
+
+------------------------------------------------------------
+FEATURE ROW
+------------------------------------------------------------
+
+DISCOVER
+
+The hottest events
+near you
+
+CONNECT
+
+See who's going
+and join
+
+EXPERIENCE
+
+Live club lobbies
+and real vibes
+
+Each feature contains:
+
+- rounded icon container
+- feature icon
+- title
+- description
+
+Maintain reference spacing and hierarchy.
+
+
+------------------------------------------------------------
+PAGINATION
+------------------------------------------------------------
+
+Three indicators.
+
+Page 1 active.
+
+Active:
+Findlyts gradient.
+
+Inactive:
+muted gray.
+
+
+------------------------------------------------------------
+PRIMARY ACTION
+------------------------------------------------------------
+
+Get Started →
+
+Navigate:
+
+Page 1 → Page 2
+
+
+------------------------------------------------------------
+SECONDARY ACTION
+------------------------------------------------------------
+
+Already have an account? Sign in
+
+Navigate immediately to:
+
+Sign In
+
+
+============================================================
+ONBOARDING PAGE 2
+============================================================
+
+HEADING
+
+Stay in the loop.
+
+"in the loop."
+
+must use Findlyts gradient/accent treatment.
+
+"Stay"
+
+remains white.
+
+
+------------------------------------------------------------
+DESCRIPTION
+------------------------------------------------------------
+
+Join live club lobbies, see
+what's happening in real time
+and never miss a moment.
+
+
+------------------------------------------------------------
+HERO VISUAL
+------------------------------------------------------------
+
+Large tilted smartphone/device showing the Findlyts live
+club lobby experience.
+
+Communicate:
+
+- live lobby
+- venue
+- current people
+- reactions
+- activity
+- messaging
+- nightlife imagery
+
+
+------------------------------------------------------------
+SUPPORTING VISUALS
+------------------------------------------------------------
+
+Floating visual indicators representing:
+
+- people/community
+- live activity/audio
+- reactions
+
+Use glowing Findlyts accents.
+
+Do not overcrowd the composition.
+
+
+------------------------------------------------------------
+PRIMARY ACTION
+------------------------------------------------------------
+
+Next →
+
+Navigate:
+
+Page 2 → Page 3
+
+
+------------------------------------------------------------
+SECONDARY ACTION
+------------------------------------------------------------
+
+Skip
+
+CRITICAL:
+
+Skip DOES NOT authenticate the user.
+
+Skip means:
+
+skip product-introduction onboarding.
+
+Then:
+
+Skip
+ ↓
+Persist product-introduction onboarding state
+ ↓
+Authentication
+
+
+============================================================
+ONBOARDING PAGE 3
+============================================================
+
+HEADING
+
+Your nightlife,
+personalized.
+
+"personalized."
+
+uses Findlyts gradient.
+
+------------------------------------------------------------
+DESCRIPTION
+------------------------------------------------------------
+
+Get event picks, updates and
+recommendations that match
+your vibe.
+
+
+------------------------------------------------------------
+HERO VISUAL
+------------------------------------------------------------
+
+Large tilted smartphone/device displaying personalized
+Findlyts discovery/event content.
+
+Communicate:
+
+- recommendations
+- events
+- venues
+- dates
+- distance
+- nightlife imagery
+- recommendation cards
+- new events
+
+
+------------------------------------------------------------
+PRIMARY ACTION
+------------------------------------------------------------
+
+Let's Go →
+
+Persist product-introduction onboarding completion.
+
+Then:
+
+Authentication
+
+
+------------------------------------------------------------
+SECONDARY ACTION
+------------------------------------------------------------
+
+Already have an account? Sign in
+
+Navigate immediately to:
+
+Sign In
+
+
+============================================================
+ONBOARDING NAVIGATION
+============================================================
+
+Page 1:
+
+Get Started
+    ↓
+Page 2
+
+Page 2:
+
+Next
+    ↓
+Page 3
+
+Page 2:
+
+Skip
+    ↓
+Authentication
+
+Page 3:
+
+Let's Go
+    ↓
+Authentication
+
+Any page:
+
+Sign in
+    ↓
+Sign In
+
+
+============================================================
+ONBOARDING PERSISTENCE
+============================================================
+
+Search existing project first.
+
+If an onboarding state already exists:
+
+REUSE IT.
+
+Do not create another onboarding system.
+
+Persist product-introduction state locally using the existing
+mechanism.
+
+The state should survive:
+
+- app restart
+- background/foreground
+- process death
+
+Do not repeatedly show onboarding after it has been completed
+or skipped.
+
+
+============================================================
+AUTHENTICATED USER ON APP START
+============================================================
+
+If a valid authentication session exists:
+
+DO NOT unnecessarily show first-launch onboarding.
+
+Restore:
+
+Session
+ ↓
+Profile
+ ↓
+Application
+
+If profile state explicitly requires profile onboarding,
+continue into that profile flow.
+
+
+============================================================
+PART 2
+AUTHENTICATION
+============================================================
+
+Authentication must continue the exact visual language of
+the onboarding experience.
+
+Maintain:
+
+- near-black background
+- premium nightlife aesthetic
+- Findlyts gradient
+- rounded fields
+- subtle borders
+- white typography
+- muted secondary text
+- vibrant gradient CTA
+- consistent icons
+- consistent spacing
+- official Findlyts logo
+
+
+============================================================
+AUTHENTICATION STATES
+============================================================
+
+The authentication system must support:
+
+UNKNOWN
+
+RESTORING_SESSION
+
+UNAUTHENTICATED
+
+SIGNING_IN
+
+SIGNING_UP
+
+OAUTH_LOADING
+
+OAUTH_CANCELLED
+
+OAUTH_ERROR
+
+EMAIL_VERIFICATION_REQUIRED
+
+VERIFYING_EMAIL
+
+EMAIL_VERIFIED
+
+EMAIL_VERIFICATION_ERROR
+
+PASSWORD_RESET_REQUESTING
+
+PASSWORD_RESET_SENT
+
+PASSWORD_RESETTING
+
+PASSWORD_RESET_SUCCESS
+
+PASSWORD_RESET_ERROR
+
+PASSWORD_RESET_EXPIRED
+
+AUTHENTICATED
+
+PROFILE_LOADING
+
+PROFILE_CREATING
+
+PROFILE_READY
+
+PROFILE_ERROR
+
+NETWORK_ERROR
+
+RATE_LIMITED
+
+ACCOUNT_DISABLED
+
+SESSION_EXPIRED
+
+
+============================================================
+AUTHENTICATION FLOW
+============================================================
+
+Product onboarding
+        ↓
+Authentication
+        ↓
+┌───────────────────────────┐
+│                           │
+│       SIGN IN             │
+│                           │
+│       SIGN UP             │
+│                           │
+└─────────────┬─────────────┘
+              ↓
+        Authentication
+              ↓
+        Authenticated
+              ↓
+        Profile Sync
+              ↓
+        Profile Ready
+              ↓
+          FINDLYTS APP
+
+
+============================================================
+SIGN IN SCREEN
+============================================================
+
+Top:
+
+←                                      Skip
+
+IMPORTANT:
+
+Skip must NEVER authenticate the user.
+
+If Skip is retained from the visual reference, it must follow
+the application's safe authentication-entry behavior.
+
+Brand:
+
+Findlyts logo.
+
+Heading:
+
+Welcome back
+
+Subtitle:
+
+Sign in to continue your journey
+
+
+------------------------------------------------------------
+IDENTIFIER
+------------------------------------------------------------
+
+Email or phone number
+
+
+------------------------------------------------------------
+PASSWORD
+------------------------------------------------------------
+
+Password
+
+Include:
+
+- lock icon
+- visibility toggle
+- secure text entry
+
+
+------------------------------------------------------------
+FORGOT PASSWORD
+------------------------------------------------------------
+
+Forgot password?
+
+Navigate to:
+
+Forgot Password
+
+
+------------------------------------------------------------
+PRIMARY CTA
+------------------------------------------------------------
+
+Sign In
+
+States:
+
+- enabled
+- disabled
+- loading
+- success
+- error
+
+Prevent duplicate requests.
+
+
+------------------------------------------------------------
+SOCIAL AUTH
+------------------------------------------------------------
+
+Display configured providers in reference order:
+
+Google
+Apple
+Spotify
+X
+Facebook
+
+Do not display a provider unless the backend implementation
+supports it.
+
+Do not create fake OAuth success.
+
+
+------------------------------------------------------------
+FOOTER
+------------------------------------------------------------
+
+Don't have an account? Sign up
+
+Navigate:
+
+Sign In → Sign Up
+
+
+============================================================
+SIGN UP SCREEN
+============================================================
+
+Heading:
+
+Create your account
+
+Subtitle:
+
+Join findlyts and live the moment
+
+
+------------------------------------------------------------
+FIELDS
+------------------------------------------------------------
+
+Full name
+
+Email or phone number
+
+Password
+
+Confirm password
+
+
+------------------------------------------------------------
+VALIDATION
+------------------------------------------------------------
+
+Required fields.
+
+Password confirmation:
+
+password == confirmPassword
+
+Display field-level errors.
+
+Do not invent password rules that differ from backend rules.
+
+
+------------------------------------------------------------
+TERMS
+------------------------------------------------------------
+
+I agree to the Terms of Service
+and Privacy Policy
+
+Checkbox required where applicable.
+
+Terms and Privacy Policy must be tappable.
+
+
+------------------------------------------------------------
+PRIMARY CTA
+------------------------------------------------------------
+
+Sign Up
+
+States:
+
+- enabled
+- disabled
+- loading
+- error
+
+
+------------------------------------------------------------
+SOCIAL AUTH
+------------------------------------------------------------
+
+Google
+Apple
+Spotify
+X
+Facebook
+
+OAuth results must converge into the same profile
+synchronization pipeline.
+
+
+------------------------------------------------------------
+FOOTER
+------------------------------------------------------------
+
+Already have an account? Sign in
+
+Navigate:
+
+Sign Up → Sign In
+
+
+============================================================
+PART 3
+FORGOT PASSWORD
+============================================================
+
+SCREEN
+
+Forgot your password?
+
+Enter your email or phone number
+to reset your password.
+
+
+Field:
+
+Email or phone number
+
+
+CTA:
+
+Send Reset Link
+
+
+Footer:
+
+Back to Sign In
+
+
+------------------------------------------------------------
+SUCCESS
+------------------------------------------------------------
+
+Check your email
+
+If an account exists for that address, we've sent instructions
+to reset your password.
+
+
+------------------------------------------------------------
+ERROR
+------------------------------------------------------------
+
+We couldn't complete that request.
+
+Try Again.
+
+
+============================================================
+PASSWORD RESET
+============================================================
+
+Valid reset link:
+
+Create new password
+
+New password
+
+Confirm password
+
+Update Password
+
+
+------------------------------------------------------------
+SUCCESS
+------------------------------------------------------------
+
+Password updated
+
+Your password has been successfully changed.
+
+CTA:
+
+Sign In
+
+
+------------------------------------------------------------
+EXPIRED
+------------------------------------------------------------
+
+Reset link expired
+
+Request New Link
+
+
+------------------------------------------------------------
+INVALID
+------------------------------------------------------------
+
+Unable to reset password
+
+Request New Link
+
+
+============================================================
+PART 4
+EMAIL VERIFICATION
+============================================================
+
+If email verification is enabled:
+
+Account Created
+    ↓
+Email Verification Required
+
+
+------------------------------------------------------------
+SCREEN
+------------------------------------------------------------
+
+Check your email
+
+We sent a verification link to your email address.
+
+
+Actions:
+
+Open Email
+
+Resend email
+
+Already verified?
+Check again
+
+Back to Sign In
+
+
+------------------------------------------------------------
+RESEND
+------------------------------------------------------------
+
+States:
+
+Sending...
+
+Verification email sent.
+
+Resend available in X seconds.
+
+
+------------------------------------------------------------
+SUCCESS
+------------------------------------------------------------
+
+Email verified
+
+Your email has been successfully verified.
+
+Continue
+
+
+------------------------------------------------------------
+FAILURE
+------------------------------------------------------------
+
+Verification link unavailable
+
+The verification link is invalid or can no longer be used.
+
+Send New Link
+
+
+------------------------------------------------------------
+EXPIRED
+------------------------------------------------------------
+
+This link has expired.
+
+Send New Verification Link
+
+
+============================================================
+PART 5
+OAUTH STATES
+============================================================
+
+When a provider is selected:
+
+Provider
+ ↓
+OAUTH_LOADING
+ ↓
+External authentication
+ ↓
+Result
+
+
+------------------------------------------------------------
+LOADING
+------------------------------------------------------------
+
+Disable competing authentication actions.
+
+Prevent duplicate requests.
+
+
+------------------------------------------------------------
+CANCELLED
+------------------------------------------------------------
+
+Return to authentication screen.
+
+Optional message:
+
+Sign-in was cancelled.
+
+
+------------------------------------------------------------
+ERROR
+------------------------------------------------------------
+
+We couldn't complete your sign-in.
+
+Try Again.
+
+
+Do not expose raw provider/backend errors.
+
+
+============================================================
+PART 6
+NETWORK STATES
+============================================================
+
+Differentiate:
+
+NETWORK FAILURE
+
+from:
+
+INVALID CREDENTIALS
+
+from:
+
+SERVER FAILURE
+
+from:
+
+RATE LIMITING
+
+
+------------------------------------------------------------
+OFFLINE
+------------------------------------------------------------
+
+You're offline
+
+Check your internet connection
+and try again.
+
+Try Again
+
+
+------------------------------------------------------------
+SERVER FAILURE
+------------------------------------------------------------
+
+Findlyts is having trouble
+
+We couldn't reach the authentication service right now.
+
+Try Again
+
+
+------------------------------------------------------------
+RATE LIMITED
+------------------------------------------------------------
+
+Too many attempts
+
+For your security, please wait a little before trying again.
+
+
+============================================================
+PART 7
+ACCOUNT STATES
+============================================================
+
+ACCOUNT ALREADY EXISTS
+
+Account already exists
+
+It looks like you already have a Findlyts account.
+
+Actions:
+
+Sign In
+
+Forgot Password?
+
+
+Do not create duplicate accounts.
+
+
+------------------------------------------------------------
+ACCOUNT DISABLED
+------------------------------------------------------------
+
+Only display when explicitly returned by the backend.
+
+Account unavailable
+
+Your Findlyts account is currently unavailable.
+
+Contact Support
+
+Back to Sign In
+
+
+============================================================
+PART 8
+SESSION MANAGEMENT
+============================================================
+
+The application must restore authentication state at launch.
+
+Flow:
+
+APP LAUNCH
+    ↓
+RESTORING_SESSION
+    ↓
+Authenticated?
+   /       \
+ YES       NO
+  ↓         ↓
+Profile   Auth UI
+  ↓
+App
+
+
+------------------------------------------------------------
+SESSION EXPIRATION
+------------------------------------------------------------
+
+If a valid application session expires:
+
+Your session has expired
+
+Please sign in again to continue.
+
+Sign In
+
+
+Do not silently crash or trap the user.
+
+
+------------------------------------------------------------
+SESSION CONFLICT
+------------------------------------------------------------
+
+If the session becomes invalid:
+
+We need you to sign in again
+
+Your session is no longer valid.
+
+Sign In
+
+
+============================================================
+PART 9
+PROFILE INTEGRATION
+============================================================
+
+CRITICAL:
+
+Authentication success does NOT equal application readiness.
+
+
+Correct pipeline:
+
+Supabase Authentication
+        ↓
+Authenticated User
+        ↓
+auth.users.id
+        ↓
+Findlyts Profile
+        ↓
+Profile Exists?
+      /       \
+    YES       NO
+     ↓         ↓
+   Load      Create
+  Profile    Profile
+     \         /
+      \       /
+       Profile Ready
+             ↓
+            APP
+
+
+============================================================
+RETURNING USER
+============================================================
+
+Existing user:
+
+Sign In
+ ↓
+Supabase Auth
+ ↓
+Authenticated Session
+ ↓
+Find auth.users.id
+ ↓
+Find Findlyts profile
+ ↓
+Profile exists
+ ↓
+Load profile
+ ↓
+Update last_login if supported
+ ↓
+PROFILE_READY
+ ↓
+Application
+
+
+Never create a second profile.
+
+
+============================================================
+NEW USER
+============================================================
+
+New registration:
+
+Sign Up
+ ↓
+Authentication
+ ↓
+Authenticated
+ ↓
+Email Verification if required
+ ↓
+PROFILE_CREATING
+ ↓
+Create Findlyts profile
+ ↓
+PROFILE_READY
+ ↓
+Application
+
+
+============================================================
+PROFILE CREATION
+============================================================
+
+Use the existing profile architecture.
+
+Do not create a duplicate user model.
+
+At minimum, use existing supported fields for:
+
+- auth user ID
+- display name
+- username if applicable
+- email
+- avatar
+- bio
+- created timestamp
+- updated timestamp
+- account status
+- onboarding state
+
+Do NOT invent database columns without inspecting the existing
+schema first.
+
+
+============================================================
+PROFILE CREATION FAILURE
+============================================================
+
+Authentication may succeed while profile creation fails.
+
+Do NOT pretend the entire flow succeeded.
+
+Display:
+
+Your account is secure,
+but we couldn't finish setting up
+your Findlyts profile.
+
+Actions:
+
+Try Again
+
+Sign Out
+
+
+Retry must use the already authenticated identity.
+
+
+============================================================
+PROFILE LOADING FAILURE
+============================================================
+
+For returning users:
+
+Couldn't load your profile
+
+You're signed in, but we couldn't load your Findlyts profile.
+
+Actions:
+
+Try Again
+
+Sign Out
+
+
+Authentication session remains valid until explicitly signed out
+or invalidated.
+
+
+============================================================
+PROFILE ONBOARDING
+============================================================
+
+If the existing product requires additional profile setup:
+
+Authenticated
+    ↓
+Profile exists
+    ↓
+Profile onboarding incomplete
+    ↓
+Profile Setup
+    ↓
+Profile onboarding complete
+    ↓
+Application
+
+
+Do not mix this with the three-page product introduction.
+
+
+============================================================
+PROFILE SETUP
+============================================================
+
+If required by the existing application:
+
+Collect only necessary identity information.
+
+Potential fields:
+
+- profile photo
+- display name
+- username
+- bio
+
+Reuse existing profile components and architecture.
+
+Do not duplicate profile creation logic inside authentication.
+
+
+============================================================
+USERNAME STATES
+============================================================
+
+If username setup exists:
+
+Checking...
+
+Username available
+
+Username unavailable
+
+Invalid username
+
+Use debounce for remote availability checks.
+
+Do not send a request for every keystroke.
+
+
+============================================================
+PROFILE PHOTO STATES
+============================================================
+
+Empty
+
+Add profile photo
+
+Selecting
+
+Uploading
+
+Uploaded
+
+Upload failed
+
+Retry
+
+
+If avatar is optional, upload failure should not unnecessarily
+block account creation.
+
+
+============================================================
+LOGOUT
+============================================================
+
+Sign out?
+
+You'll need to sign in again
+to access your Findlyts account.
+
+Actions:
+
+Cancel
+
+Sign Out
+
+
+On successful logout:
+
+Clear authentication state.
+
+Clear user-specific in-memory state.
+
+Return to unauthenticated flow.
+
+Do not delete the user's profile.
+
+
+============================================================
+PART 10
+GLOBAL ERROR PRESENTATION
+============================================================
+
+Use three levels.
+
+LEVEL 1:
+
+Inline field error.
+
+LEVEL 2:
+
+Form-level authentication error.
+
+LEVEL 3:
+
+Full-screen system error.
+
+Do not use a full-screen error for simple field mistakes.
+
+
+============================================================
+ERROR SECURITY
+============================================================
+
+Never expose:
+
+- access tokens
+- refresh tokens
+- passwords
+- internal database errors
+- SQL errors
+- JWT implementation details
+- raw Supabase errors
+- provider stack traces
+
+Never log passwords.
+
+Never log authentication tokens.
+
+Do not unnecessarily reveal whether an account exists.
+
+
+============================================================
+PART 11
+ACCESSIBILITY
+============================================================
+
+Every input requires:
+
+- semantic label
+- correct input type
+- accessible focus
+- accessible validation
+
+Buttons require:
+
+- accessible label
+- sufficient touch target
+- pressed state
+
+Important state changes must not rely solely on color.
+
+
+============================================================
+PART 12
+KEYBOARD AND RESPONSIVE BEHAVIOR
+============================================================
+
+Authentication forms must remain usable across:
+
+- small phones
+- standard phones
+- large phones
+- different aspect ratios
+- display cutouts
+- accessibility font scaling
+
+When keyboard appears:
+
+- focused field remains visible
+- form can scroll
+- CTA remains accessible
+- no content becomes permanently hidden
+
+Do not hard-code reference image dimensions.
+
+
+============================================================
+PART 13
+ANIMATION
+============================================================
+
+Use subtle animation.
+
+Recommended:
+
+screen transition:
+200–350 ms
+
+field focus:
+subtle
+
+button press:
+subtle
+
+loading:
+smooth
+
+error:
+short controlled transition
+
+success:
+subtle scale/fade
+
+Do not over-animate authentication.
+
+
+============================================================
+PART 14
+NAVIGATION RULES
+============================================================
+
+No navigation loops.
+
+Expected:
+
+Onboarding Page 1
+    ↓
+Page 2
+    ↓
+Page 3
+    ↓
+Authentication
+
+Authentication:
+
+Sign In ↔ Sign Up
+
+Sign In
+ ↓
+Forgot Password
+
+Sign Up
+ ↓
+Verification if required
+
+Authentication
+ ↓
+Profile Sync
+ ↓
+Profile Setup if required
+ ↓
+Application
+
+
+============================================================
+PART 15
+AUTHENTICATION STATE MACHINE
+============================================================
+
+Implement one authoritative authentication state.
+
+Suggested:
+
+UNKNOWN
+RESTORING_SESSION
+
+UNAUTHENTICATED
+
+SIGNING_IN
+SIGNING_UP
+
+OAUTH_LOADING
+OAUTH_CANCELLED
+OAUTH_ERROR
+
+EMAIL_VERIFICATION_REQUIRED
+VERIFYING_EMAIL
+EMAIL_VERIFIED
+EMAIL_VERIFICATION_ERROR
+
+PASSWORD_RESET_REQUESTING
+PASSWORD_RESET_SENT
+PASSWORD_RESETTING
+PASSWORD_RESET_SUCCESS
+PASSWORD_RESET_ERROR
+PASSWORD_RESET_EXPIRED
+
+AUTHENTICATED
+
+PROFILE_LOADING
+PROFILE_CREATING
+PROFILE_READY
+PROFILE_ERROR
+
+NETWORK_ERROR
+RATE_LIMITED
+ACCOUNT_DISABLED
+
+SESSION_EXPIRED
+
+
+============================================================
+STATE TRANSITION
+============================================================
+
+UNKNOWN
+   ↓
+RESTORING_SESSION
+   │
+   ├───────────────┐
+   │               │
+   ▼               ▼
+AUTHENTICATED   UNAUTHENTICATED
+   │               │
+   ▼               ▼
+PROFILE_LOADING  AUTH UI
+   │
+   ├── ERROR
+   │     ↓
+   │ PROFILE_ERROR
+   │
+   ▼
+PROFILE_READY
+   ↓
+APPLICATION
+
+
+============================================================
+SIGN-UP STATE TRANSITION
+============================================================
+
+SIGN_UP
+   ↓
+SIGNING_UP
+   ↓
+AUTHENTICATED
+   ↓
+Verification required?
+   │
+   ├── YES
+   │    ↓
+   │ VERIFYING
+   │    ↓
+   │ VERIFIED
+   │
+   └── NO
+        ↓
+PROFILE_CREATING
+        ↓
+PROFILE_READY
+        ↓
+APPLICATION
+
+
+============================================================
+PART 16
+VISUAL SOURCE-OF-TRUTH
+============================================================
+
+The supplied Findlyts images define:
+
+- composition
+- hierarchy
+- typography scale
+- spacing
+- device placement
+- image treatment
+- gradients
+- button treatment
+- pagination
+- icon treatment
+- visual density
+- overall mood
+
+Do not create generic "similar" screens.
+
+Reproduce the intended design faithfully while adapting it
+responsively.
+
+
+============================================================
+AUTHENTICATION VISUAL QA
+============================================================
+
+For every authentication screen verify:
+
+[ ] Findlyts logo position
+[ ] Logo scale
+[ ] Heading position
+[ ] Heading line breaks
+[ ] Subtitle position
+[ ] Input dimensions
+[ ] Input corner radius
+[ ] Input border
+[ ] Input icon position
+[ ] Password visibility icon
+[ ] Forgot password position
+[ ] CTA height
+[ ] CTA corner radius
+[ ] CTA gradient
+[ ] Social provider layout
+[ ] Social provider icons
+[ ] Divider
+[ ] Footer
+[ ] Background
+[ ] Safe areas
+[ ] Typography
+[ ] Overall balance
+
+
+============================================================
+ADDITIONAL STATE QA
+============================================================
+
+Verify visually and functionally:
+
+[ ] Authentication loading
+[ ] Session restoration
+[ ] OAuth loading
+[ ] OAuth cancellation
+[ ] OAuth error
+[ ] Invalid credentials
+[ ] Sign-up validation
+[ ] Account already exists
+[ ] Forgot password
+[ ] Reset email sent
+[ ] Password reset
+[ ] Password reset success
+[ ] Password reset expired
+[ ] Email verification
+[ ] Resend verification
+[ ] Verification success
+[ ] Verification failure
+[ ] Offline
+[ ] Server error
+[ ] Rate limited
+[ ] Account disabled
+[ ] Profile loading
+[ ] Profile creation
+[ ] Profile creation failure
+[ ] Profile sync failure
+[ ] Session expired
+[ ] Logout
+
+
+============================================================
+PART 17
+PRODUCTION SECURITY
+============================================================
+
+Authentication must use the configured backend securely.
+
+If Supabase Auth is present:
+
+Use Supabase Auth.
+
+Do not create a parallel authentication system.
+
+Respect:
+
+- authentication session
+- refresh behavior
+- RLS
+- authenticated identity
+- server-side authorization
+
+Never trust client-only authentication flags for protected
+operations.
+
+
+============================================================
+PART 18
+PRODUCTION DATA CONSISTENCY
+============================================================
+
+The following relationship must remain authoritative:
+
+auth.users.id
+        ↓
+profiles.id
+
+or the equivalent relationship already defined by the project.
+
+Every authenticated Findlyts user must resolve to the correct
+profile.
+
+Ensure:
+
+- no duplicate profiles
+- no orphaned profile state created by UI
+- no profile belonging to another auth user
+- correct authenticated identity
+- safe retry behavior
+
+
+============================================================
+PART 19
+IMPLEMENTATION LOOP
+============================================================
+
+Use the following loop for EVERY feature/state:
+
+LOOP
+
+1. DISCOVER
+   Inspect existing implementation.
+
+2. UNDERSTAND
+   Determine current architecture and dependencies.
+
+3. IMPLEMENT
+   Build the missing behavior.
+
+4. CONNECT
+   Connect UI → state → backend → profile.
+
+5. TEST
+   Test happy path and failure paths.
+
+6. VERIFY
+   Compare UI against reference.
+
+7. HARDEN
+   Fix edge cases, race conditions and navigation issues.
+
+8. RECHECK
+   Confirm no existing functionality was broken.
+
+9. DOCUMENT
+   Record important implementation decisions.
+
+10. MOVE ON
+   Only after the current state is production-ready.
+
+
+============================================================
+DO NOT STOP AT UI
+============================================================
+
+A screen is NOT considered implemented merely because it renders.
+
+Every authentication screen must have:
+
+UI
++
+STATE
++
+VALIDATION
++
+BACKEND CONNECTION
++
+LOADING
++
+ERROR
++
+SUCCESS
++
+NAVIGATION
++
+ACCESSIBILITY
++
+RECOVERY
+
+
+============================================================
+FINAL PRODUCTION FLOW
+============================================================
+
+FIRST INSTALL
+
+Launch
+ ↓
+Onboarding Page 1
+ ↓
+Page 2
+ ↓
+Page 3
+ ↓
+Authentication
+
+
+EXISTING USER
+
+Sign In
+ ↓
+Authentication
+ ↓
+Session
+ ↓
+Profile
+ ↓
+Application
+
+
+NEW USER
+
+Sign Up
+ ↓
+Authentication
+ ↓
+Email Verification if required
+ ↓
+Profile Creation
+ ↓
+Profile Setup if required
+ ↓
+Application
+
+
+RETURNING SESSION
+
+Launch
+ ↓
+Restore Session
+ ↓
+Authenticated
+ ↓
+Load Profile
+ ↓
+Application
+
+
+SESSION EXPIRED
+
+Application
+ ↓
+Session Expired
+ ↓
+Sign In
+ ↓
+Restore authenticated session
+ ↓
+Profile
+ ↓
+Application
+
+
+============================================================
+FINAL ACCEPTANCE CRITERIA
+============================================================
+
+ONBOARDING
+
+[ ] Page 1 matches reference
+[ ] Page 2 matches reference
+[ ] Page 3 matches reference
+[ ] Get Started works
+[ ] Next works
+[ ] Skip works
+[ ] Let's Go works
+[ ] Pagination works
+[ ] Sign in from onboarding works
+[ ] Product onboarding persists
+[ ] Restart behavior works
+[ ] Process death works
+[ ] Authenticated users are handled correctly
+
+
+AUTHENTICATION
+
+[ ] Sign In works
+[ ] Sign Up works
+[ ] Password visibility works
+[ ] Validation works
+[ ] Forgot password works
+[ ] Password reset works
+[ ] Email verification works where enabled
+[ ] Resend verification works
+[ ] OAuth works for configured providers
+[ ] OAuth cancellation works
+[ ] OAuth failure works
+[ ] Loading states work
+[ ] Invalid credentials work
+[ ] Network errors work
+[ ] Server errors work
+[ ] Rate limiting works
+[ ] Account states work
+[ ] Session restoration works
+[ ] Session expiration works
+[ ] Logout works
+
+
+PROFILE
+
+[ ] Auth user maps to correct profile
+[ ] New profile creation works
+[ ] Existing profile loading works
+[ ] Duplicate profile creation is prevented
+[ ] Profile creation retry works
+[ ] Profile synchronization works
+[ ] Profile failure states work
+[ ] Profile onboarding state is distinct from product onboarding
+[ ] Profile data is available before entering protected app areas
+
+
+SECURITY
+
+[ ] No passwords logged
+[ ] No tokens logged
+[ ] No credentials exposed
+[ ] No fake authentication
+[ ] No client-only authorization
+[ ] RLS respected
+[ ] Invalid sessions handled
+[ ] Duplicate requests prevented
+
+
+UX
+
+[ ] Visual consistency with onboarding
+[ ] Responsive
+[ ] Keyboard-safe
+[ ] Accessible
+[ ] Smooth transitions
+[ ] No layout jumps
+[ ] No navigation loops
+[ ] No dead-end states
+
+
+============================================================
+DEFINITION OF DONE
+============================================================
+
+The Findlyts authentication system is COMPLETE only when:
+
+ONBOARDING
+        +
+AUTHENTICATION
+        +
+SESSION MANAGEMENT
+        +
+RECOVERY
+        +
+ERROR STATES
+        +
+PROFILE CREATION
+        +
+PROFILE SYNCHRONIZATION
+        +
+PROFILE READINESS
+        +
+NAVIGATION
+        +
+SECURITY
+        +
+ACCESSIBILITY
+        +
+VISUAL QA
+
+all operate together as ONE production-ready system.
+
+The final state must be:
+
+AUTHENTICATED
+      +
+PROFILE_READY
+      +
+VALID_SESSION
+      ↓
+FINDLYTS APPLICATION
+
+
+Do not declare the task complete while any of the above
+components is only visually implemented, mocked, disconnected,
+or dependent on manual intervention.

@@ -1,0 +1,506 @@
+﻿# FOMO Discover Screen
+
+## 1. Dynamic Hero
+
+**Purpose**
+
+The emotional entry into your city's nightlife.
+
+The Hero is dynamic and changes throughout the day.
+
+### Displays
+
+* Cinematic city background
+* Dynamic headline
+* Weather
+* City Energy Meter
+* Live venue count
+* Live event count
+* Flash Drop count
+* Friend activity summary
+* AI recommendation
+* Primary CTA
+
+**No "See All" button.**
+
+---
+
+# 2. Closing Soon
+
+**Purpose**
+
+Help users avoid missing experiences ending soon.
+
+Only shows venues and experiences with less than **2 hours** remaining.
+
+### Preview
+
+Horizontal scrolling cards.
+
+### Card
+
+* Countdown
+* Venue
+* Distance
+* Availability
+* Friends there
+* Navigate
+* View Club Lobby
+
+### Navigation
+
+**See All → Closing Soon Screen**
+
+---
+
+# 3. Flash Drops
+
+**Purpose**
+
+Show limited-time rewards available at nearby venues.
+
+### Preview
+
+Horizontal scrolling reward cards.
+
+### Card
+
+* Reward
+* Venue
+* Distance
+* Quantity remaining
+* Time remaining
+* Navigate
+* Club Lobby
+
+### Navigation
+
+**See All → Flash Drops Screen**
+
+---
+
+# 4. My Circle
+
+**Purpose**
+
+Discover people you may know.
+
+A lightweight people discovery section.
+
+### Preview
+
+One horizontal row of profile cards.
+
+### Profile Card
+
+* Profile photo
+* Display name
+* Verification badge (if applicable)
+* Mutual friends
+* Distance *(privacy-aware)*
+* Discovery reason
+* **Follow** button
+* **+ Add** button
+
+### Discovery Signals
+
+* Mutual friends
+* Shared interests
+* Shared venues
+* Shared events
+* Same communities
+* Same city
+* Nearby users (privacy-aware)
+
+### Navigation
+
+**See All → My Circle Screen**
+
+---
+
+# 5. Live Moments
+
+**Purpose**
+
+Show what's happening right now.
+
+### Preview
+
+Horizontal scrolling Living Moment cards.
+
+### Includes
+
+* Venue Stories
+* Friend Stories
+* Creator Stories
+* Living Moments
+* Live Broadcasts
+* Festival Stories
+* Club Stories
+
+### Navigation
+
+**See All → Live Moments Screen**
+
+---
+
+# 6. Smart Places
+
+**Purpose**
+
+AI-powered venue recommendations.
+
+Only recommends venues that are:
+
+* Open
+* Nearby
+* Relevant
+* Safe
+* Popular
+
+### Venue Card
+
+* Hero image
+* Live status
+* Crowd energy
+* Wait time
+* Distance
+* Parking
+* Safety
+* Music
+* Dress code
+* Price
+
+### Navigation
+
+**See All → Smart Places Screen**
+
+---
+
+# 7. Trending Now
+
+**Purpose**
+
+Surface the city's fastest-growing experiences.
+
+### Preview
+
+Horizontal cards.
+
+### Includes
+
+* Trending venues
+* Trending events
+* Trending creators
+* Trending districts
+* Trending music
+* Trending Moments
+
+### Navigation
+
+**See All → Trending Screen**
+
+---
+
+# 8. Events
+
+**Purpose**
+
+Discover events happening nearby.
+
+### Preview
+
+Horizontal event cards.
+
+### Event Card
+
+* Hero image
+* Event name
+* Venue
+* Date & time
+* Distance
+* Friends Going
+* Attendance
+* Tickets
+* Countdown
+
+### Navigation
+
+**See All → Events Screen**
+
+---
+
+# 9. Explore the City
+
+**Purpose**
+
+Browse nearby venues using the same categories as the FOMO Venue Packs.
+
+There is **no separate Categories section** on Discover.
+
+### Categories
+
+Horizontal scrolling chips.
+
+```text
+[All] [Nightlife] [Food] [Prep] [Travel] [24/7]
+```
+
+### Venue Row
+
+A single horizontal row of premium venue cards.
+
+```text
+Explore the City                    See All →
+
+[All] [Nightlife] [Food] [Prep] [Travel] [24/7]
+
+────────────────────────────────────────────
+
+◀ Venue • Venue • Venue • Venue • Venue ▶
+```
+
+### Sorting
+
+Venues are always sorted by **distance from the user's current location**.
+
+**All**
+
+* Nearest venues across every installed venue pack.
+
+**Nightlife**
+
+* Clubs
+* Lounges
+* Bars
+* Rooftops
+
+**Food**
+
+* Restaurants
+* Fast food
+* Cafés
+* Desserts
+
+**Prep**
+
+* Barber
+* Salon
+* Beauty
+* Fashion
+* Makeup
+
+**Travel**
+
+* Hotels
+* Airports
+* Transport
+* Car rental
+
+**24/7**
+
+* Venues currently operating 24 hours.
+
+### Navigation
+
+**See All → Explore the City Screen**
+
+---
+
+# 10. Channels
+
+**Purpose**
+
+Community-powered discovery.
+
+### Preview
+
+Horizontal community cards.
+
+### Includes
+
+* Music
+* Campus
+* Food
+* Fitness
+* Business
+* Beauty
+* Gaming
+* Cars
+* Photography
+* Travel
+* Fashion
+
+### Navigation
+
+**See All → Channels Screen**
+
+---
+
+# 11. Prep Rooms
+
+**Purpose**
+
+Help users prepare before going out.
+
+### Preview
+
+Horizontal preparation cards.
+
+### Includes
+
+* Outfits
+* Hair
+* Makeup
+* Barber
+* Skincare
+* Shoes
+* Accessories
+* Weather tips
+* Beauty deals
+
+### Navigation
+
+**See All → Prep Rooms Screen**
+
+---
+
+# 12. Tonight
+
+**Purpose**
+
+Execution dashboard for the user's night.
+
+### Preview
+
+Horizontal summary cards.
+
+### Includes
+
+* Timeline
+* Dinner reservations
+* Events
+* Clubs
+* After-parties
+* Late-night food
+* Tickets
+* Guest Lists
+* VIP bookings
+* Navigation
+* Ride shortcuts
+* NightGuard
+* AI updates
+
+### Navigation
+
+**See All → Tonight Screen**
+
+---
+
+# Navigation Pattern
+
+Every section below the Hero follows the same interaction model:
+
+```text
+Section Title                     See All →
+
+Preview (Horizontal Scroll)
+
+↓
+
+Dedicated Screen
+
+↓
+
+Search (where applicable)
+
+↓
+
+Filters
+
+↓
+
+Full Experience
+```
+
+---
+
+# Final Discover Screen Structure
+
+```text
+Dynamic Hero
+
+↓
+
+Closing Soon
+(Horizontal Preview)
+See All →
+
+↓
+
+Flash Drops
+(Horizontal Preview)
+See All →
+
+↓
+
+My Circle
+(Horizontal Profile Cards)
+See All →
+
+↓
+
+Live Moments
+(Horizontal Preview)
+See All →
+
+↓
+
+Smart Places
+(Horizontal Venue Cards)
+See All →
+
+↓
+
+Trending Now
+(Horizontal Preview)
+See All →
+
+↓
+
+Events
+(Horizontal Event Cards)
+See All →
+
+↓
+
+Explore the City
+(Category Chips)
+
+[All] [Nightlife] [Food] [Prep] [Travel] [24/7]
+
+(Horizontal Venue Cards sorted by distance)
+
+See All →
+
+↓
+
+Channels
+(Horizontal Preview)
+See All →
+
+↓
+
+Prep Rooms
+(Horizontal Preview)
+See All →
+
+↓
+
+Tonight
+(Horizontal Preview)
+See All →
+```
+
+This updated structure keeps the Discover screen focused as a **preview hub**: every section presents a concise horizontal preview, while **See All** leads to a dedicated screen with richer browsing and filtering. The result is a clean, consistent navigation model that scales well without overcrowding the main Discover experience.
+

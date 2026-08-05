@@ -1,0 +1,527 @@
+# FOMO Creator Studio — Flash Drops Module
+
+## Product Vision
+
+The **Flash Drops Module** is FOMO's signature engagement and venue activation system.
+
+Flash Drops are **limited-time, limited-quantity real-world rewards** designed to drive people to nightlife venues, increase attendance, reward loyal guests, and create moments of excitement.
+
+Unlike coupons or digital vouchers, Flash Drops are **not redeemed in the app**.
+
+They are discovered through FOMO and **redeemed physically at participating venues** by venue staff.
+
+Flash Drops can be attached to an event or created as standalone venue campaigns.
+
+---
+
+# Design Principles
+
+The Flash Drops Module should be:
+
+* Real-world first, encouraging physical venue visits.
+* Time-sensitive to create urgency (FOMO).
+* Simple to launch in minutes.
+* Flexible enough for events and everyday venue promotions.
+* Measurable with clear performance analytics.
+* Secure against abuse and fraud.
+
+---
+
+# Supported Creator Roles
+
+| Creator Role       | Access              |
+| ------------------ | ------------------- |
+| 🏙 Venue Owner     | ✅ Full              |
+| 🎟 Event Organiser | ✅ Event Flash Drops |
+| 🎧 DJ              | ❌ No Access         |
+| 🎤 Music Artist    | ❌ No Access         |
+
+---
+
+## Venue Owner
+
+Can:
+
+* Create venue Flash Drops
+* Create event Flash Drops
+* Schedule campaigns
+* Manage active rewards
+* Pause or end campaigns
+* View analytics
+* Verify redemptions
+* Assign staff to redeem rewards
+
+---
+
+## Event Organiser
+
+Can:
+
+* Create Flash Drops for events they manage
+* Schedule Flash Drops
+* View event Flash Drop analytics
+* Monitor redemption activity
+
+Cannot:
+
+* Create venue-wide Flash Drops
+* Manage venue campaigns outside their events
+
+---
+
+# Flash Drop Types
+
+Flash Drops support a variety of reward experiences.
+
+Examples include:
+
+## Entry
+
+* Free Entry
+* Discounted Entry
+* Queue Jump
+
+---
+
+## Drinks
+
+* Free Drink
+* Two-for-One Drinks
+* Welcome Shot
+* Cocktail Upgrade
+
+---
+
+## VIP
+
+* VIP Upgrade
+* VIP Wristband
+* VIP Lounge Access
+
+---
+
+## Tables
+
+* Table Discount
+* Complimentary Table Upgrade
+* Bottle Service Upgrade
+
+---
+
+## Food
+
+* Food Voucher
+* Complimentary Snack
+* Meal Discount
+
+---
+
+## Merchandise
+
+* Branded Merchandise
+* Event T-Shirt
+* Wristbands
+* Collectables
+
+---
+
+## Experiences
+
+* Meet & Greet
+* Backstage Access
+* DJ Booth Visit
+* Photo Opportunity
+
+---
+
+# Flash Drops Dashboard
+
+Displays all Flash Drop campaigns.
+
+## Sections
+
+* Active
+* Scheduled
+* Completed
+* Expired
+* Paused
+
+---
+
+## Dashboard Metrics
+
+* Active Campaigns
+* Total Views
+* Venue Arrivals
+* Rewards Remaining
+* Redemptions
+* Conversion Rate
+
+---
+
+## Quick Actions
+
+* New Flash Drop
+* Duplicate Campaign
+* Pause Campaign
+* End Campaign
+
+---
+
+# Flash Drop Creation Flow
+
+```text
+Campaign Type
+
+↓
+
+Reward Details
+
+↓
+
+Availability
+
+↓
+
+Eligibility Rules
+
+↓
+
+Venue or Event
+
+↓
+
+Review
+
+↓
+
+Launch
+```
+
+Campaigns can be saved as drafts before launch.
+
+---
+
+# Reward Details
+
+Each Flash Drop includes:
+
+* Reward title
+* Reward description
+* Reward category
+* Quantity available
+* Promotional image
+* Sponsor (optional)
+
+Example:
+
+```text
+Free Cocktail
+
+First 50 Guests
+
+Tonight Only
+```
+
+---
+
+# Availability
+
+Configure:
+
+* Start date
+* Start time
+* End date
+* End time
+
+Creators can also choose:
+
+* Launch immediately
+* Schedule for later
+
+---
+
+# Quantity Management
+
+Creators define inventory.
+
+Examples:
+
+* Unlimited
+* First 25
+* First 50
+* First 100
+* First 500
+
+Remaining inventory updates in real time.
+
+---
+
+# Eligibility Rules
+
+Creators define who qualifies.
+
+Examples:
+
+* First arrivals
+* Ticket holders only
+* VIP ticket holders
+* Guests over 21
+* Returning customers
+* Event attendees only
+
+Future support:
+
+* Audience segments
+* Loyalty tiers
+* Invitation-only rewards
+
+---
+
+# Venue or Event Assignment
+
+A Flash Drop can belong to:
+
+## Venue Campaign
+
+Example:
+
+```text
+Happy Hour
+
+Every Friday
+
+7PM–9PM
+```
+
+---
+
+## Event Campaign
+
+Example:
+
+```text
+Neon Fridays
+
+Free Welcome Drink
+
+First 100 Guests
+```
+
+This distinction allows venues to run ongoing promotions while organisers create event-specific incentives.
+
+---
+
+# Redemption Process
+
+Flash Drops are redeemed **only at the venue**.
+
+Workflow:
+
+```text
+User discovers Flash Drop
+
+↓
+
+Visits venue
+
+↓
+
+Shows reward to staff
+
+↓
+
+Staff verifies eligibility
+
+↓
+
+Staff confirms redemption
+
+↓
+
+Reward issued
+```
+
+No digital coupon is consumed automatically in the app.
+
+---
+
+# Staff Redemption
+
+Authorized venue staff can:
+
+* View active Flash Drops
+* Search eligible guests (future)
+* Confirm redemption
+* Track remaining inventory
+
+Every redemption is logged with:
+
+* Time
+* Staff member
+* Venue
+* Reward issued
+
+---
+
+# Fraud Prevention
+
+To protect creators and venues:
+
+* Redemptions require staff confirmation.
+* Inventory updates instantly.
+* Duplicate redemptions are prevented.
+* Redemption history is recorded.
+* Campaigns can be paused instantly.
+
+Future enhancements:
+
+* QR-assisted verification
+* Device validation
+* Staff PIN confirmation
+* Offline redemption syncing
+
+---
+
+# Campaign Management
+
+Each campaign includes:
+
+* Name
+* Status
+* Reward type
+* Quantity
+* Venue/Event
+* Schedule
+* Performance summary
+
+Statuses:
+
+* Draft
+* Scheduled
+* Active
+* Paused
+* Completed
+* Expired
+* Cancelled
+
+Actions:
+
+* Edit
+* Pause
+* Resume
+* Duplicate
+* Archive
+* End Campaign
+
+---
+
+# Analytics
+
+Each Flash Drop provides detailed insights.
+
+## Discovery
+
+* Views
+* Saves
+* Shares
+
+---
+
+## Interest
+
+* Navigation requests
+* Venue profile visits
+* Event profile visits
+
+---
+
+## Venue Impact
+
+* Venue arrivals
+* Attendance uplift
+* Peak redemption times
+
+---
+
+## Redemption
+
+* Rewards redeemed
+* Remaining inventory
+* Redemption rate
+
+---
+
+## Business Impact
+
+* Ticket sales influenced
+* Revenue generated (future)
+* Repeat visitors
+* Customer retention
+
+---
+
+# AI Insights (Future Roadmap)
+
+The Flash Drops Module can provide intelligent recommendations.
+
+Examples:
+
+* Recommend the best launch time.
+* Suggest ideal reward quantities.
+* Predict redemption rates.
+* Recommend rewards based on previous success.
+* Detect underperforming campaigns.
+* Recommend campaigns during low-attendance periods.
+
+---
+
+# Integration with Other Modules
+
+## Events
+
+Attach Flash Drops directly to an event.
+
+---
+
+## Venue
+
+Run venue-wide campaigns independent of events.
+
+---
+
+## Marketing
+
+Promote Flash Drops through targeted campaigns.
+
+---
+
+## Audience
+
+Target Flash Drops to specific customer segments (future).
+
+---
+
+## Intelligence
+
+Analyze long-term performance and business impact.
+
+---
+
+# Success Metrics
+
+The Flash Drops Module should help creators:
+
+* Increase venue attendance.
+* Create urgency and excitement.
+* Reward loyal customers.
+* Improve event engagement.
+* Drive repeat visits.
+* Increase customer spending.
+* Differentiate venues through unique experiences.
+
+---
+
+# Guiding Principle
+
+Flash Drops are **not digital coupons**—they are **real-world experiences** that motivate people to leave the couch, visit a venue, and participate in nightlife. The module should make it effortless for venues and organisers to launch compelling, time-sensitive rewards while giving them clear insight into how those campaigns influence attendance, engagement, and business growth. By connecting Flash Drops with Events, Marketing, Audience, and Intelligence, they become a core part of FOMO's unique value proposition rather than just another promotional feature.

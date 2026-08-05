@@ -1,0 +1,559 @@
+FOMO Prep Lobby — Production Engine v4
+
+"Your Next Look Starts Here"
+
+Product Vision
+
+The Prep Lobby is the premium digital storefront for beauty, grooming, and self-care businesses on FOMO.
+
+Unlike the Club Lobby, which creates excitement for nightlife, the Prep Lobby creates confidence by showcasing craftsmanship, quality, and style.
+
+Within 10 seconds, users should know:
+
+Is this business worth visiting?
+
+What styles do they specialize in?
+
+How much do services cost?
+
+Can I trust their work?
+
+How do I request an appointment?
+
+Primary Goal
+
+Convert discovery into an appointment request.
+
+Supported Businesses
+
+💈 Barber Shops
+
+💇 Hair Salons
+
+💅 Nail Studios
+
+💄 Makeup Artists
+
+👁 Eyelash Studios
+
+🪒 Grooming Studios
+
+🖋 Tattoo Studios
+
+💎 Piercing Studios
+
+🌸 Beauty Salons
+
+Screen Architecture
+
+Hero (Featured Looks) ↓ Sticky Tabs Overview Looks Services Team Reviews Info ↓ Overview Featured Looks ↓ Live Signal Strip ↓ Business Summary ↓ Trending Looks ↓ Fresh Looks ↓ Featured Creator ↓ Offers ↓ Review Preview ↓ Map Preview ↓ Bottom Action Bar 
+
+Hero
+
+Unlike Food and Club lobbies, the Prep Lobby is built around Looks, not a business cover photo.
+
+Business Header
+
+← ✓ Verified LEGENDS BARBER ⭐ 4.9 (284) Open Now Closes 19:00 1.8 km away ♡ Save ⋮ 
+
+Category Chips
+
+💈 Barber 💇 Hair 💅 Nails 💄 Makeup 🪒 Grooming 
+
+Featured Looks Carousel
+
+Large Pinterest-style cards.
+
+Every card contains
+
+Large Image
+
+Style Name
+
+Professional
+
+Starting Price
+
+Likes
+
+Popularity Badge
+
+Example
+
+Burst Fade 🔥 Popular This Week By John From R180 ❤ 284 Request This Style 
+
+Swipe horizontally.
+
+Sticky Navigation
+
+Always visible while scrolling.
+
+Overview Looks Services Team Reviews Info 
+
+Overview
+
+Contains the most important information.
+
+Live Signal Strip
+
+Displays only populated data.
+
+Examples
+
+🔥 Trending This Week
+
+Burst Fade
+
+⭐ Featured Creator
+
+John
+
+👥
+
+124 people viewed today
+
+No fake activity.
+
+No placeholders.
+
+Business Summary
+
+Short description.
+
+Example
+
+Premium fades, beard grooming and luxury barber experience.
+
+Quick Actions
+
+📞 Call
+
+💬 WhatsApp
+
+🌐 Website
+
+📤 Share
+
+Response Badge
+
+Replies within 30 mins
+
+Trending Looks
+
+Large horizontal cards.
+
+Examples
+
+🔥 Burst Fade
+
+🔥 French Crop
+
+🔥 Wolf Cut
+
+🔥 Curly Taper
+
+Selecting one filters the Looks tab.
+
+Fresh Looks
+
+Recently completed work.
+
+Skin Fade 8 mins ago By John ──────────── Wolf Cut 16 mins ago By Musa 
+
+Customer identities are never shown.
+
+Only
+
+Style
+
+Professional
+
+Time
+
+Featured Creator
+
+Business chooses one professional.
+
+⭐ Featured Creator John Master Barber 12 Years Experience ⭐ 4.9 280 Reviews View Looks 
+
+Offers
+
+Standing Promotions
+
+Student Discount
+
+15%
+
+Hair + Beard Combo
+
+R250
+
+Flash Deals
+
+Free Beard Trim Ends Today 04:35 Remaining 
+
+Users following the business receive notifications.
+
+Review Preview
+
+Shows
+
+Overall Rating
+
+Latest Review
+
+Photo
+
+Verified Visit
+
+Example
+
+⭐⭐⭐⭐⭐
+
+Amazing fade.
+
+Verified Visit
+
+Map Preview
+
+Mini map.
+
+Distance.
+
+Travel time.
+
+Get Directions
+
+Looks Tab
+
+The heart of the lobby.
+
+Categories
+
+Haircuts
+
+Beards
+
+Hair Colour
+
+Nails
+
+Makeup
+
+Tattoos
+
+Piercings
+
+Before & After
+
+Each look contains
+
+Large Image
+
+Professional
+
+Service
+
+Price
+
+Likes
+
+FOMO Reactions
+
+Example
+
+Burst Fade By John Fade Haircut From R180 🔥 184 😍 76 💯 55 Request This Style 
+
+Customer Transformations
+
+Dedicated section.
+
+Interactive Before / After slider.
+
+Every transformation tagged with
+
+Professional
+
+Service
+
+Date
+
+Services Tab
+
+Visual service cards.
+
+Example
+
+💈 Skin Fade 45 mins From R180 Popular Request Appointment 
+
+Each service displays
+
+Duration
+
+Price
+
+Popularity
+
+Description
+
+Professionals offering it
+
+Team Tab
+
+Professionals
+
+Large cards.
+
+Photo
+
+Name
+
+Role
+
+Experience
+
+Rating
+
+Specialties
+
+Buttons
+
+View Looks
+
+Request Appointment
+
+Categories
+
+All
+
+Barbers
+
+Stylists
+
+Makeup
+
+Nails
+
+Tattoo
+
+Reviews Tab
+
+Overall Rating
+
+Photo Reviews
+
+Verified Visit
+
+Professional Tagged
+
+Example
+
+⭐⭐⭐⭐⭐
+
+Excellent service.
+
+By John.
+
+✓ Verified Visit
+
+Filters
+
+Newest
+
+Highest
+
+Lowest
+
+Photos
+
+Info Tab
+
+Business Hours
+
+Payment Methods
+
+Amenities
+
+Parking
+
+Wi-Fi
+
+Waiting Area
+
+Wheelchair Access
+
+Air Conditioning
+
+Contact
+
+Phone
+
+WhatsApp
+
+Email
+
+Website
+
+Social Media
+
+Policies
+
+Walk-ins Welcome
+
+Appointment Recommended
+
+Children Welcome
+
+Bottom Action Bar
+
+Persistent
+
+Request Appointment Get Directions More 
+
+More
+
+Call
+
+WhatsApp
+
+Website
+
+Share
+
+Save
+
+Request Appointment Flow
+
+User taps
+
+Request Appointment
+
+Choose
+
+💬 WhatsApp
+
+📞 Call
+
+🌐 Website
+
+If coming from a Look or Service, FOMO pre-fills the message.
+
+Example
+
+Hi, I'd like to request a Skin Fade with John. Are you available today? 
+
+No scheduling.
+
+No payments.
+
+No calendars.
+
+Official Business Lobby
+
+Examples
+
+Legends Barber
+
+Sorbet
+
+Carlton Hair
+
+Display
+
+Hero
+
+Business Summary
+
+Gallery
+
+Reviews
+
+Directions
+
+Website
+
+Primary CTA
+
+Visit Website
+
+No
+
+Looks
+
+Services
+
+Offers
+
+Dashboard
+
+Claimed Business Lobby
+
+Unlocked after free OTP claim.
+
+Receives
+
+✓ Prep Lobby
+
+✓ Prep Dashboard
+
+✓ Looks Management
+
+✓ Team Management
+
+✓ Offers
+
+✓ Reviews Management
+
+✓ Business Analytics
+
+✓ Verified Badge
+
+FOMO Business Lobby
+
+Created inside FOMO.
+
+OTP verified.
+
+One-time R50 verification fee.
+
+Customer experience is identical to a claimed business.
+
+Future Upgrades
+
+Full appointment booking engine
+
+Live availability per professional
+
+AI hairstyle recommendations
+
+Face shape analysis
+
+Loyalty rewards
+
+Gift cards
+
+Waiting queue
+
+Style inspiration collections
+
+Repeat booking suggestions
+
+Creator subscriptions
+
+Premium portfolio themes
+
+Design Principles
+
+Looks are the hero, not the business.
+
+Every look should inspire confidence and drive an appointment request.
+
+Businesses showcase craftsmanship rather than marketing.
+
+Navigation is fast through sticky tabs.
+
+Social proof comes from authentic signals such as verified visits, trending looks, and featured creators.
+
+V1 focuses on requesting appointments, avoiding the complexity of full booking while leaving a seamless upgrade path to a future scheduling engine.
+
+Official businesses remain lightweight with a Visit Website experience, while claimed and FOMO-created businesses unlock the full Prep Lobby and Prep Dashboard.

@@ -1,0 +1,307 @@
+FOMO Chats — Stories
+
+Billion-Dollar Scale Personal Stories System (MVP)
+
+Purpose
+
+The Stories section answers one simple question:
+
+"What's happening with my friends and the people I follow today?"
+
+This is a personal social layer designed to encourage conversations.
+
+Screen Layout
+
+Chats ────────────────────────── Stories ────────────────────────── Chats List ────────────────────────── Bottom Navigation 
+
+Stories always appear above the chat list.
+
+Stories Row
+
+Horizontal scrolling.
+
++ My Story Sarah Mike Emma Chris James ... 
+
+The row only displays stories from:
+
+Friends
+
+People you follow
+
+Yourself
+
+No venue accounts.
+
+No business accounts.
+
+No advertisements.
+
+Story Order
+
+Stories are intelligently ordered.
+
+Priority:
+
+My Story
+
+Unviewed friend stories
+
+Unviewed following stories
+
+Recently active people
+
+Viewed stories
+
+This makes sure the most relevant stories appear first.
+
+My Story
+
+Always first.
+
+States:
+
+No Story
+
++ My Story 
+
+Shows:
+
+Profile picture
+
+Glass "+" badge
+
+Tap:
+
+Open Story Creator.
+
+Active Story
+
+Shows:
+
+Gradient ring
+
+Tap:
+
+View your story.
+
+Long press:
+
+Story management menu.
+
+Story Types
+
+Users can post:
+
+Photo
+
+Video
+
+Text
+
+Voice Story
+
+Camera Template
+
+Multiple media in one story
+
+Stories disappear after 24 hours.
+
+Story Ring Design
+
+Unread
+
+Animated gradient ring.
+
+Viewed
+
+Grey ring.
+
+Close Friends (future)
+
+Green ring.
+
+My Story
+
+Glass "+" overlay.
+
+Verified users retain their verification badge on the avatar.
+
+Story Viewer
+
+Full-screen immersive viewer.
+
+Top bar:
+
+Profile Photo Name Time Posted More 
+
+Progress indicators at the top show multiple story segments.
+
+Navigation
+
+Tap right → next segment
+
+Tap left → previous segment
+
+Hold → pause
+
+Swipe left/right → next person's stories
+
+Swipe down → close
+
+These gestures match familiar user expectations.
+
+Story Actions
+
+For each story:
+
+❤️ React
+
+💬 Reply
+
+↗️ Share
+
+⋮ More
+
+Replies go directly into the private chat with that person.
+
+Story Replies
+
+Reply options include:
+
+Text
+
+Emoji
+
+Voice note
+
+Photo
+
+Video
+
+GIF (future)
+
+Replies appear naturally in the existing conversation thread.
+
+Story Privacy
+
+Users control who can see their stories.
+
+Options:
+
+Everyone
+
+Followers
+
+Friends
+
+Close Friends (future)
+
+Custom List
+
+Only Me
+
+Separate controls exist for who can reply.
+
+Story Composer
+
+Tapping My Story opens the story creation flow.
+
+Users can create:
+
+Photo
+
+Video
+
+Text
+
+Voice Story
+
+Camera features integrate with the FOMO Camera Engine, allowing users to use templates and effects already available in the app.
+
+Story Drafts
+
+If a user leaves before posting:
+
+Automatically save as a draft.
+
+Resume editing later.
+
+Delete draft manually.
+
+Story Downloads
+
+Users can choose:
+
+Save to device before posting.
+
+Auto-save all stories.
+
+Never save.
+
+Story Muting
+
+For every friend or following account:
+
+Mute stories
+
+Unmute stories
+
+Hide my stories from this person
+
+Block stories
+
+Muting affects only stories, not chats.
+
+Story Archive
+
+After 24 hours, stories move to a private archive.
+
+Users can:
+
+View archived stories.
+
+Repost a story.
+
+Download a story.
+
+Delete permanently.
+
+The archive is private unless future highlight features are introduced.
+
+Empty State
+
+If no one has posted today:
+
+No new stories today. Share a moment from your day or check back later. [Create Story] 
+
+Performance Standards
+
+To maintain a premium experience:
+
+Progressive loading of story thumbnails.
+
+Prefetch the next two stories.
+
+Adaptive video quality based on connection speed.
+
+Cache avatar images.
+
+Smooth 60 FPS transitions on supported devices.
+
+Pause downloads automatically in Data Saver mode.
+
+Stories Architecture
+
+Stories Engine ├── My Story ├── Friend Stories ├── Following Stories ├── Story Composer ├── Story Viewer ├── Story Drafts ├── Story Archive ├── Story Privacy ├── Story Reactions ├── Story Replies ├── Story Muting └── Story Intelligence Engine 
+
+Billion-Dollar Product Principle
+
+The Chats Stories section should strengthen personal relationships, not compete with Explore.
+
+Chats answers: "What are my friends sharing?"
+
+Explore answers: "What's happening in the city?"
+
+Club Lobby answers: "What's happening at this venue?"
+
+Keeping these responsibilities separate gives FOMO a much clearer information architecture, reduces clutter, and makes each part of the app easier to understand and scale.

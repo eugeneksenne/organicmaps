@@ -1,0 +1,561 @@
+FOMO Business Lobby Architecture
+
+The Digital Front Door for Every Business
+
+Vision
+
+Every business on FOMO has a Lobby.
+
+A Lobby is not a static business listing.
+
+It is the business's living digital presence inside FOMO.
+
+Users should be able to understand a business in under 10 seconds.
+
+Each industry has a lobby specifically designed around how customers interact with that business.
+
+FOMO Lobby Ecosystem
+
+Nightlife │ Club Lobby Prep │ Prep Lobby Food │ Food Lobby Wellness │ Wellness Lobby Travel │ Travel Lobby 
+
+Each lobby shares a consistent design language while exposing features unique to its category.
+
+Business Ownership Model
+
+Existing Business
+
+If the business already exists on the map:
+
+Business owner can
+
+Claim Business
+
+Requirements
+
+✓ SMS OTP
+
+OR
+
+✓ WhatsApp OTP
+
+OR
+
+✓ Email OTP
+
+No payment required
+
+Once verified
+
+Owner receives:
+
+Verified Badge
+
+Business Dashboard
+
+Business Lobby Management
+
+New Business
+
+If the business does not exist:
+
+Owner creates a new business.
+
+Requirements
+
+✓ OTP Verification
+
+One-time Verification Fee
+
+R50
+
+No subscriptions.
+
+No monthly fees.
+
+No annual renewal.
+
+Pay once.
+
+Business immediately receives
+
+Verified Badge
+
+Business Dashboard
+
+Business Lobby
+
+1. Club Lobby (Nightlife)
+
+The most advanced lobby on FOMO.
+
+Purpose
+
+Convert viewers into guests tonight.
+
+Features
+
+Hero Cover
+
+Venue Gallery
+
+Verified Badge
+
+Live Crowd Meter
+
+Open Now
+
+Events Tonight
+
+Ticket Sales
+
+Flash Drops
+
+VIP Tables
+
+DJ Lineup
+
+Live Broadcast
+
+Moments
+
+Venue Menu
+
+Drinks Menu
+
+Promotions
+
+Reviews
+
+Contact
+
+Directions
+
+Social Media
+
+Business Hours
+
+Amenities
+
+Save Venue
+
+Share Venue
+
+Club Dashboard
+
+Events
+
+Tickets
+
+Promotions
+
+Flash Drops
+
+Analytics
+
+Reviews
+
+Staff
+
+Settings
+
+2. Prep Lobby
+
+Purpose
+
+Help customers choose the right professional and book with confidence.
+
+Features
+
+Hero Cover
+
+Business Gallery
+
+Verified Badge
+
+About
+
+Services
+
+Prices
+
+Duration
+
+Staff / Professionals
+
+Barber Portfolio
+
+Hairstyle Gallery
+
+Makeup Gallery
+
+Nail Gallery
+
+Beauty Gallery
+
+Before & After Photos
+
+Opening Hours
+
+Availability
+
+Book Appointment
+
+Flash Deals
+
+Promotions
+
+Reviews
+
+Contact
+
+Directions
+
+WhatsApp
+
+Social Media
+
+Save Business
+
+Share Business
+
+Prep Dashboard
+
+Appointments
+
+Services
+
+Pricing
+
+Staff
+
+Gallery
+
+Flash Deals
+
+Promotions
+
+Analytics
+
+Reviews
+
+Customers
+
+Settings
+
+3. Food Lobby
+
+Purpose
+
+Help users decide where to eat.
+
+Features
+
+Hero Cover
+
+Food Gallery
+
+Verified Badge
+
+About
+
+Cuisine
+
+Menu
+
+Prices
+
+Popular Dishes
+
+Chef Specials
+
+Today's Specials
+
+Flash Deals
+
+Promotions
+
+Opening Hours
+
+Reviews
+
+Contact
+
+Directions
+
+Delivery Information
+
+Social Media
+
+Save Business
+
+Share Business
+
+Food Dashboard
+
+Menu Management
+
+Pricing
+
+Specials
+
+Flash Deals
+
+Promotions
+
+Gallery
+
+Analytics
+
+Reviews
+
+Orders (Future)
+
+Settings
+
+4. Wellness Lobby
+
+Purpose
+
+Help users discover wellness and self-care services.
+
+Features
+
+Hero Cover
+
+Gallery
+
+Verified Badge
+
+About
+
+Treatments
+
+Services
+
+Prices
+
+Specialists
+
+Qualifications (optional)
+
+Opening Hours
+
+Book Appointment
+
+Flash Deals
+
+Promotions
+
+Reviews
+
+Contact
+
+Directions
+
+Save Business
+
+Share Business
+
+Wellness Dashboard
+
+Appointments
+
+Treatments
+
+Pricing
+
+Staff
+
+Gallery
+
+Promotions
+
+Analytics
+
+Reviews
+
+Customers
+
+Settings
+
+5. Travel Lobby
+
+Purpose
+
+Help users explore accommodation, transport, and tourism businesses.
+
+Features
+
+Hero Cover
+
+Gallery
+
+Verified Badge
+
+About
+
+Rooms / Services
+
+Pricing (where applicable)
+
+Amenities
+
+Check-in Information
+
+Contact
+
+Directions
+
+Website
+
+Reviews
+
+Save Business
+
+Share Business
+
+Travel Dashboard
+
+Rooms / Services
+
+Pricing
+
+Gallery
+
+Promotions
+
+Analytics
+
+Reviews
+
+Bookings (Future)
+
+Settings
+
+Universal Lobby Components
+
+Every lobby includes:
+
+Hero Cover
+
+Business Logo
+
+Business Name
+
+Verified Badge
+
+Category
+
+Open / Closed Status
+
+Rating
+
+Review Count
+
+Contact Options
+
+Directions
+
+Business Hours
+
+Gallery
+
+Reviews
+
+Save
+
+Share
+
+Report Business
+
+Universal Dashboard Components
+
+Every verified business owner receives:
+
+Dashboard Home
+
+Analytics
+
+Reviews
+
+Gallery
+
+Promotions
+
+Flash Deals
+
+Notifications
+
+Settings
+
+Category-specific modules are added depending on the business type.
+
+Discovery Integration
+
+Verified lobbies become eligible for:
+
+AI Recommendations
+
+Trending Near You
+
+Popular This Week
+
+Nearby Open Now
+
+Editor's Picks (future)
+
+Flash Deals
+
+Search Ranking Boost
+
+Verification Rules
+
+Existing Businesses (Already on the Map)
+
+Claim Business
+
+OTP verification (SMS, WhatsApp, or Email)
+
+Free
+
+Applies to:
+
+Nightlife
+
+Prep
+
+Food
+
+Wellness
+
+Travel
+
+New Businesses (Not on the Map)
+
+Create Business
+
+OTP verification
+
+R50 once-off verification fee
+
+Applies to:
+
+Nightlife
+
+Prep
+
+Food
+
+Wellness
+
+Travel
+
+Core Product Principle
+
+FOMO is not a directory of businesses.
+
+It is a platform where every verified business has a living, interactive lobby designed for its industry.
+
+Whether someone is looking for a nightclub, a barber, a street food vendor, a spa, or a hotel, they should stay inside FOMO to discover, compare, trust, and engage with the business—without being redirected elsewhere.
+
+This architecture creates one consistent experience across the app while allowing each industry to have specialized features that match how customers actually choose and interact with those businesses.

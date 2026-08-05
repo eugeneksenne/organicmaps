@@ -1,0 +1,331 @@
+﻿# FOMO Planning Button Philosophy (Updated)
+
+## Vision
+
+Planning is one of FOMO's most powerful social features, but it should never compete with discovery.
+
+The app should first help users **discover what is happening**, then naturally transition them into **planning where to go**.
+
+Planning should therefore feel **intentional**, **context-aware**, and **available when needed**, rather than being constantly visible across the interface.
+
+---
+
+# Core Philosophy
+
+> **Discovery inspires. Planning commits.**
+
+Users move through two natural stages:
+
+### 1. Discovery Mode
+
+Users are browsing.
+
+They are exploring:
+
+* Venues
+* Events
+* Friends
+* Creators
+* Restaurants
+* Channels
+* Recommendations
+
+The interface should encourage curiosity without overwhelming users with decision-making actions.
+
+---
+
+### 2. Planning Mode
+
+Users have found something they are interested in.
+
+They now want to:
+
+* Go tonight
+* Invite friends
+* Build an itinerary
+* Schedule their evening
+* Save ideas for later
+
+Only now should planning actions become prominent.
+
+---
+
+# Design Principles
+
+## 1. Planning is Intentional
+
+The Plan button should only appear when a user is making or confirming a destination decision.
+
+Planning is never presented as a default action during casual browsing.
+
+---
+
+## 2. Discovery Comes First
+
+Discovery surfaces exist to inspire users.
+
+Their purpose is to encourage exploration, not immediate commitment.
+
+This keeps browsing fast, enjoyable, and visually clean.
+
+---
+
+## 3. Context Determines Visibility
+
+The Plan button is context-aware.
+
+It appears only when the user reaches a screen where planning is a logical next step.
+
+Examples include:
+
+* Viewing a venue
+* Viewing an event
+* Selecting a restaurant
+* Coordinating with friends
+* Searching for places
+
+---
+
+## 4. One Planning Hub
+
+Planning should have a recognizable home.
+
+The **Tonight** section on the Discover screen serves as the primary planning hub where users can:
+
+* Create a new plan
+* Continue an active plan
+* View upcoming plans
+* Browse templates
+* Explore public plans
+* Access planning history
+
+This becomes the central destination for planning rather than scattering planning entry points throughout the app.
+
+---
+
+# Where Planning Appears
+
+## ✅ Discover
+
+### Tonight (Primary Planning Hub)
+
+Primary destination for:
+
+* Create Plan
+* Continue Plan
+* Active Plans
+* Templates
+* Public Plans
+* Planning History
+
+---
+
+## ✅ Venue Details
+
+Users have already decided to learn more about a place.
+
+Planning becomes a natural next action.
+
+Example actions:
+
+* Route
+* Save
+* Share
+* **Plan**
+
+---
+
+## ✅ Event Details
+
+Planning supports attending the event.
+
+Example actions:
+
+* Buy Ticket
+* Share
+* Save
+* **Plan**
+
+---
+
+## ✅ Restaurant Details
+
+Example actions:
+
+* Reserve
+* Route
+* **Plan**
+
+---
+
+## ✅ Map Screen
+
+Planning appears only after selecting a venue.
+
+Example:
+
+* Open
+* Route
+* **Plan**
+
+Long-pressing the map may also support:
+
+* Add Location to Plan
+
+---
+
+## ✅ Search Results
+
+Users are actively searching with intent.
+
+Search results may include:
+
+* Open
+* Save
+* **Plan**
+
+---
+
+## ✅ Chats
+
+Planning naturally belongs in conversations.
+
+Examples:
+
+* Plan Together
+* Create Group Plan
+* Continue Existing Plan
+
+---
+
+## ✅ User Profiles
+
+Friends can plan experiences together.
+
+Example:
+
+* Plan Together
+
+---
+
+## ✅ Group Profiles
+
+Example:
+
+* Create Group Plan
+
+---
+
+# Where Planning Does NOT Appear
+
+## ❌ Feed
+
+The feed exists for inspiration and content consumption.
+
+Primary actions remain:
+
+* Like
+* Comment
+* Share
+* Save
+
+If a user wants to plan, they first open the related venue or event where planning becomes available.
+
+---
+
+## ❌ Stories
+
+Stories are designed for quick, ephemeral sharing.
+
+Planning actions would interrupt the viewing experience.
+
+---
+
+## ❌ Creator Posts
+
+Creator content should encourage engagement.
+
+Planning begins only after opening the linked venue or event.
+
+---
+
+## ❌ General Discovery Cards
+
+Cards on the Discover screen should encourage exploration.
+
+Planning starts after users open the experience or enter the **Tonight** planning hub.
+
+---
+
+# Special Planning Actions
+
+Some screens use planning-specific actions instead of a generic Plan button.
+
+## Public Plans
+
+Actions:
+
+* Join
+* Save
+* Remix
+
+Planning is already implied.
+
+---
+
+## Memories
+
+Actions:
+
+* Plan Again
+* Duplicate Plan
+* Share Memory
+
+---
+
+## Notifications
+
+Only planning-related notifications expose planning actions such as:
+
+* View Plan
+* Accept Invite
+* Continue Planning
+
+---
+
+# Planning User Journey
+
+```
+Open FOMO
+        │
+        ▼
+Discover the City
+        │
+        ▼
+Browse Feed, Map, Events & Venues
+        │
+        ▼
+Find Something Interesting
+        │
+        ▼
+Open Venue/Event Details
+        │
+        ▼
+Tap Plan
+        │
+        ▼
+Create or Continue Tonight Plan
+        │
+        ▼
+Invite Friends
+        │
+        ▼
+Enjoy the Experience
+```
+
+---
+
+# Final FOMO Planning Rule
+
+> **Planning is not a universal button—it is a contextual experience. Discovery surfaces inspire exploration, while destination and coordination surfaces enable planning. The Tonight hub remains the heart of planning, ensuring a clean interface, clear user intent, and a premium social experience.**  
+

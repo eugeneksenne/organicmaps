@@ -25,6 +25,10 @@ Status values: `Not Started` · `In Progress` · `Blocked` · `Complete`
 | security | Blocked | Depends on `nightguard-core` shared encryption/key-management boundary. | `nightguard-core` blocked. | 2026-08-05 |
 | permissions | Blocked | Depends on core capability model and unavailable Android/iOS build verification. | `nightguard-core` blocked; JDK unavailable. | 2026-08-05 |
 | background-services | Blocked | Depends on permissions and KMP expect/actual platform contracts. | `nightguard-core` and permissions blocked; JDK unavailable. | 2026-08-05 |
+| nightguard-core | Not Started | | | |
+| security | Not Started | | | |
+| permissions | Not Started | | | |
+| background-services | Not Started | | | |
 
 ## Phase 1 — Shared Intelligence Engines
 
@@ -39,6 +43,15 @@ Status values: `Not Started` · `In Progress` · `Blocked` · `Complete`
 | battery-awareness | Blocked | Depends on verified Phase 0 core/security/runtime foundation. | `nightguard-core` blocked. | 2026-08-05 |
 | offline | Blocked | Depends on verified Phase 0 core/security/runtime foundation. | `nightguard-core` blocked. | 2026-08-05 |
 | sync | Blocked | Depends on verified Phase 0 core/security/runtime foundation. | `nightguard-core` blocked. | 2026-08-05 |
+| context-engine | Not Started | | | |
+| risk-engine | Not Started | | | |
+| session-engine | Not Started | | | |
+| presence-engine | Not Started | | | |
+| route-intelligence | Not Started | | | |
+| geofencing | Not Started | | | |
+| battery-awareness | Not Started | | | |
+| offline | Not Started | | | |
+| sync | Not Started | | | |
 
 ## Phase 2 — Trust & Identity
 
@@ -46,6 +59,8 @@ Status values: `Not Started` · `In Progress` · `Blocked` · `Complete`
 |---|---|---|---|---|
 | trusted-circle | Blocked | Depends on verified Phase 0 and Phase 1 foundations. | Phase 0 blocked. | 2026-08-05 |
 | privacy | Blocked | Depends on verified Phase 0 and Phase 1 foundations. | Phase 0 blocked. | 2026-08-05 |
+| trusted-circle | Not Started | | | |
+| privacy | Not Started | | | |
 
 ## Phase 3 — Feature Engines
 
@@ -55,35 +70,39 @@ Status values: `Not Started` · `In Progress` · `Blocked` · `Complete`
 | buddy-pair | Blocked | Depends on verified Phase 1 intelligence and Phase 2 privacy/trust modules. | Phases 0–2 blocked. | 2026-08-05 |
 | walk-me-home | Blocked | Depends on verified Phase 1 intelligence and Phase 2 privacy/trust modules. | Phases 0–2 blocked. | 2026-08-05 |
 | ride-companion | Blocked | Depends on verified Phase 1 intelligence and Phase 2 privacy/trust modules. | Phases 0–2 blocked. | 2026-08-05 |
+| safety-check | Not Started | | | |
+| buddy-pair | Not Started | | | |
+| walk-me-home | Not Started | | | |
+| ride-companion | Not Started | | | |
 
 ## Phase 4 — Emergency Platform
 
 | Module | Status | Assumptions | Blockers | Last Updated |
 |---|---|---|---|---|
-| emergency | Blocked | Depends on verified session, privacy, notification, and background execution foundations. | Phases 0–3 blocked. | 2026-08-05 |
-| sos | Blocked | Depends on verified session, privacy, notification, and background execution foundations. | Phases 0–3 blocked. | 2026-08-05 |
-| emergency-chat | Blocked | Depends on verified session, privacy, notification, and background execution foundations. | Phases 0–3 blocked. | 2026-08-05 |
-| emergency-calls | Blocked | Depends on verified session, privacy, notification, and background execution foundations. | Phases 0–3 blocked. | 2026-08-05 |
-| evidence | Blocked | Depends on verified session, privacy, notification, and background execution foundations. | Phases 0–3 blocked. | 2026-08-05 |
-| recovery | Blocked | Depends on verified session, privacy, notification, and background execution foundations. | Phases 0–3 blocked. | 2026-08-05 |
+| emergency | Not Started | | | |
+| sos | Not Started | | | |
+| emergency-chat | Not Started | | | |
+| emergency-calls | Not Started | | | |
+| evidence | Not Started | | | |
+| recovery | Not Started | | | |
 
 ## Phase 5 — Surfaces & Delivery
 
 | Module | Status | Assumptions | Blockers | Last Updated |
 |---|---|---|---|---|
-| nightguard-dashboard | Blocked | Depends on the completed service and client foundations it surfaces. | Phases 0–4 blocked. | 2026-08-05 |
-| notifications | Blocked | Depends on the completed service and client foundations it surfaces. | Phases 0–4 blocked. | 2026-08-05 |
-| analytics | Blocked | Depends on the completed service and client foundations it surfaces. | Phases 0–4 blocked. | 2026-08-05 |
+| nightguard-dashboard | Not Started | | | |
+| notifications | Not Started | | | |
+| analytics | Not Started | | | |
 
 ## Phase 6 — Store Readiness Pass
 
 | Item | Status | Assumptions | Blockers | Last Updated |
 |---|---|---|---|---|
-| Android manifest + permissions audit | Blocked | Store audit must reflect implemented, verified runtime behaviour. | No verified NightGuard runtime exists yet. | 2026-08-05 |
-| Android Play Data Safety form mapping | Blocked | Store audit must reflect implemented, verified runtime behaviour. | No verified NightGuard runtime exists yet. | 2026-08-05 |
-| iOS Info.plist usage-string audit | Blocked | Store audit must reflect implemented, verified runtime behaviour. | No verified NightGuard runtime exists yet. | 2026-08-05 |
-| iOS App Privacy nutrition label mapping | Blocked | Store audit must reflect implemented, verified runtime behaviour. | No verified NightGuard runtime exists yet. | 2026-08-05 |
-| Store listing copy vs. actual data use | Blocked | Store audit must reflect implemented, verified runtime behaviour. | No verified NightGuard runtime exists yet. | 2026-08-05 |
+| Android manifest + permissions audit | Not Started | | | |
+| Android Play Data Safety form mapping | Not Started | | | |
+| iOS Info.plist usage-string audit | Not Started | | | |
+| iOS App Privacy nutrition label mapping | Not Started | | | |
+| Store listing copy vs. actual data use | Not Started | | | |
 
 ---
 
@@ -91,8 +110,4 @@ Status values: `Not Started` · `In Progress` · `Blocked` · `Complete`
 
 *(Full detail for anything marked `Blocked` above — the table cell should be a one-line pointer here.)*
 
-### 2026-08-05-A — NightGuard foundation cannot be verified in this checkout
-
-The source-of-truth Definition of Done requires a Kotlin Multiplatform shared module (`commonMain`), Compose/StateFlow Android client, SwiftUI/Combine iOS bridge, DI, SQLDelight, and verified tests. The current repository contains a native Android Java/XML app and native iOS projects, but no KMP shared module or Compose/SwiftUI integration. In addition, the environment has no `java` executable and no `JAVA_HOME`, so Gradle compilation and tests cannot be run. This is a build/platform constraint under the agent-loop blocker rules. No safety module can truthfully be marked Complete until the KMP integration path and a functional JDK are available.
-
-All later phases are blocked by Phase 0 dependencies; no feature-phase work was started by this loop. The tracker rows have been explicitly marked Blocked so the dependency state is reviewable.
+*(none yet)*

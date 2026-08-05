@@ -1,0 +1,266 @@
+I think artists should be verified differently from venues because you're verifying **professional identity**, not ownership of a business.
+
+The best approach is to treat this as **Professional Identity Verification**.
+
+---
+
+# FOMO Music Artist Verification
+
+## Goal
+
+Answer one question:
+
+> **Is this person the official artist they claim to be?**
+
+Not:
+
+> "Are they famous?"
+
+An independent artist with 500 monthly listeners should be just as eligible as one with 5 million, provided they control their official artist identity.
+
+---
+
+# Verification Methods
+
+Creators can verify through one or more trusted professional platforms.
+
+## Method 1 — Spotify for Artists ⭐⭐⭐⭐⭐ (Recommended)
+
+This should be the primary method.
+
+The artist signs in with their **Spotify for Artists** account.
+
+FOMO verifies that they have access to the official artist profile.
+
+Example:
+
+```text
+Continue with Spotify
+
+↓
+
+Spotify Login
+
+↓
+
+Official Artist
+
+DJ Nova
+
+✓ Verified
+```
+
+If successful:
+
+* Verified Music Artist role is granted.
+* Artist profile can be imported.
+* Albums, genres, profile image, and links can be synced (subject to API availability and user consent).
+
+This is the strongest signal because Spotify for Artists is designed for artist identity management.
+
+---
+
+## Method 2 — Facebook
+
+The artist signs in with Facebook.
+
+Instead of just matching an email address, FOMO should verify access to an **official professional presence**, such as:
+
+* An official Artist Page.
+* A Musician/Band Page.
+* A verified professional Page (where applicable).
+
+This proves they control the artist's public presence.
+
+---
+
+## Method 3 — YouTube Official Artist Channel
+
+The artist signs into the Google account managing their Official Artist Channel.
+
+This is another strong professional identity signal.
+
+---
+
+## Method 4 — Apple Music for Artists
+
+If Apple provides access to artist management authentication, this is another excellent verification method.
+
+---
+
+## Method 5 — SoundCloud
+
+For independent artists who actively manage their SoundCloud artist profile.
+
+This is a useful secondary signal.
+
+---
+
+## Method 6 — Manual Review
+
+Fallback for artists who don't use supported platforms.
+
+Evidence may include:
+
+* Official website.
+* Label confirmation.
+* Published releases.
+* Performance contracts.
+* Festival lineups.
+* Press coverage.
+
+---
+
+# Multi-Signal Verification
+
+Rather than relying on one platform, FOMO should combine signals.
+
+Example:
+
+```text
+Spotify for Artists
+
+✓
+
+Facebook Artist Page
+
+✓
+
+YouTube Official Artist
+
+✓
+
+Professional Website
+
+✓
+
+Confidence
+
+99%
+```
+
+↓
+
+Verified Artist
+
+---
+
+# Artist Onboarding
+
+Imagine the onboarding flow.
+
+```text
+Choose Your Creator Role
+
+○ DJ
+
+○ Music Artist
+
+○ Venue Owner
+
+○ Event Organiser
+```
+
+↓
+
+Music Artist
+
+↓
+
+```text
+How would you like to verify?
+
+Continue with Spotify
+
+Continue with Facebook
+
+Continue with Apple Music
+
+Continue with YouTube
+
+Manual Verification
+```
+
+The artist chooses the method they already use professionally.
+
+---
+
+# Import Artist Profile
+
+After verification, FOMO can ask:
+
+> **Import your professional profile?**
+
+Imported fields might include:
+
+* Artist name.
+* Profile image.
+* Genres.
+* Biography.
+* Social links.
+
+The creator can review and edit imported information before publishing.
+
+---
+
+# DJs
+
+The DJ flow is almost identical, but the preferred professional platforms differ slightly.
+
+Recommended order:
+
+* Spotify (if they release music).
+* SoundCloud.
+* Beatport.
+* Mixcloud.
+* Facebook.
+* YouTube.
+* Manual verification.
+
+---
+
+# One Important Distinction
+
+There's a difference between **logging in with a platform** and **verifying an artist account**.
+
+For example:
+
+❌ This is **not enough**:
+
+> Login with Facebook
+
+Anyone can have a Facebook account.
+
+✅ Better:
+
+> Login with Facebook and verify you manage the official Artist Page.
+
+Likewise:
+
+❌ Logging into a regular Spotify listener account should not verify someone.
+
+✅ Logging into **Spotify for Artists** (or otherwise proving management of the official artist profile) is the appropriate signal.
+
+The same principle applies to every platform: FOMO should verify **control of the professional artist identity**, not merely ownership of a personal login.
+
+## Recommended Verification Hierarchy
+
+For Music Artists:
+
+1. **Spotify for Artists** (primary).
+2. **Apple Music for Artists**.
+3. **YouTube Official Artist Channel**.
+4. **Facebook Artist/Musician Page**.
+5. **SoundCloud Artist profile**.
+6. **Manual verification**.
+
+For DJs:
+
+1. **Beatport Artist** (where applicable).
+2. **Spotify for Artists**.
+3. **Mixcloud Pro/Creator**.
+4. **SoundCloud Artist**.
+5. **Facebook DJ Page**.
+6. **Manual verification**.
+
+This approach keeps verification focused on **professional identity**, just as venue claiming focuses on **business ownership**, ensuring Creator Studio remains a trusted platform for the people who genuinely create nightlife experiences.

@@ -1,0 +1,731 @@
+Full Technical Specification: On-Device Camera Quality Engine (Android-Only)
+
+Version: 6.0 — Flagship Production Grade
+
+Target: Android 12+ (optimized for Android 16+)
+
+Goal: A flagship-grade computational photography engine for nightlife that rivals Google Pixel, Samsung Galaxy, and Apple iPhone camera systems.
+
+Hard Constraints:  
+- 100% on-device. Zero cloud inference. Zero image telemetry.  
+- Total on-device model footprint ≤ 105 MB.  
+- Single-image latency: FAST < 800 ms, BALANCED < 4 s, MAXIMUM < 10 s on Snapdragon 8 Gen 3 equivalent.  
+
+---
+
+1. High-Level Objectives
+
+- Build a complete imaging stack from sensor RAW through JPEG/Ultra HDR output.
+- Implement a zero-copy GPU-native pipeline using `AHardwareBuffer`, Vulkan compute, and GPU textures to eliminate bitmap churn and GC pressure.
+- Use a plugin-based AI execution graph with dependency resolution, memory pooling, and stage-level sandboxing.
+- Capture and fuse multiple RAW frames with hybrid HDR reconstruction before any AI enhancement.
+- Insert a dedicated AI ISP layer for RAW demosaic, denoise, and color correction.
+- Maintain per-lens tuning profiles with full calibration, distortion, vignette, and color profiles.
+- Operate via a formal camera state machine with clear lifecycle boundaries.
+- Support Android Ultra HDR (JPEG_R) with SDR fallback and full Display P3 color management.
+- Protect quality via AI confidence thresholds, per-stage quality evaluation, and automatic rollback.
+- Learn per-device behavior via a split learning database without ever uploading images.
+- Architect for future video pipeline (temporal denoising, AI Live, night video) without redesign.
+
+---
+
+2. Architecture
+
+```
+app/                          → UI, CameraX integration, permissions
+engine/
+  ├─ hal/                     → Camera HAL Abstraction
+  │   ├─ CameraCapabilityScanner
+  │   ├─ CameraFeatureNegotiator
+  │   ├─ VendorExtensionBridge
+  │   ├─ CameraCharacteristicsCache
+  │   ├─ CaptureStrategySelector
+  │   ├─ SensorService
+  │   ├─ LensService
+  │   ├─ OisService
+  │   ├─ FlashService
+  │   ├─ MetadataService
+  │   ├─ RawService
+  │   └─ ExtensionService
+  ├─ state/                   → Camera State Machine
+  ├─ calibration/             → CameraCalibrationProfile, CCM, noise profiles
+  ├─ capture/                 → Multi-frame burst, sensor fusion
+  ├─ preprocess/              → AI ISP, lens correction, alignment, hybrid HDR
+  ├─ scheduler/               → Execution Graph, PipelineScheduler, TileScheduler
+  ├─ memory/                  → Memory Pools (Tensor, Bitmap, GPU, Tile, Frame)
+  ├─ ai/
+  │   ├─ registry/            → ModelRegistry with dependency graphs
+  │   ├─ manager/             → ModelManager (lifecycle, cache, delegates, sandbox)
+  │   ├─ plugin/              → CameraStage plugin interface + sandbox
+  │   ├─ graph/               → AI Execution Graph builder
+  │   ├─ scene/               → Scene classification + lighting estimation
+  │   ├─ segment/             → Semantic segmentation + portrait matte
+  │   ├─ detect/              → Face / eye / object detection
+  │   ├─ isp/                 → AI ISP (RAW demosaic, denoise, CFA)
+  │   ├─ enhance/             → End-to-end RGB enhancement
+  │   ├─ restore/             → Face restoration
+  │   ├─ sr/                  → Selective super-resolution
+  │   ├─ artifact/            → Reflection / flare / focus quality
+  │   └─ evaluate/            → Quality evaluation & rollback
+  ├─ postprocess/             → Tone mapping, sharpening, blending, encoding
+  ├─ profile/                 → Device capability profiler
+  ├─ health/                  → PipelineHealthMonitor + PipelineProfiler
+  ├─ thermal/                 → AdvancedThermalManager
+  ├─ benchmark/               → Repeatable camera benchmark suite
+  ├─ telemetry/               → Anonymous private performance metrics
+  ├─ learn/                   → Split Learning DBs
+  └─ preview/                 → Dedicated real-time preview pipeline
+```
+
+---
+
+3. Camera State Machine
+
+Production cameras require explicit state management.
+
+```
+[IDLE] ──open()──> [PREVIEW]
+                      │
+                      ▼
+              [PRECAPTURE] ──meter/focus──> [PRECAPTURE_READY]
+                      │                           │
+                      ▼                           ▼
+              [CAPTURE] <───────────────── [PRECAPTURE_READY]
+                      │
+                      ▼
+              [PROCESSING] ──cancel──> [READY]
+                      │
+                      ▼
+              [POSTPROCESS]
+                      │
+                      ▼
+              [SAVING]
+                      │
+                      ▼
+                  [READY]
+```
+
+Transitions:
+- `PREVIEW` → `PRECAPTURE`: User half-presses shutter; engine begins metering, AF, and scene pre-analysis.
+- `PRECAPTURE` → `PRECAPTURE_READY`: AE/AF locked, burst parameters computed.
+- `PRECAPTURE_READY` → `CAPTURE`: Full shutter press; raw burst begins.
+- `CAPTURE` → `PROCESSING`: Frames captured; HDR fusion and AI pipeline execute.
+- `PROCESSING` → `READY`: Cancelled by user.
+- `SAVING` → `READY`: File written, resources released.
+
+Rules:
+- Only one `CAPTURE` or `PROCESSING` session may exist at a time.
+- `PREVIEW` pipeline runs concurrently and independently on a separate thread pool.
+- On `READY`, return all memory pool objects and trigger `onTrimMemory()` if thermal pressure exists.
+
+---
+
+4. Zero-Copy Image Pipeline
+
+Eliminate all `Bitmap` ↔ `Tensor` copies. Use GPU-native buffers throughout.
+
+```
+Camera2 ImageReader (RAW10/YUV)
+        │
+        ▼
+AHardwareBuffer (GPU importable)
+        │
+        ▼
+Vulkan Compute Image / GPU Texture
+        │
+        ├──► OpenCV GPU (alignment, optical flow)
+        │
+        ├──► LiteRT GPU Delegate (AI inference)
+        │
+        ├──► Vulkan Compute (HDR merge, tone map, blending)
+        │
+        ▼
+HardwareBuffer Encoder (JPEG / JPEG_R)
+        │
+        ▼
+Output File / Surface
+```
+
+Buffer Contracts:
+- All intermediate stages read/write `AHardwareBuffer` with `VK_FORMAT_R16G16B16A16_SFLOAT` or `VK_FORMAT_R8G8B8A8_UNORM`.
+- CPU access only for: EXIF writing, final file I/O, and LiteRT CPU fallback.
+- Memory Pools: Reuse `AHardwareBuffer` instances across sessions:
+  - `FramePool`: 16 buffers for burst frames.
+  - `TensorPool`: 8 buffers for model I/O.
+  - `TilePool`: 32 buffers for SR tiling.
+  - `GpuBufferPool`: 12 buffers for Vulkan compute intermediates.
+
+Fallback: If Vulkan is unavailable (Android 12 device without Vulkan 1.1), fall back to `OpenGL ES 3.1` compute shaders + `ImageReader`/`Allocation`. If GLES unavailable, fall back to `RenderScript` (deprecated but functional) → finally `Bitmap` CPU path.
+
+---
+
+5. HAL Compatibility Layer & Hardware Services
+
+Purpose: Abstract Android camera hardware heterogeneity.
+
+Services:
+
+Service	Responsibility	
+`SensorService`	Gyroscope, accelerometer, magnetometer sampling at 200 Hz synchronized to frame timestamps.	
+`LensService`	Focal length, focus distance, aperture, lens position metadata per frame.	
+`OisService`	OIS position state, shift X/Y per frame for motion compensation.	
+`FlashService`	Flash availability, torch mode, pre-flash metering.	
+`MetadataService`	EXIF, MakerNotes, `CaptureResult` key caching.	
+`RawService`	RAW10/RAW12 buffer acquisition, black level subtraction, CFA pattern detection.	
+`ExtensionService`	OEM extension bridge (Samsung AI, Xiaomi AI Camera, Pixel Visual Core).	
+
+CameraCapabilityScanner:
+Query and cache:
+- `REQUEST_AVAILABLE_CAPABILITIES` (RAW, BURST, LOGICAL_MULTI_CAMERA, ULTRA_HDR)
+- `SCALER_AVAILABLE_STREAM_CONFIGURATIONS`
+- `SENSOR_INFO_EXPOSURE_TIME_RANGE`, `SENSOR_INFO_SENSITIVITY_RANGE`
+- `LENS_INFO_AVAILABLE_APERTURES`
+- `CONTROL_AE_LOCK_AVAILABLE`, `CONTROL_AWB_LOCK_AVAILABLE`
+- `JPEG_R_AVAILABLE` (Android 14+)
+
+CaptureStrategySelector:
+Per `cameraId` + `DeviceCapabilityProfiler` tier, select:
+- RAW vs. YUV vs. JPEG input
+- Burst count (3–15)
+- Bracketing strategy (±1 EV, ±2 EV, or auto-exposure frames)
+- Preferred quality tier default
+
+---
+
+6. Camera Hardware Profiles & Lens-Specific Tuning
+
+Each physical camera has a `LensProfile` with complete tuning:
+
+```kotlin
+data class LensProfile(
+    val cameraId: String,
+    val lensFacing: LensFacing,
+    val focalLengthMm: Float,
+    val aperture: Float,
+    val maxBurstCount: Int,
+    val preferredTier: QualityTier,
+    val tuning: LensTuning,
+    val enabledModules: Set<AiModule>,
+    val supportsRaw: Boolean,
+    val supportsUltraHdr: Boolean
+)
+
+data class LensTuning(
+    val sharpeningStrength: Float,
+    val denoiseStrength: Float,
+    val hdrStrength: Float,
+    val flareSuppression: Float,
+    val edgeEnhancement: Float,
+    val distortionCoefficients: FloatArray,  // k1, k2, p1, p2, k3
+    val vignetteMap: VignetteMap,
+    val colorProfile: ColorProfile,
+    val preferredSceneTuning: Map<SceneType, SceneTuning>
+)
+```
+
+Example Profiles:
+
+Camera	Max Burst	Preferred Tier	Denoise	Sharpen	HDR	AI Modules	
+Main (wide)	11	BALANCED	0.55	0.50	Hybrid RAW	All	
+Ultra Wide	5	BALANCED	0.80	0.35	Best Frame	Skip SR, Obj	
+Telephoto	7	BALANCED	0.45	0.60	Hybrid RAW	All	
+Front	5	FAST	0.70	0.30	Best Frame	Skip Obj, SR	
+Macro	3	FAST	0.35	0.85	Single Frame	ISP + Enhancer + SR	
+Periscope	5	BALANCED	0.55	0.50	Hybrid RAW	All	
+
+---
+
+7. Processing Pipeline (All Stages)
+
+Pipeline must be interruptible at every stage. Check `isCancelled()` before and after each stage.
+
+Stage -3: Camera Calibration
+- Profile contents:
+  - Intrinsic matrix (fx, fy, cx, cy)
+  - Distortion coefficients (k1, k2, p1, p2, k3)
+  - Sensor black level / white level per ISO
+  - Color Correction Matrix (RAW → XYZ → Linear P3)
+  - Lens shading map (LSC)
+  - ISO-dependent noise profile (σᵣ read noise, σₛ shot noise scaling)
+- Source: Pre-built per-device-family database (2–5 MB, downloaded on first run) + runtime estimation.
+- Output: `CameraCalibrationProfile` passed to all downstream stages.
+
+Stage -2: Multi-Frame Capture
+- Capture 3–15 RAW10/RAW12 frames via Camera2 burst negotiated by `CameraFeatureNegotiator`.
+- Exposure bracketing (±1 EV) if `CONTROL_AE_MODE_OFF` supported.
+- Collect per-frame metadata: ISO, exposure time, focal distance, lens position, OIS state, timestamp.
+
+Stage -1: Sensor Fusion & Pre-Analysis
+- Sensor Fusion: Fuse gyroscope (200 Hz), accelerometer, OIS position, lens position, exposure metadata into per-frame `SensorPose`.
+- AF Quality Analysis: Laplacian variance + edge magnitude. Classify: `SHARP` / `SOFT` / `OUT_OF_FOCUS`. If out of focus, disable aggressive sharpening later.
+- Lighting Estimation: Classify illuminant (Ambient, Spotlight, LED, Laser, Neon, Flash, Mixed) + estimate CCT/tint.
+- Reflection & Flare Detection: Lightweight CNN (2 MB INT8) or algorithmic anisotropic highlight analysis. Output artifact mask.
+
+Stage 0: Motion Analysis & Hybrid HDR Fusion
+- Motion Analysis: Sensor-fused pose + optical flow (OpenCV GPU). Compute:
+  - `cameraMotionScore`, `faceMotionScore`, `sceneMotionScore`
+- Adaptive HDR Strategy:
+  
+Motion Level	Strategy	
+Low (< 2 px)	Full hybrid HDR: RAW merge → linear RAW → local HDR reconstruction	
+Medium (2–8 px)	Motion-compensated HDR: block-wise alignment + ghost rejection	
+High (8–20 px)	Best-frame selection + AI enhancement	
+Extreme (> 20 px)	Single frame, skip fusion	
+
+- Hybrid HDR Reconstruction (replaces Mertens):
+  1. Align all frames using homography + optical flow.
+  2. Merge aligned RAW frames into linear RAW (exposure-weighted average for shadows, highlight reconstruction for clipped regions).
+  3. Local HDR reconstruction: recover highlights using unclipped frames; lift shadows using longer exposures.
+  4. Output: single high-bit-depth linear image.
+- Lens Correction: Vignetting (LSC), chromatic aberration, dead pixel correction applied to merged result.
+
+Stage 1: AI ISP (RAW → RGB)
+New dedicated stage. Process linear RAW before RGB enhancement.
+
+- Demosaic: Algorithmic (Malvar-He-Cutler) or AI-assisted demosaic if model available.
+- AI ISP Model: Lightweight UNet (4 MB, INT8) operating on Bayer RAW.
+  - CFA reconstruction
+  - RAW denoise (frequency-aware: chroma aggressive, luma gentle)
+  - Dead pixel interpolation
+  - Initial color correction (CCM application)
+- Output: Linear RGB float32 image in scene-referred space.
+
+Stage 2: Scene Classification
+- Model: MobileNetV3-Small, INT8. Size: 2 MB.
+- Classes: Club Dance Floor, DJ Booth, VIP Lounge, Bar Counter, Live Band, Festival Stage, Crowd Selfie, Flash Selfie, Bottle Service, Sparklers, LED Wall, Fire Effects, Street Night, Restaurant, Portrait, Group Photo, Indoor, Outdoor.
+- Confidence threshold: If top class < 0.65, label `UNKNOWN`, use conservative `Portrait` tuning.
+
+Stage 3: Semantic Segmentation + Portrait Matte
+- Model: DeepLabV3+ MobileNetV3, INT8. Size: 5 MB.
+- Classes: Background, Sky, Wall, Floor, Person, Face, Hair, Eyes, Skin, Clothing, Glass, Bottle/Drink, Food, Neon Light, Smoke, Stage/DJ Equipment.
+- Portrait Matte: Additional alpha head for soft subject isolation.
+- Confidence fallback: If mean confidence < 0.6, use bounding-box masks from face detection.
+
+Stage 4: Object Detection
+- Model: YOLO-Nano, INT8. Size: 3.5 MB. Lazy-loaded.
+- Classes: Glasses, Drinks, Bottles, Food, DJ Equipment, Microphones, Phones, Fireworks.
+- Threshold: Confidence > 0.6 only.
+
+Stage 5: Face Detection & Landmarking
+- Model: BlazeFace, FP16. Size: 1 MB.
+- Output: Bounding boxes + 468-point dense landmarks.
+- Threshold: Confidence > 0.7.
+
+Stage 6: AI White Balance, Exposure & Noise Model
+- Sensor Noise Model: Look up σᵣ and σₛ from `CameraCalibrationProfile` by ISO. Compute per-pixel noise estimate σ² = σᵣ² + σₛ² · I.
+- Adaptive White Balance: Per-region correction guided by segmentation + lighting:
+  - Skin: preserve warmth, correct magenta/green only.
+  - Neon/LED: preserve atmosphere.
+  - Background: neutralize aggressively.
+  - Flash: cool slightly.
+- Local Exposure: Face lift + highlight recovery using HDR fused data.
+
+Stage 7: End-to-End RGB Enhancement
+- Model: Lightweight UNet or Mobile AI 2025 DaHua-IIG variant. Size: 12 MB, FP16.
+- Inputs: RGB + segmentation mask + noise map + scene label + lighting profile.
+- Purpose: Shadow recovery, tone mapping, color grading, artifact suppression.
+- Skin Tone Protection: Hue locked within ±5° on skin mask.
+
+Stage 8: Face Restoration
+- Model: GFPGAN-lite or CodeFormer-mobile. Size: 8 MB, FP16. Lazy-loaded.
+- Input: Aligned face crops (256×256).
+- Blend: Feathered using segmentation mask + portrait matte alpha.
+
+Stage 9: Selective Super-Resolution (Tile Scheduler)
+- Model: Real-ESRGAN w8a8.
+- Tile Scheduler:
+  - Priority queue: face tiles → hair → eyes → clothing/jewelry → objects.
+  - Skip smooth regions (skin, background, smoke).
+  - Adapt tile size to free RAM:
+    - 
+> 2 GB free: 256×256 tiles
+    - 1–2 GB: 128×128 tiles
+    - < 1 GB: skip SR
+- Tier selection:
+  - FAST: Skip.
+  - BALANCED: Real-ESRGAN-General-x4v3 (5 MB). 128→512.
+  - MAXIMUM: Real-ESRGAN-x4plus (16.7 MB). 256→1024.
+- Blending: Laplacian pyramid, 16 px feather.
+
+Stage 10: Intelligent Sharpening
+- Algorithmic (unsharp mask / deconvolution).
+- If AF quality = `OUT_OF_FOCUS`: skip entirely.
+- Sharpen: eyes, hair, jewelry, text, labels. Avoid: skin, smoke, bokeh, flare regions.
+
+Stage 11: AI Quality Evaluation & Rollback
+- Model: MobileNetV3 regressor, INT8. Size: 3 MB.
+- Scores: blur, noise, exposure, color, faceSharpness, highlightClipping, overall (0–100).
+- Rollback Logic:
+  - If `enhanced.overall < original.overall * 0.92` → rollback to Stage 7 output.
+  - If still worse → rollback to Stage 0 (hybrid HDR fused output).
+  - Log reason to learning database.
+
+Stage 12: Post-Processing & Encoding
+Color Pipeline:
+
+```
+Linear Scene-Referred → XYZ (CCM) → Linear P3 → Display P3 → sRGB fallback + Ultra HDR Gain Map
+```
+
+1. Tone mapping to target color space (Display P3 or sRGB).
+2. Ultra HDR (Android 14+): If supported, generate HDR gain map from linear data. Encode `JPEG_R` with SDR base + gain map. Fallback to standard JPEG on failure.
+3. Beauty mode (optional):
+   - NATURAL: skin smoothing (strength 0.2) on skin mask.
+   - SOCIAL: skin + eye brightening + mild contour (strength 0.4).
+   - Never alter bone structure.
+4. Mild global sharpening (0.15).
+5. Encode to JPEG/JPEG_R.
+6. Preserve EXIF: orientation, timestamp, GPS, color profile, lens info, MakerNotes.
+
+---
+
+8. AI Execution Graph & Plugin System
+
+Plugin Interface:
+
+```kotlin
+interface CameraStage {
+    val stageId: String
+    val modelDependencies: List<String>      // ModelRegistry IDs
+    val inputDependencies: List<String>      // Stage IDs
+    val isOptional: Boolean
+    val priority: WorkPriority               // CRITICAL, HIGH, MEDIUM, BACKGROUND
+    val sandbox: StageSandbox                // RAM, delegate, min Android, checksum
+    
+    suspend fun execute(ctx: PipelineContext): StageOutput
+    fun confidenceThreshold(): Float = 0.5f
+}
+
+enum class WorkPriority { CRITICAL, HIGH, MEDIUM, BACKGROUND }
+```
+
+Execution Graph Builder:
+
+```kotlin
+val graph = ExecutionGraphBuilder()
+    .addNode(SceneClassifierStage())
+    .addNode(SegmentationStage().dependsOn("scene"))
+    .addNode(LightingEstimationStage().dependsOn("scene"))
+    .addNode(FaceDetectionStage())
+    .addNode(ReflectionDetectionStage())
+    .addNode(EnhancerStage().dependsOn("segment", "lighting", "face", "reflection"))
+    .addNode(FaceRestoreStage().dependsOn("enhancer", "face"))
+    .addNode(SuperResolutionStage().dependsOn("enhancer", "segment"))
+    .build()
+```
+
+Scheduler resolves the DAG and executes independent branches concurrently.
+
+---
+
+9. Scheduler Architecture
+
+Three schedulers cooperate:
+
+Scheduler	Responsibility	
+`PipelineScheduler`	Manages the overall capture-to-save state machine. Orchestrates stage execution via the AI Execution Graph.	
+`WorkScheduler`	Priority-based thread pool (CRITICAL > HIGH > MEDIUM > BACKGROUND). CRITICAL work (HDR merge) gets dedicated threads; BACKGROUND work (telemetry, learning DB writes) runs on idle cores.	
+`TileScheduler`	Manages SR tile queue. Prioritizes face tiles, skips low-detail tiles, adapts tile size to RAM.	
+
+Concurrency Rules:
+- `CRITICAL`: HDR merge, AI ISP — must complete before any downstream stage.
+- `HIGH`: Scene, segmentation, face detection, lighting — can run in parallel after merge.
+- `MEDIUM`: Object detection, reflection detection, quality evaluation.
+- `BACKGROUND`: Learning DB update, telemetry flush, benchmark logging.
+
+---
+
+10. Memory Management & Pools
+
+Zero-allocation policy: Reuse every buffer.
+
+```kotlin
+object MemoryPools {
+    val framePool: FramePool        // AHardwareBuffer for burst frames
+    val tensorPool: TensorPool      // LiteRT input/output tensors
+    val gpuPool: GpuBufferPool      // Vulkan textures / compute buffers
+    val tilePool: TilePool          // SR tile buffers
+    val bitmapPool: BitmapPool      // CPU fallback only
+}
+```
+
+Pool Rules:
+- Acquire at `CAPTURE` start. Release at `READY`.
+- If pool exhausted, allocate temporary buffer and log to health monitor.
+- `onTrimMemory()` triggers aggressive pool compaction and lazy model unloading.
+
+---
+
+11. Model Registry & Manager
+
+ModelRegistry: Declarative dependency graph for all models.
+
+```kotlin
+data class ModelEntry(
+    val id: String,
+    val version: String,
+    val checksum: String,                    // SHA-256
+    val fileSizeMb: Float,
+    val supportedDelegates: List<DelegateType>,
+    val requiredRamMb: Int,
+    val minAndroidApi: Int,
+    val requiredGpu: GpuRequirement?,
+    val requiredNnapi: Boolean,
+    val dependencies: List<String>,          // Other model IDs
+    val permissions: List<String>            // e.g., "thermal.normal"
+)
+```
+
+ModelManager:
+- Lifecycle: Versioning, integrity check (SHA-256), warm-up, lazy load, LRU cache.
+- Delegate Selection: Auto-select NNAPI → GPU → CPU per model. Blacklist crashed delegates.
+- Sandbox: Each plugin declares RAM, delegate, and hardware requirements. Manager refuses to load if constraints violated.
+- Unload Policy: Unload lazy models on `onTrimMemory()` or thermal warning.
+
+---
+
+12. Device Capability Profiler (Five-Tier)
+
+Tier	Criteria	Default Tier	Max Burst	Max Res	Disabled Features	
+Ultra Flagship	Snapdragon 8 Elite/Gen 3, 16 GB RAM, NPU < 15 ms	BALANCED	11	2048 px	None	
+Flagship	Snapdragon 8 Gen 2, Tensor G3, 12 GB RAM	BALANCED	9	2048 px	None	
+Premium	Snapdragon 7+ Gen 3, Dimensity 9200, 8 GB RAM	BALANCED	7	1920 px	Skip object detection	
+Mid-range	Snapdragon 7 Gen 1, Dimensity 8200, 6–8 GB RAM	FAST	5	1536 px	Skip face restore, SR, obj	
+Entry	Snapdragon 6 series, 4–6 GB RAM	FAST	3	1280 px	Skip fusion, SR, face restore, obj	
+
+---
+
+13. Advanced Thermal Manager
+
+Graduated thermal response instead of single threshold.
+
+State	SoC Temp	Actions	
+NORMAL	< 42°C	Full pipeline, all tiers allowed.	
+WARM	42–48°C	Reduce burst by 2 frames. Disable object detection.	
+HOT	48–55°C	Force FAST tier. Disable SR and face restore. Single-frame capture.	
+CRITICAL	55°C	Cancel active pipeline immediately. Return original frame. Unload all lazy models.	
+
+Transitions: Hysteresis of 3°C to avoid oscillation.
+
+---
+
+14. Pipeline Health Monitor & Profiler
+
+HealthMonitor: Tracks runtime anomalies.
+
+Metric	Anomaly Threshold	Action	
+Stage failure count	3 per session	Blacklist stage for session.	
+Delegate crash rate	2 per model	Blacklist delegate for model.	
+Fallback frequency	20% of images	Suggest lower tier to user.	
+Memory pressure	Free RAM < 512 MB	Unload lazy models, reduce tile size.	
+Thermal state	HOT or CRITICAL	Trigger thermal manager.	
+
+PipelineProfiler: Per-stage instrumentation.
+
+```kotlin
+data class StageProfile(
+    val stageId: String,
+    val cpuTimeMs: Long,
+    val gpuTimeMs: Long,
+    val npuTimeMs: Long,
+    val ramPeakMb: Int,
+    val vramPeakMb: Int,
+    val delegateUsed: DelegateType,
+    val tileCount: Int?,
+    val peakAllocationBytes: Long
+)
+```
+
+Logged to local JSON after every capture. Available via debug UI.
+
+---
+
+15. Learning Engine (Split Databases)
+
+Separate concerns into four SQLite/Room databases:
+
+Database	Contents	Size Target	
+Calibration DB	Per-device sensor profiles, lens shading maps, CCMs, noise profiles.	5 MB	
+Performance DB	Delegate latencies per model, thermal behavior per tier, processing time percentiles.	3 MB	
+Learning DB	User preference overrides, per-scene parameter adjustments, rollback frequency per scene.	2 MB	
+Benchmark DB	Historical benchmark results (PSNR, SSIM, LPIPS, DISTS, BRISQUE, NIQE).	2 MB	
+
+Auto-Parameter Optimizer: Adjusts default denoise sigma, sharpening amount, and exposure lift per device based on 30-day rolling averages from Performance DB and Learning DB.
+
+---
+
+16. Camera Telemetry (Private, Anonymous)
+
+Never upload images. Local-only statistics.
+
+Metric	Purpose	
+ISO distribution	Tune noise model	
+Shutter speed distribution	Understand motion	
+EV compensation usage	Calibrate AE	
+Lighting / scene frequencies	Validate classifiers	
+Rollback frequency	Detect model degradation	
+Delegate latency	Optimize ModelManager	
+Thermal behavior	Refine thresholds	
+
+Storage: SQLite, auto-purged after 90 days. Max 5 MB.
+
+---
+
+17. Camera Benchmark Suite
+
+Automated tests on first install and after model updates.
+
+Test Scene	Target Metrics	
+Daylight	PSNR > 40 dB, SSIM > 0.95, LPIPS < 0.05, DISTS < 0.06	
+Sunset	Highlight recovery > 85, ΔE < 3, DISTS < 0.08	
+Night Portrait	Face sharpness > 80, BRISQUE < 35, NIQE < 30	
+Club Dance Floor	No ghosting, neon preservation > 80, DISTS < 0.09	
+Concert	Dynamic range > 80, detail > 75, DISTS < 0.10	
+Flash	No blown highlights, skin ΔE < 2, BRISQUE < 30	
+Selfie	Face exposure > 85, BRISQUE < 40, NIQE < 35	
+Motion	No fusion ghosting, LPIPS < 0.12	
+Macro	Text sharpness > 90	
+Zoom	Detail preservation > 70 vs. native crop	
+
+Metrics: PSNR, SSIM, LPIPS, DISTS, BRISQUE, NIQE, latency, RAM, battery, thermal.
+
+---
+
+18. Preview Pipeline
+
+Dedicated real-time path separate from capture pipeline.
+
+```
+Camera Preview (YUV_420_888)
+        │
+        ▼
+Fast Scene Classifier (MobileNetV3, 224×224)
+        │
+        ▼
+Fast Segmentation (DeepLabV3+ at 1/8 resolution)
+        │
+        ▼
+Fast Enhancer (Zero-DCE++ or lightweight UNet)
+        │
+        ▼
+Render to SurfaceView / TextureView
+```
+
+Constraints:
+- Target: 30 FPS on flagship, 15 FPS on mid-range.
+- Skip: HDR fusion, SR, face restore, quality evaluation.
+- Use GPU delegate exclusively for preview to avoid NPU contention.
+
+---
+
+19. Model Size Budget (Hard Ceiling: 105 MB)
+
+Component	Size	Notes	
+AI ISP	4.0 MB	INT8	
+Scene Classifier	2.0 MB	INT8	
+Segmentation + Matte	5.0 MB	INT8	
+Object Detection	3.5 MB	INT8, lazy	
+BlazeFace	1.0 MB	FP16	
+Enhancer (DaHua-IIG)	12.0 MB	FP16	
+Face Restoration	8.0 MB	FP16, lazy	
+Real-ESRGAN-x4v3	5.0 MB	w8a8, lazy	
+Real-ESRGAN-x4plus	16.7 MB	w8a8, lazy	
+Quality Evaluator	3.0 MB	INT8	
+Reflection Detector	2.0 MB	INT8	
+Calibration DB	5.0 MB	Per-device	
+A/B Update Buffer	15.0 MB	Reserved	
+Temp / Cache	10.0 MB	—	
+TOTAL (Balanced)		38 MB loaded	
+TOTAL (Maximum)		50 MB loaded	
+TOTAL with buffer		88 MB	
+
+---
+
+20. Performance & Resource Targets
+
+Metric	Target	
+Peak RAM (BALANCED)	< 1.5 GB	
+Peak RAM (MAXIMUM)	< 2.2 GB	
+Thermal	Graduated response (WARM/HOT/CRITICAL)	
+Battery	< 4% per image (4500 mAh)	
+Storage	≤ 105 MB	
+Cancellation	< 150 ms	
+Alignment accuracy	90% for 90% of scenes	
+Rollback rate	< 5%	
+Preview FPS	30 FPS (flagship), 15 FPS (mid)	
+
+---
+
+21. Deliverables Expected from Implementation Agent
+
+1. Full Android project (`app` + `engine`) with CameraX integration.
+2. HAL Compatibility Layer with all hardware services and feature negotiation.
+3. Camera State Machine with full lifecycle management.
+4. Zero-copy pipeline using `AHardwareBuffer` + Vulkan Compute + GPU textures.
+5. Memory Pool system (Frame, Tensor, GPU, Tile, Bitmap).
+6. AI Execution Graph with dependency resolution and plugin sandbox.
+7. Pipeline Scheduler + Work Scheduler (priority-based) + Tile Scheduler.
+8. Model Registry + Model Manager with versioning, integrity, and delegate fallback.
+9. Camera Calibration module with per-device profile database.
+10. Multi-frame capture with sensor fusion and hybrid HDR reconstruction.
+11. AI ISP layer for RAW processing.
+12. Complete AI pipeline: scene classification, segmentation + portrait matte, object detection, face detection, lighting estimation, reflection detection, AF quality, end-to-end enhancement, face restoration, selective tiled SR, quality evaluation + rollback.
+13. Lens profiles for main, ultra-wide, telephoto, front, macro, periscope.
+14. Advanced Thermal Manager with graduated states.
+15. Pipeline Health Monitor + Pipeline Profiler.
+16. Split Learning Databases (Calibration, Performance, Learning, Benchmark).
+17. Camera Telemetry module (anonymous, local-only).
+18. Camera Benchmark Suite with 10 scenes and objective metrics.
+19. Preview Pipeline separate from capture.
+20. Ultra HDR (JPEG_R) support with SDR fallback.
+21. Full color management (RAW → XYZ → Linear P3 → Display P3 → sRGB).
+22. Model conversion scripts (PyTorch → ONNX → TFLite).
+23. Sample UI with tier selector, scene/lighting display, segmentation overlay, before/after scrubber, progress per stage, cancel, benchmark runner, health dashboard.
+24. Performance benchmarks on Ultra Flagship, Premium, and Mid-range devices.
+25. README with model links, checksums, size budget, calibration guide, HAL matrix, known limitations.
+
+---
+
+22. Success Criteria
+
+A nightclub test photo processed on-device must show:
+
+- Dynamic Range: Detail in neon highlights and deep shadows; no blown skin highlights.
+- Noise: Clean shadows; no chroma blobs; no waxy skin.
+- Hair: Strand separation in face-adjacent regions.
+- Skin: Natural texture; no plastic effect; consistent skin tone (±5° hue).
+- Eyes: Sharp iris; preserved catchlights; no red-eye.
+- Color: Reduced magenta cast on skin; preserved neon atmosphere; no desaturation.
+- Exposure: Proper face exposure; background mood preserved.
+- Artifacts: Flare suppressed; intentional lighting preserved.
+- Safety: > 95% rollback success rate when AI degrades quality.
+- Performance: BALANCED < 5 s on Snapdragon 8 Gen 3 without throttling.
+- Portability: Runs on Samsung, Google Pixel, and Xiaomi/OnePlus families with automatic feature negotiation.
+
+---
+
+23. Future-Proofing: Video Architecture
+
+```kotlin
+// Temporal framework for future video support
+interface TemporalFrameProcessor {
+    suspend fun process(
+        frame: FrameBuffer,
+        motionVector: MotionVector?,
+        temporalState: TemporalBuffer
+    ): FrameBuffer
+}
+
+// Shared across photo and video:
+// - SceneClassifier (stateless)
+// - SegmentationModel (stateless)
+// - EnhancerModel (stateless)
+// Video adds:
+// - TemporalBuffer (ring buffer of N frames)
+// - MotionCache (optical flow history)
+// - AiTracker (object tracking across frames)
+```
+
+---
+
+End of Specification

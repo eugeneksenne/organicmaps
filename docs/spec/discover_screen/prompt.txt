@@ -1,0 +1,814 @@
+
+# MASTER IMPLEMENTATION PROMPT
+
+## ROLE
+
+You are a Principal Mobile Architect, Staff Backend Engineer, AI Systems Architect, UX Engineer, and DevOps Engineer.
+
+Your job is to implement the **Discover** feature for **FOMO**, a premium nightlife platform.
+
+This is **not a prototype**.
+
+This is **production-ready code** that must scale to millions of users.
+
+The application is a fully native mobile app using:
+
+* Kotlin Multiplatform (KMP) shared business logic
+* Native Android UI (Jetpack Compose)
+* Native iOS UI (SwiftUI)
+* Shared networking
+* Shared domain models
+* Shared repositories
+* Shared use cases
+* Shared caching
+* Shared AI recommendation engine
+* Shared ranking engine
+
+The implementation must be deployment-ready.
+
+---
+
+# PRODUCT GOAL
+
+Discover is the real-time operating system for nightlife.
+
+Within five seconds users should know:
+
+* What's happening now
+* What they'll miss soon
+* Where friends are
+* Where they should go next
+
+Everything must feel alive.
+
+Not static.
+
+Every card should continuously evolve from live backend data.
+
+---
+
+# IMPLEMENTATION REQUIREMENTS
+
+Implement the complete production stack including:
+
+## Mobile
+
+Android
+
+* Jetpack Compose
+* Material 3
+* Navigation
+* Motion
+* Dynamic theming
+* Pull to refresh
+* Infinite loading
+* Skeleton loading
+* Empty states
+* Offline states
+* Error recovery
+* Shared ViewModels
+
+iOS
+
+* SwiftUI
+* Native animations
+* Native navigation
+* Shared KMP ViewModels
+
+Shared
+
+* Repository pattern
+* Use Cases
+* Clean Architecture
+* MVVM
+* Dependency Injection
+* Coroutines
+* Flow
+* StateFlow
+
+---
+
+# Backend
+
+Implement every backend service required.
+
+Create:
+
+REST APIs
+
+Realtime APIs
+
+WebSocket streams
+
+Background jobs
+
+Ranking services
+
+Recommendation services
+
+Analytics events
+
+Moderation hooks
+
+Caching
+
+Database queries
+
+Indexes
+
+Cron jobs
+
+Push notification triggers
+
+Feature flags
+
+---
+
+# DATABASE DESIGN
+
+Design production schemas for:
+
+Users
+
+Friends
+
+Venues
+
+Events
+
+Venue Activity
+
+Live Moments
+
+Stories
+
+Flash Drops
+
+Channels
+
+Prep Rooms
+
+Bookings
+
+Guest Lists
+
+VIP
+
+Reservations
+
+Tickets
+
+Crowd Intelligence
+
+Venue Energy
+
+Momentum
+
+Weather Context
+
+Safety Intelligence
+
+Recommendations
+
+Trending
+
+Discover Feed Cache
+
+City Pulse
+
+District Pulse
+
+Night Intelligence
+
+Everything required for Discover.
+
+---
+
+# DISCOVER ENGINE
+
+Implement a modular Discover Engine.
+
+The engine should dynamically assemble Discover based on:
+
+Time
+
+Location
+
+Weather
+
+User preferences
+
+Social graph
+
+Venue activity
+
+Event activity
+
+Friend activity
+
+Live stories
+
+Flash Drops
+
+Safety
+
+Momentum
+
+Crowd intelligence
+
+City pulse
+
+Distance
+
+Machine learning recommendations
+
+Nothing should be hardcoded.
+
+Everything is data driven.
+
+---
+
+# DISCOVER SCORE
+
+Implement:
+
+Discover Score =
+
+Urgency
+
+*
+
+Momentum
+
+*
+
+Social Proof
+
+*
+
+Personal Relevance
+
+*
+
+Distance
+
+*
+
+Time Context
+
+*
+
+Venue Quality
+
+*
+
+Safety Confidence
+
+*
+
+Freshness
+
+*
+
+Exploration Score
+
+Each component should be independently configurable.
+
+Weights should be remotely configurable.
+
+---
+
+# DYNAMIC DISCOVER
+
+Automatically generate layouts for
+
+Morning
+
+Day
+
+Evening
+
+Night
+
+Late Night
+
+Do NOT hardcode layouts.
+
+Create a Discover Layout Engine.
+
+---
+
+# HERO
+
+Implement a Hero Generator.
+
+Inputs:
+
+City Pulse
+
+Weather
+
+Current time
+
+Live venue count
+
+Live event count
+
+Friend activity
+
+AI recommendation
+
+Flash Drop count
+
+Outputs:
+
+Headline
+
+Background
+
+Recommendation
+
+CTA
+
+Dynamic messaging
+
+Examples
+
+Johannesburg is alive tonight
+
+Rosebank is exploding
+
+Rain arriving in 40 minutes
+
+Peak energy starts in 18 minutes
+
+---
+
+# IMPLEMENT EVERY DISCOVER MODULE
+
+Implement fully.
+
+Hero
+
+Closing Soon
+
+Flash Drops
+
+My Circle
+
+Live Moments
+
+Smart Places
+
+Trending
+
+Events
+
+Explore City
+
+Channels
+
+Prep Rooms
+
+Tonight
+
+Each module must have:
+
+Repository
+
+Use Cases
+
+API
+
+Realtime updates
+
+Pagination
+
+Filtering
+
+Caching
+
+Offline support
+
+Analytics
+
+Error handling
+
+Skeleton loaders
+
+Testing
+
+---
+
+# REALTIME SYSTEM
+
+Implement production realtime.
+
+Use websocket subscriptions for:
+
+Venue energy
+
+Crowd size
+
+Friend activity
+
+Stories
+
+Flash Drops
+
+Guest list updates
+
+Capacity
+
+Queue length
+
+Live events
+
+Recommendations
+
+Trending
+
+Weather alerts
+
+Safety alerts
+
+Reconnect automatically.
+
+Recover missed events.
+
+Merge local cache.
+
+---
+
+# CACHING
+
+Implement layered caching.
+
+Memory
+
+Disk
+
+Network
+
+Realtime merge
+
+Background refresh
+
+Stale while revalidate
+
+Offline browsing
+
+Smart invalidation
+
+---
+
+# MAP INTEGRATION
+
+Every applicable section supports:
+
+Preview
+
+See All
+
+Map View
+
+Cluster markers
+
+Live venue indicators
+
+Friend locations (privacy aware)
+
+Traffic overlays
+
+Parking
+
+Safe walking routes
+
+---
+
+# AI PERSONALIZATION
+
+Implement recommendation engine using:
+
+Past visits
+
+Liked venues
+
+Friends
+
+Music preferences
+
+Budget
+
+Travel distance
+
+Weather
+
+Current mood
+
+Current city activity
+
+Recency
+
+Novelty
+
+Do not recommend repetitive places.
+
+Balance familiarity and exploration.
+
+---
+
+# SAFETY ENGINE
+
+Implement:
+
+NightGuard
+
+Safety score
+
+Crowd risk
+
+Lighting score
+
+Emergency contacts
+
+Buddy mode
+
+Safe walking suggestions
+
+Venue incident reports
+
+Capacity warnings
+
+Late night alerts
+
+---
+
+# WEATHER ENGINE
+
+Weather should dynamically affect Discover.
+
+Examples
+
+Rain
+
+Promote indoor venues
+
+Heat
+
+Promote rooftops after sunset
+
+Cold
+
+Promote lounges
+
+Storm
+
+Reduce walking recommendations
+
+---
+
+# ANALYTICS
+
+Track every interaction.
+
+Examples
+
+Card viewed
+
+Card clicked
+
+Scroll depth
+
+Time on section
+
+Dismissed recommendation
+
+Venue opened
+
+Map opened
+
+Story viewed
+
+Joined event
+
+Navigation launched
+
+Ride launched
+
+Reservation made
+
+Flash Drop redeemed
+
+Friend invite
+
+Group created
+
+Everything must emit analytics.
+
+---
+
+# PERFORMANCE
+
+Target
+
+60 FPS
+
+Cold start under 2 seconds
+
+Section render under 300ms
+
+Discover refresh under 500ms
+
+Image lazy loading
+
+Video prefetch
+
+Predictive loading
+
+Background refresh
+
+Memory optimization
+
+---
+
+# UI SYSTEM
+
+Day
+
+Bright
+
+Minimal
+
+Elegant
+
+Night
+
+OLED black
+
+Glassmorphism
+
+Soft neon
+
+Blur
+
+Depth
+
+Adaptive transitions
+
+Shared card system.
+
+Three card templates:
+
+Hero
+
+Intelligence
+
+Story
+
+Cards should animate between updates.
+
+---
+
+# ACCESSIBILITY
+
+VoiceOver
+
+TalkBack
+
+Dynamic fonts
+
+Reduced motion
+
+Color contrast
+
+Keyboard navigation
+
+Screen reader labels
+
+---
+
+# SECURITY
+
+Secure APIs
+
+Authentication
+
+Authorization
+
+Rate limiting
+
+Input validation
+
+Abuse detection
+
+Bot protection
+
+Story moderation
+
+Spam prevention
+
+---
+
+# TESTING
+
+Generate
+
+Unit tests
+
+Integration tests
+
+Repository tests
+
+ViewModel tests
+
+API tests
+
+Realtime tests
+
+UI tests
+
+Performance tests
+
+Offline tests
+
+---
+
+# DEVOPS
+
+Provide
+
+Environment configs
+
+Secrets management
+
+CI/CD
+
+Monitoring
+
+Crash reporting
+
+Logging
+
+Health checks
+
+Feature flags
+
+Rollback strategy
+
+---
+
+# DELIVERABLES
+
+Generate complete production implementation including:
+
+* Project architecture
+* Folder structure
+* Domain layer
+* Data layer
+* Presentation layer
+* Shared KMP modules
+* Backend architecture
+* Database schema
+* API contracts
+* OpenAPI specification
+* WebSocket protocol
+* Ranking engine
+* Recommendation engine
+* Real-time engine
+* Discover orchestration engine
+* Repository implementations
+* Dependency injection
+* Navigation
+* ViewModels
+* Compose screens
+* SwiftUI screens
+* Animations
+* Design system
+* Caching
+* Background workers
+* Push notifications
+* Testing suite
+* Deployment configuration
+* Production documentation
+
+---
+
+# ENGINEERING PRINCIPLES
+
+* Never hardcode business logic into the UI.
+* All Discover sections must be remotely configurable.
+* Every feature must degrade gracefully offline.
+* Every list must support pagination.
+* Every API must support filtering and cursor pagination.
+* Every image must support progressive loading.
+* Every animation must remain at 60 FPS.
+* Every recommendation must explain *why* it was made where appropriate.
+* Every component must be modular, reusable, and independently deployable.
+* Optimize for maintainability, observability, scalability, and production reliability.
+
+---
+
+# SUCCESS CRITERIA
+
+The completed Discover feature should feel comparable in quality and responsiveness to the best consumer apps (such as TikTok, Spotify, Airbnb, and Uber), while remaining uniquely focused on real-time nightlife discovery. It should support millions of users, real-time updates, feature flags, A/B testing, and future expansion without requiring architectural rewrites.

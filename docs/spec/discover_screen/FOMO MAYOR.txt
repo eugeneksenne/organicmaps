@@ -1,0 +1,510 @@
+
+# FOMO — Mayor System
+
+## The Face of the City's Nightlife
+
+---
+
+# Product Vision
+
+Every city has a face.
+
+Every nightlife scene has a leader.
+
+On FOMO, that leader is known as the **Mayor**.
+
+The Mayor is the individual who is currently making the greatest positive impact on their city's nightlife culture through authentic participation, influence, and contribution.
+
+There is only:
+
+* 👑 One Mayor per city
+* 🌆 One active reign
+* 🏆 One nightlife leader
+
+The title cannot be:
+
+* Purchased
+* Voted for
+* Assigned manually
+
+It can only be earned.
+
+---
+
+# Core Philosophy
+
+Everything in the Mayor system answers one question:
+
+> **Who is shaping nightlife in this city right now?**
+
+If a signal doesn't help answer that question, it should not influence Mayor rankings.
+
+---
+
+# Product Principles
+
+The Mayor system is built on five principles:
+
+* Authenticity over popularity
+* Real-world experiences over online activity
+* Contribution over consumption
+* Consistency over viral moments
+* Merit over monetization
+
+---
+
+# Eligibility
+
+To enter the Mayor rankings, users must satisfy baseline trust requirements.
+
+Examples:
+
+* Verified account
+* Eligible city
+* Authentic nightlife participation
+* Minimum nightlife activity
+* Good standing within the community
+
+Only eligible users compete.
+
+---
+
+# The Nightlife Influence Engine
+
+The Mayor Score is calculated from four weighted pillars.
+
+---
+
+## 🌙 1. Nightlife Presence
+
+**Highest weighting**
+
+Measures genuine participation in the city's nightlife.
+
+Signals include:
+
+* Verified venue visits
+* Event attendance
+* Venue dwell time
+* Club Lobby participation
+* Flash Drop participation
+* Verified movement between nightlife locations
+
+This reflects being present where nightlife happens.
+
+---
+
+## 🎥 2. Nightlife Contribution
+
+Measures what the user contributes back to the community.
+
+Examples:
+
+* Moments
+* Photos
+* Videos
+* Venue reviews
+* Live broadcasts (future)
+
+Quality always outweighs quantity.
+
+---
+
+## 🌊 3. Nightlife Influence
+
+Measures whether the community values those contributions.
+
+Signals include:
+
+* Ripple Score
+* Shares
+* Saves
+* Meaningful comments
+* Watch time
+* Venue engagement
+
+Simple likes carry little weight.
+
+---
+
+## 📈 4. Consistency
+
+Nightlife leadership must be maintained.
+
+Signals include:
+
+* Regular activity
+* Sustained contribution
+* Continued presence
+* Long-term influence
+
+The Mayor isn't crowned for one great weekend.
+
+---
+
+# Signals That Never Count
+
+The following contribute **zero** Mayor points:
+
+* Chats
+* Friend requests
+* Profile views
+* Messaging
+* Generic Discover usage
+* AI interactions
+* Artificial engagement
+* Purchased promotion
+* Prep-only activity
+* Non-nightlife content
+
+This protects the integrity of the title.
+
+---
+
+# City Leaderboards
+
+Each city has an independent leaderboard.
+
+Visible:
+
+* Top 10
+
+For everyone else:
+
+* Top 25%
+* Top 50%
+* Top 100
+
+This keeps the Top 10 genuinely prestigious.
+
+---
+
+# Becoming Mayor
+
+The crown is never transferred instantly.
+
+Progression:
+
+```text
+Top 10
+
+↓
+
+Top 3
+
+↓
+
+#2
+
+↓
+
+Challenge Current Mayor
+
+↓
+
+Integrity Validation
+
+↓
+
+👑 Crowned Mayor
+```
+
+Before a takeover, the system verifies:
+
+* Anti-fraud
+* Location integrity
+* Protection margin
+* Score stability
+
+Only then is the crown awarded.
+
+---
+
+# Crown Protection
+
+To prevent rapid crown changes:
+
+Requirements:
+
+* Challenger exceeds the Mayor's score
+* Configurable lead margin
+* Lead maintained during a validation window
+* Integrity checks passed
+
+This creates stable reigns.
+
+---
+
+# Losing the Crown
+
+A Mayor loses the title only if:
+
+* Another user legitimately surpasses them
+* Their influence naturally declines
+* Fraud is confirmed
+
+Nothing else.
+
+---
+
+# One Living Mayor
+
+There are no:
+
+* Weekly Mayors
+* Monthly Mayors
+* Seasonal Mayors
+
+There is only one current Mayor.
+
+A reign ends only when someone earns the crown.
+
+---
+
+# Mayor Legacy
+
+Every reign becomes permanent history.
+
+Profiles display:
+
+* Current Mayor status
+* Longest reign
+* Total crowns earned
+* Cities ruled
+* Total days as Mayor
+* Successful defenses
+* Crown takeovers
+* Highest influence score
+* First crown date
+* Latest crown date
+
+This becomes one of the highest achievements on FOMO.
+
+---
+
+# Hall of Fame
+
+Every city maintains a permanent Hall of Fame.
+
+Including:
+
+* Current Mayor
+* Longest Reign
+* Most Crowns
+* Biggest Takeover
+* Highest Influence Score
+* City Legend
+* First Mayor
+
+This preserves the city's nightlife history.
+
+---
+
+# Mayor Across FOMO
+
+The Mayor appears naturally throughout the platform.
+
+### Launch Experience
+
+City welcome sequence.
+
+### Discover
+
+Featured Mayor card.
+
+### Map
+
+City Mayor chip.
+
+### Feed
+
+Mayor badge.
+
+### Profile
+
+Legacy section.
+
+### Club Lobby
+
+* Mayor is here
+* Mayor recommends
+* Recently visited by the Mayor
+
+### Venue Profiles
+
+* Mayor's favourite venues
+* Recently visited
+* Recommended by the Mayor
+
+The Mayor should feel present, not intrusive.
+
+---
+
+# Launch Experience
+
+One of FOMO's signature moments.
+
+When the app opens:
+
+1. Detect user's city.
+2. Display the city's Mayor.
+3. Transition seamlessly into the live map.
+
+No taps.
+
+No splash screens.
+
+The experience feels like entering the city's nightlife.
+
+---
+
+## Standard Launch
+
+```text
+Johannesburg
+
+👑
+
+Sarah Mokoena
+
+Mayor of Johannesburg
+
+18-Day Reign
+
+42 Venues Open Tonight
+
+128 Events
+
+↓
+
+Live Map
+```
+
+---
+
+## New Mayor
+
+```text
+👑
+
+New Mayor
+
+Sarah Mokoena
+
+Now leading Johannesburg nightlife.
+```
+
+Displayed slightly longer before transitioning.
+
+---
+
+## No Mayor
+
+```text
+👑
+
+The Crown Awaits
+
+Become Johannesburg's first nightlife leader.
+```
+
+---
+
+## Returning Mayor
+
+```text
+👑
+
+Welcome Back
+
+Mayor of Johannesburg
+
+Day 19
+
+The city awaits.
+```
+
+---
+
+# Notifications
+
+Only significant milestones generate notifications.
+
+Examples:
+
+* Entered Top 10
+* Reached #2
+* Crown under challenge
+* Crown defended
+* Became Mayor
+* Lost the crown
+* Longest reign achieved
+
+No unnecessary alerts.
+
+---
+
+# Trust & Integrity
+
+The Mayor system relies on production-grade protections.
+
+Including:
+
+* GPS spoof detection
+* City farming detection
+* Engagement ring detection
+* Trust scoring
+* Behavioural analysis
+* Rate limiting
+* Event sourcing
+* Incremental score recalculation
+* Redis caching
+* Background workers
+* Appeals process
+
+Trust is more important than engagement.
+
+---
+
+# Future Expansion
+
+After V1:
+
+* Venue Mayors
+* District Mayors
+* University Mayors
+* Country Rankings
+* City Battles
+* AI forecasting
+* AR Mayor experiences
+
+These remain separate roadmap items.
+
+---
+
+# Design Language
+
+The Mayor should feel:
+
+* Prestigious
+* Aspirational
+* Authentic
+* Local
+* Cinematic
+* Exclusive
+* Respected
+
+Never:
+
+* Gamified
+* Pay-to-win
+* Popularity-driven
+* Flashy for the sake of attention
+
+The crown should feel earned.
+
+---
+
+# Final Positioning
+
+The **Mayor** is FOMO's flagship identity system. Every city has one living nightlife leader whose reputation is built on authentic participation, meaningful contribution, and lasting influence within the local nightlife scene. By weaving the Mayor naturally into Discover, Maps, Venue Profiles, Club Lobbies, and the launch experience, FOMO gives every city a recognizable face while celebrating the people who genuinely shape its nightlife culture. The result is a prestigious, merit-based title that feels aspirational, trustworthy, and deeply connected to the real world—not just to activity inside the app.
