@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="240dp" android:layout_height="170dp"
+  android:layout_marginEnd="12dp" android:background="@drawable/feed_moment_background">
+  <TextView android:id="@+id/trend_live_badge" android:layout_width="wrap_content" android:layout_height="wrap_content"
+    android:layout_gravity="top|start" android:layout_marginStart="12dp" android:layout_marginTop="12dp"
+    android:background="#CCFF4D6C" android:paddingStart="8dp" android:paddingTop="3dp" android:paddingEnd="8dp" android:paddingBottom="3dp"
+    android:text="● LIVE" android:textColor="@android:color/white" android:textSize="10sp" android:textStyle="bold"/>
+  <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:layout_gravity="bottom" android:orientation="vertical" android:padding="14dp">
+    <TextView android:id="@+id/trend_venue" android:layout_width="wrap_content" android:layout_height="wrap_content"
+      android:text="Konka" android:textColor="@android:color/white" android:textSize="20sp" android:textStyle="bold"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+      android:layout_marginTop="6dp" android:gravity="center_vertical" android:orientation="horizontal">
+      <TextView android:id="@+id/trend_status" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Peak Energy" android:textColor="#CCFFFFFF" android:textSize="12sp"/>
+      <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"/>
+      <TextView android:id="@+id/trend_energy" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:background="@drawable/feed_glass_pill" android:paddingStart="8dp" android:paddingTop="3dp" android:paddingEnd="8dp" android:paddingBottom="3dp"
+        android:text="92%" android:textColor="@android:color/white" android:textSize="12sp" android:textStyle="bold"/>
+    </LinearLayout>
+    <TextView android:id="@+id/trend_meta" android:layout_width="wrap_content" android:layout_height="wrap_content"
+      android:layout_marginTop="8dp" android:text="1.2 km • 8 friends here"
+      android:textColor="#B3FFFFFF" android:textSize="11sp"/>
+  </LinearLayout>
+</FrameLayout>

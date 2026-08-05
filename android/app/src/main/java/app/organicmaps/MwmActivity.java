@@ -687,7 +687,7 @@ public class MwmActivity extends BaseMwmFragmentActivity
       route.setOnClickListener(v -> Toast.makeText(this, "Route to The Vault", Toast.LENGTH_SHORT).show());
   }
 
-  private void selectMainDestination(@NonNull String destination)
+  public void selectMainDestination(@NonNull String destination)
   {
     mMainDestination = destination;
     final boolean isMap = MAP_DESTINATION.equals(destination);

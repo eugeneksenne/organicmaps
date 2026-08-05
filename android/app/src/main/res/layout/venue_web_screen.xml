@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent" android:layout_height="match_parent" android:background="#0B0811">
+
+  <!-- Website fills the entire content area; framed by native chrome top+bottom. -->
+  <FrameLayout android:id="@+id/venue_web_container"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_marginTop="56dp" android:layout_marginBottom="72dp"/>
+
+  <!-- Error recovery layer (gone until an error fires) -->
+  <LinearLayout android:id="@+id/venue_web_error"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:layout_gravity="center" android:orientation="vertical"
+    android:paddingStart="24dp" android:paddingEnd="24dp" android:visibility="gone">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+      android:layout_gravity="center" android:text="🌐" android:textSize="46sp"/>
+    <TextView android:id="@+id/venue_web_error_title" android:layout_width="match_parent"
+      android:layout_height="wrap_content" android:layout_marginTop="16dp"
+      android:gravity="center" android:textColor="@android:color/white"
+      android:textSize="22sp" android:textStyle="bold"/>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+      android:layout_marginTop="6dp" android:gravity="center"
+      android:text="We couldn't load this venue right now." android:textColor="#CCFFFFFF" android:textSize="14sp"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+      android:layout_marginTop="20dp" android:gravity="center" android:orientation="horizontal">
+      <TextView android:id="@+id/venue_web_retry" style="@style/VenueWebAction"
+        android:background="@drawable/feed_glass_pill" android:text="Retry"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+      android:layout_marginTop="10dp" android:gravity="center" android:orientation="horizontal">
+      <TextView android:id="@+id/venue_web_route" style="@style/VenueWebSecondary" android:text="Route"/>
+      <TextView android:id="@+id/venue_web_call" style="@style/VenueWebSecondary" android:text="Call Venue"/>
+      <TextView android:id="@+id/venue_web_share_err" style="@style/VenueWebSecondary" android:text="Share"/>
+    </LinearLayout>
+    <TextView android:id="@+id/venue_web_report" android:layout_width="wrap_content"
+      android:layout_height="wrap_content" android:layout_gravity="center" android:layout_marginTop="18dp"
+      android:text="Report website" android:textColor="#80FFFFFF" android:textSize="12sp"/>
+  </LinearLayout>
+
+  <!-- Loading indicator (subtle) -->
+  <ProgressBar android:id="@+id/venue_web_loading"
+    android:layout_width="32dp" android:layout_height="32dp"
+    android:layout_gravity="center" android:indeterminate="true" android:visibility="gone"/>
+
+  <!-- Top navigation (glass, no URL bar) -->
+  <LinearLayout android:layout_width="match_parent" android:layout_height="56dp"
+    android:layout_gravity="top" android:background="#E61B1724" android:gravity="center_vertical"
+    android:orientation="horizontal" android:paddingStart="10dp" android:paddingEnd="10dp">
+    <TextView android:id="@+id/venue_web_back" android:layout_width="40dp" android:layout_height="40dp"
+      android:gravity="center" android:text="←" android:textColor="@android:color/white" android:textSize="28sp"/>
+    <TextView android:id="@+id/venue_web_title" android:layout_width="0dp" android:layout_height="wrap_content"
+      android:layout_weight="1" android:ellipsize="end" android:maxLines="1"
+      android:textColor="@android:color/white" android:textSize="16sp" android:textStyle="bold"/>
+    <TextView android:id="@+id/venue_web_share_top" android:layout_width="40dp" android:layout_height="40dp"
+      android:gravity="center" android:text="↗" android:textColor="@android:color/white" android:textSize="20sp"/>
+    <TextView android:id="@+id/venue_web_close" android:layout_width="40dp" android:layout_height="40dp"
+      android:gravity="center" android:text="✕" android:textColor="@android:color/white" android:textSize="22sp"/>
+  </LinearLayout>
+
+  <!-- Bottom action bar (replaces FOMO bottom tabs for the session) -->
+  <LinearLayout android:layout_width="match_parent" android:layout_height="72dp"
+    android:layout_gravity="bottom" android:background="#F21B1724" android:elevation="10dp"
+    android:gravity="center" android:orientation="horizontal" android:paddingTop="8dp" android:paddingBottom="10dp">
+    <LinearLayout android:id="@+id/venue_web_action_route" style="@style/VenueWebBarAction">
+      <TextView style="@style/VenueWebBarIcon" android:text="📍"/><TextView style="@style/VenueWebBarLabel" android:text="Route"/></LinearLayout>
+    <LinearLayout android:id="@+id/venue_web_action_call" style="@style/VenueWebBarAction">
+      <TextView style="@style/VenueWebBarIcon" android:text="📞"/><TextView style="@style/VenueWebBarLabel" android:text="Call"/></LinearLayout>
+    <LinearLayout android:id="@+id/venue_web_action_share" style="@style/VenueWebBarAction">
+      <TextView style="@style/VenueWebBarIcon" android:text="↗"/><TextView style="@style/VenueWebBarLabel" android:text="Share"/></LinearLayout>
+    <LinearLayout android:id="@+id/venue_web_action_plan" style="@style/VenueWebBarAction">
+      <TextView style="@style/VenueWebBarIcon" android:text="📅"/><TextView style="@style/VenueWebBarLabel" android:text="Plan"/></LinearLayout>
+    <LinearLayout android:id="@+id/venue_web_action_downloads" style="@style/VenueWebBarAction">
+      <TextView style="@style/VenueWebBarIcon" android:text="⤓"/><TextView style="@style/VenueWebBarLabel" android:text="Downloads"/></LinearLayout>
+  </LinearLayout>
+
+  <!-- Plan overlay (non-destructive bottom sheet — website keeps running underneath) -->
+  <LinearLayout android:id="@+id/venue_web_plan_sheet" android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:layout_gravity="bottom" android:background="#F21B1724"
+    android:elevation="16dp" android:orientation="vertical" android:padding="20dp" android:visibility="gone">
+    <View android:layout_width="36dp" android:layout_height="4dp" android:layout_gravity="center"
+      android:background="@drawable/camera_look"/>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+      android:layout_marginTop="14dp" android:text="Plan Your Visit" android:textColor="@android:color/white"
+      android:textSize="20sp" android:textStyle="bold"/>
+    <TextView android:id="@+id/venue_web_plan_venue" android:layout_width="wrap_content"
+      android:layout_height="wrap_content" android:layout_marginTop="4dp"
+      android:textColor="#99FFFFFF" android:textSize="12sp"/>
+    <EditText android:id="@+id/venue_web_plan_date" android:layout_width="match_parent" android:layout_height="40dp"
+      android:layout_marginTop="14dp" android:background="@drawable/camera_venue_pill"
+      android:hint="Date  •  Tonight" android:hintTextColor="#80FFFFFF" android:paddingStart="14dp" android:paddingEnd="14dp"
+      android:textColor="@android:color/white" android:textColorHint="#80FFFFFF" android:textSize="13sp"/>
+    <EditText android:id="@+id/venue_web_plan_time" android:layout_width="match_parent" android:layout_height="40dp"
+      android:layout_marginTop="8dp" android:background="@drawable/camera_venue_pill"
+      android:hint="Time" android:hintTextColor="#80FFFFFF" android:paddingStart="14dp" android:paddingEnd="14dp"
+      android:textColor="@android:color/white" android:textColorHint="#80FFFFFF" android:textSize="13sp"/>
+    <EditText android:id="@+id/venue_web_plan_friends" android:layout_width="match_parent" android:layout_height="40dp"
+      android:layout_marginTop="8dp" android:background="@drawable/camera_venue_pill"
+      android:hint="Friends" android:hintTextColor="#80FFFFFF" android:paddingStart="14dp" android:paddingEnd="14dp"
+      android:textColor="@android:color/white" android:textColorHint="#80FFFFFF" android:textSize="13sp"/>
+    <EditText android:id="@+id/venue_web_plan_notes" android:layout_width="match_parent" android:layout_height="40dp"
+      android:layout_marginTop="8dp" android:background="@drawable/camera_venue_pill"
+      android:hint="Notes" android:hintTextColor="#80FFFFFF" android:paddingStart="14dp" android:paddingEnd="14dp"
+      android:textColor="@android:color/white" android:textColorHint="#80FFFFFF" android:textSize="13sp"/>
+    <TextView android:id="@+id/venue_web_plan_save" android:layout_width="wrap_content" android:layout_height="40dp"
+      android:layout_gravity="end" android:layout_marginTop="14dp"
+      android:background="@drawable/feed_glass_pill" android:gravity="center"
+      android:paddingStart="18dp" android:paddingEnd="18dp"
+      android:text="Save Plan" android:textColor="@android:color/white" android:textSize="13sp" android:textStyle="bold"/>
+  </LinearLayout>
+
+  <!-- HTTPS/insecure notice for http:// pages -->
+  <TextView android:id="@+id/venue_web_http_notice" android:layout_width="match_parent" android:layout_height="32dp"
+    android:layout_gravity="top|center_horizontal" android:layout_marginTop="62dp"
+    android:background="#BFFF8A3D" android:gravity="center" android:paddingStart="12dp" android:paddingEnd="12dp"
+    android:text="This venue uses an insecure connection" android:textColor="@android:color/white" android:textSize="11sp"
+    android:visibility="gone"/>
+</FrameLayout>
