@@ -108,7 +108,7 @@ The Android project now has native prototype screens for Chats, DMs, Calls, Grou
 
 ## Notifications and background work
 
-- [ ] Select/configure push provider and Android credentials.
+- [ ] Deploy/configure a self-hosted UnifiedPush-compatible gateway and Android credentials.
 - [ ] Implement secure notification payloads for messages, mentions, stories, calls, groups, venue/event updates, and NightGuard alerts.
 - [ ] Add batching, mute/mention rules, notification settings, deep links, and delivery telemetry.
 - [ ] Add WorkManager jobs for sync, retry, upload, expiry, cleanup, and key rotation.
@@ -132,7 +132,7 @@ The Android project now has native prototype screens for Chats, DMs, Calls, Grou
 - [x] Add initial authenticated publish and short-lived LiveKit-token Edge Function foundations.
 - [x] Add initial live broadcast, device-push, and feed-event schema migration.
 - [ ] Add follow graph, venue/event integration, LiveKit ingest/egress/replay pipeline, and invitation expiry worker.
-- [ ] Implement FCM delivery worker and Android FCM registration/incoming notification flows.
+- [ ] Implement self-hosted push gateway worker and Android UnifiedPush registration/incoming notification flows.
 - [ ] Add moderation, sponsored-content disclosure, reporting, blocking, privacy enforcement, analytics, and abuse/rate protections.
 - [ ] Add media CDN/transcode/thumbnail delivery, preload strategy, performance telemetry, and feed-load tests.
 

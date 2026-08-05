@@ -1,9 +1,9 @@
 services:
-  redis:
-    image: redis:7.4-alpine
+  valkey:
+    image: valkey/valkey:8-alpine
     ports: ["6379:6379"]
-    command: redis-server --appendonly yes
-    volumes: [redis-data:/data]
+    command: valkey-server --appendonly yes
+    volumes: [valkey-data:/data]
   minio:
     image: minio/minio:RELEASE.2025-04-22T22-12-26Z
     ports: ["9000:9000", "9001:9001"]
@@ -13,5 +13,5 @@ services:
     command: server /data --console-address ":9001"
     volumes: [minio-data:/data]
 volumes:
-  redis-data:
+  valkey-data:
   minio-data:

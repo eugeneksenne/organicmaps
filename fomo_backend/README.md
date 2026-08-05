@@ -16,9 +16,13 @@ Supabase migrations under `supabase/migrations/` are the portable database sourc
 
 Do not put production credentials in `.env`; use the Supabase secret store and your deployment platform's secret manager. The Android application must only contain the Supabase URL and anonymous key, never a service-role key, database URL, TURN credential, object-store secret, LiveKit API secret, or FCM service-account JSON.
 
+## Open-source deployment policy
+
+This project is configured to work without paid APIs: self-host Supabase, LiveKit, Socket.IO, Valkey, MinIO, and PostgreSQL on your own infrastructure. LiveKit Cloud and hosted Supabase are optional conveniences, not requirements. The local Compose stack uses Valkey rather than Redis to retain an open-source cache/queue runtime. For Android push delivery, use a self-hosted UnifiedPush-compatible gateway such as ntfy where device support allows it; FCM is not required by this repository.
+
 ## Feed and live integrations
 
-`functions/feed-publish` is the authenticated moment-publication entry point. `functions/livekit-token` issues short-lived LiveKit room tokens after Supabase authentication. Before deployment, set the LiveKit and FCM values from `.env.example` as Supabase Function secrets. FCM delivery, media moderation/transcoding, ranking, replay egress, and scheduled expiry remain trusted-worker responsibilities and are intentionally not run in an Edge Function request.
+`functions/feed-publish` is the authenticated moment-publication entry point. `functions/livekit-token` issues short-lived LiveKit room tokens after Supabase authentication. Before deployment, set the LiveKit and push-gateway values from `.env.example` as Supabase Function secrets. push delivery, media moderation/transcoding, ranking, replay egress, and scheduled expiry remain trusted-worker responsibilities and are intentionally not run in an Edge Function request.
 
 ## Scope
 
