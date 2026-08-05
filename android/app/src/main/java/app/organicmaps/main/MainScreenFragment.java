@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import app.organicmaps.R;
+import app.organicmaps.discover.data.DiscoverHeroRepository;
 
 /** The non-map destinations in the app's primary navigation. */
 public class MainScreenFragment extends Fragment
@@ -362,6 +363,7 @@ public class MainScreenFragment extends Fragment
   private View createDiscoverScreen(@NonNull LayoutInflater inflater, @Nullable ViewGroup container)
   {
     final View view = inflater.inflate(R.layout.discover_screen, container, false);
+    bindDiscoverHero(view);
     view.findViewById(R.id.discover_hero_action).setOnClickListener(v -> openDiscoverAll("Tonight"));
     final LinearLayout sections = view.findViewById(R.id.discover_sections);
     addDiscoverSection(sections, "Closing Soon", new String[] {"The Living Room • 48 min", "The Royale • 1h 12m", "Rosebank Social • 1h 35m"}, 0xFFF9E2D1);
@@ -376,6 +378,28 @@ public class MainScreenFragment extends Fragment
     addDiscoverSection(sections, "Prep Rooms", new String[] {"Tonight's outfits", "Fresh cut near you", "Beauty deals"}, 0xFFF5DCE4);
     addDiscoverSection(sections, "Tonight", new String[] {"Build your timeline", "Dinner at 19:30", "Ride home ready"}, 0xFFDDE5D4);
     return view;
+  }
+
+  private void bindDiscoverHero(@NonNull View view)
+  {
+    new DiscoverHeroRepository().load("johannesburg", new DiscoverHeroRepository.Callback()
+    {
+      @Override public void onLoaded(@NonNull DiscoverHeroRepository.Hero hero)
+      {
+        if (!isAdded())
+          return;
+        requireActivity().runOnUiThread(() -> {
+          ((TextView) view.findViewById(R.id.discover_city)).setText(hero.city);
+          ((TextView) view.findViewById(R.id.discover_weather)).setText(hero.weather);
+          ((TextView) view.findViewById(R.id.discover_headline)).setText(hero.headline);
+          ((TextView) view.findViewById(R.id.discover_recommendation)).setText(hero.recommendation);
+          ((TextView) view.findViewById(R.id.discover_energy)).setText(hero.energy + "% ENERGY");
+          ((TextView) view.findViewById(R.id.discover_live_count)).setText(hero.liveVenues + " LIVE");
+          ((TextView) view.findViewById(R.id.discover_drop_count)).setText(hero.flashDrops + " DROPS");
+        });
+      }
+      @Override public void onUnavailable() {}
+    });
   }
 
   private void addDiscoverSection(@NonNull LinearLayout parent, @NonNull String title, @NonNull String[] cards, int accent)

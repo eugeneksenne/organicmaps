@@ -122,6 +122,12 @@ The Android project now has native prototype screens for Chats, DMs, Calls, Grou
 - [ ] Add privacy policy, terms, consent flows, data retention policy, and support/reporting workflows.
 - [ ] Conduct production readiness review and staged rollout.
 
+## Discover
+
+- [x] Add city-level Dynamic Hero snapshot schema and Android repository with offline UI fallback.
+- [ ] Deploy a trusted city aggregation worker for weather, venue/event/drop counts, energy score, and personalised recommendations.
+- [ ] Implement repository-backed Discover sections, distance sorting, filters, See All pages, venue/event/people APIs, and privacy-aware location handoff.
+
 ## Feed
 
 - [x] Native media-first Feed UI with tabs and local interaction states.
