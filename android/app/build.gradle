@@ -293,6 +293,7 @@ dependencies {
   implementation libs.google.material
   implementation libs.devnullorthrow.mpandroidchart
   implementation libs.socket.io.client
+  implementation libs.livekit.android
 
   // Test Dependencies
   testImplementation libs.androidx.junit
@@ -320,8 +321,9 @@ def allowedPermissions = [
     // Android Auto
     "name='androidx.car.app.NAVIGATION_TEMPLATES'",
     "name='androidx.car.app.ACCESS_SURFACE'",
-    // camera
+    // camera and live-call audio
     "name='android.permission.CAMERA'",
+    "name='android.permission.RECORD_AUDIO'",
     // storage
     "name='android.permission.READ_EXTERNAL_STORAGE' maxSdkVersion='22',
     // internal permissions

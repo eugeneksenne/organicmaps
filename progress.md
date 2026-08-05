@@ -96,8 +96,9 @@ The Android project now has native prototype screens for Chats, DMs, Calls, Grou
 
 - [x] Calls history and all core call-state UI screens: outgoing, incoming, active voice, active video, and group state.
 - [x] Initial call-session table.
-- [ ] Choose and integrate a maintained Android WebRTC SDK.
-- [ ] Implement a dedicated authenticated signaling service; Supabase Realtime alone is not a complete call-signaling solution.
+- [x] Integrate the maintained LiveKit Android WebRTC SDK and add a real room-session engine for microphone/camera publication.
+- [x] Implement authenticated Socket.IO signaling and a Supabase Edge Function that issues short-lived LiveKit tokens.
+- [ ] Wire Android runtime permission requests, token retrieval, remote-track rendering, incoming-call notifications, and call lifecycle UI to the LiveKit session engine.
 - [ ] Provision STUN/TURN infrastructure, credential issuance, ICE validation, regional routing, and observability.
 - [ ] Implement incoming-call push notifications, Android ConnectionService/foreground service behavior, lock-screen answer/decline, and call notifications.
 - [ ] Implement peer connections, media tracks, echo cancellation, noise suppression, audio routing, Bluetooth/headset behavior, camera switching, PiP, bitrate adaptation, and reconnect logic.
