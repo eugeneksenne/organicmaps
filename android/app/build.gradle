@@ -283,6 +283,7 @@ dependencies {
   implementation libs.androidx.lifecycle
   implementation libs.google.material
   implementation libs.devnullorthrow.mpandroidchart
+  implementation libs.socket.io.client
 
   // Test Dependencies
   testImplementation libs.androidx.junit
