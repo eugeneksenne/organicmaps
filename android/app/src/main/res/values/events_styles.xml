@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <style name="EventChip">
+    <item name="android:layout_width">wrap_content</item><item name="android:layout_height">36dp</item><item name="android:layout_marginRight">9dp</item><item name="android:background">@drawable/event_chip_background</item><item name="android:gravity">center</item><item name="android:paddingLeft">15dp</item><item name="android:paddingRight">15dp</item><item name="android:textColor">#CCFFFFFF</item><item name="android:textSize">13sp</item>
+  </style>
+  <style name="EventChipSelected" parent="EventChip">
+    <item name="android:background">@drawable/event_chip_selected</item><item name="android:textColor">#FF16121B</item><item name="android:textStyle">bold</item>
+  </style>
+</resources>

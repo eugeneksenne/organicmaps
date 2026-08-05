@@ -12,6 +12,7 @@ Status values: `Not Started` · `In Progress` · `Blocked` · `Complete`
 
 | Date | Completed this run | Assumptions logged | Open blockers | Recommended next |
 |---|---|---|---|---|
+| 2026-08-05 | Imported the canonical Night Guard specs and initialized the implementation loop. | Existing Android Java/XML and iOS native project are the current client baseline. | `nightguard-core` is blocked: the repository has no Kotlin Multiplatform/Compose/SwiftUI shared-client foundation, and this environment has no JDK (`java`/`JAVA_HOME`) to compile or validate a new KMP module. | Restore/provide JDK tooling and approve/create the KMP shared module integration path; then begin `nightguard-core`. |
 | — | *(no runs yet)* | — | — | Start with Phase 0 |
 
 ---
@@ -20,6 +21,10 @@ Status values: `Not Started` · `In Progress` · `Blocked` · `Complete`
 
 | Module | Status | Assumptions | Blockers | Last Updated |
 |---|---|---|---|---|
+| nightguard-core | Blocked | The canonical specification requires a KMP `commonMain` module, Compose Android UI, SwiftUI bridge, and verified tests; this native Java/XML checkout has no shared KMP module and no JDK is available in the execution environment. | See Blocker Detail 2026-08-05-A. | 2026-08-05 |
+| security | Blocked | Depends on `nightguard-core` shared encryption/key-management boundary. | `nightguard-core` blocked. | 2026-08-05 |
+| permissions | Blocked | Depends on core capability model and unavailable Android/iOS build verification. | `nightguard-core` blocked; JDK unavailable. | 2026-08-05 |
+| background-services | Blocked | Depends on permissions and KMP expect/actual platform contracts. | `nightguard-core` and permissions blocked; JDK unavailable. | 2026-08-05 |
 | nightguard-core | Not Started | | | |
 | security | Not Started | | | |
 | permissions | Not Started | | | |
@@ -29,6 +34,15 @@ Status values: `Not Started` · `In Progress` · `Blocked` · `Complete`
 
 | Module | Status | Assumptions | Blockers | Last Updated |
 |---|---|---|---|---|
+| context-engine | Blocked | Depends on verified Phase 0 core/security/runtime foundation. | `nightguard-core` blocked. | 2026-08-05 |
+| risk-engine | Blocked | Depends on verified Phase 0 core/security/runtime foundation. | `nightguard-core` blocked. | 2026-08-05 |
+| session-engine | Blocked | Depends on verified Phase 0 core/security/runtime foundation. | `nightguard-core` blocked. | 2026-08-05 |
+| presence-engine | Blocked | Depends on verified Phase 0 core/security/runtime foundation. | `nightguard-core` blocked. | 2026-08-05 |
+| route-intelligence | Blocked | Depends on verified Phase 0 core/security/runtime foundation. | `nightguard-core` blocked. | 2026-08-05 |
+| geofencing | Blocked | Depends on verified Phase 0 core/security/runtime foundation. | `nightguard-core` blocked. | 2026-08-05 |
+| battery-awareness | Blocked | Depends on verified Phase 0 core/security/runtime foundation. | `nightguard-core` blocked. | 2026-08-05 |
+| offline | Blocked | Depends on verified Phase 0 core/security/runtime foundation. | `nightguard-core` blocked. | 2026-08-05 |
+| sync | Blocked | Depends on verified Phase 0 core/security/runtime foundation. | `nightguard-core` blocked. | 2026-08-05 |
 | context-engine | Not Started | | | |
 | risk-engine | Not Started | | | |
 | session-engine | Not Started | | | |
@@ -43,6 +57,8 @@ Status values: `Not Started` · `In Progress` · `Blocked` · `Complete`
 
 | Module | Status | Assumptions | Blockers | Last Updated |
 |---|---|---|---|---|
+| trusted-circle | Blocked | Depends on verified Phase 0 and Phase 1 foundations. | Phase 0 blocked. | 2026-08-05 |
+| privacy | Blocked | Depends on verified Phase 0 and Phase 1 foundations. | Phase 0 blocked. | 2026-08-05 |
 | trusted-circle | Not Started | | | |
 | privacy | Not Started | | | |
 
@@ -50,6 +66,10 @@ Status values: `Not Started` · `In Progress` · `Blocked` · `Complete`
 
 | Module | Status | Assumptions | Blockers | Last Updated |
 |---|---|---|---|---|
+| safety-check | Blocked | Depends on verified Phase 1 intelligence and Phase 2 privacy/trust modules. | Phases 0–2 blocked. | 2026-08-05 |
+| buddy-pair | Blocked | Depends on verified Phase 1 intelligence and Phase 2 privacy/trust modules. | Phases 0–2 blocked. | 2026-08-05 |
+| walk-me-home | Blocked | Depends on verified Phase 1 intelligence and Phase 2 privacy/trust modules. | Phases 0–2 blocked. | 2026-08-05 |
+| ride-companion | Blocked | Depends on verified Phase 1 intelligence and Phase 2 privacy/trust modules. | Phases 0–2 blocked. | 2026-08-05 |
 | safety-check | Not Started | | | |
 | buddy-pair | Not Started | | | |
 | walk-me-home | Not Started | | | |
