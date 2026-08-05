@@ -1,0 +1,3 @@
+-- Development seed data belongs here. Keep this file free of production data and secrets.
+-- Auth users should be created through Supabase Auth, then matching profiles are inserted through
+-- the profile-bootstrap RPC/trigger once that feature is implemented.

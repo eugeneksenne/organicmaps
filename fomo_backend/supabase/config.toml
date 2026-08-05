@@ -1,0 +1,21 @@
+project_id = "fomo-communications"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+
+[db]
+port = 54322
+major_version = 15
+
+[auth]
+enabled = true
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["fomo://auth/callback"]
+jwt_expiry = 3600
+
+[storage]
+enabled = true
+file_size_limit = "100MiB"

@@ -37,6 +37,12 @@ def getCommitMessage() {
   return run(['git', '--no-pager', 'show', '-s', '--format=%s%n%n%b', 'HEAD']).trim()
 }
 
+def fomoProperties = new Properties()
+def fomoPropertiesFile = file("$projectDir/../fomo.properties")
+if (fomoPropertiesFile.exists())
+  fomoPropertiesFile.withInputStream { fomoProperties.load(it) }
+def fomoClientValue = { String name -> fomoProperties.getProperty(name, "").replace('\\', '\\\\').replace('"', '\\"') }
+
 android {
   namespace = 'app.organicmaps'
 
@@ -66,6 +72,9 @@ android {
     println('VersionCode: ' + versionCode)
     applicationId rootProject.ext.appId
     buildConfigField 'String', 'SUPPORT_MAIL', '"android@organicmaps.app"'
+    buildConfigField 'String', 'FOMO_SUPABASE_URL', '"' + fomoClientValue('FOMO_SUPABASE_URL') + '"'
+    buildConfigField 'String', 'FOMO_SUPABASE_ANON_KEY', '"' + fomoClientValue('FOMO_SUPABASE_ANON_KEY') + '"'
+    buildConfigField 'String', 'FOMO_SOCKET_URL', '"' + fomoClientValue('FOMO_SOCKET_URL') + '"'
     // Should be customized in flavors.
     buildConfigField 'String', 'REVIEW_URL', '""'
     resourceConfigurations += [project.ext.supportedLocalizations]
@@ -283,6 +292,8 @@ dependencies {
   implementation libs.androidx.lifecycle
   implementation libs.google.material
   implementation libs.devnullorthrow.mpandroidchart
+  implementation libs.socket.io.client
+  implementation libs.livekit.android
 
   // Test Dependencies
   testImplementation libs.androidx.junit
@@ -310,8 +321,11 @@ def allowedPermissions = [
     // Android Auto
     "name='androidx.car.app.NAVIGATION_TEMPLATES'",
     "name='androidx.car.app.ACCESS_SURFACE'",
+    // camera and live-call audio
+    "name='android.permission.CAMERA'",
+    "name='android.permission.RECORD_AUDIO'",
     // storage
-    "name='android.permission.READ_EXTERNAL_STORAGE' maxSdkVersion='22'",
+    "name='android.permission.READ_EXTERNAL_STORAGE' maxSdkVersion='22',
     // internal permissions
     // comes from androidx.work:work-runtime:2.10.5
     "name='android.permission.RECEIVE_BOOT_COMPLETED'",

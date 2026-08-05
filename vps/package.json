@@ -1,0 +1,19 @@
+{
+  "name": "fomo-realtime-gateway",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "engines": { "node": ">=22" },
+  "dependencies": {
+    "@socket.io/redis-adapter": "^8.3.0",
+    "dotenv": "^16.6.1",
+    "express": "^5.1.0",
+    "jose": "^6.0.12",
+    "redis": "^4.7.1",
+    "socket.io": "^4.8.1"
+  }
+}
