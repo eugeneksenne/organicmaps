@@ -200,3 +200,4 @@ iphone/metadata/**/keywords.txt
 fomo_backend/.env
 # VPS deployment secrets
 vps/.env
+android/fomo.properties

@@ -1,0 +1,4 @@
+# Public client configuration only. Copy to android/fomo.properties; never place service-role or provider secrets here.
+FOMO_SUPABASE_URL=https://your-project.supabase.co
+FOMO_SUPABASE_ANON_KEY=your-public-anon-key
+FOMO_SOCKET_URL=https://realtime.example.com

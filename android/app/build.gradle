@@ -37,6 +37,12 @@ def getCommitMessage() {
   return run(['git', '--no-pager', 'show', '-s', '--format=%s%n%n%b', 'HEAD']).trim()
 }
 
+def fomoProperties = new Properties()
+def fomoPropertiesFile = file("$projectDir/../fomo.properties")
+if (fomoPropertiesFile.exists())
+  fomoPropertiesFile.withInputStream { fomoProperties.load(it) }
+def fomoClientValue = { String name -> fomoProperties.getProperty(name, "").replace('\\', '\\\\').replace('"', '\\"') }
+
 android {
   namespace = 'app.organicmaps'
 
@@ -66,6 +72,9 @@ android {
     println('VersionCode: ' + versionCode)
     applicationId rootProject.ext.appId
     buildConfigField 'String', 'SUPPORT_MAIL', '"android@organicmaps.app"'
+    buildConfigField 'String', 'FOMO_SUPABASE_URL', '"' + fomoClientValue('FOMO_SUPABASE_URL') + '"'
+    buildConfigField 'String', 'FOMO_SUPABASE_ANON_KEY', '"' + fomoClientValue('FOMO_SUPABASE_ANON_KEY') + '"'
+    buildConfigField 'String', 'FOMO_SOCKET_URL', '"' + fomoClientValue('FOMO_SOCKET_URL') + '"'
     // Should be customized in flavors.
     buildConfigField 'String', 'REVIEW_URL', '""'
     resourceConfigurations += [project.ext.supportedLocalizations]

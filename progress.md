@@ -42,6 +42,7 @@ The Android project now has native prototype screens for Chats, DMs, Calls, Grou
 - [x] Add authenticated VPS event fanout for typing, low-frequency ephemeral status, delivery/read hints, and WebRTC signaling.
 - [x] Add Android Socket.IO transport, lifecycle-aware connection state, exponential reconnect, typing and call-signal listeners, and SQLite durable operation outbox foundation.
 - [x] Add authenticated Supabase Edge Function operation queue and Android OkHttp dispatcher for durable queued operations.
+- [x] Add public Android build configuration and an engine factory that binds Socket.IO transport to the authenticated Supabase operation dispatcher.
 - [ ] Connect Android repositories/UI to the engine; implement local message cache hydration, delivery state, presence, stories, attachment, analytics, and notification managers.
 - [ ] Add Supabase Realtime subscriptions, presence, database reconciliation cursor, foreground/background handling, and network-change tests.
 - [ ] Add OpenTelemetry traces, rate limits, Redis-backed distributed presence, and operational dashboards.
