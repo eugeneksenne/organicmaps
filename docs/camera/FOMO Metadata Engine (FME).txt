@@ -1,0 +1,545 @@
+# FOMO Metadata Engine (FME)
+
+## Vision
+
+The Metadata Engine is the nervous system of the FOMO Quantum Camera Engine.
+
+Instead of every module performing its own AI analysis, the Metadata Engine continuously builds a complete understanding of every camera frame and publishes structured metadata that any processing module can consume.
+
+This eliminates redundant computation, reduces latency, improves battery life, and ensures all camera features operate from a single, consistent understanding of the scene.
+
+---
+
+# High-Level Architecture
+
+```text
+                        Camera Preview
+                             │
+                             ▼
+                   CameraX / Camera2
+                             │
+                             ▼
+                    Frame Acquisition
+                             │
+                             ▼
+                 Frame Synchronization Layer
+                             │
+                             ▼
+        ┌────────────────────────────────────────┐
+        │        FOMO Metadata Engine            │
+        │                                        │
+        │  Face Pipeline                         │
+        │  Scene Pipeline                        │
+        │  Segmentation Pipeline                 │
+        │  Depth Pipeline                        │
+        │                                        │
+        │  Metadata Fusion                       │
+        │  Confidence Scoring                    │
+        │  Frame Tracking                        │
+        └────────────────────────────────────────┘
+                             │
+                             ▼
+                 Unified Metadata Object
+                             │
+      ┌──────────┬────────────┬──────────────┐
+      ▼          ▼            ▼              ▼
+ Portrait    Colour      Capture AI     Gold Standard
+ Engine      Science      Pipeline        Modules
+```
+
+---
+
+# Responsibilities
+
+The Metadata Engine owns exactly six responsibilities.
+
+## 1. Frame Synchronization
+
+Every frame gets a unique ID.
+
+```text
+Frame 15820
+
+↓
+
+Face Metadata
+
+↓
+
+Scene Metadata
+
+↓
+
+Depth Metadata
+
+↓
+
+Segmentation Metadata
+```
+
+Everything references the same frame.
+
+```kotlin
+FrameMetadata.frameId = 15820
+```
+
+No guessing.
+
+---
+
+# 2. AI Scheduling
+
+Don't run every AI model every frame.
+
+Instead:
+
+| Model             | Frequency               |
+| ----------------- | ----------------------- |
+| Face              | Every frame (30–60 FPS) |
+| Segmentation      | Every 2 frames          |
+| Scene Recognition | Every 10–15 frames      |
+| FastDepth         | Every 5 frames          |
+
+Example
+
+```text
+Frame 1
+
+Face
+
+Frame 2
+
+Face + Segmentation
+
+Frame 3
+
+Face
+
+Frame 4
+
+Face + Depth
+
+Frame 5
+
+Face
+
+Frame 6
+
+Face + Segmentation
+
+Frame 10
+
+Face + Scene Recognition
+```
+
+Huge battery savings.
+
+---
+
+# 3. Metadata Fusion
+
+Instead of
+
+```text
+Face
+
+Scene
+
+Depth
+
+Segmentation
+```
+
+Create
+
+```kotlin
+FrameMetadata
+```
+
+Example
+
+```kotlin
+data class FrameMetadata(
+
+    val frameId: Long,
+
+    val timestamp: Long,
+
+    val face: FaceMetadata?,
+
+    val scene: SceneMetadata?,
+
+    val segmentation: SegmentationMetadata?,
+
+    val depth: DepthMetadata?,
+
+    val deviceOrientation: Int,
+
+    val gyroRotation: Float,
+
+    val lux: Float
+
+)
+```
+
+Now every module only needs one object.
+
+---
+
+# 4. Confidence Engine
+
+Every AI model reports confidence.
+
+Example
+
+```text
+Face
+
+98%
+
+Scene
+
+92%
+
+Depth
+
+75%
+
+Segmentation
+
+95%
+```
+
+Store
+
+```kotlin
+val confidenceScore
+```
+
+Modules can decide
+
+```text
+Confidence > 90%
+
+↓
+
+Enable Premium Portrait
+
+Else
+
+↓
+
+Fallback
+```
+
+---
+
+# 5. Object Tracking
+
+If a face was detected once
+
+don't rediscover it.
+
+Track it.
+
+```text
+Frame 1
+
+Person A
+
+↓
+
+Frame 2
+
+Person A
+
+↓
+
+Frame 3
+
+Person A
+
+↓
+
+Frame 4
+
+Person A
+```
+
+Tracking ID remains
+
+```
+145
+```
+
+Perfect for
+
+Eye AF
+
+Portrait
+
+Video
+
+Burst
+
+---
+
+# 6. Metadata Cache
+
+Keep
+
+```text
+Last 30 Frames
+```
+
+Example
+
+```text
+Frame 120
+
+Frame 121
+
+Frame 122
+
+Frame 123
+
+...
+Frame 149
+```
+
+Burst capture can reuse
+
+everything.
+
+No rerunning AI.
+
+---
+
+# Core Data Model
+
+```kotlin
+data class FrameMetadata(
+
+    val frameId: Long,
+
+    val timestamp: Long,
+
+    val face: FaceMetadata?,
+
+    val scene: SceneMetadata?,
+
+    val segmentation: SegmentationMetadata?,
+
+    val depth: DepthMetadata?,
+
+    val deviceRotation: Int,
+
+    val gyroscope: Vector3,
+
+    val accelerometer: Vector3,
+
+    val lux: Float,
+
+    val focusDistance: Float,
+
+    val zoomRatio: Float
+
+)
+```
+
+---
+
+# Metadata Bus
+
+Every module subscribes.
+
+```text
+Metadata Engine
+
+↓
+
+Publish
+
+↓
+
+SkinTone Guardian
+
+↓
+
+EyeFocus Pro
+
+↓
+
+Colour Science
+
+↓
+
+Motion Freeze
+
+↓
+
+HDR
+
+↓
+
+Quality Inspector
+```
+
+Nobody reruns inference.
+
+---
+
+# Thread Architecture
+
+One mistake many camera apps make is running everything on the UI thread.
+
+Instead:
+
+```text
+UI Thread
+
+Preview
+
+↓
+
+Camera Thread
+
+Capture
+
+↓
+
+Inference Thread
+
+AI Models
+
+↓
+
+Processing Thread
+
+Metadata Fusion
+
+↓
+
+Render Thread
+
+Overlay + Preview
+```
+
+Everything stays smooth at 60 FPS.
+
+---
+
+# Hardware Acceleration Manager
+
+Not every device has the same hardware.
+
+Create a manager that automatically chooses the fastest backend.
+
+```kotlin
+enum class InferenceBackend {
+
+    NPU,
+
+    GPU,
+
+    DSP,
+
+    CPU
+
+}
+```
+
+Priority
+
+```text
+NPU
+
+↓
+
+GPU
+
+↓
+
+DSP
+
+↓
+
+CPU
+```
+
+Examples:
+
+* Qualcomm Snapdragon → Hexagon NPU
+* Google Tensor → Edge TPU
+* Samsung Exynos → Samsung NPU
+* MediaTek Dimensity → APU
+* Older devices → GPU or CPU
+
+The selection should happen automatically at startup.
+
+---
+
+# Tier 1 Public API
+
+Everything else in the camera talks to **one API**.
+
+```kotlin
+interface MetadataEngine {
+
+    suspend fun start()
+
+    suspend fun stop()
+
+    fun latestFrame(): FrameMetadata?
+
+    fun observeFrames(): Flow<FrameMetadata>
+
+}
+```
+
+Notice that the rest of the app never calls MediaPipe, LiteRT, or ONNX directly. The Metadata Engine hides those implementation details.
+
+---
+
+# Production Folder Structure
+
+```text
+camera/
+
+└── metadata/
+    ├── MetadataEngine
+    ├── MetadataScheduler
+    ├── MetadataBus
+    ├── MetadataCache
+    ├── FrameSynchronizer
+    ├── ConfidenceEngine
+    ├── ObjectTracker
+    ├── BackendSelector
+    ├── FrameMetadata
+    ├── FacePipeline
+    ├── ScenePipeline
+    ├── SegmentationPipeline
+    └── DepthPipeline
+```
+
+---
+
+# Performance Targets
+
+| Metric               | Target                                       |
+| -------------------- | -------------------------------------------- |
+| Preview FPS          | 60 FPS (minimum 30 FPS on lower-end devices) |
+| Face inference       | ≤10 ms                                       |
+| Segmentation         | ≤15 ms                                       |
+| Depth estimation     | ≤20 ms                                       |
+| Scene recognition    | ≤10 ms                                       |
+| Metadata fusion      | ≤2 ms                                        |
+| Total Tier 1 latency | ≤35 ms on flagship devices                   |
+
+---
+
+## V1 vs. Future Versions
+
+Build the Metadata Engine so it doesn't care **which model** produces the metadata. Today, `FacePipeline` might use MediaPipe Face Landmarker; in a future release you could swap it for a custom FOMO face model without changing any downstream modules. The same applies to scene recognition, segmentation, and depth estimation.
+
+That separation is what allows companies like Google and Apple to improve camera quality every year while keeping the rest of their camera pipeline stable. It's also the foundation that will let your future **Tier 2** modules—SkinTone Guardian™, Motion Freeze AI™, Capture Intelligence™, and the Gold Standard processing pipeline—plug into the engine with minimal changes.

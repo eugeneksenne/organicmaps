@@ -1,0 +1,311 @@
+FOMO Camera Realtime Engine
+
+Vision
+
+The FOMO Camera Realtime Engine delivers a live, low-latency experience by synchronizing lightweight state in real time while keeping media capture local-first. Media is uploaded after capture by the Local-First Camera OS, while presence, reactions, comments, and broadcast state update instantly.
+
+Principles
+
+Local-first capture
+
+Realtime metadata
+
+Background media upload
+
+Low bandwidth
+
+Battery aware
+
+Offline resilient
+
+Event-driven
+
+Privacy-aware
+
+Architecture
+
+FOMO Camera Realtime Engine │ ├── Session Engine ├── Presence Engine ├── Live Broadcast Engine ├── Live Audience Engine ├── Comment Engine ├── Reaction Engine ├── Ripple Engine ├── Viewer Engine ├── Camera State Engine ├── Event Sync Engine ├── Network Engine ├── Reconnect Engine ├── Conflict Resolution Engine ├── Notification Engine └── Analytics Engine 
+
+Session Engine
+
+Every time the camera opens, a realtime session starts.
+
+Tracks:
+
+Camera opened
+
+Active mode (Photo, Video, Live)
+
+Capture state
+
+Session duration
+
+Active venue (if available)
+
+Active event (if available)
+
+This session is ephemeral and ends when the camera closes.
+
+Presence Engine
+
+This integrates with your Location Presence Privacy feature.
+
+It publishes presence according to the user's selected privacy level:
+
+🔒 Private → no realtime presence is broadcast.
+
+👥 Followers → only followers receive presence updates.
+
+🌍 Public → presence is visible wherever the user has chosen to be discoverable.
+
+Presence updates should include only what is necessary, for example:
+
+Current venue (if shared)
+
+General activity state (e.g., "recording", "live")
+
+Timestamp
+
+Exact GPS coordinates should never be broadcast unless another feature explicitly requires them.
+
+Live Broadcast Engine
+
+Manages:
+
+Live start
+
+Live end
+
+Stream status
+
+Pause/resume
+
+Broadcast health
+
+Replay availability
+
+Media recording continues locally even if connectivity is interrupted; synchronization is handled by the Camera OS.
+
+Live Audience Engine
+
+Maintains lightweight realtime state:
+
+Viewer count
+
+Join events
+
+Leave events
+
+Typing indicators (optional)
+
+Audience summary
+
+Viewer identities can be privacy-aware depending on user settings.
+
+Comment Engine
+
+Realtime:
+
+New comments
+
+Replies
+
+Moderation actions
+
+Pinned comments
+
+Offline comments are queued locally and synchronized later if applicable.
+
+Reaction Engine
+
+Supports lightweight reactions during Live:
+
+❤️
+
+🔥
+
+👏
+
+😂
+
+😮
+
+Reaction bursts should be aggregated before sending to reduce network traffic.
+
+Ripple Engine Integration
+
+Every interaction contributes to Ripple:
+
+Live viewers
+
+Reactions
+
+Comments
+
+Shares
+
+Saves
+
+Venue participation
+
+The Camera Realtime Engine emits events that the Ripple Engine consumes to update momentum across Feed, Discover, Map, and Club Lobby.
+
+Camera State Engine
+
+Publishes transient state such as:
+
+Idle
+
+Preview
+
+Capturing
+
+Recording
+
+Live
+
+Paused
+
+Ending
+
+This is useful for synchronizing UI across devices or creator tools without exposing unnecessary information.
+
+Event Sync Engine
+
+Events are cloud-only.
+
+When online:
+
+Detect current venue.
+
+Query Supabase for active events.
+
+Associate the session or moment if applicable.
+
+Update the camera UI.
+
+When offline:
+
+Mark event status as pending.
+
+Retry after synchronization.
+
+Network Engine
+
+Continuously monitors:
+
+Connectivity
+
+Latency
+
+Bandwidth
+
+Connection quality
+
+The engine adapts behavior instead of failing:
+
+Reduce update frequency on poor networks.
+
+Batch non-critical events.
+
+Preserve local capture quality.
+
+Reconnect Engine
+
+If the network is lost:
+
+Keep capturing locally.
+
+Maintain the session.
+
+Queue outgoing realtime events where appropriate.
+
+Resynchronize on reconnection.
+
+The user should not have to restart the camera.
+
+Conflict Resolution
+
+Handles situations such as:
+
+Duplicate reconnect events
+
+Out-of-order updates
+
+Simultaneous state changes
+
+Late acknowledgements
+
+The goal is eventual consistency without disrupting the user experience.
+
+Notification Engine
+
+Publishes realtime events for:
+
+Live started
+
+Live ended
+
+Viewer milestones
+
+Important moderation actions
+
+It should respect user notification preferences and privacy settings.
+
+Analytics Engine
+
+Collects operational metrics such as:
+
+Session duration
+
+Capture success
+
+Live duration
+
+Connection quality
+
+Reconnect count
+
+Upload latency
+
+This supports reliability improvements without exposing personal content.
+
+Realtime Data Flow
+
+Camera Screen │ ▼ Local-First Camera OS │ ▼ Camera Realtime Engine │ ├──────────────┬───────────────┐ ▼ ▼ ▼ Supabase Realtime Local Database Network Manager │ ▼ Feed Discover Map Club Lobby Chats Creator Studio Ripple Engine 
+
+What belongs in Realtime?
+
+Yes
+
+Presence
+
+Live session state
+
+Viewer count
+
+Comments
+
+Reactions
+
+Event association updates
+
+Ripple events
+
+Camera session state
+
+No
+
+Photos
+
+Videos
+
+Thumbnails
+
+Live replay files
+
+AI assets
+
+Those remain the responsibility of the Local-First Camera OS, which stores them locally and synchronizes them to Telegram and Supabase in the background.
+
+This separation keeps the Realtime Engine lightweight, scalable, and responsive while allowing the Camera OS to handle heavier media workflows independently. It also aligns with your architecture of using Supabase for realtime application state and Telegram for media storage.

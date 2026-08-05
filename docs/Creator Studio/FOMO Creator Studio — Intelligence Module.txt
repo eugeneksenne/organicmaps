@@ -1,0 +1,577 @@
+# FOMO Creator Studio — Intelligence Module
+
+## Product Vision
+
+The **Intelligence Module** is the business intelligence and decision-making engine of FOMO Creator Studio.
+
+Unlike traditional analytics dashboards that only display historical data, Intelligence transforms data from every Creator Studio module into **actionable insights, predictions, and recommendations** that help nightlife professionals make smarter decisions.
+
+It answers questions such as:
+
+* *Which event format performs best?*
+* *When should I launch my Flash Drop?*
+* *Why did ticket sales slow down?*
+* *Which DJs attract the biggest crowds?*
+* *Which promotions generate the highest ROI?*
+* *What should I do next?*
+
+The Intelligence Module becomes the creator's **AI-powered business advisor**, helping venues, organisers, DJs, and artists continuously improve their performance.
+
+---
+
+# Design Principles
+
+The Intelligence Module should be:
+
+* Insight-driven, not chart-driven.
+* Actionable, with every insight leading to a recommendation.
+* Predictive, using historical and live data to forecast outcomes.
+* Easy to understand, avoiding overly technical language.
+* Real-time where appropriate.
+* Privacy-conscious, exposing only data creators are authorized to access.
+
+---
+
+# Supported Creator Roles
+
+| Creator Role       | Access              |
+| ------------------ | ------------------- |
+| 🏙 Venue Owner     | ✅ Full              |
+| 🎟 Event Organiser | ✅ Full              |
+| 🎧 DJ              | ✅ Personal Insights |
+| 🎤 Music Artist    | ✅ Personal Insights |
+
+Insights adapt to the creator's role and permissions.
+
+---
+
+# Intelligence Dashboard
+
+The dashboard provides a daily business summary.
+
+## Displays
+
+* Business Health Score
+* Key Insights
+* Opportunities
+* Risks
+* Forecasts
+* Recommendations
+
+---
+
+## Example
+
+```text
+Business Health
+
+92 / 100
+
+↑ +8 this month
+
+Strong Growth
+```
+
+---
+
+## Daily Briefing
+
+Every creator receives an AI-generated summary.
+
+Example
+
+```text
+Good afternoon.
+
+Ticket sales for Neon Fridays are
+28% ahead of last week's event.
+
+Your audience is most active
+between 6 PM and 8 PM.
+
+Launching a Flash Drop at 7 PM
+could increase arrivals.
+
+VIP tickets are likely to sell out
+before Friday afternoon.
+```
+
+---
+
+# Business Health
+
+A high-level score representing overall performance.
+
+Factors include:
+
+* Event performance
+* Ticket sales
+* Attendance
+* Revenue
+* Audience growth
+* Venue reputation
+* Marketing efficiency
+* Customer retention
+
+Displays:
+
+```text
+Excellent
+
+Good
+
+Needs Attention
+
+Critical
+```
+
+---
+
+# Insights
+
+The core feature of the module.
+
+Examples
+
+### Revenue
+
+```text
+Revenue increased 18%
+compared to last month.
+```
+
+---
+
+### Attendance
+
+```text
+Saturday events consistently
+attract 40% more guests.
+```
+
+---
+
+### Marketing
+
+```text
+Instagram campaigns produce
+twice as many ticket sales
+as generic promotions.
+```
+
+---
+
+### Venue
+
+```text
+Your venue reaches
+maximum occupancy
+between 11 PM and midnight.
+```
+
+---
+
+### Flash Drops
+
+```text
+Free drink campaigns
+increase attendance by
+17% on Thursdays.
+```
+
+---
+
+# Recommendations
+
+Every insight includes a suggested action.
+
+Examples
+
+```text
+Increase VIP capacity
+for Friday events.
+```
+
+---
+
+```text
+Launch Flash Drops
+45 minutes before doors open.
+```
+
+---
+
+```text
+Schedule more Afro House
+events in July.
+```
+
+---
+
+```text
+Increase ticket prices by
+R30 based on demand.
+```
+
+---
+
+# Event Intelligence
+
+Analyze individual event performance.
+
+Displays:
+
+* Attendance
+* Revenue
+* Capacity usage
+* Ticket conversion
+* Check-in rate
+* Guest satisfaction
+* Promotion effectiveness
+
+AI comparisons:
+
+* Compared to previous events
+* Compared to venue average
+* Compared to city average (where available)
+
+---
+
+# Venue Intelligence
+
+Operational insights.
+
+Displays:
+
+* Busy days
+* Busy hours
+* Visitor trends
+* Occupancy
+* Repeat visitors
+* Revenue trends
+* Review sentiment
+
+Recommendations include:
+
+* Best operating hours
+* Suggested staffing levels
+* Low-demand periods
+* High-demand opportunities
+
+---
+
+# Audience Intelligence
+
+Understand customers.
+
+Displays:
+
+## Demographics
+
+* Age
+* Gender
+* City
+* Language (where available)
+
+---
+
+## Behaviour
+
+* Visit frequency
+* Ticket purchasing
+* Flash Drop participation
+* Preferred event types
+
+---
+
+## Loyalty
+
+* Returning guests
+* VIP customers
+* First-time visitors
+
+Recommendations:
+
+* Build campaigns for loyal guests.
+* Target first-time visitors.
+* Reward repeat customers.
+
+---
+
+# Marketing Intelligence
+
+Evaluate campaign effectiveness.
+
+Displays:
+
+* Reach
+* Click-through rate
+* Ticket conversions
+* Venue visits
+* Cost per acquisition
+* Return on Ad Spend
+
+Recommendations:
+
+* Best-performing campaign type.
+* Best campaign timing.
+* Budget optimization.
+
+---
+
+# Ticket Intelligence
+
+Analyze ticket sales.
+
+Displays:
+
+* Sales velocity
+* Sell-out predictions
+* Revenue trends
+* Refund trends
+* No-show rate
+
+Recommendations:
+
+* Release additional tickets.
+* Close Early Bird sales.
+* Increase General Admission pricing.
+
+---
+
+# Flash Drop Intelligence
+
+Evaluate Flash Drop campaigns.
+
+Displays:
+
+* Views
+* Venue arrivals
+* Redemptions
+* Conversion rate
+
+Recommendations:
+
+* Increase reward quantity.
+* Launch earlier.
+* Change reward type.
+
+---
+
+# Performer Intelligence
+
+For DJs and Artists.
+
+Displays:
+
+* Event attendance
+* Audience growth
+* Booking frequency
+* Performance popularity
+* Engagement
+
+Recommendations:
+
+* Cities with highest engagement.
+* Best-performing venues.
+* Suggested collaborations.
+
+---
+
+# Forecasting
+
+Predict future performance.
+
+Forecasts include:
+
+* Ticket sales
+* Attendance
+* Revenue
+* Occupancy
+* Flash Drop demand
+
+Forecast confidence levels are displayed.
+
+Example:
+
+```text
+Expected Attendance
+
+1,240 Guests
+
+Confidence
+
+89%
+```
+
+---
+
+# Benchmarking
+
+Compare performance against historical data.
+
+Examples:
+
+* Previous event
+* Previous month
+* Previous year
+* Venue average
+
+Future roadmap:
+
+Anonymous regional benchmarks for similar venues and event types.
+
+---
+
+# Trends
+
+Identify long-term changes.
+
+Examples:
+
+* Popular music genres
+* Seasonal attendance
+* Customer spending
+* Event categories
+* Venue growth
+
+---
+
+# Reports
+
+Generate operational reports.
+
+Available reports:
+
+* Revenue
+* Attendance
+* Marketing
+* Ticketing
+* Flash Drops
+* Venue Performance
+* Audience Growth
+
+Reports support:
+
+* PDF
+* Excel
+* CSV
+
+---
+
+# Alerts
+
+Creators receive proactive alerts.
+
+Examples:
+
+* Ticket sales slowing
+* Low attendance forecast
+* Venue approaching capacity
+* Marketing budget exhausted
+* Flash Drop inventory running low
+
+---
+
+# AI Business Advisor
+
+The Intelligence Module includes a conversational AI assistant.
+
+Creators can ask:
+
+> "Why were ticket sales lower this week?"
+
+> "Which event made the most revenue?"
+
+> "When should I launch my next Flash Drop?"
+
+> "Which DJ attracts the highest attendance?"
+
+> "What event should I host next month?"
+
+The AI responds using the creator's own business data and platform insights.
+
+---
+
+# Integration with Other Modules
+
+## Home
+
+Key insights appear on the Creator Studio Home dashboard.
+
+---
+
+## Events
+
+Analyze event performance and recommend improvements.
+
+---
+
+## Venue
+
+Monitor operational efficiency and visitor behavior.
+
+---
+
+## Ticketing
+
+Track sales, revenue, refunds, and attendance.
+
+---
+
+## Flash Drops
+
+Measure campaign effectiveness and recommend optimizations.
+
+---
+
+## Marketing
+
+Evaluate campaign performance and ROI.
+
+---
+
+## Audience
+
+Understand customer behavior and loyalty.
+
+---
+
+## Profile
+
+Track creator visibility, bookings, and professional growth.
+
+---
+
+# Security & Privacy
+
+The Intelligence Module should:
+
+* Respect creator permissions.
+* Never expose another creator's confidential business data.
+* Aggregate benchmarks anonymously.
+* Encrypt sensitive analytics data.
+* Log access to business reports where appropriate.
+
+AI recommendations should always explain **why** a recommendation is being made.
+
+---
+
+# Success Metrics
+
+The Intelligence Module should help creators:
+
+* Increase event attendance.
+* Improve ticket sales.
+* Maximize venue occupancy.
+* Optimize marketing spend.
+* Increase customer loyalty.
+* Grow revenue.
+* Make faster, data-driven decisions.
+* Reduce operational risk.
+
+---
+
+# Guiding Principle
+
+The Intelligence Module should evolve from a reporting dashboard into the **AI operating brain of FOMO Creator Studio**. Rather than overwhelming creators with charts and numbers, it should surface the most important insights, explain what they mean, predict what is likely to happen next, and recommend the best actions to take. Every recommendation should be grounded in the creator's own data and integrated across Events, Venue, Ticketing, Flash Drops, Marketing, and Audience, making Intelligence the strategic decision-making layer that powers the entire nightlife ecosystem.

@@ -1,0 +1,605 @@
+# FOMO Creator Studio — Settings Module
+
+## Product Vision
+
+The **Settings Module** is the administrative control center of FOMO Creator Studio.
+
+It allows creators to manage their account, security, business preferences, teams, payments, integrations, notifications, and application preferences from one secure location.
+
+Unlike other modules that focus on operating nightlife experiences, the Settings Module focuses on **how creators manage their Creator Studio account and organization**.
+
+It should be designed for clarity, security, and long-term account management.
+
+---
+
+# Design Principles
+
+The Settings Module should be:
+
+* Secure by default.
+* Role-aware, adapting to creator permissions.
+* Simple to navigate despite advanced functionality.
+* Centralized, avoiding scattered settings throughout the app.
+* Enterprise-ready, supporting businesses with multiple staff members.
+* Future-proof for new integrations and platform features.
+
+---
+
+# Supported Creator Roles
+
+| Creator Role       | Access                 |
+| ------------------ | ---------------------- |
+| 🏙 Venue Owner     | ✅ Full                 |
+| 🎟 Event Organiser | ✅ Full                 |
+| 🎧 DJ              | ✅ Full                 |
+| 🎤 Music Artist    | ✅ Full                 |
+| 👥 Staff Members   | ✅ Limited (Role-based) |
+
+---
+
+# Settings Dashboard
+
+The dashboard provides quick access to account health and configuration.
+
+## Displays
+
+* Account Status
+* Verification Status
+* Security Status
+* Team Members
+* Connected Accounts
+* Payment Status
+
+---
+
+## Quick Actions
+
+* Change Password
+* Enable Two-Factor Authentication
+* Invite Team Member
+* Connect Platform
+* Update Business Details
+
+---
+
+# Settings Navigation
+
+```text
+General
+
+Account
+
+Security
+
+Creator Roles
+
+Business
+
+Payments
+
+Team
+
+Notifications
+
+Privacy
+
+Connected Accounts
+
+Integrations
+
+Storage
+
+Data & Export
+
+Billing
+
+Support
+
+About
+```
+
+---
+
+# General
+
+Configure application preferences.
+
+Includes:
+
+* Language
+* Region
+* Currency
+* Time Zone
+* Date Format
+* Theme (Light/Dark/System)
+
+Future:
+
+* Accessibility preferences
+* Font scaling
+
+---
+
+# Account
+
+Manage account information.
+
+Includes:
+
+* Full Name
+* Display Name
+* Email
+* Phone Number
+* Username
+* Public Profile URL
+
+Actions:
+
+* Change Email
+* Change Phone
+* Delete Account Request
+
+---
+
+# Security
+
+Protect Creator Studio access.
+
+Supports:
+
+## Authentication
+
+* Password
+* Passkeys (future)
+* Two-Factor Authentication
+
+---
+
+## Sessions
+
+Displays:
+
+* Current devices
+* Active sessions
+* Login history
+
+Actions:
+
+* Sign out device
+* Sign out all devices
+
+---
+
+## Security Alerts
+
+Receive notifications for:
+
+* New login
+* Password changes
+* Suspicious activity
+* Connected account changes
+
+---
+
+# Creator Roles
+
+Manage verified creator identities.
+
+Displays:
+
+Current roles:
+
+```text
+✓ Venue Owner
+
+✓ DJ
+```
+
+Actions:
+
+* Apply for additional role
+* View role permissions
+* Switch default creator role
+
+Example:
+
+A user may operate as both:
+
+* Venue Owner
+* Music Artist
+
+The selected default role influences the Home dashboard and shortcuts, while all verified roles remain available.
+
+---
+
+# Business
+
+Business-related information.
+
+Supports:
+
+* Business Name
+* Registration Number
+* Tax Information
+* Business Address
+* Contact Details
+
+Venue Owners and Event Organisers may also manage:
+
+* Company branding
+* Legal information
+* Business documentation
+
+---
+
+# Payments
+
+Manage financial information.
+
+Supports:
+
+## Payout Methods
+
+* Bank Account
+* Mobile Payment (future)
+* Other supported payout methods
+
+---
+
+## Financial Settings
+
+* Default currency
+* Tax preferences
+* Invoice information
+
+---
+
+## Payout History
+
+Displays:
+
+* Upcoming payouts
+* Completed payouts
+* Failed payouts
+
+---
+
+# Team
+
+Manage collaborators.
+
+Available roles:
+
+* Owner
+* Venue Manager
+* Event Manager
+* Marketing Manager
+* Finance Manager
+* Promoter
+* Door Staff
+* Ticket Scanner
+
+Permissions include:
+
+* Create Events
+* Publish Events
+* Launch Flash Drops
+* Manage Tickets
+* View Revenue
+* View Analytics
+* Edit Venue
+* Manage Staff
+
+Actions:
+
+* Invite member
+* Edit permissions
+* Remove member
+* Suspend access
+
+Activity logs record all team actions.
+
+---
+
+# Notifications
+
+Configure notification preferences.
+
+Supports:
+
+## Push Notifications
+
+* Ticket sales
+* Event reminders
+* Flash Drop activity
+* Team invitations
+
+---
+
+## Email Notifications
+
+* Weekly reports
+* Security alerts
+* Verification updates
+* Billing notices
+
+---
+
+## SMS (where supported)
+
+* Security verification
+* Critical operational alerts
+
+Creators can enable or disable each category independently.
+
+---
+
+# Privacy
+
+Manage account visibility.
+
+Options:
+
+* Public creator profile
+* Public contact information
+* Search visibility
+
+Control who can:
+
+* Send collaboration requests
+* View profile
+* View contact details
+
+---
+
+# Connected Accounts
+
+Manage linked identity platforms.
+
+Examples:
+
+## DJs
+
+* Spotify
+* Apple Music
+* SoundCloud
+
+---
+
+## Artists
+
+* YouTube
+* Spotify
+* Apple Music
+
+---
+
+## Venue Owners
+
+* Facebook
+* Instagram
+* Google Business Profile (future)
+
+Displays:
+
+* Connection status
+* Last synchronization
+* Reconnect option
+
+---
+
+# Integrations
+
+Connect Creator Studio with external services.
+
+Examples:
+
+* Payment gateways
+* POS systems
+* QR scanners
+* Ticket printers
+* Calendar applications
+* CRM platforms (future)
+
+Each integration includes:
+
+* Status
+* Configuration
+* Connection history
+
+---
+
+# Storage
+
+Manage uploaded files.
+
+Displays:
+
+* Storage usage
+* Photos
+* Videos
+* Documents
+
+Actions:
+
+* Upload
+* Delete
+* Organize
+
+Future:
+
+* Shared team folders
+
+---
+
+# Data & Export
+
+Creators maintain ownership of their operational data.
+
+Supports:
+
+Export:
+
+* Events
+* Tickets
+* Guest Lists
+* Analytics
+* Revenue Reports
+
+Future:
+
+* Complete account export
+* Automated backups
+
+---
+
+# Billing
+
+Subscription and billing management.
+
+Displays:
+
+* Current plan
+* Renewal date
+* Payment history
+* Invoices
+
+Actions:
+
+* Upgrade plan
+* Manage subscription
+* Download invoices
+
+---
+
+# Support
+
+Access Creator Studio support.
+
+Includes:
+
+* Help Center
+* Contact Support
+* Report Bug
+* Feature Requests
+
+Displays:
+
+* Recent support tickets
+* Ticket status
+
+---
+
+# About
+
+Displays:
+
+* App version
+* Build number
+* Terms of Service
+* Privacy Policy
+* Licenses
+
+Useful for troubleshooting and compliance.
+
+---
+
+# AI Settings Assistant (Future Roadmap)
+
+The Settings Module can provide intelligent recommendations.
+
+Examples:
+
+* Recommend enabling Two-Factor Authentication.
+* Detect incomplete business information.
+* Suggest connecting professional platforms.
+* Identify unused integrations.
+* Recommend permission improvements for team members.
+* Alert creators about expiring verification or payment issues.
+
+---
+
+# Integration with Other Modules
+
+## Profile
+
+Account and professional identity settings are synchronized.
+
+---
+
+## Verification
+
+Verification status and documents are managed separately but surfaced here.
+
+---
+
+## Venue
+
+Team permissions directly affect venue management.
+
+---
+
+## Events
+
+Creator permissions determine who can create, edit, publish, or archive events.
+
+---
+
+## Ticketing
+
+Payment methods and financial settings support ticket payouts and reporting.
+
+---
+
+## Marketing
+
+Connected social and business accounts can be used for future campaign integrations.
+
+---
+
+## Collaboration
+
+Team permissions and creator roles influence invitations and shared workspaces.
+
+---
+
+# Security Principles
+
+The Settings Module should prioritize trust and operational safety.
+
+Core security features include:
+
+* Role-based permissions
+* Two-Factor Authentication
+* Session management
+* Device management
+* Audit logs
+* Secure payout configuration
+* Verification monitoring
+
+Future enhancements:
+
+* Passkeys
+* Biometric authentication
+* Hardware security key support
+* Risk-based login detection
+
+---
+
+# Success Metrics
+
+The Settings Module should help creators:
+
+* Keep their account secure.
+* Manage teams confidently.
+* Maintain accurate business information.
+* Configure Creator Studio efficiently.
+* Connect trusted third-party services.
+* Control privacy and notifications.
+* Resolve account issues quickly.
+
+---
+
+# Guiding Principle
+
+The Settings Module should feel like the **administrative headquarters** of Creator Studio. It should centralize everything that governs a creator's account, business, team, security, and platform preferences without cluttering operational workflows. Every setting should reinforce trust, reduce administrative overhead, and give creators confidence that their business is secure, well-managed, and ready to grow within the FOMO ecosystem.

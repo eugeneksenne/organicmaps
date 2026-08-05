@@ -1,0 +1,729 @@
+# FOMO Creator Studio (Updated Vision)
+
+## Product Vision
+
+**FOMO Creator Studio is not a social media creator platform.**
+
+It is the **operating system for the nightlife industry**, designed exclusively for verified nightlife professionals who create, manage, and grow nightlife experiences.
+
+Creator Studio serves as the professional backend for the FOMO ecosystem, while the consumer FOMO app remains focused on discovering nightlife.
+
+---
+
+# Core Principles
+
+Every feature must answer one question:
+
+> **Does this help someone create, manage, or grow nightlife experiences?**
+
+If the answer is no, it doesn't belong.
+
+---
+
+# Eligible Creator Roles
+
+Only verified nightlife professionals can access Creator Studio.
+
+## 🏙 Venue Owner / Venue Manager
+
+Examples:
+
+* Nightclubs
+* Bars
+* Lounges
+* Rooftop venues
+* Entertainment venues
+
+Capabilities
+
+* Claim venue ownership
+* Manage venue profile
+* Manage Club Lobby
+* Create events
+* Launch Flash Drops
+* Sell tickets
+* Manage venue staff
+* View business analytics
+* Promote venue
+* Manage opening hours
+* Respond to reviews
+
+---
+
+## 🎟 Event Organiser
+
+Capabilities
+
+* Create events
+* Manage multiple events
+* Sell tickets
+* Invite DJs
+* Invite Artists
+* Manage guest lists
+* Promote events
+* View analytics
+* Collaborate with venues
+
+---
+
+## 🎧 DJ
+
+Capabilities
+
+* Verified DJ profile
+* Publish performance schedule
+* Accept bookings
+* Join event lineups
+* Audience analytics
+* Receive venue invitations
+* Promote performances
+
+---
+
+## 🎤 Music Artist
+
+Capabilities
+
+* Verified artist profile
+* Tour schedule
+* Join event lineups
+* Audience analytics
+* Performance insights
+* Venue invitations
+* Official content
+
+---
+
+# Multi-Role Accounts
+
+A single user may have multiple verified roles.
+
+Example
+
+```
+John
+
+✓ Venue Owner
+
+✓ DJ
+```
+
+or
+
+```
+Sarah
+
+✓ Event Organiser
+
+✓ Music Artist
+```
+
+Permissions are role-based.
+
+---
+
+# Creator Access (New Onboarding)
+
+Creator Studio does **not** begin with a traditional login screen.
+
+It begins with **professional identity**.
+
+---
+
+## Welcome Screen
+
+Headline
+
+> **Create the nights people remember.**
+
+Subtitle
+
+> Join South Africa's verified nightlife network.
+
+Users choose how they contribute to nightlife.
+
+Large cards:
+
+🏙 Venue Owner
+
+🎟 Event Organiser
+
+🎧 DJ
+
+🎤 Music Artist
+
+---
+
+# Creator Access Flows
+
+Each role has its own onboarding.
+
+---
+
+## Venue Owner
+
+```
+Welcome
+
+↓
+
+Search Venue
+
+↓
+
+Select Venue
+
+↓
+
+Claim Venue
+
+↓
+
+Upload Ownership Documents
+
+↓
+
+Verification Review
+
+↓
+
+Creator Studio
+```
+
+Accepted verification
+
+* Business registration
+* Liquor license
+* Municipal permit
+* Proof of ownership
+
+---
+
+## DJ
+
+```
+Welcome
+
+↓
+
+Continue with Spotify
+
+↓
+
+Apple Music
+
+↓
+
+SoundCloud
+
+↓
+
+Instagram
+
+↓
+
+Facebook
+
+↓
+
+Verification
+
+↓
+
+Creator Studio
+```
+
+Identity is verified using professional music platforms and supporting social profiles.
+
+---
+
+## Music Artist
+
+```
+Welcome
+
+↓
+
+Spotify for Artists
+
+↓
+
+Apple Music for Artists
+
+↓
+
+YouTube Official Artist
+
+↓
+
+Instagram
+
+↓
+
+Facebook
+
+↓
+
+Verification
+
+↓
+
+Creator Studio
+```
+
+---
+
+## Event Organiser
+
+```
+Welcome
+
+↓
+
+Business Information
+
+↓
+
+Website
+
+↓
+
+Instagram
+
+↓
+
+Facebook
+
+↓
+
+Previous Events
+
+↓
+
+Verification
+
+↓
+
+Creator Studio
+```
+
+---
+
+# Existing Users
+
+Already verified?
+
+Small link:
+
+**Access Creator Studio**
+
+Existing verified creators authenticate and enter their dashboard.
+
+---
+
+# Creator Studio Navigation
+
+```
+🏠 Home
+
+📅 Events
+
+🏙 Venue
+
+⚡ Flash Drops
+
+🎟 Tickets
+
+📢 Promotions
+
+👥 Audience
+
+💬 Inbox
+
+📊 Analytics
+
+👤 Profile
+
+✔ Verification
+
+⚙ Settings
+```
+
+Modules appear based on permissions.
+
+---
+
+# Home
+
+Mission Control.
+
+Displays
+
+* Tonight's events
+* Business snapshot
+* Revenue
+* Live activity
+* Schedule
+* Tasks
+* AI insights
+* Audience pulse
+* Upcoming events
+* Inbox
+* Weekly summary
+
+---
+
+# Events
+
+Every event has its own workspace.
+
+```
+Overview
+
+Tickets
+
+Lineup
+
+Guest List
+
+Media
+
+Promotion
+
+Analytics
+
+Settings
+```
+
+Lifecycle
+
+* Draft
+* Pending Approval
+* Scheduled
+* Live
+* Completed
+* Archived
+* Cancelled
+
+---
+
+# Venue
+
+Venue Owners only.
+
+Manage
+
+* Venue profile
+* Gallery
+* Club Lobby
+* Opening hours
+* Amenities
+* Menu
+* Venue policies
+* Staff
+* Announcements
+* Reviews
+
+---
+
+# Club Lobby
+
+The venue's live digital experience.
+
+Manage
+
+* Hero media
+* Welcome message
+* Featured moments
+* Venue announcements
+* Live status
+* Venue information
+
+---
+
+# Flash Drops
+
+Venue Owners only.
+
+Launch reward campaigns.
+
+Examples
+
+* Free drink
+* VIP upgrade
+* Merchandise
+* Food voucher
+* Free entry
+
+Configuration
+
+* Reward
+* Quantity
+* Start time
+* End time
+* Rules
+* Sponsor
+
+Important
+
+Flash Drops **cannot be claimed in the app.**
+
+Users must physically visit the venue to redeem them with venue staff.
+
+Analytics
+
+* Views
+* Shares
+* Navigation requests
+* Venue arrivals
+* Redemptions
+
+---
+
+# Tickets
+
+Ticket Operations
+
+* Ticket Types
+* Orders
+* Guest Lists
+* QR Codes
+* Offline Scanner
+* Refunds
+* Promo Codes
+* Revenue
+
+Ticket Types
+
+* General Admission
+* VIP
+* Early Bird
+* Tables
+* Complimentary
+
+---
+
+# Promotions
+
+Campaign Manager
+
+Objectives
+
+* Increase attendance
+* Sell tickets
+* Promote venue
+* Flash Drop awareness
+* Brand awareness
+
+Settings
+
+* Audience
+* Budget
+* Schedule
+* Geography
+
+---
+
+# Audience
+
+Creator audience insights.
+
+Displays
+
+* Followers
+* Returning guests
+* First-time visitors
+* Cities
+* Age
+* Gender
+* Music preferences
+* Peak activity
+
+---
+
+# Inbox
+
+Unified communication hub.
+
+Receive
+
+* Venue invitations
+* DJ requests
+* Artist invitations
+* Booking offers
+* Support
+* Verification updates
+* Platform messages
+
+---
+
+# Analytics
+
+Revenue
+
+* Ticket sales
+* Tables
+* Promotions
+
+Growth
+
+* Followers
+* Reach
+* Profile visits
+
+Events
+
+* Attendance
+* Check-ins
+* No-shows
+* Peak arrival
+
+Venue
+
+* Occupancy
+* Reviews
+* Navigation requests
+* Visitor trends
+
+Flash Drops
+
+* Views
+* Redemptions
+* Venue arrivals
+* Conversion
+
+---
+
+# Profile
+
+Manage
+
+* Profile photo
+* Cover image
+* Biography
+* Contact details
+* Social links
+* Media
+* Public profile
+* Verification
+
+---
+
+# Verification
+
+Professional verification status.
+
+Stages
+
+* Submitted
+* Reviewing
+* Approved
+* Rejected
+
+Documents depend on creator role.
+
+---
+
+# Settings
+
+Manage
+
+* Account
+* Roles
+* Notifications
+* Payments
+* Security
+* Integrations
+
+---
+
+# Team Management
+
+Venue Owners can invite staff.
+
+Roles
+
+* Owner
+* Manager
+* Promoter
+* Marketing
+* Finance
+* Door Staff
+* Ticket Scanner
+
+Permissions
+
+* Create Events
+* Launch Flash Drops
+* Manage Venue
+* Sell Tickets
+* Scan Tickets
+* View Analytics
+
+---
+
+# Cross-Role Collaboration
+
+FOMO connects every nightlife stakeholder.
+
+Venue Owner
+
+→ Invite DJs
+
+→ Invite Artists
+
+→ Invite Organisers
+
+---
+
+Event Organiser
+
+→ Invite Venue
+
+→ Build Lineup
+
+→ Manage Event Team
+
+---
+
+DJ
+
+→ Accept Bookings
+
+→ Join Lineups
+
+→ Publish Schedule
+
+---
+
+Artist
+
+→ Accept Invitations
+
+→ Promote Performances
+
+→ Join Events
+
+---
+
+# Event Workspace
+
+Every event becomes a shared workspace.
+
+Participants may include:
+
+* Venue Owner
+* Event Organiser
+* DJs
+* Music Artists
+* Staff
+
+Each participant has role-based permissions.
+
+---
+
+# Long-Term Vision
+
+FOMO Creator Studio is not simply an admin dashboard. It is the **professional operating system for nightlife**.
+
+It brings together venues, organisers, DJs, artists, ticketing, promotions, Flash Drops, analytics, and collaboration into a single platform that powers the entire nightlife ecosystem. By focusing on verified professional identities, role-based workflows, and shared event management, Creator Studio becomes the place where nightlife businesses operate—not just where they publish events.

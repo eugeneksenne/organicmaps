@@ -1,0 +1,559 @@
+I actually think the **Ticket Scanner** should not be treated as just a QR scanner.
+
+It should be the **Entry Control Module**.
+
+Nightlife venues don't just scan tickets—they manage the entire flow of people entering the venue. This module should handle:
+
+* Online tickets
+* Door sales
+* Guest lists
+* VIP access
+* Staff entry
+* Re-entry
+* Capacity management
+* Live occupancy
+
+This makes it valuable even for venues that don't sell online tickets through FOMO.
+
+---
+
+# FOMO Creator Studio — Entry Control Module
+
+## Product Vision
+
+The **Entry Control Module** is the operational hub used by venue staff to manage guest entry during events.
+
+It enables secure ticket validation, guest check-ins, door sales, complimentary entry, capacity monitoring, and live occupancy tracking from a single mobile device.
+
+It is designed for speed, reliability, and operation in busy nightlife environments.
+
+---
+
+# Design Principles
+
+The module should be:
+
+* One-handed operation
+* Fast (<1 second per scan)
+* Offline-capable
+* Fraud-resistant
+* Simple for security staff
+* Real-time synchronized
+* Multi-device compatible
+
+---
+
+# Supported Entry Types
+
+The scanner supports:
+
+* QR Tickets
+* Door Sales
+* Guest Lists
+* VIP Lists
+* Complimentary Tickets
+* Staff Passes
+* Artist Passes
+* Media Passes
+* Re-entry Passes
+
+Every entry follows the same validation workflow.
+
+---
+
+# Home Screen
+
+Displays the active event.
+
+```text
+━━━━━━━━━━━━━━━━━━━━━━
+
+Amapiano Fridays
+
+Sky Lounge
+
+🟢 Live
+
+Doors Open
+
+20:00
+
+Current Occupancy
+
+218 / 500
+
+━━━━━━━━━━━━━━━━━━━━━━
+
+[ Scan Ticket ]
+
+[ Door Sale ]
+
+[ Guest List ]
+
+━━━━━━━━━━━━━━━━━━━━━━
+```
+
+Everything starts from this screen.
+
+---
+
+# Live Dashboard
+
+Displays operational metrics.
+
+## Capacity
+
+```text
+218 / 500
+```
+
+---
+
+## Online Tickets Checked In
+
+```text
+146
+```
+
+---
+
+## Door Entries
+
+```text
+58
+```
+
+---
+
+## Guest List
+
+```text
+14
+```
+
+---
+
+## VIP
+
+```text
+12
+```
+
+---
+
+## Inside Venue
+
+```text
+218
+```
+
+Occupancy updates instantly.
+
+---
+
+# QR Scanner
+
+Full-screen camera.
+
+```text
+━━━━━━━━━━━━━━━━━━━━━━
+
+Scan QR Ticket
+
+━━━━━━━━━━━━━━━━━━━━━━
+```
+
+Automatic scan.
+
+No button required.
+
+---
+
+# Successful Scan
+
+Large visual confirmation.
+
+```text
+✅ ENTRY APPROVED
+
+General Admission
+
+John Smith
+
+Checked in
+
+20:47
+
+━━━━━━━━━━━━━━━━━━━━━━
+```
+
+Green screen.
+
+Success sound.
+
+Short vibration.
+
+---
+
+# Failed Scan
+
+Examples:
+
+```text
+❌ Already Used
+```
+
+```text
+❌ Wrong Event
+```
+
+```text
+❌ Ticket Refunded
+```
+
+```text
+❌ Invalid QR
+```
+
+```text
+❌ Event Ended
+```
+
+Red screen.
+
+Error vibration.
+
+---
+
+# Manual Search
+
+If QR won't scan.
+
+Search by:
+
+* Name
+* Ticket ID
+* Phone Number
+* Email
+
+Staff can check the guest in manually after verification.
+
+---
+
+# Door Sales
+
+For walk-in guests.
+
+Tap:
+
+```text
+Door Sale
+```
+
+Example:
+
+```text
+Door Entry
+
+Price
+
+R250
+
+Guests
+
+2
+
+Total
+
+R500
+
+[ Continue ]
+```
+
+---
+
+# Payment
+
+If the venue accepts digital payments through FOMO:
+
+* Card
+* Apple Pay
+* Google Pay
+* Mobile Wallet
+
+If not:
+
+Mark payment as:
+
+* Cash
+* Card
+* External POS
+
+Once paid:
+
+A digital ticket is generated instantly and checked in.
+
+Every guest still has a recorded entry.
+
+---
+
+# Guest List
+
+Displays:
+
+```text
+Guest List
+
+Sarah
+
+VIP
+
+✓
+
+Mike
+
+Media
+
+✓
+
+James
+
+Pending
+```
+
+Tap:
+
+```text
+Check In
+```
+
+---
+
+# Re-entry
+
+Some venues allow re-entry.
+
+Example:
+
+```text
+Re-entry
+
+Allowed
+
+Until
+
+03:00
+```
+
+Users receive:
+
+```text
+Re-entry Pass
+
+✓
+```
+
+Second scan:
+
+```text
+Returning Guest
+
+Welcome Back
+```
+
+---
+
+# Capacity Control
+
+Live occupancy.
+
+```text
+Current
+
+492
+
+Maximum
+
+500
+```
+
+Warnings:
+
+```text
+⚠ 98% Capacity
+```
+
+```text
+🚫 Venue Full
+```
+
+Door staff are notified immediately.
+
+---
+
+# Multi-Gate Support
+
+Large venues may have multiple entrances.
+
+Examples:
+
+* Main Entrance
+* VIP Entrance
+* Artist Entrance
+* Staff Entrance
+
+Each scanner reports to the same live occupancy counter.
+
+---
+
+# Offline Mode
+
+If internet is lost:
+
+```text
+Offline Mode
+
+Entries are being stored securely.
+
+Will sync automatically.
+```
+
+QR validation uses encrypted event data cached on the device.
+
+When connectivity returns, all scans are synchronized.
+
+---
+
+# Fraud Detection
+
+The scanner detects:
+
+* Duplicate scans
+* Screenshots of already-used tickets
+* Wrong event
+* Wrong date
+* Cancelled tickets
+* Refunded tickets
+* Expired tickets
+
+All incidents are logged.
+
+---
+
+# Activity Feed
+
+Real-time timeline.
+
+```text
+20:47
+
+John Smith
+
+Checked In
+
+━━━━━━━━━━
+
+20:46
+
+VIP Guest
+
+Checked In
+
+━━━━━━━━━━
+
+20:45
+
+Door Sale
+
+2 Guests
+
+━━━━━━━━━━
+```
+
+Managers can monitor entry operations live.
+
+---
+
+# Staff Roles
+
+Permissions are role-based.
+
+## Door Staff
+
+* Scan tickets
+* Sell door entry
+* Check in guests
+
+---
+
+## Supervisor
+
+Everything Door Staff can do, plus:
+
+* Override entry decisions
+* Process manual check-ins
+* View occupancy
+* Manage re-entry
+
+---
+
+## Venue Manager
+
+Full access.
+
+Can:
+
+* View reports
+* Manage staff
+* Close entry
+* Export attendance
+* Resolve disputes
+
+---
+
+# Security Features
+
+Every action is audited.
+
+Logs include:
+
+* Staff member
+* Device
+* Time
+* Entry type
+* GPS (optional)
+* Override reason
+
+This protects venues against fraud and disputes.
+
+---
+
+# Integration with Creator Studio
+
+The Entry Control Module integrates with:
+
+* **Events** – active event selection and status.
+* **Ticketing** – validates online tickets and records door sales.
+* **Venue** – enforces venue capacity.
+* **Analytics** – tracks attendance, peak entry times, and entry sources.
+* **Flash Drops** – can verify eligibility for venue-redemption rewards.
+* **Intelligence** – identifies bottlenecks, predicts peak arrival periods, and recommends staffing levels.
+
+---
+
+# Success Metrics
+
+The Entry Control Module should help creators:
+
+* Admit guests in under one second.
+* Eliminate ticket fraud.
+* Track real-time occupancy.
+* Sell and record door tickets.
+* Manage guest lists and VIP access.
+* Operate reliably even with poor connectivity.
+
+---
+
+# Guiding Principle
+
+The **Entry Control Module** should feel like the digital front gate of the venue. Whether a guest arrives with a FOMO ticket, buys entry at the door, joins a guest list, or enters through a VIP entrance, every interaction is managed through one fast, secure, and intelligent system. This turns a simple ticket scanner into a complete venue entry management platform that supports the entire nightlife operation.

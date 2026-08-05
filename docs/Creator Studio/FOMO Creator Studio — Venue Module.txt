@@ -1,0 +1,574 @@
+# FOMO Creator Studio — Venue Module
+
+## Product Vision
+
+The **Venue Module** is the digital headquarters for every verified nightlife venue on FOMO.
+
+It enables venue owners and managers to operate, maintain, and grow their venue from a single workspace. Beyond simply editing a profile, the Venue Module acts as the venue's **digital twin**—its public identity, operational dashboard, and collaboration hub.
+
+Whether managing a nightclub, rooftop bar, lounge, live music venue, or entertainment space, creators can control how their venue appears on FOMO, coordinate staff, host events, launch promotions, and analyze venue performance.
+
+---
+
+# Design Principles
+
+The Venue Module should be:
+
+* Operational, supporting day-to-day venue management.
+* Business-focused, helping venues grow attendance and revenue.
+* Collaborative, allowing multiple staff members with role-based permissions.
+* Always live, reflecting the venue's current status and upcoming experiences.
+* Integrated with Events, Flash Drops, Ticketing, Marketing, and Audience.
+
+---
+
+# Supported Creator Roles
+
+| Creator Role       | Access                            |
+| ------------------ | --------------------------------- |
+| 🏙 Venue Owner     | ✅ Full                            |
+| 🏙 Venue Manager   | ✅ Configurable                    |
+| 🎟 Event Organiser | 👀 Limited (Assigned Events Only) |
+| 🎧 DJ              | ❌ No Access                       |
+| 🎤 Music Artist    | ❌ No Access                       |
+
+---
+
+## Venue Owner
+
+Can:
+
+* Claim and verify venue
+* Manage venue profile
+* Manage Club Lobby
+* Configure venue information
+* Launch venue Flash Drops
+* Host events
+* Invite organisers
+* Invite staff
+* View analytics
+* Manage operating hours
+* Respond to reviews
+* Configure venue settings
+
+---
+
+## Venue Manager
+
+Permissions are assigned by the venue owner.
+
+Possible permissions:
+
+* Edit venue details
+* Publish announcements
+* Manage Club Lobby
+* Launch Flash Drops
+* View analytics
+* Manage staff
+* Manage opening hours
+
+---
+
+# Venue Dashboard
+
+The dashboard provides a real-time overview of venue operations.
+
+## Sections
+
+* Live Status
+* Upcoming Events
+* Venue Activity
+* Staff Activity
+* Business Snapshot
+
+---
+
+## Dashboard Metrics
+
+* Today's Visitors
+* Live Occupancy
+* Upcoming Events
+* Active Flash Drops
+* Revenue (if applicable)
+* Average Rating
+* Navigation Requests
+* Repeat Guests
+
+---
+
+## Quick Actions
+
+* Create Event
+* Launch Venue Flash Drop
+* Update Club Lobby
+* Post Announcement
+* Edit Opening Hours
+
+---
+
+# Venue Workspace
+
+The Venue Module is organized into dedicated workspaces.
+
+```text
+Overview
+
+Club Lobby
+
+Profile
+
+Operations
+
+Events
+
+Flash Drops
+
+Staff
+
+Reviews
+
+Analytics
+
+Files
+
+Activity
+
+Settings
+```
+
+---
+
+# Overview
+
+Provides a high-level view of the venue.
+
+Displays:
+
+* Venue logo
+* Cover image
+* Current status
+* Address
+* Capacity
+* Operating hours
+* Contact details
+* Verification status
+
+Quick actions:
+
+* Edit profile
+* Open/Close venue
+* Share venue
+* View public profile
+
+---
+
+# Club Lobby
+
+The Club Lobby is the venue's live digital experience inside the consumer FOMO app.
+
+Creators manage:
+
+* Hero image or video
+* Welcome message
+* Featured moments
+* Tonight's highlights
+* Live announcements
+* Venue description
+
+Dynamic content may include:
+
+* Live tonight
+* Queue updates (future)
+* Featured performers
+* Current Flash Drops
+* Upcoming events
+
+---
+
+# Profile
+
+Public venue information.
+
+Includes:
+
+## Basic Information
+
+* Venue name
+* Description
+* Category
+* Music genres
+
+---
+
+## Contact
+
+* Phone
+* Email
+* Website
+* Social media links
+
+---
+
+## Location
+
+* Address
+* GPS location
+* Parking information
+* Navigation
+
+---
+
+## Amenities
+
+Examples:
+
+* VIP Area
+* Outdoor Seating
+* Rooftop
+* Dance Floor
+* Smoking Area
+* Wheelchair Access
+* Secure Parking
+
+---
+
+## Policies
+
+* Dress code
+* Age restriction
+* Entry requirements
+* House rules
+
+---
+
+# Operations
+
+Manage day-to-day venue operations.
+
+Includes:
+
+* Operating hours
+* Holiday schedules
+* Temporary closures
+* Venue capacity
+* Entry policies
+* Emergency notices
+
+Future enhancements:
+
+* Live occupancy tracking
+* Queue management
+* Capacity alerts
+
+---
+
+# Events
+
+Displays every event hosted at the venue.
+
+Sections:
+
+* Upcoming
+* Live
+* Completed
+
+Venue owners can:
+
+* Create events
+* Approve organiser requests
+* View event calendars
+* Manage venue availability
+
+---
+
+# Venue Flash Drops
+
+Manage venue-wide Flash Drops that are **not tied to a specific event**.
+
+Examples:
+
+* Happy Hour
+* Ladies Night
+* Free Entry Before 9 PM
+* Birthday Rewards
+* Weekly Specials
+
+Actions:
+
+* Create
+* Schedule
+* Pause
+* End
+* Duplicate
+
+Analytics include:
+
+* Views
+* Venue arrivals
+* Redemptions
+* Repeat visits
+
+> **Note:** Event-specific Flash Drops are managed within the corresponding Event Workspace. This module focuses on ongoing or venue-level campaigns.
+
+---
+
+# Staff
+
+Manage venue team members.
+
+Roles may include:
+
+* Owner
+* Manager
+* Promoter
+* Marketing
+* Finance
+* Door Staff
+* Ticket Scanner
+
+Permissions are configurable.
+
+Examples:
+
+* Create events
+* Launch Flash Drops
+* Scan tickets
+* Respond to reviews
+* Edit venue profile
+* View analytics
+
+Activity logs record important staff actions.
+
+---
+
+# Reviews
+
+Manage guest feedback.
+
+Displays:
+
+* Average rating
+* Rating trends
+* Recent reviews
+* Review categories
+
+Actions:
+
+* Respond to reviews
+* Report inappropriate reviews
+* Track response rate
+
+Future AI:
+
+* Review summaries
+* Sentiment analysis
+* Common improvement suggestions
+
+---
+
+# Analytics
+
+Venue performance over time.
+
+## Visitors
+
+* Daily visitors
+* Weekly visitors
+* Monthly visitors
+
+---
+
+## Occupancy
+
+* Peak hours
+* Average occupancy
+* Busy days
+
+---
+
+## Events
+
+* Hosted events
+* Event attendance
+* Event revenue
+
+---
+
+## Flash Drops
+
+* Views
+* Redemptions
+* Venue arrivals
+* Conversion rate
+
+---
+
+## Audience
+
+* New visitors
+* Returning visitors
+* Age
+* Gender
+* Cities
+* Visit frequency
+
+---
+
+## Reputation
+
+* Rating trends
+* Review volume
+* Response rate
+
+---
+
+# Files
+
+Central repository for venue assets.
+
+Supports:
+
+* Logos
+* Photos
+* Videos
+* Menus
+* Floor plans
+* Promotional assets
+* Brand guidelines
+
+Permissions determine upload and download access.
+
+---
+
+# Activity
+
+Displays an operational timeline.
+
+Examples:
+
+* Venue claimed
+* Event created
+* Flash Drop launched
+* Staff invited
+* Review received
+* Announcement published
+
+Useful for auditing and collaboration.
+
+---
+
+# Settings
+
+Venue-specific configuration.
+
+Includes:
+
+## General
+
+* Visibility
+* Public profile
+* Contact preferences
+
+---
+
+## Operations
+
+* Default operating hours
+* Capacity settings
+* Booking preferences
+
+---
+
+## Team
+
+* Staff invitations
+* Permission management
+
+---
+
+## Integrations
+
+* Payment gateways
+* Ticket scanners
+* POS systems
+* Future third-party integrations
+
+---
+
+# AI Venue Assistant (Future Roadmap)
+
+The Venue Module will evolve into an intelligent operations assistant.
+
+Potential capabilities:
+
+* Predict busy nights based on historical patterns.
+* Recommend staffing levels.
+* Suggest optimal Flash Drop timing.
+* Forecast occupancy.
+* Recommend operating hour adjustments.
+* Detect declining customer satisfaction.
+* Suggest promotional opportunities.
+
+---
+
+# Integration with Other Modules
+
+## Home
+
+Venue KPIs and live operational status appear on the Creator Studio Home dashboard.
+
+---
+
+## Events
+
+Venue owners host and manage events from the Events Module.
+
+---
+
+## Flash Drops
+
+Venue-wide campaigns are created here, while event-specific Flash Drops are managed within individual events.
+
+---
+
+## Ticketing
+
+Ticket sales and check-ins contribute to venue performance metrics.
+
+---
+
+## Marketing
+
+Promote the venue, Club Lobby, venue events, and venue Flash Drops.
+
+---
+
+## Audience
+
+Track visitor demographics, loyalty, and behavior.
+
+---
+
+## Intelligence
+
+Venue data contributes to AI-driven business insights and forecasting.
+
+---
+
+# Success Metrics
+
+The Venue Module should help creators:
+
+* Keep venue information accurate and engaging.
+* Increase venue attendance.
+* Improve operational efficiency.
+* Grow repeat visitation.
+* Strengthen venue reputation.
+* Coordinate teams effectively.
+* Make informed business decisions.
+
+---
+
+# Guiding Principle
+
+The Venue Module should feel like **running a venue, not editing a profile**. It is the operational command center for a nightlife business, connecting venue identity, live operations, staff management, events, Flash Drops, guest feedback, and business intelligence into one cohesive workspace. Every feature should help venue owners deliver better nightlife experiences while growing their business and strengthening their presence within the FOMO ecosystem.

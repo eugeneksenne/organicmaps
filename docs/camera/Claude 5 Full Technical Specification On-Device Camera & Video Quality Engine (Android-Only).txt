@@ -1,0 +1,496 @@
+# Full Technical Specification: On-Device Camera & Video Quality Engine (Android-Only)
+
+**Version:** 7.0 — Flagship Production Grade, Video-Elevated
+**Target:** Android 12+ (optimized for Android 16+)
+**Goal:** A computational photo *and* video engine for nightlife content that beats Google Pixel, Samsung Galaxy, Apple iPhone 17, TikTok, and Instagram capture pipelines — on both stills and short-form video, since that's what nightlife/social content actually is.
+
+**Hard Constraints (unchanged):**
+- 100% on-device. Zero cloud inference. Zero image/video telemetry.
+- Total on-device model footprint ≤ 105 MB. **(Held firm — video reuses photo models; see Section 19.)**
+- Single-image latency: FAST < 800 ms, BALANCED < 4 s, MAXIMUM < 10 s on Snapdragon 8 Gen 3 equivalent.
+- Video: real-time preview at capture resolution; post-capture enhancement pass < 1.5x clip duration on flagship tier.
+
+---
+
+## 0. What's New in v7.0 (Changelog from v6.0)
+
+| Area | v6.0 | v7.0 |
+|---|---|---|
+| Video | "Future-proofing" section only, no implementation | First-class pipeline: capture, stabilization, temporal denoise, HDR, Look engine — Section 7B |
+| HDR fusion | Frame-level exposure blend | Added per-pixel frequency-domain fusion ("Photon Fusion") — Section 7, Stage 0 |
+| Bokeh | None | Monocular depth estimation + physically-modeled defocus — Section 7, Stage 3B |
+| Shutter lag | Press-to-capture only | Zero Shutter Lag (ZSL) ring buffer — Section 3, Section 7 |
+| Burst selection | Best-frame by motion score | Peak Moment Selector reusing Quality Evaluator — Section 7, Stage 0B |
+| Color/style | Corrective only (WB, skin protection) | Creator Look Engine (3D LUTs, near-zero model cost) — Section 7, Stage 12B |
+| Night scenes | Standard hybrid HDR only | Long-exposure/low-light accumulation mode — Section 7, Stage 0C |
+| Model budget | 88 MB used / 105 MB cap | ~96 MB used / 105 MB cap, video included, via aggressive reuse |
+
+The strategy throughout: **new capability by reusing existing model weights and adding cheap algorithmic/compute-shader stages**, not by adding new heavyweight networks. This is what keeps video in-budget.
+
+---
+
+## 1. High-Level Objectives
+
+- Build a complete imaging stack from sensor RAW through JPEG/Ultra HDR *and* through stabilized, color-graded video (H.265/AV1).
+- Zero-copy GPU-native pipeline using `AHardwareBuffer`, Vulkan compute, and GPU textures — shared by photo and video paths.
+- Plugin-based AI execution graph with dependency resolution, memory pooling, and stage-level sandboxing, with stateless models shared across photo and video.
+- Multi-frame RAW fusion with hybrid HDR *and* per-pixel frequency-domain ("Photon Fusion") reconstruction.
+- Dedicated AI ISP layer for RAW demosaic, denoise, and color correction, running per-frame in both photo and video modes.
+- Monocular depth estimation for realistic portrait bokeh, reused for video depth-of-field effects.
+- Zero Shutter Lag capture: continuous pre-shutter frame ring buffer so the "decisive moment" can be selected from *before* the shutter press.
+- Creator Look Engine: 3D LUT-based stylistic grading (near-zero storage cost) so output has an identity, not just corrected accuracy.
+- Per-lens tuning profiles with full calibration, distortion, vignette, and color profiles.
+- Formal camera *and* video state machines with clear lifecycle boundaries.
+- Android Ultra HDR (JPEG_R) for photo; HDR10/HLG-tagged video with SDR fallback; full Display P3 color management across both.
+- AI confidence thresholds, per-stage quality evaluation, and automatic rollback for both modalities.
+- Learn per-device behavior via a split learning database without ever uploading images or video.
+
+---
+
+## 2. Architecture
+
+```
+app/                          → UI, CameraX integration, permissions
+engine/
+  ├─ hal/                     → Camera HAL Abstraction
+  │   ├─ CameraCapabilityScanner
+  │   ├─ CameraFeatureNegotiator
+  │   ├─ VendorExtensionBridge
+  │   ├─ CameraCharacteristicsCache
+  │   ├─ CaptureStrategySelector
+  │   ├─ SensorService
+  │   ├─ LensService
+  │   ├─ OisService
+  │   ├─ FlashService
+  │   ├─ MetadataService
+  │   ├─ RawService
+  │   └─ ExtensionService
+  ├─ state/                   → Camera State Machine + Video State Machine
+  ├─ calibration/             → CameraCalibrationProfile, CCM, noise profiles
+  ├─ capture/                 → Multi-frame burst, ZSL ring buffer, sensor fusion
+  ├─ preprocess/              → AI ISP, lens correction, alignment, hybrid HDR, Photon Fusion
+  ├─ scheduler/               → Execution Graph, PipelineScheduler, TileScheduler, VideoFrameScheduler
+  ├─ memory/                  → Memory Pools (Tensor, Bitmap, GPU, Tile, Frame, TemporalRing)
+  ├─ ai/
+  │   ├─ registry/            → ModelRegistry with dependency graphs
+  │   ├─ manager/             → ModelManager (lifecycle, cache, delegates, sandbox)
+  │   ├─ plugin/              → CameraStage plugin interface + sandbox
+  │   ├─ graph/                → AI Execution Graph builder
+  │   ├─ scene/                → Scene classification + lighting estimation
+  │   ├─ segment/              → Semantic segmentation + portrait matte
+  │   ├─ depth/                → Monocular depth estimation (NEW)
+  │   ├─ detect/               → Face / eye / object detection
+  │   ├─ track/                → Lightweight object/face tracker for video (NEW, algorithmic)
+  │   ├─ isp/                  → AI ISP (RAW demosaic, denoise, CFA)
+  │   ├─ enhance/              → End-to-end RGB enhancement (photo + temporal video mode)
+  │   ├─ restore/              → Face restoration
+  │   ├─ sr/                   → Selective super-resolution
+  │   ├─ artifact/             → Reflection / flare / focus quality
+  │   ├─ look/                 → Creator Look Engine (3D LUTs) (NEW)
+  │   └─ evaluate/             → Quality evaluation, rollback, Peak Moment scoring
+  ├─ postprocess/             → Tone mapping, sharpening, blending, encoding (photo + video)
+  ├─ video/                   → Video-specific stages (NEW — see Section 7B)
+  │   ├─ StabilizationEngine   → Gyro+OIS fused EIS, rolling-shutter correction
+  │   ├─ TemporalDenoiser      → Optical-flow-guided recurrent denoise
+  │   ├─ TemporalHdr           → Per-frame local tone mapping w/ temporal coherence
+  │   ├─ MotionTracker         → Face/object tracking across frames
+  │   └─ VideoEncoder          → MediaCodec H.265/AV1 + HDR10/HLG tagging
+  ├─ profile/                 → Device capability profiler
+  ├─ health/                  → PipelineHealthMonitor + PipelineProfiler
+  ├─ thermal/                 → AdvancedThermalManager
+  ├─ benchmark/               → Repeatable camera + video benchmark suite
+  ├─ telemetry/               → Anonymous private performance metrics
+  ├─ learn/                   → Split Learning DBs
+  └─ preview/                 → Dedicated real-time preview pipeline (photo + video viewfinder)
+```
+
+---
+
+## 3. Camera State Machine (Photo)
+
+```
+[IDLE] ──open()──> [PREVIEW] ──(ZSL ring buffer active)──┐
+                      │                                    │
+                      ▼                                    │
+              [PRECAPTURE] ──meter/focus──> [PRECAPTURE_READY]
+                      │                           │
+                      ▼                           ▼
+              [CAPTURE] <───────────────── [PRECAPTURE_READY]
+                      │        (may pull frames from ZSL ring, pre-dating shutter press)
+                      ▼
+              [PROCESSING] ──cancel──> [READY]
+                      │
+                      ▼
+              [POSTPROCESS]
+                      │
+                      ▼
+                  [SAVING]
+                      │
+                      ▼
+                  [READY]
+```
+
+**Zero Shutter Lag (ZSL) addition:** During `PREVIEW`, a ring buffer (`ZslRingPool`, 8 frames, ~1.2 s at 30fps) continuously retains recent YUV/RAW frames with metadata. On shutter press, `CAPTURE` can select frames from *before* the physical press (subject peak expression, dance move apex) in addition to frames captured after. Selection is scored by the existing Quality Evaluator + a new lightweight motion-peak heuristic (Stage 0B) — no new model required.
+
+### 3B. Video State Machine (NEW)
+
+```
+[IDLE] ──open()──> [VIDEO_PREVIEW]
+                      │
+                      ▼
+              [RECORDING] ──(stream: capture → stabilize → temporal denoise
+                      │        → temporal HDR/tone map → Look LUT → encode)
+                      ▼
+              [RECORDING_PAUSED] <──resume──> [RECORDING]
+                      │
+                      ▼
+              [FINALIZING] ──(flush encoder, mux, write EXIF/metadata)──> [READY]
+```
+
+Rules:
+- `RECORDING` runs a *streaming* version of the photo AI graph: per-frame scene/segmentation/lighting run at reduced cadence (every 2nd–4th frame, propagated via optical flow in between) to hit real-time budgets.
+- Stabilization and temporal denoise run every frame; they are the cheapest, highest-impact stages for user-perceived video quality.
+- `FINALIZING` may run one more full-quality enhancement pass (BALANCED/MAXIMUM tier) on the encoded buffer if the device tier and thermal state allow, similar to "processed after the fact" behavior in Pixel's video HDR.
+- Only one `RECORDING` or photo `PROCESSING` session may exist at a time; switching modes mid-session requires returning to `READY` first.
+
+---
+
+## 4. Zero-Copy Image & Video Pipeline
+
+Eliminate all `Bitmap` ↔ `Tensor` copies for both stills and video frames.
+
+```
+Camera2 ImageReader (RAW10/YUV)  ──or──  Video frame stream (YUV_420_888 @ target fps)
+        │
+        ▼
+AHardwareBuffer (GPU importable)
+        │
+        ▼
+Vulkan Compute Image / GPU Texture
+        │
+        ├──► OpenCV GPU (alignment, optical flow, tracking)
+        │
+        ├──► LiteRT GPU Delegate (AI inference — shared models, photo or video mode)
+        │
+        ├──► Vulkan Compute (HDR merge, Photon Fusion, tone map, stabilization warp, LUT apply)
+        │
+        ▼
+HardwareBuffer Encoder (JPEG / JPEG_R)  ──or──  MediaCodec Surface Input (H.265/AV1, HDR10/HLG)
+        │
+        ▼
+Output File / Surface
+```
+
+**Buffer Contracts (extended):**
+- All intermediate stages read/write `AHardwareBuffer` with `VK_FORMAT_R16G16B16A16_SFLOAT` or `VK_FORMAT_R8G8B8A8_UNORM`.
+- Video adds a `TemporalRingPool`: 4 buffers holding the last N processed frames + motion vectors, feeding recurrent denoise/HDR without CPU round-trips.
+- CPU access only for: EXIF/metadata writing, final file I/O, and LiteRT CPU fallback.
+- Memory Pools:
+  - `FramePool`: 16 buffers for burst frames.
+  - `TensorPool`: 8 buffers for model I/O.
+  - `TilePool`: 32 buffers for SR tiling.
+  - `GpuBufferPool`: 12 buffers for Vulkan compute intermediates.
+  - `ZslRingPool`: 8 buffers, continuously recycled during `PREVIEW`.
+  - `TemporalRingPool`: 4 buffers, active only during `RECORDING`.
+
+Fallback: If Vulkan is unavailable, fall back to `OpenGL ES 3.1` compute shaders + `ImageReader`/`Allocation`. If GLES unavailable, fall back to `RenderScript` → finally `Bitmap` CPU path. Video fallback path disables temporal denoise (too CPU-expensive) and keeps only stabilization + basic tone mapping.
+
+---
+
+## 5. HAL Compatibility Layer & Hardware Services
+
+*(Unchanged from v6.0 — see original Section 5 for full service table and `CameraCapabilityScanner` / `CaptureStrategySelector` details.)* One addition:
+
+`CaptureStrategySelector` now also negotiates:
+- Video encoder capabilities (`MediaCodecInfo`, HDR10/HLG profile support, max fps at target resolution).
+- Whether `CONTROL_VIDEO_STABILIZATION_MODE` hardware EIS is available to fuse with software stabilization (hybrid EIS beats either alone).
+
+---
+
+## 6. Camera Hardware Profiles & Lens-Specific Tuning
+
+*(Unchanged — `LensProfile`/`LensTuning` data classes and per-lens table from v6.0 apply identically to video capture; video simply samples the same tuned lens pipeline at higher frame rate with reduced per-frame AI cadence.)*
+
+---
+
+## 7. Processing Pipeline — Photo (All Stages)
+
+*(Stages -3 through 12 carry over from v6.0 with the following insertions and modifications. Unlisted stages are unchanged.)*
+
+**Stage 0: Motion Analysis & Hybrid HDR Fusion — enhanced with Photon Fusion**
+- Motion analysis and adaptive HDR strategy table unchanged.
+- **New: Photon Fusion (per-pixel frequency-domain merge).** After frame-level hybrid HDR merge, decompose the merged image and the sharpest single frame into low/high frequency bands (Laplacian pyramid, Vulkan compute — no ML weights). Take low-frequency (tone, color, exposure) from the multi-frame merge; take high-frequency (fine detail, texture) from the single sharpest frame, guided by the segmentation mask so skin gets gentler detail injection than hair/fabric/jewelry. This is algorithmically equivalent to Apple's Deep Fusion approach and costs zero additional model MB.
+
+**Stage 0B: Peak Moment Selector (NEW)**
+- Runs across ZSL ring buffer frames + capture burst.
+- Reuses the existing Quality Evaluator model (Stage 11) at low resolution per candidate frame, plus a lightweight algorithmic "expression/motion apex" heuristic using existing BlazeFace landmarks (eye openness, mouth motion delta, body motion score minimum = likely peak of a dance move or expression).
+- Selects the base frame for HDR/Photon Fusion, rather than always defaulting to shutter-press timing.
+
+**Stage 0C: Low-Light Long-Exposure Mode (NEW)**
+- Triggered when Scene Classifier detects `Outdoor` + `Street Night` or `UNKNOWN` low-light with camera motion score < 1 px (tripod/braced) and ambient lux estimate below threshold.
+- Extends burst to up to 15 frames at longer per-frame exposure, aligns via optical flow, accumulates in linear RAW space (same Photon Fusion machinery, tuned for noise floor reduction over detail injection). No new model required.
+
+**Stage 3B: Monocular Depth Estimation (NEW)**
+- Model: lightweight MobileNet-based monocular depth network (e.g., FastDepth-style architecture), INT8, ~2.5 MB.
+- Input: RGB + existing segmentation mask (person/background separation as a prior, improving depth quality on relative-depth-only mobile models).
+- Output: normalized relative depth map.
+- Consumer: physically-modeled defocus blur (circle-of-confusion by depth, not just a segmentation cutout), giving portrait/background separation an actual lens-like falloff instead of a flat bokeh disc — the single biggest visible gap vs. iPhone/Pixel portrait mode.
+- Also feeds Stage 7 (enhancer) as an auxiliary input for depth-aware tone mapping (foreground pop).
+
+**Stage 7: End-to-End RGB Enhancement** — unchanged model, now also receives the depth map as an input channel.
+
+**Stage 12B: Creator Look Engine (NEW)**
+- Runs after Stage 12's standard tone mapping, before final encode.
+- Implementation: 3D LUTs (33×33×33, ~140 KB each as data, not model weights) applied via Vulkan compute shader trilinear interpolation.
+- Ships with a small curated set (e.g., "Neon Night," "Warm Club," "High-Contrast B&W," "Natural") tuned specifically against nightlife scene classes, distinct per Scene Classifier output.
+- User-selectable at capture or apply-after; intensity slider blends toward the LUT-graded result via linear interpolation with the corrected pre-LUT image, so it never fights the accuracy stages above it.
+- Cost: near-zero model budget (LUTs are lookup tables, not learned weights) — this is how you get an "Instagram/TikTok has a look" identity without spending your MB budget.
+
+All existing Stage 11 rollback logic (`enhanced.overall < original.overall * 0.92` → rollback) applies unchanged; Photon Fusion and Look Engine outputs are separately evaluated so a bad LUT choice never triggers a false quality rollback of the underlying accurate image (the pre-LUT image is what's evaluated).
+
+---
+
+## 7B. Processing Pipeline — Video (NEW, First-Class)
+
+Video reuses the photo pipeline's stateless models (Scene Classifier, Segmentation, Depth, Enhancer) rather than duplicating weights. New work is concentrated in temporal coherence, which is fundamentally an algorithmic/compute problem, not a new-model problem — this is what keeps the whole thing inside the 105 MB ceiling.
+
+**V-Stage 0: Capture & Hybrid EIS Stabilization**
+- Fuse hardware OIS position + gyroscope (200 Hz) + software optical-flow-derived motion vectors.
+- Rolling-shutter correction: per-scanline warp compensation using gyro data timestamped to scanline readout.
+- Crop margin: adaptive 5–12% based on motion energy, to leave warp headroom without a visible "shaky crop jump."
+
+**V-Stage 1: Streaming AI ISP**
+- Same 4 MB AI ISP model as photo, run every frame (cheap enough at video resolution/INT8 to sustain real-time).
+
+**V-Stage 2: Reduced-Cadence Semantic Understanding**
+- Scene Classifier + Segmentation + Depth run every 2nd–4th frame (device-tier dependent); results propagated to intermediate frames via optical flow warp of the mask/depth map, not re-inference. This is standard practice for real-time video segmentation and avoids 4x-ing NPU cost.
+
+**V-Stage 3: Temporal Denoiser**
+- Recurrent denoising: current frame + optical-flow-warped previous *denoised* output, blended with a per-pixel confidence weight (lower weight where flow confidence is low, e.g., occlusion or fast motion, to avoid ghosting).
+- Reuses the Enhancer model's denoise sub-path in a recurrent wrapper — no new weights, only a new algorithmic recurrence loop and the `TemporalRingPool`.
+- This is the single highest-leverage stage for beating TikTok/Instagram video quality: their re-encode compression destroys shadow detail; clean input before their re-encode holds up far better.
+
+**V-Stage 4: Temporal HDR / Local Tone Mapping**
+- Per-frame local tone mapping (not just global exposure) with a temporal smoothing term to prevent flicker between frames — critical for strobing club lighting, which naturally has huge frame-to-frame exposure variance.
+- Where device supports it, tag output as HLG or HDR10 video; otherwise tone-map to SDR Display P3.
+
+**V-Stage 5: Motion Tracker**
+- Lightweight algorithmic tracker (Kalman filter / IoU-based association) over existing Face Detection + Object Detection outputs across frames — reuses detection models, adds no new weight cost.
+- Powers stable face-locked exposure/WB across a clip (prevents the "AE hunts every time someone dances into frame" problem) and stable depth-aware bokeh continuity.
+
+**V-Stage 6: Creator Look Engine (Video)**
+- Same LUT engine as Stage 12B, applied per-frame with the same temporal-smoothing discipline as V-Stage 4 to avoid look "pumping."
+
+**V-Stage 7: Encode**
+- MediaCodec surface input, H.265 (broad compatibility) or AV1 (where hardware-accelerated, better quality/bitrate), HDR10/HLG metadata tagging when applicable.
+- Optional: post-record "finishing pass" (FINALIZING state) re-runs Enhancer + Look Engine at higher quality on the already-stabilized/denoised buffer if thermal/tier budget allows — analogous to how some flagships process video HDR after the fact rather than only live.
+
+**Video Quality Evaluator & Rollback**
+- Same rollback discipline as photo: per-segment (e.g., every 2s) quality scoring; if a segment's processed quality falls below a threshold relative to the stabilized-but-unenhanced baseline, that segment falls back to the lighter processing tier rather than corrupting the whole clip.
+
+---
+
+## 8. AI Execution Graph & Plugin System
+
+Plugin interface and `ExecutionGraphBuilder` structure unchanged from v6.0, extended with a parallel `VideoExecutionGraphBuilder` that wires the V-Stages above and explicitly marks which nodes run every frame vs. every Nth frame:
+
+```kotlin
+val videoGraph = VideoExecutionGraphBuilder()
+    .addNode(StabilizationStage(), cadence = EVERY_FRAME)
+    .addNode(AiIspStage(), cadence = EVERY_FRAME)
+    .addNode(SceneClassifierStage(), cadence = everyNFrames(4))
+    .addNode(SegmentationStage().dependsOn("scene"), cadence = everyNFrames(2))
+    .addNode(DepthStage().dependsOn("segment"), cadence = everyNFrames(2))
+    .addNode(TemporalDenoiseStage().dependsOn("isp"), cadence = EVERY_FRAME)
+    .addNode(TemporalHdrStage().dependsOn("denoise"), cadence = EVERY_FRAME)
+    .addNode(MotionTrackerStage().dependsOn("detect"), cadence = EVERY_FRAME)
+    .addNode(LookEngineStage().dependsOn("hdr"), cadence = EVERY_FRAME)
+    .build()
+```
+
+---
+
+## 9. Scheduler Architecture
+
+Unchanged three-scheduler model (`PipelineScheduler`, `WorkScheduler`, `TileScheduler`), plus:
+
+| Scheduler | Responsibility |
+|---|---|
+| `VideoFrameScheduler` (NEW) | Enforces per-frame real-time deadline; if a frame's AI stages would miss the deadline, drops to cadence-skip (reuse last propagated result) rather than dropping the frame from output. |
+
+Concurrency rule addition: `CRITICAL` video stages (stabilization warp, AI ISP, temporal denoise) get dedicated threads and must never be skipped even under thermal pressure — they're cheap and are the main perceptual quality driver; semantic stages (scene/segment/depth/detect) are the first to degrade cadence under load.
+
+---
+
+## 10. Memory Management & Pools
+
+Unchanged, plus `ZslRingPool` (8 buffers, active during `PREVIEW`) and `TemporalRingPool` (4 buffers, active during `RECORDING`) as described in Section 4. Both follow the same acquire-at-start/release-at-idle/`onTrimMemory()`-compaction rules as existing pools.
+
+---
+
+## 11. Model Registry & Manager
+
+Unchanged mechanism. New registry entries: `depth_estimator_v1`, `look_lut_pack_v1` (data asset, not a delegate-executed model — loaded via the same registry for versioning/checksum consistency but never touches NNAPI/GPU delegate selection).
+
+---
+
+## 12. Device Capability Profiler (Five-Tier)
+
+Video capability added per tier:
+
+| Tier | Video Resolution/FPS | Live AI Cadence | Post-Record Finishing Pass |
+|---|---|---|---|
+| Ultra Flagship | 4K30 / 1080p60 | every 2 frames | Yes, MAXIMUM |
+| Flagship | 4K30 | every 2 frames | Yes, BALANCED |
+| Premium | 1080p30 | every 3 frames | Yes, BALANCED (short clips only) |
+| Mid-range | 1080p30 | every 4 frames | No (stabilization + denoise only) |
+| Entry | 1080p30, stabilization+ISP only | N/A | No |
+
+Photo tier table unchanged from v6.0.
+
+---
+
+## 13. Advanced Thermal Manager
+
+Unchanged states/temps. Video-specific action added:
+
+| State | Video Action |
+|---|---|
+| WARM | Drop semantic cadence to every 6th frame. |
+| HOT | Disable Look Engine + finishing pass; keep stabilization/denoise/encode only. |
+| CRITICAL | Stop recording gracefully (finalize + save what's captured), do not hard-cancel mid-encode. |
+
+---
+
+## 14. Pipeline Health Monitor & Profiler
+
+Unchanged; `StageProfile` now also logs per-frame timing for video stages to catch cadence-deadline misses as a distinct anomaly class (`videoFrameDeadlineMissCount`).
+
+---
+
+## 15. Learning Engine (Split Databases)
+
+Unchanged four-database split. Learning DB additionally records: preferred Look Engine LUT per scene type per user (if they consistently override), and per-device video cadence sustainability (did BALANCED cadence actually hold real-time on this exact device over the last 30 days, or should the profiler downgrade its default tier assignment).
+
+---
+
+## 16. Camera Telemetry (Private, Anonymous)
+
+Unchanged principle (never upload images/video). Additional local-only metrics: video frame-drop rate, stabilization crop margin distribution, LUT selection frequency by scene.
+
+---
+
+## 17. Camera & Video Benchmark Suite
+
+Photo scene table unchanged from v6.0 (Daylight, Sunset, Night Portrait, Club Dance Floor, Concert, Flash, Selfie, Motion, Macro, Zoom).
+
+**New video benchmark scenes:**
+
+| Test Scene | Target Metrics |
+|---|---|
+| Club Dance Floor (video) | Stabilization residual jitter < 0.5px RMS, no ghosting from temporal denoise, LPIPS < 0.10 vs. ground truth |
+| Strobing/Flashing Lights | Flicker-free exposure (frame-to-frame ΔEV < 0.3 after temporal smoothing) |
+| Walking/Handheld Selfie Video | Horizon stability, face-lock exposure consistency |
+| Low-Light Handheld Video | Temporal denoise SNR gain > 6 dB vs. raw stream, no flow-warp ghosting |
+| Fast Pan (DJ booth to crowd) | Rolling-shutter skew < 1px per 1000px pan velocity |
+
+---
+
+## 18. Preview Pipeline
+
+Unchanged photo preview path. Video viewfinder shares the same Fast Scene Classifier + Fast Segmentation cadence-skip approach described in Section 7B, so what the user sees in the viewfinder already approximates the stabilized/denoised/Look-graded output — avoiding the "preview doesn't match saved output" complaint common in competitor apps.
+
+---
+
+## 19. Model Size Budget (Hard Ceiling: 105 MB) — Recalculated for v7.0
+
+| Component | Size | Notes |
+|---|---|---|
+| AI ISP | 4.0 MB | INT8, shared photo+video |
+| Scene Classifier | 2.0 MB | INT8, shared photo+video |
+| Segmentation + Matte | 5.0 MB | INT8, shared photo+video |
+| Depth Estimator (NEW) | 2.5 MB | INT8, shared photo+video |
+| Object Detection | 3.5 MB | INT8, lazy |
+| BlazeFace | 1.0 MB | FP16, shared photo+video |
+| Enhancer (DaHua-IIG) | 12.0 MB | FP16, shared photo + video temporal-denoise reuse |
+| Face Restoration | 8.0 MB | FP16, lazy, photo only |
+| Real-ESRGAN-x4v3 | 5.0 MB | w8a8, lazy, photo only |
+| Real-ESRGAN-x4plus | 16.7 MB | w8a8, lazy, photo only |
+| Quality Evaluator | 3.0 MB | INT8, shared (also powers Peak Moment Selector) |
+| Reflection Detector | 2.0 MB | INT8 |
+| Look LUT Pack (NEW) | 1.0 MB | Data asset (5–6 LUTs, ~140–180 KB each), not delegate weights |
+| Calibration DB | 5.0 MB | Per-device |
+| A/B Update Buffer | 15.0 MB | Reserved |
+| Temp / Cache | 10.0 MB | — |
+| **TOTAL (Balanced, photo)** | **~40 MB loaded** | |
+| **TOTAL (Maximum, photo)** | **~52.5 MB loaded** | |
+| **TOTAL (video active)** | **~30 MB loaded** | (ISP, scene, segment, depth, enhancer-as-denoiser, evaluator, LUTs, trackers — no SR/restore) |
+| **TOTAL with buffer (worst case, all loaded)** | **~96 MB** | Under 105 MB cap |
+
+Photon Fusion, ZSL selection, stabilization, motion tracking, and video encoding add **zero MB** — they're compute-shader/algorithmic stages plus reuse of already-counted models. This is the only way video fits without breaking the 105 MB ceiling you set as firm.
+
+---
+
+## 20. Performance & Resource Targets
+
+Photo targets unchanged from v6.0. Video targets added:
+
+| Metric | Target |
+|---|---|
+| Video live preview | 30 FPS (flagship/premium), stabilization + AI ISP always live |
+| Video recording overhead vs. raw capture | < 15% battery overhead |
+| Post-record finishing pass | < 1.5x clip duration (flagship only) |
+| Stabilization latency | < 1 frame of buffering (no visible preview lag) |
+| Peak RAM (video, flagship) | < 1.8 GB |
+| Peak RAM (video, mid-range) | < 1.2 GB |
+
+---
+
+## 21. Deliverables Expected from Implementation Agent
+
+Items 1–25 from v6.0 apply unchanged, plus:
+
+26. Video capture pipeline: stabilization engine, temporal denoiser, temporal HDR, motion tracker, MediaCodec integration with HDR10/HLG tagging.
+27. Zero Shutter Lag ring buffer + Peak Moment Selector.
+28. Monocular depth estimation model + physically-modeled defocus blur renderer.
+29. Photon Fusion per-pixel frequency-domain merge (compute shader implementation).
+30. Creator Look Engine: LUT format/pipeline, 5–6 launch LUTs tuned to nightlife scene classes, blend/intensity controls.
+31. Video benchmark suite (5 new scenes per Section 17) with automated scoring.
+32. Video-specific sample UI: live Look preview, stabilization crop indicator, recording quality tier indicator.
+
+---
+
+## 22. Success Criteria
+
+All v6.0 photo criteria apply unchanged. Video success criteria (NEW):
+
+- A handheld nightclub video clip must show: stable framing (no visible micro-jitter), clean shadow detail that survives social-platform re-encoding, no strobing-light flicker, consistent face exposure as the subject moves through frame, and a discernible "look" without crushed highlights on neon signage.
+- Portrait/selfie photos must show depth-correct bokeh falloff (not a flat cutout), visible via a gradient blur test chart at graduated distances.
+- ZSL-selected frames must, in blind A/B testing, be preferred over strict shutter-timed frames in >60% of motion/expression scenarios.
+- Safety: > 95% rollback success rate when AI degrades quality, for both photo and video.
+- Performance: Photo BALANCED < 5 s on Snapdragon 8 Gen 3 without throttling; Video live pipeline sustains 30 FPS on Flagship tier without frame drops under NORMAL thermal state.
+- Portability: Runs on Samsung, Google Pixel, and Xiaomi/OnePlus families with automatic feature negotiation, for both photo and video paths.
+
+---
+
+## 23. Future-Proofing (Beyond v7.0)
+
+With video now first-class, remaining future work:
+
+```kotlin
+// Shared across photo and video (already true in v7.0):
+// - SceneClassifier, SegmentationModel, DepthEstimator, EnhancerModel (all stateless, shared weights)
+// - TemporalBuffer (ring buffer of N frames) — now implemented, not just planned
+// - MotionCache (optical flow history) — now implemented
+// - AiTracker (object tracking across frames) — now implemented, algorithmic
+
+// Genuinely future (v8.0+):
+// - Multi-cam simultaneous capture (main + ultra-wide fusion for wider dynamic range in one shot)
+// - On-device audio enhancement pass (noise suppression for club audio) to pair with video quality gains
+// - Live collaborative/synced capture across multiple users' devices at the same event (would require
+//   a networking/sync layer entirely outside this engine's scope)
+```
+
+---
+
+*End of Specification — v7.0*

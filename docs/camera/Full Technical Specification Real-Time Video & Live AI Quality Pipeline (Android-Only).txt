@@ -1,0 +1,434 @@
+Full Technical Specification: Real-Time Video & Live AI Quality Pipeline (Android-Only)
+
+Version: 1.0
+
+Target: Android 12+ (optimized for Android 16+)
+
+Goal: Real-time computational videography for nightlife live streaming and recording that rivals flagship smartphone video quality.
+
+Hard Constraints:  
+- 100% on-device. Zero cloud inference. Zero image telemetry.  
+- Total shared model footprint with Photo Engine ≤ 105 MB (video models resident during video mode; photo models unloaded or shared).  
+- Preview latency: < 2 frames (≤ 66 ms at 30 FPS).  
+- End-to-end pipeline latency: < 100 ms for preview; < 150 ms for record/live stream.  
+- Target frame rates: 60 FPS on Ultra Flagship, 30 FPS on Flagship/Premium, 24–30 FPS on Mid-range.
+
+---
+
+1. High-Level Objectives
+
+- Build a real-time temporal AI pipeline that processes video frames continuously, not independently.
+- Maintain strict temporal consistency: no color flicker, no exposure pumping, no sharpening flutter, stable face tracking IDs.
+- Support three concurrent output paths with different quality/latency tradeoffs:
+  1. Preview — viewfinder feed, lowest latency, lightest AI.
+  2. Record — saved to disk, full pipeline, highest quality.
+  3. Live Stream — encoded output, full pipeline + adaptive bitrate optimization.
+- Implement frame scheduling: not every frame runs the full AI stack. Use key-frame / inter-frame scheduling.
+- Feed AI analysis back to camera control (exposure, focus, white balance) in real time.
+- Share infrastructure (HAL, state machine, memory pools, model registry, thermal manager) with the Photo Engine v6.0 where possible.
+
+---
+
+2. Architecture
+
+```
+app/                          → UI, CameraX video integration, stream controls
+engine/
+  ├─ hal/                     → Shared with Photo Engine (CameraCapabilityScanner, etc.)
+  ├─ state/                   → Extended State Machine (adds LIVE, RECORDING states)
+  ├─ capture/                 → Continuous frame acquisition (Camera2 repeating request)
+  ├─ video/
+  │   ├─ scheduler/           → FrameScheduler (key-frame vs. inter-frame dispatch)
+  │   ├─ temporal/            → TemporalBuffer, MotionCache, ColorHistory, FaceTrackCache
+  │   ├─ pipeline/
+  │   │   ├─ preview/         → Lightweight preview path
+  │   │   ├─ record/          → Full quality record path
+  │   │   └─ live/            → Live stream path with pre-encode optimization
+  │   ├─ encode/              → Hardware encoder integration (H.265/AV1)
+  │   └─ control/             → AI Exposure Controller (feedback to Camera2 AE)
+  ├─ ai/                      → Shared model registry with Photo Engine
+  │   ├─ scene/               → MobileNetV4 Tiny (shared)
+  │   ├─ track/               → BlazeFace + MediaPipe Face Mesh
+  │   ├─ segment/             → MediaPipe Selfie Segmentation / MODNet Mobile
+  │   ├─ denoise/             → FastDVDnet Mobile / temporal NAFNet
+  │   ├─ enhance/             → Zero-DCE++ + Mobile NAFNet/HINet
+  │   ├─ restore/             → GFPGAN Mobile (key frames only)
+  │   ├─ sr/                  → Real-ESRGAN General-x2 Mobile (optional)
+  │   ├─ color/               → AI Colour Engine (temporal smoothing)
+  │   ├─ stabilize/           → AI Stabilization (gyro + optical flow warp)
+  │   └─ evaluate/            → MobileNetV3 Regressor (shared, lightweight)
+  ├─ memory/                  → Shared pools (FramePool, TensorPool, GpuPool)
+  ├─ thermal/                 → Shared AdvancedThermalManager
+  ├─ health/                  → Shared PipelineHealthMonitor
+  └─ learn/                   → Shared Learning DB
+```
+
+---
+
+3. Video State Machine (Extension of Photo State Machine)
+
+```
+[READY] ──startPreview()──> [PREVIEW]
+                                │
+            ┌───────────────────┼───────────────────┐
+            ▼                   ▼                   ▼
+      startRecording()    startLiveStream()    captureStill()
+            │                   │                   │
+            ▼                   ▼                   ▼
+      [RECORDING]         [LIVE_STREAMING]      [CAPTURE]
+            │                   │              (delegates to
+            ▼                   ▼               Photo Engine)
+      [SAVING]            [STREAMING]
+            │                   │
+            └─────────┬─────────┘
+                      ▼
+                  [READY]
+```
+
+Rules:
+- `PREVIEW`, `RECORDING`, and `LIVE_STREAMING` may run concurrently (preview visible while recording/streaming).
+- Only one `CAPTURE` (still photo) may interrupt video; video pauses and resumes.
+- `PREVIEW` path never stops during video operations.
+- On `stopRecording()` / `stopLiveStream()`, flush temporal buffers and encode final frames.
+
+---
+
+4. Frame Scheduler
+
+Not every frame receives full AI processing. Implement a frame cadence system:
+
+Frame Type	Cadence	Pipeline	
+Key Frame (K)	Every 3 frames (at 30 FPS) or every 6 frames (at 60 FPS)	Full pipeline: temporal denoise → scene → face detect → segmentation → enhancement → face restore → color → sharpen	
+Inter Frame (I)	All other frames	Fast path: temporal denoise → color consistency → light enhancement → selective sharpen → output	
+Control Frame (C)	Every frame (async, low cost)	Exposure analysis → AE feedback → motion estimation → stabilization	
+
+Key Frame Injection Rules:
+- Force key frame on scene change (scene classifier confidence shift > 0.3).
+- Force key frame on new face detection (new face enters frame).
+- Force key frame on lighting change (brightness delta > 20%).
+
+Async Processing:
+- Full AI pipeline runs on `Dispatchers.Default` thread pool.
+- Camera capture thread never blocks. Frames are enqueued to a ring buffer.
+- If AI thread falls behind, drop inter frames but never drop key frames. Maintain audio sync.
+
+---
+
+5. Video Processing Pipeline (Per Frame)
+
+Stage 0: Continuous Capture
+- Camera2 repeating request at target FPS (60/30/24).
+- Output surfaces: `SurfaceTexture` (preview), `MediaRecorder`/`MediaCodec` (record), custom `Surface` (live).
+- Acquire frames via `ImageReader` or `SurfaceTexture` with `AHardwareBuffer` zero-copy path.
+
+Stage 1: Motion Estimation & Stabilization
+- Gyroscope sampling: 200 Hz, synchronized to frame timestamps.
+- Optical flow: Sparse feature tracking (OpenCV GPU or Vulkan compute) between current and previous frame.
+- AI Stabilization:
+  - Compute cumulative motion vector.
+  - Apply frame warp (homography or mesh warp) to compensate for handshake.
+  - Crop 5–10% of frame edges to hide black borders (standard EIS crop).
+  - Complement OIS; do not fight it.
+- Output: Stabilized frame + motion metadata.
+
+Stage 2: Temporal Denoising
+- Model: FastDVDnet Mobile or lightweight temporal NAFNet variant.
+- Size: 6–10 MB (FP16 or w8a8).
+- Input: Current frame + 2 previous frames (N=3 temporal window).
+- Mechanism:
+  1. Motion-compensate previous frames to current frame using optical flow.
+  2. Fuse temporal stack through network.
+  3. Output denoised frame with preserved detail and zero temporal ghosting.
+- Fallback: If motion > threshold (extreme dancing), disable temporal fusion and use spatial denoise only to avoid smear.
+
+Stage 3: Scene Classification (Key Frames Only)
+- Model: MobileNetV4 Tiny or MobileNetV3-Small, INT8. Size: 2 MB.
+- Classes: Club Dance Floor, DJ Booth, VIP Lounge, Bar Counter, Live Band, Festival Stage, Crowd Selfie, Flash Selfie, Bottle Service, Sparklers, LED Wall, Fire Effects, Street Night, Outdoor.
+- Temporal Smoothing: Scene label must persist for minimum 10 frames (hysteresis) to prevent flicker. Use EMA on confidence vector.
+- Output: Scene label + confidence + scene-specific parameter set.
+
+Stage 4: Face Tracking
+- Detection: BlazeFace (1 MB) runs on key frames only.
+- Tracking: MediaPipe Face Mesh (3 MB) or optical-flow-based landmark tracking runs on inter frames.
+- Strategy:
+  1. Detect faces on key frame. Assign persistent track IDs.
+  2. Predict landmark positions on inter frames using optical flow + Kalman filter.
+  3. Re-detect every key frame to correct drift and handle new/exiting faces.
+  4. If face is lost for > 5 frames, remove track ID.
+- Output: Face bounding boxes, 468 landmarks, track IDs, face orientation.
+
+Stage 5: Person Segmentation (Key Frames Only)
+- Model: MediaPipe Selfie Segmentation (2.5 MB) or MODNet Mobile (4 MB), INT8.
+- Output: Person mask + background mask.
+- Temporal Smoothing: Apply temporal filter to mask edges across frames to prevent edge flicker.
+- Usage: Drives selective enhancement, background denoise, and future background blur/replacement.
+
+Stage 6: AI Exposure Controller (Async, Every Frame)
+- Algorithmic (no ML model).
+- Analyze face brightness, highlight clipping, and overall luma from the pre-denoise frame.
+- Compute recommended exposure compensation (EV) and send to Camera2 `CaptureRequest` via `CONTROL_AE_EXPOSURE_COMPENSATION`.
+- Constraints:
+  - Limit EV change rate to ±0.3 EV per frame to prevent exposure pumping.
+  - Prioritize face exposure over background.
+  - Protect highlights (stage lights, LED walls) from clipping.
+
+Stage 7: Low-Light Enhancement
+- Model: Zero-DCE++ Mobile, 1–2 MB (FP16).
+- Purpose: Real-time brightness lift for dark nightclub scenes.
+- Temporal Smoothing: Smooth enhancement curve (gamma/gain) over 10-frame window using EMA. Never allow frame-to-frame brightness jumps > 5%.
+- Input: Temporally denoised frame.
+- Output: Brightened frame in linear/light space.
+
+Stage 8: AI Image Enhancement
+- Model: Mobile HINet or lightweight NAFNet, 8–12 MB (FP16).
+- Purpose: Contrast, color, local tone, mild texture recovery.
+- Runs on: Key frames. Inter frames reuse enhancement parameters (LUT/gain curves) from last key frame.
+- Scene-aware: Load different inference parameters per scene type without reloading model weights.
+- Skin Tone Protection: Use face track mask to lock skin hue ±5°.
+
+Stage 9: Face Enhancement (Key Frames Only)
+- Model: GFPGAN Mobile or lightweight face restoration, 6–8 MB (FP16).
+- Input: Face crops from tracked faces (aligned using 5-point landmarks).
+- Purpose: Eye brightening, subtle skin smoothing, blur recovery.
+- Blend: Feathered blend back using face mask. Temporal smooth the blend strength over 5 frames.
+- Skip if: Face is too small (< 5% of frame) or motion is extreme (prevent smear).
+
+Stage 10: AI Colour Engine
+- Algorithmic + temporal state.
+- Components:
+  - LED/Neon Detection: Identify dominant colored light sources from histogram peaks.
+  - Mixed White Balance: Separate WB for skin (warm, neutral), neon (preserve), background (correct).
+  - Colour Recovery: Recover colors lost to monochromatic LED lighting.
+  - Display P3 Output: Maintain wide gamut throughout pipeline.
+- Temporal Consistency:
+  - Maintain 10-frame color history (dominant hues, saturation, WB gains).
+  - Apply Kalman filter or EMA to WB gains and saturation curves.
+  - Maximum allowed color shift: 2% per frame.
+
+Stage 11: Intelligent Sharpening
+- Algorithmic (unsharp mask on GPU).
+- Per-frame, lightweight.
+- Sharpen: eyes, hair, clothing edges, jewelry, bottle labels (using face track + segmentation masks).
+- Avoid: skin, smoke, bokeh, neon glow regions.
+- Temporal smoothing: Sharpening strength EMA over 5 frames.
+
+Stage 12: Pre-Encode Optimization (Live Stream Only)
+- Noise-optimized encoding: Apply mild spatial denoise specifically tuned for encoder efficiency.
+- Adaptive Bitrate Analysis: Analyze frame complexity (motion + detail) to recommend encoder QP.
+- ROI encoding: If encoder supports it, mark face regions as high-quality ROI for H.265/AV1.
+
+Stage 13: Encoding & Output
+- Preview: Render to `SurfaceTexture` via OpenGL/Vulkan for viewfinder.
+- Record: Feed to `MediaCodec` (H.265 hardware encoder) with 4K@30 or 1080p@60.
+- Live Stream: Feed to `MediaCodec` → packetize (RTMP SRT or WebRTC). Target bitrate adaptive based on network + pre-encode analysis.
+
+---
+
+6. Three Output Paths
+
+Path	Latency Target	AI Stages	Frame Rate	Resolution	
+Preview	< 66 ms (2 frames)	Stabilization → Temporal Denoise → Scene (every 6f) → Zero-DCE++ → Color Engine → Sharpen	60/30 FPS	1080p	
+Record	< 150 ms	Full pipeline (key/inter scheduling)	30/60 FPS	4K/1080p	
+Live Stream	< 150 ms	Full pipeline + Pre-encode optimization	30 FPS	1080p/720p	
+
+Preview Optimization:
+- Skip face restoration entirely.
+- Skip segmentation unless background blur is enabled.
+- Run scene classifier at 1/6 frame rate (5 Hz at 30 FPS).
+- Use lighter temporal denoise (N=2 instead of N=3).
+
+---
+
+7. Temporal Consistency System
+
+TemporalBuffer: Ring buffer holding last 10 frames' metadata.
+
+Buffer	Contents	Purpose	
+`FrameBuffer`	Last 3 raw frames	Temporal denoising	
+`ColorHistory`	WB gains, saturation, tone curves	Color consistency	
+`BrightnessHistory`	Mean luma, face luma	Exposure smoothing	
+`FaceTrackCache`	Face IDs, landmarks, bounding boxes	Smooth tracking	
+`SceneHistory`	Scene labels, confidence	Hysteresis	
+`EnhancementParams`	Gamma, contrast, denoise strength	Parameter interpolation	
+
+Smoothing Rules:
+- Scene label change requires 3 consecutive key frame agreements (minimum 9 frames at 30 FPS).
+- Face track ID persists through 5 frames of occlusion; Kalman-predict position.
+- Color/WB gains: EMA with α = 0.2 (strong smoothing).
+- Brightness: EMA with α = 0.15.
+- Enhancement strength: Linear interpolation between key frames for inter frames.
+
+---
+
+8. Model Weights, Formats & Size Budget
+
+Video models are resident during video mode. Photo models are unloaded or shared.
+
+Stage	Model	Size	Format	Resident?	Shared with Photo?	
+Scene	MobileNetV4 Tiny	2.0 MB	INT8	Yes	Yes (replaces MNv3)	
+Face Detect	BlazeFace	1.0 MB	FP16	Yes	Yes	
+Face Track	MediaPipe Face Mesh	3.0 MB	FP16	Yes	No (video only)	
+Segmentation	MediaPipe Selfie Seg.	2.5 MB	INT8	Yes	No (lighter than DeepLab)	
+Temporal Denoise	FastDVDnet Mobile	8.0 MB	FP16/w8a8	Yes	No	
+Low-Light	Zero-DCE++ Mobile	1.5 MB	FP16	Yes	No (photo uses full enhancer)	
+Enhancement	Mobile NAFNet / HINet	10.0 MB	FP16	Yes	No	
+Face Restore	GFPGAN Mobile	7.0 MB	FP16	Lazy	No (photo uses full version)	
+SR (optional)	Real-ESRGAN x2 Mobile	5.0 MB	w8a8	Lazy	No	
+Quality	MobileNetV3 Regressor	3.0 MB	INT8	Yes	Yes	
+Colour Engine	Algorithmic	0 MB	—	—	—	
+Stabilization	Algorithmic	0 MB	—	—	—	
+TOTAL (Core Resident)		31 MB				
+TOTAL (with Lazy Loaded)		43 MB				
+Photo Engine (unloaded in video)		0 MB				
+Shared Models		6 MB				
+Combined Peak (Video + Shared)		49 MB		Well under 105 MB	
+
+Budget Notes:
+- When user switches to Photo mode, video models are unloaded and photo models loaded.
+- When user is in Video mode, photo lazy models (SR x4plus, face restore full) are not loaded.
+- Shared models (Scene, BlazeFace, Quality) remain resident.
+- 22 MB headroom for future video models (temporal SR, audio enhancement, etc.).
+
+---
+
+9. Performance Targets by Device Tier
+
+Tier	Target FPS	Resolution	Pipeline	Key Frame Interval	
+Ultra Flagship	60 FPS	4K record, 1080p live	Full	Every 6 frames	
+Flagship	30 FPS	4K record, 1080p live	Full	Every 3 frames	
+Premium	30 FPS	1080p record + live	Full, skip SR	Every 3 frames	
+Mid-range	24–30 FPS	1080p record, 720p live	Skip face restore, skip SR, lighter denoise	Every 2 frames	
+Entry	24 FPS	720p record + live	Preview + Zero-DCE++ only, skip denoise/restore/SR	Every 2 frames	
+
+Latency Budgets (per frame at 30 FPS):
+
+Stage	Time Budget	
+Capture + Motion Est.	5 ms	
+Temporal Denoise	12 ms	
+Scene (key frame only)	4 ms	
+Face Detect/Track	6 ms	
+Segmentation (key frame)	5 ms	
+Zero-DCE++	3 ms	
+Enhancement (key frame)	15 ms	
+Face Restore (key frame)	10 ms	
+Color Engine + Sharpen	4 ms	
+Stabilization + Render	3 ms	
+Total Key Frame	50–67 ms	
+Total Inter Frame	25–30 ms	
+
+Frame Drop Policy:
+- If key frame exceeds 33 ms (30 FPS target), drop next inter frame to catch up.
+- If thermal state = HOT, force all frames to inter-frame path and double key frame interval.
+
+---
+
+10. Integration with Photo Engine v6.0
+
+Shared Components:
+- `HAL` layer (capability scanner, hardware services)
+- `State Machine` (extended for video states)
+- `Memory Pools` (FramePool, TensorPool, GpuPool)
+- `Model Registry` + `Model Manager`
+- `Thermal Manager`
+- `Health Monitor`
+- `Learning DB`
+
+Mode Switching:
+
+```kotlin
+enum class EngineMode { PHOTO, VIDEO, LIVE }
+
+fun switchMode(mode: EngineMode) {
+    when (mode) {
+        PHOTO -> unloadVideoModels(); loadPhotoModels()
+        VIDEO -> unloadPhotoModels(); loadVideoModels()
+        LIVE -> unloadPhotoModels(); loadVideoModels(); initEncoder()
+    }
+}
+```
+
+Still Capture During Video:
+- Pause video temporal buffer.
+- Delegate to Photo Engine v6.0 pipeline using current frame as base.
+- Resume video pipeline after photo save completes (< 2 s).
+
+---
+
+11. Non-Functional Requirements
+
+- Offline: 100% after first model download.
+- Privacy: No video frames or audio leave device. Stream endpoint is user-configured.
+- Audio Sync: Video pipeline latency must be stable (jitter < 20 ms) to maintain A/V sync. Timestamp every frame at capture time.
+- Model Updates: Delta updates via HTTPS with SHA-256 + Ed25519 signature.
+- Graceful Degradation:
+  - If temporal denoise OOMs → fallback to spatial denoise.
+  - If face tracker loses tracking → continue with last known position for 5 frames.
+  - If encoder chokes → drop live stream bitrate by 20%.
+  - If thermal = CRITICAL → stop recording/streaming gracefully, save current file.
+
+---
+
+12. Deliverables Expected from Implementation Agent
+
+1. Video Engine module (`engine/video/`) integrated with existing Photo Engine v6.0.
+2. Frame Scheduler with key-frame / inter-frame dispatch and async thread pools.
+3. Temporal Buffer system (ring buffers for color, brightness, face tracks, scene history).
+4. Zero-copy video pipeline using `AHardwareBuffer` / Vulkan / GPU textures.
+5. Complete real-time AI pipeline:
+   - Temporal denoising (FastDVDnet-style)
+   - Scene classification with hysteresis
+   - Face detection + tracking (BlazeFace + Face Mesh)
+   - Person segmentation
+   - AI exposure controller (feedback to Camera2)
+   - Zero-DCE++ low-light enhancement
+   - Mobile NAFNet/HINet enhancement
+   - GFPGAN Mobile face restoration (key frames)
+   - AI color engine with temporal smoothing
+   - Selective sharpening
+   - AI stabilization (gyro + optical flow)
+6. Three output paths: Preview surface, Record (MediaCodec H.265), Live Stream (adaptive bitrate).
+7. Pre-encode optimization for live streaming (ROI encoding, noise-aware QP).
+8. Model conversion scripts for all video-specific models (PyTorch → ONNX → TFLite).
+9. Sample UI with:
+   - Live preview with AI overlay toggle (face tracks, segmentation mask, scene label)
+   - Record / Live Stream buttons
+   - Quality indicator (FPS, latency, bitrate, thermal state)
+   - Beauty level selector (OFF / NATURAL / SOCIAL)
+   - Background blur toggle (uses segmentation)
+10. Performance benchmarks on:
+    - Ultra Flagship (60 FPS target)
+    - Flagship (30 FPS target)
+    - Mid-range (24 FPS target)
+11. README with:
+    - Video model download links, checksums, size budget.
+    - Temporal consistency tuning guide.
+    - Encoder configuration recommendations.
+    - Known limitations per device tier.
+
+---
+
+13. Success Criteria
+
+A 30-second nightclub video clip (red neon, dancing crowd, flashing lights, portrait subject) captured on-device must show:
+
+- Temporal Stability: No color flicker, no exposure pumping, no sharpening flutter. Colors stable across cuts and light changes.
+- Noise: Clean shadows with preserved detail; no temporal smear on moving subjects.
+- Faces: Properly exposed and tracked; natural skin texture; eyes visible and sharp.
+- Color: Neon atmosphere preserved; skin tones natural despite mixed lighting; no magenta cast.
+- Motion: Smooth stabilization without jitter; no warping artifacts on moving bodies.
+- Live Stream: Bitrate efficiency improved by ≥ 15% vs. unprocessed feed at same visual quality.
+- Latency: Preview lag < 2 frames; record/live output < 150 ms end-to-end.
+- Performance: Sustained 30 FPS for 5 minutes without thermal throttling on Snapdragon 8 Gen 3.
+
+---
+
+14. Future Extensions
+
+- Temporal Super-Resolution: Insert 2× frame rate using motion-compensated frame interpolation.
+- AI Live Audio: Noise suppression and voice enhancement for live streams.
+- Background Replacement: Real-time virtual backgrounds using portrait matte.
+- Multi-Camera: Switch between main/ultra-wide/telephoto seamlessly during live stream.
+
+---
+
+End of Specification

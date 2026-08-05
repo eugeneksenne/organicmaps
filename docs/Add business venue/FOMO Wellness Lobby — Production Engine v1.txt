@@ -1,0 +1,651 @@
+# FOMO Wellness Lobby — Production Engine v1
+
+## "Feel Better. Live Better."
+
+---
+
+# Product Vision
+
+The Wellness Lobby is the premium digital storefront for health, wellness, recovery, and fitness businesses on FOMO.
+
+Unlike the Club Lobby, which is about nightlife, or the Prep Lobby, which is about appearance, the Wellness Lobby is about **health, relaxation, recovery, and self-care**.
+
+Within **10 seconds**, users should know:
+
+* Is this business right for me?
+* What wellness services do they offer?
+* How much do they cost?
+* Can I trust them?
+* How do I request an appointment?
+
+**Primary Goal**
+
+Convert discovery into an appointment request.
+
+---
+
+# Supported Businesses
+
+### 🏋️ Gym
+
+### 🧘 Yoga Studio
+
+### 💆 Spa
+
+### 🧖 Massage Therapy
+
+### ❄️ Recovery Centre
+
+### 🩺 Physiotherapy
+
+### ❤️ Wellness Clinic
+
+### 🧘 Meditation Centre
+
+### 🌿 Holistic Wellness
+
+### 🏊 Recovery Pool
+
+---
+
+# Screen Architecture
+
+```text
+Hero Experience
+
+↓
+
+Sticky Tabs
+
+Overview
+Services
+Experts
+Reviews
+Info
+
+↓
+
+Overview
+
+Business Summary
+
+↓
+
+Wellness Highlights
+
+↓
+
+Featured Treatments
+
+↓
+
+Featured Expert
+
+↓
+
+Offers
+
+↓
+
+Review Preview
+
+↓
+
+Map Preview
+
+↓
+
+Bottom Action Bar
+```
+
+---
+
+# Hero Experience
+
+Unlike Prep, the hero focuses on **calm, trust, and atmosphere**.
+
+Large immersive hero image.
+
+Business Header
+
+```text
+←
+
+✓ Verified
+
+SERENITY WELLNESS SPA
+
+⭐ 4.9 (438)
+
+Open Now
+
+Closes 20:00
+
+2.1 km away
+
+♡ Save
+
+⋮
+```
+
+Category Chips
+
+```text
+💆 Spa
+
+🧘 Yoga
+
+❄️ Recovery
+
+🌿 Wellness
+
+❤️ Therapy
+```
+
+Primary CTA
+
+**Request Appointment**
+
+Secondary CTA
+
+**Get Directions**
+
+---
+
+# Sticky Navigation
+
+```text
+Overview
+
+Services
+
+Experts
+
+Reviews
+
+Info
+```
+
+---
+
+# Overview
+
+---
+
+## Wellness Highlights
+
+Displays meaningful insights.
+
+Examples
+
+🌿 Most Popular Treatment
+
+Deep Tissue Massage
+
+---
+
+⭐ Featured Expert
+
+Sarah
+
+---
+
+👥
+
+86 people viewed today
+
+---
+
+💚 Customer Favourite
+
+Rated 4.9★
+
+---
+
+## Business Summary
+
+Example
+
+> Helping people relax, recover, and perform at their best through personalised wellness treatments.
+
+Quick Actions
+
+📞 Call
+
+💬 WhatsApp
+
+🌐 Website
+
+📤 Share
+
+Response Badge
+
+Replies within 20 mins
+
+---
+
+## Featured Treatments
+
+Large image cards.
+
+Each card contains
+
+Treatment Image
+
+Treatment Name
+
+Duration
+
+Starting Price
+
+Popularity Badge
+
+Example
+
+```text
+Deep Tissue Massage
+
+🔥 Most Booked
+
+60 mins
+
+From R750
+
+Request This Treatment
+```
+
+Swipe horizontally.
+
+---
+
+## Wellness Categories
+
+Examples
+
+💆 Massage
+
+🧘 Yoga
+
+❄️ Recovery
+
+🩺 Physiotherapy
+
+🌿 Holistic
+
+❤️ Therapy
+
+Selecting one filters Services.
+
+---
+
+## Featured Expert
+
+Business-selected professional.
+
+```text
+⭐ Featured Expert
+
+Sarah
+
+Senior Physiotherapist
+
+10 Years Experience
+
+⭐ 4.9
+
+View Profile
+```
+
+---
+
+## Offers
+
+Standing Promotions
+
+First Visit
+
+10% Off
+
+---
+
+Couples Spa Package
+
+From R1,200
+
+---
+
+Flash Deal
+
+```text
+Recovery Session
+
+20% Off
+
+Ends Today
+```
+
+Followers receive notifications.
+
+---
+
+## Review Preview
+
+Overall Rating
+
+Latest Review
+
+Verified Visit
+
+Example
+
+⭐⭐⭐⭐⭐
+
+Excellent massage.
+
+✓ Verified Visit
+
+---
+
+## Map Preview
+
+Mini Map
+
+Travel Time
+
+Distance
+
+Directions
+
+---
+
+# Services Tab
+
+Visual service cards.
+
+Example
+
+```text
+💆
+
+Deep Tissue Massage
+
+60 mins
+
+From R750
+
+Most Popular
+
+Request Appointment
+```
+
+Every service includes
+
+* Image
+* Duration
+* Price
+* Description
+* Expert(s) offering it
+
+---
+
+# Experts Tab
+
+Professional cards.
+
+Photo
+
+Name
+
+Role
+
+Experience
+
+Rating
+
+Specialties
+
+Example
+
+```text
+Sarah
+
+Senior Physiotherapist
+
+⭐ 4.9
+
+Sports Recovery
+
+Manual Therapy
+
+View Profile
+
+Request Appointment
+```
+
+Categories
+
+All
+
+Massage
+
+Yoga
+
+Recovery
+
+Therapy
+
+Physio
+
+---
+
+# Reviews Tab
+
+Overall Rating
+
+Photo Reviews
+
+Verified Visit
+
+Expert Tagged
+
+Example
+
+⭐⭐⭐⭐⭐
+
+Amazing treatment by Sarah.
+
+✓ Verified Visit
+
+Filters
+
+Newest
+
+Highest
+
+Lowest
+
+Photos
+
+---
+
+# Info Tab
+
+Opening Hours
+
+Payment Methods
+
+Amenities
+
+Parking
+
+Wi-Fi
+
+Private Rooms
+
+Showers
+
+Wheelchair Access
+
+Air Conditioning
+
+Lockers
+
+Contact
+
+Phone
+
+WhatsApp
+
+Email
+
+Website
+
+Social Media
+
+Policies
+
+Walk-ins Welcome
+
+Appointment Recommended
+
+Health Insurance Accepted (optional)
+
+---
+
+# Bottom Action Bar
+
+Persistent
+
+```text
+Request Appointment
+
+Get Directions
+
+More
+```
+
+More
+
+* Call
+* WhatsApp
+* Website
+* Share
+* Save
+
+---
+
+# Request Appointment Flow
+
+Choose
+
+💬 WhatsApp
+
+📞 Call
+
+🌐 Website
+
+Example
+
+```text
+Hi,
+
+I'd like to request a Deep Tissue Massage.
+
+Do you have availability today?
+```
+
+No booking engine.
+
+No calendars.
+
+No online payments.
+
+---
+
+# Official Wellness Business
+
+Examples
+
+Virgin Active
+
+Planet Fitness
+
+Life Day Spa
+
+Imported from maps.
+
+Displays
+
+* Hero
+* Business Summary
+* Reviews
+* Business Information
+* Directions
+* Website
+
+Primary CTA
+
+**Visit Website**
+
+No managed services.
+
+No offers.
+
+No dashboard.
+
+---
+
+# Claimed Wellness Business
+
+Unlocked after free OTP verification.
+
+Receives
+
+✓ Wellness Lobby
+
+✓ Wellness Dashboard
+
+✓ Services Management
+
+✓ Team Management
+
+✓ Offers
+
+✓ Reviews Management
+
+✓ Business Analytics
+
+✓ Verified Badge
+
+---
+
+# FOMO Wellness Business
+
+Created directly inside FOMO.
+
+OTP verified.
+
+One-time **R50 verification fee**.
+
+Provides the same customer experience as a claimed business.
+
+---
+
+# Future Features
+
+* Full appointment booking
+* Wellness plans
+* Membership management
+* Class schedules
+* Trainer booking
+* Recovery progress tracking
+* AI wellness recommendations
+* Health integrations
+* Gift cards
+* Loyalty rewards
+
+---
+
+# Design Philosophy
+
+The Wellness Lobby should feel **calm, premium, and restorative**. Soft imagery, clean layouts, and trust-building information should take priority over promotional content. Unlike the Prep Lobby, where **Looks** drive conversion, the Wellness Lobby is centred on **Treatments**, **Experts**, and **wellbeing outcomes**. The experience should reassure users that they're choosing qualified professionals while making it effortless to request an appointment. Official businesses remain lightweight with a **Visit Website** experience, while claimed and FOMO-created businesses unlock the complete Wellness Lobby and Wellness Dashboard.

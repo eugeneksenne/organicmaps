@@ -1,0 +1,782 @@
+FOMO Live Engine
+
+Billion-Dollar Scale Place-Centric Live Experience Platform
+
+Vision
+
+One Sun. Billion Eyes.
+
+FOMO Live is not a traditional livestreaming platform.
+
+It is not creator-centric.
+
+It is place-centric.
+
+Every Live Broadcast represents a real-world moment happening at a venue, event, city, or destination.
+
+Users don't join a livestream.
+
+They simply experience what's happening there right now.
+
+FOMO Live is a Live Camera Render Engine that captures one live camera and intelligently distributes it across the FOMO ecosystem.
+
+
+---
+
+Core Principles
+
+One broadcaster per Live.
+
+Viewers never join the broadcast.
+
+No guest streaming.
+
+No co-hosting.
+
+No viewer video.
+
+Every broadcaster owns their own Live.
+
+Live Link connects independent broadcasters.
+
+Every Live records locally first.
+
+AI assists but never controls the viewer.
+
+Every Live belongs to a place.
+
+One Camera.
+
+One Place.
+
+One Sun. Billion Eyes.
+
+
+
+---
+
+Technology Stack
+
+Camera Engine
+
+Android
+
+CameraX
+
+MediaCodec
+
+
+iOS
+
+AVFoundation
+
+VideoToolbox
+
+
+
+---
+
+Video Playback
+
+Android
+
+Media3 ExoPlayer
+
+
+iOS
+
+AVPlayer
+
+
+
+---
+
+Video Processing
+
+FFmpeg
+
+
+Used for
+
+Replay generation
+
+Compression
+
+Thumbnail generation
+
+Replay optimisation
+
+Metadata embedding
+
+
+
+---
+
+Networking
+
+Ktor
+
+OkHttp
+
+
+
+---
+
+Real-Time Engine
+
+Ktor WebSockets
+
+
+Used for
+
+Comments
+
+Reactions
+
+Viewer Count
+
+Live Status
+
+Polls
+
+Live Notifications
+
+
+
+---
+
+Background Tasks
+
+Android
+
+WorkManager
+
+
+iOS
+
+BGTaskScheduler
+
+
+
+---
+
+Local Storage
+
+SQLDelight
+
+
+Stores
+
+Draft Lives
+
+Replay Queue
+
+Upload Queue
+
+Cached Comments
+
+Cached Reactions
+
+Live Metadata
+
+
+
+---
+
+AI Engine
+
+TensorFlow Lite
+
+MediaPipe
+
+
+Used for
+
+Crowd Detection
+
+Highlight Detection
+
+Scene Detection
+
+Smart Thumbnails
+
+Gesture Detection
+
+
+
+---
+
+Audio Engine
+
+Android
+
+Oboe
+
+
+Detects
+
+Beat Drops
+
+BPM
+
+Bass
+
+Crowd Energy
+
+
+
+---
+
+Maps
+
+MapLibre
+
+OpenStreetMap
+
+OSRM
+
+
+
+---
+
+FOMO Live Engine
+
+FOMO Live Engine
+│
+├── Live Camera Engine
+├── Camera Render Engine
+├── Local Recording Engine
+├── Live Broadcast Engine
+├── FOMO Broadcast Engine
+├── Edge Distribution Engine
+├── Adaptive Streaming Engine
+├── Live Link Engine
+├── Viewer Engine
+├── Comment Engine
+├── Reaction Engine
+├── Poll Engine
+├── Venue Intelligence Engine
+├── Event Intelligence Engine
+├── Sound Aware Live Engine
+├── AI Live Director Engine
+├── Replay Engine
+├── Replay Verification Engine
+├── Upload Queue Engine
+├── Local Replay Library
+├── Storage Manager
+├── Crash Recovery Engine
+├── Ripple Integration Engine
+├── Feed Distribution Engine
+├── Analytics Engine
+└── Performance Engine
+
+
+---
+
+Live Workflow
+
+Tap LIVE
+
+↓
+
+Venue Detection
+
+↓
+
+Event Detection
+
+↓
+
+Device Readiness Check
+
+↓
+
+3 Second Countdown
+
+↓
+
+Start Local Recording
+
+↓
+
+Start Live Camera Render
+
+↓
+
+Hardware Encoding
+
+↓
+
+FOMO Broadcast Engine
+
+↓
+
+Edge Distribution Engine
+
+↓
+
+Feed
+
+Venue
+
+Event
+
+Map
+
+Discover
+
+Profile
+
+↓
+
+Millions Watching
+
+↓
+
+Comments
+
+Reactions
+
+Polls
+
+↓
+
+End Live
+
+↓
+
+Replay Verification
+
+↓
+
+Background Upload
+
+↓
+
+Replay Published
+
+
+---
+
+FOMO Broadcast Engine
+
+The FOMO Broadcast Engine receives one Live Camera Render from the broadcaster.
+
+Responsibilities
+
+Authenticate broadcaster
+
+Validate venue
+
+Validate event
+
+Start broadcast
+
+Publish Live metadata
+
+Update viewer count
+
+Handle comments
+
+Handle reactions
+
+Handle polls
+
+Forward video to the Edge Distribution Engine
+
+
+The broadcaster uploads only one stream regardless of audience size.
+
+
+---
+
+Edge Distribution Engine
+
+The Edge Distribution Engine distributes the Live Camera Render to viewers worldwide.
+
+Responsibilities
+
+Global distribution
+
+Low-latency playback
+
+Automatic scaling
+
+Adaptive bitrate delivery
+
+Regional caching
+
+Connection recovery
+
+
+It powers
+
+Feed
+
+Venue Pages
+
+Event Pages
+
+Discover
+
+Map
+
+Profile
+
+
+without viewers joining the broadcast.
+
+
+---
+
+Live Camera Render
+
+Broadcaster
+
+↓
+
+CameraX / AVFoundation
+
+↓
+
+Hardware Encoder
+
+↓
+
+Camera Render Engine
+
+↓
+
+FOMO Broadcast Engine
+
+↓
+
+Edge Distribution Engine
+
+↓
+
+Feed
+
+Venue
+
+Event
+
+Discover
+
+Map
+
+Profile
+
+↓
+
+Millions of Viewers
+
+One upload.
+
+Millions watching.
+
+
+---
+
+Live Screen
+
+┌────────────────────────────────────┐
+│ ✕ 🔴 LIVE              👥 2.4K      │
+│                                    │
+│ 📍 Truth Nightclub                 │
+│ 🎉 Amapiano Fridays                │
+│━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━│
+│                                    │
+│                                    │
+│        Live Camera Render          │
+│                                    │
+│                                    │
+│                                    │
+│ ❤️ 🔥 🎉 Floating Reactions        │
+│ 💬 Floating Comments               │
+│━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━│
+│ Chat Venue Flash Polls Share       │
+│━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━│
+│ Comment...                  Send   │
+└────────────────────────────────────┘
+
+Maximum focus remains on the Live Camera.
+
+
+---
+
+Viewer Features
+
+Viewers can
+
+Watch Live
+
+React
+
+Comment
+
+Vote in Polls
+
+Share Live
+
+Save Replay
+
+View Venue
+
+View Event
+
+View Flash Drops
+
+Follow Broadcaster
+
+Report Live
+
+
+Viewers cannot
+
+Join Live
+
+Stream video
+
+Request camera access
+
+Co-host
+
+
+
+---
+
+Live Link
+
+Live Link connects multiple independent Live Camera Renders from the same venue.
+
+Each broadcaster owns their own Live.
+
+Truth Nightclub
+
+6 Live Cameras
+
+@Neo
+
+@Kaybee
+
+@Thando
+
+@Alfred
+
+@Lebo
+
+@Zanele
+
+Each Live remains completely independent.
+
+
+---
+
+Viewer Modes
+
+Manual View
+
+Viewer selects a Live Camera.
+
+The app never switches automatically.
+
+
+---
+
+AI Director
+
+Optional.
+
+AI recommends or switches between linked Live Cameras during major moments.
+
+Examples
+
+DJ Drop
+
+Birthday Song
+
+Fireworks
+
+Dance Circle
+
+Crowd Peak
+
+Flash Drop
+
+
+
+---
+
+Picture-in-Picture
+
+Primary Live
+
+
+Secondary Live
+
+Tap to swap.
+
+
+---
+
+Quad View
+
+Supported devices can watch four Live Cameras simultaneously.
+
+
+---
+
+Sound Aware Live
+
+Runs entirely on-device.
+
+Detects
+
+BPM
+
+Bass
+
+Beat Drops
+
+Crowd Energy
+
+Rhythm
+
+
+Creates
+
+Pulse Glow
+
+Ripple Waves
+
+Neon Pulse
+
+Beat Zoom
+
+Lens Bloom
+
+Light Trails
+
+
+
+---
+
+AI Live Director
+
+Detects
+
+Crowd Peaks
+
+DJ Transitions
+
+Fireworks
+
+Birthday Songs
+
+Dance Circles
+
+Flash Drop Announcements
+
+
+Automatically generates
+
+Replay Chapters
+
+Highlights
+
+Smart Thumbnails
+
+Replay Markers
+
+
+
+---
+
+Replay Engine
+
+After Live ends
+
+Automatically creates
+
+Replay
+
+Thumbnail
+
+Chapters
+
+Venue Metadata
+
+Event Metadata
+
+Ripple Data
+
+Viewer Statistics
+
+Comments
+
+Reactions
+
+
+
+---
+
+Ripple Integration
+
+Every Live contributes to Ripple.
+
+Ripple influences
+
+Feed Ranking
+
+Venue Popularity
+
+Event Momentum
+
+Discover Ranking
+
+Mayor Calculations
+
+Trending Places
+
+
+
+---
+
+Performance Targets
+
+Camera launch under 250 ms
+
+Live starts under 3 seconds
+
+Stable 60 FPS
+
+Hardware video encoding
+
+Adaptive streaming
+
+Background replay uploads
+
+Local-first recording
+
+Battery-aware optimisation
+
+Thermal protection
+
+Automatic reconnection
+
+Crash recovery
+
+Low memory usage
+
+
+
+---
+
+Final Vision
+
+FOMO Live is a real-time place rendering platform, not a traditional livestreaming service.
+
+Every broadcast is anchored to a real venue or event. The broadcaster captures a single Live Camera Render, which is distributed through the FOMO Broadcast Engine and Edge Distribution Engine to the Feed, Venue, Event, Discover, Map, and Profile screens. Viewers never join the broadcast. They simply watch, react, comment, and experience what's happening in real time.
+
+One Camera. One Place. One Sun. Billion Eyes. 

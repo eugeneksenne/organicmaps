@@ -1,0 +1,682 @@
+# FOMO Creator Studio — Events Module
+
+## Product Vision
+
+The **Events Module** is the operational heart of FOMO Creator Studio.
+
+Every nightlife experience begins with an event.
+
+Whether it's a nightclub party, rooftop session, festival, DJ performance, live concert, themed experience, or private nightlife event, the Events Module provides a complete workspace to **plan, collaborate, publish, operate, and analyze** that experience.
+
+This is **not** an event creation form.
+
+It is the complete operational workspace for an event from the first idea until the last guest leaves the venue.
+
+---
+
+# Design Principles
+
+The Events Module should be:
+
+* Workspace-driven, not form-driven.
+* Collaborative, allowing multiple verified creators to work together.
+* Modular, with optional features like ticketing and Flash Drops.
+* Operational, supporting creators before, during, and after the event.
+* Mobile-first, enabling management on the go.
+* Data-driven, providing actionable insights and analytics.
+
+---
+
+# Supported Creator Roles
+
+| Creator Role       | Access  |
+| ------------------ | ------- |
+| 🏙 Venue Owner     | ✅ Full  |
+| 🎟 Event Organiser | ✅ Full  |
+| 🎧 DJ              | Limited |
+| 🎤 Music Artist    | Limited |
+
+---
+
+## Venue Owner
+
+Can:
+
+* Create venue events
+* Edit events
+* Publish events
+* Cancel events
+* Archive events
+* Configure ticketing
+* Configure Flash Drops
+* Invite organisers
+* Invite DJs
+* Invite artists
+* View event analytics
+* Manage guest lists
+* Manage check-ins
+
+---
+
+## Event Organiser
+
+Can:
+
+* Create events
+* Manage multiple events
+* Select venues
+* Configure ticketing
+* Configure Flash Drops
+* Build performer lineups
+* Promote events
+* Manage guest lists
+* View analytics
+* Collaborate with venues
+
+---
+
+## DJ
+
+Cannot create venue events.
+
+Can:
+
+* Accept event invitations
+* View event details
+* Update performance information
+* Upload promotional media
+* Share event
+* View performance schedule
+
+---
+
+## Music Artist
+
+Can:
+
+* Accept invitations
+* Update performance information
+* Promote events
+* Manage artist media
+* View performance schedule
+
+---
+
+# Event Lifecycle
+
+Every event follows a structured lifecycle.
+
+```text
+Draft
+
+↓
+
+Pending Approval
+
+↓
+
+Scheduled
+
+↓
+
+Published
+
+↓
+
+Live
+
+↓
+
+Completed
+
+↓
+
+Archived
+```
+
+Additional states:
+
+* Cancelled
+* Postponed
+
+Lifecycle transitions are recorded in the event history for auditing and collaboration.
+
+---
+
+# Events Dashboard
+
+The Events Dashboard provides a centralized view of all events.
+
+## Sections
+
+* Upcoming
+* Live
+* Drafts
+* Completed
+* Archived
+* Cancelled
+
+---
+
+## Dashboard Metrics
+
+* Total Events
+* Upcoming Events
+* Live Events
+* Tickets Sold
+* Revenue
+* Attendance Rate
+* Flash Drops Active
+* Average Event Rating
+
+---
+
+## Quick Actions
+
+* Create Event
+* Duplicate Event
+* Import Previous Event
+* Promote Event
+* View Calendar
+
+---
+
+# Event Creation Flow
+
+Creating an event is guided through a multi-step workflow.
+
+```text
+Basic Information
+
+↓
+
+Venue
+
+↓
+
+Schedule
+
+↓
+
+Experience
+
+↓
+
+Lineup
+
+↓
+
+Ticketing (Optional)
+
+↓
+
+Flash Drops (Optional)
+
+↓
+
+Promotion
+
+↓
+
+Review
+
+↓
+
+Publish
+```
+
+Progress is automatically saved as a draft.
+
+---
+
+# Event Workspace
+
+Every event becomes a dedicated workspace.
+
+```text
+Neon Fridays
+
+Overview
+
+Experience
+
+Venue
+
+Schedule
+
+Lineup
+
+Tickets
+
+Flash Drops
+
+Guests
+
+Promotion
+
+Analytics
+
+Files
+
+Activity
+
+Settings
+```
+
+No creator should need to leave the event workspace to manage the event.
+
+---
+
+# Overview
+
+Displays the current status of the event.
+
+## Information
+
+* Poster
+* Cover image
+* Event title
+* Status
+* Venue
+* Date
+* Time
+* Capacity
+* Revenue
+* Attendance
+* Countdown to event
+
+## Quick Actions
+
+* Publish
+* Edit
+* Duplicate
+* Cancel
+* Archive
+* Share
+
+---
+
+# Experience
+
+Defines the public-facing event experience.
+
+## Basic Information
+
+* Event title
+* Short description
+* Full description
+* Event category
+* Music genres
+* Event tags
+
+## Media
+
+* Poster
+* Cover image
+* Gallery
+* Videos
+
+## Rules
+
+* Age restriction
+* Dress code
+* Entry policy
+* Prohibited items
+
+## Additional Information
+
+* Sponsors
+* Frequently Asked Questions
+* Accessibility information
+
+---
+
+# Venue
+
+Manage venue-related information.
+
+Displays:
+
+* Venue name
+* Address
+* Capacity
+* Map
+* Opening hours
+* Venue contact information
+
+Venue owners can select their own venues.
+
+Event organisers can request participating venues or select from approved venues.
+
+---
+
+# Schedule
+
+Manage the event timeline.
+
+Examples:
+
+* Doors Open
+* Guest Arrival
+* Opening Set
+* Main Performance
+* Flash Drop Launch
+* Closing Time
+
+Supports reminders and notifications for collaborators.
+
+---
+
+# Lineup
+
+Manage performers and contributors.
+
+Supports:
+
+* DJs
+* Music Artists
+* Hosts
+* MCs
+* Special Guests
+
+Each performer includes:
+
+* Profile
+* Performance time
+* Stage
+* Duration
+* Confirmation status
+
+Actions:
+
+* Invite
+* Remove
+* Reorder
+* Confirm participation
+
+---
+
+# Ticketing
+
+Optional module.
+
+Creators may enable ticket sales.
+
+## Ticket Types
+
+* General Admission
+* VIP
+* Early Bird
+* Tables
+* Complimentary
+
+Each ticket supports:
+
+* Name
+* Price
+* Quantity
+* Sales window
+* Benefits
+* Capacity allocation
+
+## Management
+
+* Orders
+* Revenue
+* Promo codes
+* Refunds
+* Check-ins
+* QR ticket generation
+
+---
+
+# Flash Drops
+
+Optional module.
+
+Creators may attach Flash Drops to an event.
+
+Examples:
+
+* Free drink
+* VIP upgrade
+* Merchandise
+* Food voucher
+* Free entry
+
+Configuration:
+
+* Reward
+* Quantity
+* Availability period
+* Redemption rules
+* Sponsor
+* Terms and conditions
+
+Important:
+
+Flash Drops cannot be claimed digitally.
+
+Users must physically visit the venue and redeem with venue staff.
+
+Analytics:
+
+* Views
+* Venue arrivals
+* Redemptions
+* Conversion rate
+
+---
+
+# Guests
+
+Manage attendance.
+
+Supports:
+
+* Guest list
+* VIP list
+* Complimentary guests
+* RSVP tracking
+* Check-ins
+* Attendance history
+* Manual guest additions
+
+---
+
+# Promotion
+
+Promote the event.
+
+Campaign objectives:
+
+* Increase awareness
+* Increase ticket sales
+* Promote Flash Drops
+* Increase venue visits
+
+Campaign configuration:
+
+* Budget
+* Schedule
+* Target audience
+* Geographic targeting
+
+Performance metrics:
+
+* Reach
+* Impressions
+* Click-through rate
+* Ticket conversions
+* Return on investment
+
+---
+
+# Analytics
+
+Provides comprehensive insights into event performance.
+
+## Attendance
+
+* Total attendees
+* Attendance rate
+* Peak arrival times
+* Check-in trends
+
+## Revenue
+
+* Ticket sales
+* Table sales
+* Refunds
+* Revenue over time
+
+## Audience
+
+* Age distribution
+* Gender
+* Cities
+* Returning guests
+* New guests
+
+## Marketing
+
+* Campaign reach
+* Engagement
+* Conversion rate
+* Cost per conversion
+
+## Flash Drops
+
+* Views
+* Venue arrivals
+* Redemptions
+* Conversion rate
+
+---
+
+# Files
+
+Central repository for event assets.
+
+Supports:
+
+* Posters
+* Videos
+* Sponsor assets
+* Contracts
+* Marketing materials
+* Press kits
+
+Permissions determine who can upload, edit, or download files.
+
+---
+
+# Activity
+
+Displays the event activity timeline.
+
+Examples:
+
+* Event created
+* Ticket purchased
+* Performer accepted invitation
+* Flash Drop launched
+* Promotion started
+* Venue updated
+
+Useful for collaboration and auditing.
+
+---
+
+# Collaboration
+
+Multiple verified creators can work on the same event.
+
+Possible collaborators:
+
+* Venue Owner
+* Event Organiser
+* DJs
+* Music Artists
+* Staff
+
+Role-based permissions determine who can:
+
+* Edit event details
+* Manage ticketing
+* Configure Flash Drops
+* Publish events
+* View analytics
+* Manage guests
+
+---
+
+# Notifications
+
+Creators receive updates for:
+
+* Ticket purchases
+* Performer confirmations
+* Venue approvals
+* Guest list changes
+* Promotion performance
+* Flash Drop activity
+* Event reminders
+
+Notifications are available via:
+
+* Push notifications
+* Email
+* In-app notifications
+
+---
+
+# Settings
+
+Configure event-specific settings.
+
+Options include:
+
+* Visibility
+* Public/Private status
+* Collaboration permissions
+* Cancellation policy
+* Archive event
+* Duplicate event
+* Delete draft
+
+---
+
+# AI Assistant (Future Roadmap)
+
+The Events Module will evolve into an intelligent planning assistant.
+
+Potential capabilities:
+
+* Predict attendance based on historical data.
+* Recommend ticket pricing strategies.
+* Suggest optimal promotion timing.
+* Recommend Flash Drop schedules.
+* Detect scheduling conflicts.
+* Forecast revenue and occupancy.
+* Identify audience trends and opportunities.
+
+---
+
+# Success Metrics
+
+The Events Module should help creators:
+
+* Create events faster.
+* Sell more tickets.
+* Increase attendance.
+* Improve collaboration.
+* Reduce operational errors.
+* Grow repeat attendance.
+* Make better business decisions using data.
+
+---
+
+# Guiding Principle
+
+The Events Module should feel like **building and operating a live nightlife experience**, not filling in forms. Every aspect of an event—from planning, ticketing, Flash Drops, and performer management to guest operations, promotion, collaboration, and post-event analytics—should exist within a single, cohesive workspace that becomes the central hub for everyone involved in making the event a success.

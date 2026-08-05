@@ -1,0 +1,297 @@
+I think the Calls section should become one of FOMO's strongest differentiators. Rather than trying to compete feature-for-feature with Zoom or Discord, it should focus on high-quality social communication that integrates with FOMO's nightlife ecosystem.
+The system should be built around a single calling engine that powers one-to-one calls, group calls, and voice/video experiences across the app.
+FOMO Calls System
+Architecture
+One calling engine powers:
+Direct Voice Calls
+Direct Video Calls
+Group Voice Calls
+Group Video Calls
+Voice calls from DMs
+Calls from Groups
+Calls from Club Lobbies (approved members only)
+Buddy Pair emergency voice calls
+NightGuard emergency calls
+Every call shares the same signaling, reconnect, permissions, notifications, encryption, and media pipeline.
+
+Calls Tab
+Safe Area
+────────────────────────────
+Calls
+
+Search
+
+Start Call
+────────────────────────────
+
+Recent Calls
+
+Favorites
+
+────────────────────────────
+
+Today
+
+Yesterday
+
+Earlier
+
+────────────────────────────
+The screen opens instantly using cached call history.
+
+Call Row
+Each row displays:
+Left
+Avatar
+Center
+Name
+Voice/Video icon
+Incoming
+Outgoing
+Missed
+Cancelled
+Duration
+Right
+Time
+Call button
+Unread missed calls receive a subtle accent badge.
+
+Call Filters
+Quick filters:
+All
+Missed
+Voice
+Video
+Groups
+Search filters instantly.
+
+Favorites
+Frequently called users appear at the top.
+Each shows:
+Avatar
+Online indicator
+One-tap voice
+One-tap video
+No scrolling required.
+
+Starting a Call
+From:
+DM
+Groups
+Profile
+Search
+Favorites
+Recent Calls
+Club Lobby (if permitted)
+The experience should always be identical.
+
+Outgoing Call Screen
+Shows:
+Large avatar
+Name
+Calling...
+Network quality indicator
+Buttons:
+Speaker
+Bluetooth
+Mute
+End
+If video:
+Camera preview appears immediately.
+
+Incoming Call Screen
+Full-screen UI.
+Displays:
+Avatar
+Name
+Verified badge
+Voice or Video
+Options:
+Answer
+Decline
+Reply with message
+Silence ringtone
+Works while the app is closed or in the background.
+
+Voice Call Screen
+Top
+Name
+Duration
+Connection quality
+Center
+Large avatar
+Bottom controls
+Mute
+Speaker
+Bluetooth
+Add participant (where applicable)
+End call
+Animations remain minimal to preserve battery.
+
+Video Call Screen
+Large remote video.
+Local preview floats in the corner.
+Controls:
+Camera on/off
+Switch camera
+Mute
+Speaker
+Picture-in-picture
+End
+Chat
+Participants (group calls)
+The preview is draggable.
+
+Group Calls
+Displays:
+Group image
+Participants
+Speaking indicators
+Active speaker highlighting
+Join and leave animations
+Muted participants
+Camera status
+Participant count
+
+Participant Sheet
+Each participant displays:
+Avatar
+Display name
+Muted state
+Camera state
+Connection quality
+Role
+In group calls, moderators can mute participants if the group's permissions allow it.
+
+Call Quality Adaptation
+The engine adapts automatically based on network conditions.
+Supported profiles:
+Audio only
+Low video
+Standard video
+HD video
+Automatic transitions should not interrupt the call.
+
+Network Recovery
+Handle:
+Wi-Fi → Mobile
+Mobile → Wi-Fi
+Temporary packet loss
+Background → Foreground
+Poor network
+Complete disconnect
+The user should see:
+"Reconnecting…"
+The call resumes automatically whenever possible.
+
+Audio Features
+Support:
+Echo cancellation
+Noise suppression
+Automatic gain control
+Voice activity detection
+Bluetooth headsets
+Wired headsets
+Speakerphone
+Mute
+Hold
+
+Video Features
+Support:
+Front camera
+Rear camera
+HD mode
+Adaptive resolution
+Low-light optimization
+Portrait orientation
+Landscape orientation
+Picture-in-picture
+I would not include beauty filters or AR masks. They add maintenance complexity and don't align with FOMO's focus on authentic real-world experiences.
+
+Call Notifications
+Support:
+Incoming
+Missed
+Rejected
+Cancelled
+Answered elsewhere
+Ended
+Group invitations
+Notifications synchronize across devices.
+
+Call History
+Each entry stores:
+Caller
+Receiver
+Duration
+Call type
+Quality summary
+Timestamp
+Status
+Media type
+This enables users to review previous conversations without storing call content.
+
+Call Settings
+Users can configure:
+Ringtone
+Vibration
+Auto speaker for video
+Default camera
+Data saver
+Video quality preference
+Auto-answer with Bluetooth (optional)
+Block unknown callers
+
+Privacy
+Controls include:
+Who can call me?
+Everyone
+Followers
+Friends
+Nobody
+Show online status
+Show last seen
+Allow video calls
+Call forwarding (future)
+
+NightGuard Integration
+One of FOMO's unique strengths.
+During a Buddy Pair or Walk Me Home session, the call interface can display:
+Shared live location
+Distance between participants
+Estimated arrival time
+Battery level
+Safety status
+This provides context without interrupting the conversation.
+
+Club Lobby Calls
+Rather than creating public voice channels, Club Lobbies can support scheduled group calls for approved organizers and participants.
+Examples:
+Event organizer briefings
+VIP planning
+Staff coordination
+This keeps the feature aligned with FOMO's venue-first design instead of becoming a general-purpose voice platform.
+
+Security
+Production-grade protections:
+End-to-end encryption for call media.
+Secure WebRTC signaling.
+TURN/STUN fallback for NAT traversal.
+Authenticated call invitations.
+Spam and call-rate limiting.
+Device verification.
+Abuse reporting and blocking.
+Secure ICE candidate validation.
+
+Performance Targets
+Outgoing call screen: <100 ms
+Ring initiation: <300 ms
+Voice call connection: <1.5 s
+Video call connection: <2 s
+Camera switch: <250 ms
+Reconnection after brief network loss: <3 s
+Voice latency: <150 ms
+Adaptive media quality with minimal interruptions.
+Battery-efficient background operation.
+Production Assessment
+This design gives FOMO a communication system comparable to leading messaging platforms while remaining focused on its core identity. The strongest differentiators are the seamless integration with DMs, Groups, Club Lobbies, and NightGuard, allowing calls to support real-world social experiences instead of existing as an isolated feature.

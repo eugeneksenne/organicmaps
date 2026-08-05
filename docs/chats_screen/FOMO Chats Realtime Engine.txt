@@ -1,0 +1,485 @@
+Below is an updated production-ready realtime engine for FOMO Chats, designed around the stack you've settled on: native Kotlin with shared logic, Supabase as the backend and source of truth, with an architecture that can later incorporate Socket.IO for high-frequency ephemeral events without requiring a redesign.
+
+FOMO Chats Realtime Engine
+
+Design Principles
+
+Offline-first
+
+Realtime by default
+
+Low latency
+
+Eventually consistent
+
+Horizontally scalable
+
+Battery efficient
+
+End-to-end encrypted ready
+
+Multi-device synchronization
+
+Failure tolerant
+
+Core Architecture
+
+FOMO Chats UI │ Compose State / SwiftUI │ ────────────────────────────────────────── Shared Chat Engine ────────────────────────────────────────── │ ├── Chat Repository ├── Realtime Manager ├── Presence Manager ├── Sync Manager ├── Delivery Manager ├── Typing Manager ├── Stories Manager ├── Attachment Manager ├── Notification Manager ├── Encryption Manager ├── Retry Manager ├── Analytics Manager └── Connection Manager ────────────────────────────────────────── │ ├── Supabase Realtime ├── Supabase Database ├── Supabase Auth ├── Supabase Storage ├── PostgreSQL └── (Future) Socket.IO Layer ────────────────────────────────────────── │ SQLDelight Cache 
+
+Engine Modules
+
+1. Connection Manager
+
+Maintains a healthy realtime connection.
+
+Responsibilities
+
+Auto reconnect
+
+Heartbeat
+
+Network switching
+
+Wi-Fi → Mobile transition
+
+Background recovery
+
+Session recovery
+
+Exponential backoff
+
+Connection states
+
+Connecting
+
+Connected
+
+Reconnecting
+
+Background
+
+Offline
+
+Failed
+
+2. Realtime Manager
+
+Single gateway for all live events.
+
+Handles
+
+New messages
+
+Story updates
+
+Group updates
+
+Read receipts
+
+Message edits
+
+Message deletes
+
+Reactions
+
+Calls
+
+Venue lobby updates
+
+NightGuard events
+
+3. Presence Manager
+
+Tracks user availability.
+
+States
+
+Online
+
+Offline
+
+Away
+
+Busy
+
+In Call
+
+Recording Voice
+
+Uploading Media
+
+Viewing Story
+
+Inside Club Lobby
+
+Walking Home
+
+Sharing Location
+
+Updates should be throttled to reduce battery and network usage.
+
+4. Typing Engine
+
+Realtime typing indicators.
+
+Supports
+
+One-to-one chats
+
+Groups
+
+Venue Lobby
+
+Voice note recording indicator
+
+Examples
+
+Mike is typing… Sarah is recording… 3 people are typing… 
+
+Typing events expire automatically after a short timeout.
+
+5. Delivery Manager
+
+Tracks every message.
+
+States
+
+Draft ↓ Queued ↓ Encrypting ↓ Uploading ↓ Sent ↓ Delivered ↓ Read ↓ Failed ↓ Retrying 
+
+Supports optimistic UI so messages appear immediately.
+
+6. Sync Manager
+
+Keeps every device synchronized.
+
+Syncs
+
+Messages
+
+Stories
+
+Drafts
+
+Read positions
+
+Attachments
+
+User preferences
+
+Works when
+
+Offline
+
+Network restored
+
+New device signs in
+
+7. Attachment Engine
+
+Supports
+
+Images
+
+Videos
+
+Voice notes
+
+Documents
+
+Live photos
+
+GIFs
+
+Venue cards
+
+Event cards
+
+User profiles
+
+Polls
+
+Stickers
+
+Live location
+
+Features
+
+Background upload
+
+Pause
+
+Resume
+
+Retry
+
+Compression
+
+Thumbnail generation
+
+8. Story Realtime Engine
+
+The Stories row at the top of the Chats screen updates instantly.
+
+Realtime events
+
+New story
+
+Story deleted
+
+Story expired
+
+Story viewed
+
+Story reaction
+
+9. Group Engine
+
+Realtime updates for groups.
+
+Events
+
+User joined
+
+User left
+
+User promoted
+
+Group renamed
+
+Group avatar changed
+
+Group description updated
+
+10. Read Receipt Engine
+
+Supports
+
+One-to-one
+
+Sent
+
+Delivered
+
+Read
+
+Groups
+
+Per-user receipt tracking without requiring everyone to open the chat at the same moment.
+
+11. Reaction Engine
+
+Realtime reactions.
+
+Supports
+
+❤️
+
+🔥
+
+😂
+
+👍
+
+😍
+
+👏
+
+😮
+
+Updates instantly without refreshing the message list.
+
+12. Calls Engine
+
+Uses WebRTC.
+
+Socket signaling can be introduced later if needed.
+
+Handles
+
+Voice calls
+
+Video calls
+
+Group calls
+
+Missed calls
+
+Busy
+
+Ringing
+
+Declined
+
+13. NightGuard Realtime
+
+One of FOMO's unique features.
+
+Realtime updates
+
+Buddy location
+
+Walk Me Home progress
+
+Safety Check countdown
+
+SOS activation
+
+Emergency acknowledgement
+
+14. Venue Lobby Engine
+
+Realtime venue interactions.
+
+Events
+
+People joining
+
+Crowd count
+
+DJ announcements
+
+Live chat
+
+Event countdown
+
+Flash Drops
+
+Venue alerts
+
+15. Notification Engine
+
+Triggers
+
+New message
+
+Mention
+
+Story
+
+Friend request
+
+Buddy alert
+
+Event invite
+
+Venue announcement
+
+SOS alert
+
+16. Retry Engine
+
+Automatically retries
+
+Failed uploads
+
+Failed messages
+
+Story uploads
+
+Read receipts
+
+Presence updates
+
+Uses exponential backoff to avoid excessive retries.
+
+17. Analytics Engine
+
+Measures
+
+Message latency
+
+Upload speed
+
+Delivery time
+
+Reconnect frequency
+
+Network quality
+
+Queue size
+
+Error rates
+
+Useful for monitoring performance as FOMO grows.
+
+Supabase Responsibilities
+
+Supabase remains the source of truth.
+
+Handles
+
+Authentication
+
+PostgreSQL
+
+Row Level Security
+
+Chat persistence
+
+Group persistence
+
+Story persistence
+
+Media storage
+
+User profiles
+
+Event data
+
+Venue data
+
+Realtime subscriptions
+
+Future Socket.IO Layer
+
+This layer is optional initially.
+
+Introduce it only if FOMO reaches a point where high-frequency transient events become a bottleneck for your existing realtime setup.
+
+Candidate events
+
+Typing indicators
+
+Live presence
+
+Emoji bursts
+
+Crowd pulse
+
+DJ "Now Playing"
+
+Venue lobby transient events
+
+Live audience interactions
+
+Persistent data should continue to be written to Supabase.
+
+SQLDelight Cache
+
+Cached locally
+
+Messages
+
+Stories
+
+Drafts
+
+Media
+
+User profiles
+
+Reactions
+
+Read receipts
+
+Enables instant loading and offline usage.
+
+Production Event Flow
+
+User sends message │ ▼ Optimistic UI │ ▼ Persist locally (SQLDelight) │ ▼ Upload via Supabase │ ▼ Supabase persists to PostgreSQL │ ▼ Realtime subscription broadcasts update │ ▼ Recipient receives instantly │ ▼ Read receipt synchronized 
+
+Technology Stack
+
+LayerTechnologyUIJetpack Compose + SwiftUIShared LogicKotlin MultiplatformLocal CacheSQLDelightAuthenticationSupabase AuthDatabasePostgreSQL (Supabase)RealtimeSupabase RealtimeStorageSupabase StorageNetworkingKtor + OkHttpConcurrencyKotlin Coroutines + FlowMedia CallsWebRTCPush NotificationsFCM + APNsAnalyticsOpenTelemetryFuture ScaleSocket.IO + Redis (only if high-frequency transient events require it)
+
+This architecture is designed so you can launch with a robust realtime system using Supabase and native Kotlin, while leaving a clean extension point for Socket.IO and Redis if your scale or feature set eventually demands them, without requiring a major rewrite.
