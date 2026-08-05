@@ -117,7 +117,10 @@ The Android project now has native prototype screens for Chats, DMs, Calls, Grou
 - [ ] Implement Android feed repository, paging, cache, optimistic interactions, and realtime delta updates.
 - [ ] Create signed upload/publish workflow from Camera with moderation state transitions.
 - [ ] Implement a trusted ranking worker for For You, Following, Nearby, and Live feeds; clients must not write rank scores.
-- [ ] Add follow graph, venue/event integration, live broadcast ingest/replay pipeline, and invitation expiry worker.
+- [x] Add initial authenticated publish and short-lived LiveKit-token Edge Function foundations.
+- [x] Add initial live broadcast, device-push, and feed-event schema migration.
+- [ ] Add follow graph, venue/event integration, LiveKit ingest/egress/replay pipeline, and invitation expiry worker.
+- [ ] Implement FCM delivery worker and Android FCM registration/incoming notification flows.
 - [ ] Add moderation, sponsored-content disclosure, reporting, blocking, privacy enforcement, analytics, and abuse/rate protections.
 - [ ] Add media CDN/transcode/thumbnail delivery, preload strategy, performance telemetry, and feed-load tests.
 

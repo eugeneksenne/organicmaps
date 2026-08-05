@@ -14,7 +14,11 @@ This directory contains the versioned data model for Supabase and local supporti
 
 Supabase migrations under `supabase/migrations/` are the portable database source of truth. After a reviewed backup and migration plan, set `SUPABASE_PROJECT_REF` only in the uncommitted `.env` and run `./scripts/push-schema.sh`. This runs `supabase db push`; it does not copy local development user data or secrets to production.
 
-Do not put production credentials in `.env`; use the Supabase secret store and your deployment platform's secret manager. The Android application must only contain the Supabase URL and anonymous key, never a service-role key, database URL, TURN credential, or object-store secret.
+Do not put production credentials in `.env`; use the Supabase secret store and your deployment platform's secret manager. The Android application must only contain the Supabase URL and anonymous key, never a service-role key, database URL, TURN credential, object-store secret, LiveKit API secret, or FCM service-account JSON.
+
+## Feed and live integrations
+
+`functions/feed-publish` is the authenticated moment-publication entry point. `functions/livekit-token` issues short-lived LiveKit room tokens after Supabase authentication. Before deployment, set the LiveKit and FCM values from `.env.example` as Supabase Function secrets. FCM delivery, media moderation/transcoding, ranking, replay egress, and scheduled expiry remain trusted-worker responsibilities and are intentionally not run in an Edge Function request.
 
 ## Scope
 
