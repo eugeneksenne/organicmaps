@@ -1,6 +1,8 @@
 # FOMO Socket.IO realtime gateway
 
-This is the VPS-deployed realtime gateway for presence, typing, persisted-message fanout, and authorized WebRTC signaling. It is **not** the database of record: messages, membership, calls, and media stay in Supabase/LiveKit.
+This directory runs the VPS-deployed realtime gateway and a trusted Feed ranking worker. It is **not** the database of record: messages, membership, calls, media, and Feed records stay in self-hosted Supabase/LiveKit.
+
+The `feed-worker` only ranks approved public Moments by recency as a safe baseline. It deliberately does not bypass blocks, follows, proximity, venue safety, reports, or moderation policy; those must be implemented before enabling it for production.
 
 ## Setup
 
