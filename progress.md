@@ -122,6 +122,12 @@ The Android project now has native prototype screens for Chats, DMs, Calls, Grou
 - [ ] Add privacy policy, terms, consent flows, data retention policy, and support/reporting workflows.
 - [ ] Conduct production readiness review and staged rollout.
 
+## Profiles
+
+- [x] Add reusable social-profile UI, profile schema fields/statistics view, and Feed/Map profile entry points.
+- [ ] Add authenticated profile repository, editing, avatar/media upload, follow/block mutation, profile privacy enforcement, followers/following lists, and Moments/saved-place paging.
+- [ ] Connect profile links from Chats, Stories, Calls, Discover people cards, venue/creator surfaces, and push deep links.
+
 ## Discover
 
 - [x] Add city-level Dynamic Hero snapshot schema and Android repository with offline UI fallback.

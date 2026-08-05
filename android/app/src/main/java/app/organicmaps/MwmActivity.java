@@ -668,6 +668,15 @@ public class MwmActivity extends BaseMwmFragmentActivity
         });
       }
     }
+    mFomoMapHud.findViewById(R.id.fomo_map_profile).setOnClickListener(v -> {
+      mMainDestination = "profile";
+      mFomoMapHud.setVisibility(View.GONE);
+      mMainScreenContainer.setVisibility(View.VISIBLE);
+      for (View tab : mMainTabs)
+        tab.setSelected(false);
+      getSupportFragmentManager().beginTransaction().replace(R.id.main_screen_container,
+          MainScreenFragment.newInstance("profile:me")).addToBackStack("profile").commit();
+    });
     mFomoMapHud.findViewById(R.id.fomo_map_search).setOnClickListener(v -> showSearch(""));
     mFomoMapHud.findViewById(R.id.fomo_map_alerts).setOnClickListener(v -> Toast.makeText(this, "No new alerts", Toast.LENGTH_SHORT).show());
     final View clubLobby = mFomoMapHud.findViewById(R.id.fomo_map_lobby);

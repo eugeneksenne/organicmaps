@@ -70,6 +70,8 @@ public class MainScreenFragment extends Fragment
       return createStoryViewer(inflater, container, destination.substring("story:".length()));
     if (destination.startsWith("call:"))
       return createCallScreen(inflater, container, destination.substring("call:".length()));
+    if (destination.startsWith("profile:"))
+      return createProfileScreen(inflater, container, destination.substring("profile:".length()));
     if (destination.startsWith("discover_all:"))
       return createDiscoverAllScreen(inflater, container, destination.substring("discover_all:".length()));
     if (destination.startsWith("conversation:"))
@@ -258,6 +260,27 @@ public class MainScreenFragment extends Fragment
     return view;
   }
 
+  private void openProfile(@NonNull String username)
+  {
+    getParentFragmentManager().beginTransaction().replace(R.id.main_screen_container,
+        newInstance("profile:" + username)).addToBackStack("profile").commit();
+  }
+
+  @NonNull
+  private View createProfileScreen(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @NonNull String username)
+  {
+    final View view = inflater.inflate(R.layout.profile_screen, container, false);
+    final String displayName = "alfredm".equals(username) ? "Alfred M.  ✓" : username;
+    ((TextView) view.findViewById(R.id.profile_username_top)).setText("@" + username);
+    ((TextView) view.findViewById(R.id.profile_name)).setText(displayName);
+    ((TextView) view.findViewById(R.id.profile_avatar)).setText(username.substring(0, 1).toUpperCase());
+    view.findViewById(R.id.profile_back).setOnClickListener(v -> getParentFragmentManager().popBackStack());
+    view.findViewById(R.id.profile_follow).setOnClickListener(v -> { ((TextView) v).setText("Following"); v.setClickable(false); });
+    view.findViewById(R.id.profile_message).setOnClickListener(v -> openConversation(displayName));
+    view.findViewById(R.id.profile_more).setOnClickListener(v -> showConversationNotice("Share, block, or report profile"));
+    return view;
+  }
+
   private void openCall(@NonNull String mode, @NonNull String name)
   {
     getParentFragmentManager().beginTransaction().replace(R.id.main_screen_container,
@@ -329,6 +352,7 @@ public class MainScreenFragment extends Fragment
     }
     view.findViewById(R.id.feed_search).setOnClickListener(
         v -> Toast.makeText(requireContext(), "Search creators, venues, events, sounds, and hashtags", Toast.LENGTH_SHORT).show());
+    view.findViewById(R.id.feed_profile).setOnClickListener(v -> openProfile("alfredm"));
     view.findViewById(R.id.feed_follow).setOnClickListener(v -> {
       ((TextView) v).setText("✓\nFollowing");
       v.setClickable(false);
