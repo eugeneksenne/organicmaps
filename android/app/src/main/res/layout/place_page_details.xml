@@ -47,6 +47,12 @@
       android:layout_height="wrap_content"
       tools:layout="@layout/place_page_links_fragment" />
 
+    <androidx.fragment.app.FragmentContainerView
+      android:id="@+id/place_page_online_fragment"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      tools:layout="@layout/place_page_online_fragment" />
+
     <include layout="@layout/place_page_level" />
 
     <include layout="@layout/place_page_capacity" />

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Organic Maps private places export",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["id", "source", "name", "category", "latitude", "longitude"],
+    "properties": {
+      "id": {"type": "string", "format": "uuid"},
+      "source": {"const": "private"},
+      "name": {"type": "string", "minLength": 1},
+      "category": {"type": "string", "minLength": 1},
+      "latitude": {"type": "number", "minimum": -90, "maximum": 90},
+      "longitude": {"type": "number", "minimum": -180, "maximum": 180},
+      "address": {"type": ["string", "null"]},
+      "phone": {"type": ["string", "null"]},
+      "website": {"type": ["string", "null"], "format": "uri"},
+      "photos": {"type": "array", "maxItems": 3, "items": {"type": "string", "format": "uri"}},
+      "social_links": {"type": "object", "additionalProperties": {"type": "string", "format": "uri"}}
+    },
+    "additionalProperties": false
+  }
+}

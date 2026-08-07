@@ -108,6 +108,7 @@ public class PlacePageView extends Fragment
   private static final String PHONE_FRAGMENT_TAG = "PHONE_FRAGMENT_TAG";
   private static final String OPENING_HOURS_FRAGMENT_TAG = "OPENING_HOURS_FRAGMENT_TAG";
   private static final String LINKS_FRAGMENT_TAG = "LINKS_FRAGMENT_TAG";
+  private static final String ONLINE_FRAGMENT_TAG = "ONLINE_FRAGMENT_TAG";
   private static final String TRACK_SHARE_MENU_ID = "TRACK_SHARE_MENU_ID";
 
   private View mFrame;
@@ -450,6 +451,8 @@ public class PlacePageView extends Fragment
   private void updateLinksView()
   {
     updateViewFragment(PlacePageLinksFragment.class, LINKS_FRAGMENT_TAG, R.id.place_page_links_fragment, true);
+    updateViewFragment(app.organicmaps.widget.placepage.sections.PlacePageOnlineFragment.class,
+                       ONLINE_FRAGMENT_TAG, R.id.place_page_online_fragment, true);
   }
 
   private void updateOpeningHoursView()
