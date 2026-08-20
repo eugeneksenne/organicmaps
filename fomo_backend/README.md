@@ -24,6 +24,8 @@ This project is configured to work without paid APIs: self-host Supabase, LiveKi
 
 `functions/feed-publish` is the authenticated moment-publication entry point. `functions/livekit-token` issues short-lived LiveKit room tokens after Supabase authentication. Before deployment, set the LiveKit and push-gateway values from `.env.example` as Supabase Function secrets. push delivery, media moderation/transcoding, ranking, replay egress, and scheduled expiry remain trusted-worker responsibilities and are intentionally not run in an Edge Function request.
 
+Chat RPCs (`chat_inbox`, `send_chat_message`, `open_direct_conversation`, and related helpers) are documented in `docs/chats.md`. Apply `supabase/migrations/202608200001_chats_engine.sql` with `supabase db reset` or `supabase db push`.
+
 ## Scope
 
 The migration creates the server-of-record schema, RLS boundaries, direct/group conversations, messages, attachments, stories, call records, and a durable client-operation outbox. It is a backend foundation, not a claim that encryption, media scanning, WebRTC TURN, push delivery, or moderation are production-complete.
