@@ -53,6 +53,11 @@ android {
   // uncommenting the `enableKotlin = true` stub in their own build.gradle.
   enableKotlin = true
 
+  sourceSets {
+    main.java.srcDirs += ['../../shared/chats/src/commonMain/kotlin', '../../shared/feed/src/commonMain/kotlin']
+    test.java.srcDirs += ['../../shared/chats/src/commonTest/kotlin', '../../shared/feed/src/commonTest/kotlin']
+  }
+
   buildFeatures {
     dataBinding = true
     buildConfig = true
@@ -273,11 +278,21 @@ dependencies {
   implementation libs.socket.io.client
   implementation libs.okhttp
   implementation libs.livekit.android
+  implementation libs.kotlinx.coroutines.android
+  implementation libs.kotlinx.serialization.json
+  implementation platform(libs.supabase.bom)
+  implementation libs.supabase.auth
+  implementation libs.supabase.postgrest
+  implementation libs.supabase.realtime
+  implementation libs.supabase.storage
+  implementation libs.supabase.functions
+  implementation libs.ktor.client.okhttp
 
   // Test Dependencies
   testImplementation libs.androidx.junit
   testImplementation libs.mockito.core
   testImplementation libs.mockito.inline
+  testImplementation libs.json
 }
 
 def allowedPermissions = [
@@ -303,6 +318,7 @@ def allowedPermissions = [
     // camera and live-call audio
     "name='android.permission.CAMERA'",
     "name='android.permission.RECORD_AUDIO'",
+    "name='android.permission.READ_CONTACTS'",
     // storage
     "name='android.permission.READ_EXTERNAL_STORAGE' maxSdkVersion='22',
     // internal permissions

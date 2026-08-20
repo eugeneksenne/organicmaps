@@ -3,6 +3,7 @@ package app.organicmaps.chat.data;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import app.organicmaps.BuildConfig;
+import app.organicmaps.chats.ChatLogic;
 import java.io.IOException;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -180,21 +181,13 @@ public class FomoAuthRepository
   @NonNull
   static String usernameFromEmail(@NonNull String email)
   {
-    final String local = email.contains("@") ? email.substring(0, email.indexOf('@')) : email;
-    final String cleaned = local.toLowerCase().replaceAll("[^a-z0-9_.]", "");
-    return cleaned.length() >= 3 ? cleaned.substring(0, Math.min(32, cleaned.length()))
-                                 : "user" + Integer.toHexString(email.hashCode() & 0x7fffffff);
+    return ChatLogic.INSTANCE.usernameFromEmail(email);
   }
 
   @NonNull
   static String displayNameFromEmail(@Nullable String email)
   {
-    if (email == null || email.isEmpty())
-      return "You";
-    final String local = email.contains("@") ? email.substring(0, email.indexOf('@')) : email;
-    if (local.isEmpty())
-      return "You";
-    return Character.toUpperCase(local.charAt(0)) + local.substring(1);
+    return ChatLogic.INSTANCE.displayNameFromEmail(email);
   }
 
   @NonNull

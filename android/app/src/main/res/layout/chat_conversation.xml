@@ -59,6 +59,23 @@
       android:contentDescription="@string/chats_more"/>
   </LinearLayout>
 
+  <EditText
+    android:id="@+id/conversation_search"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="4dp"
+    android:background="@drawable/camera_look"
+    android:hint="@string/chats_search_conversation"
+    android:inputType="text"
+    android:paddingStart="14dp"
+    android:paddingEnd="14dp"
+    android:textColor="@color/text_dark"
+    android:textColorHint="@color/text_dark_hint"
+    android:visibility="gone"
+    android:importantForAutofill="no"/>
+
   <TextView
     android:id="@+id/conversation_status"
     android:layout_width="match_parent"

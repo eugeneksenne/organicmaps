@@ -50,6 +50,23 @@
       android:contentDescription="@string/chats_new"/>
   </LinearLayout>
 
+  <EditText
+    android:id="@+id/chats_search_input"
+    android:layout_width="match_parent"
+    android:layout_height="44dp"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/camera_look"
+    android:hint="@string/chats_search_hint"
+    android:inputType="text"
+    android:paddingStart="14dp"
+    android:paddingEnd="14dp"
+    android:textColor="@color/text_dark"
+    android:textColorHint="@color/text_dark_hint"
+    android:visibility="gone"
+    android:importantForAutofill="no"/>
+
   <TextView
     android:id="@+id/chats_status"
     android:layout_width="match_parent"
@@ -175,9 +192,12 @@
           android:layout_height="match_parent"
           android:gravity="center_vertical"
           android:orientation="horizontal">
-          <TextView style="@style/ChatCategory.Active" android:text="@string/main_tab_chats"/>
-          <TextView style="@style/ChatCategory" android:text="@string/chats_calls"/>
-          <TextView style="@style/ChatCategory" android:text="@string/chats_groups"/>
+          <TextView android:id="@+id/chats_filter_all" style="@style/ChatCategory.Active" android:text="@string/chats_filter_all"/>
+          <TextView android:id="@+id/chats_filter_unread" style="@style/ChatCategory" android:text="@string/chats_filter_unread"/>
+          <TextView android:id="@+id/chats_filter_personal" style="@style/ChatCategory" android:text="@string/chats_filter_personal"/>
+          <TextView android:id="@+id/chats_filter_venues" style="@style/ChatCategory" android:text="@string/chats_filter_venues"/>
+          <TextView android:id="@+id/chats_filter_groups" style="@style/ChatCategory" android:text="@string/chats_groups"/>
+          <TextView android:id="@+id/chats_filter_calls" style="@style/ChatCategory" android:text="@string/chats_calls"/>
         </LinearLayout>
       </HorizontalScrollView>
       <TextView

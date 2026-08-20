@@ -1,7 +1,10 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const headers = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, content-type" };
-const allowed = new Set(["message", "reaction", "receipt", "draft", "story_view", "presence"]);
+const allowed = new Set([
+  "message", "reaction", "receipt", "edit", "delete", "mute", "pin", "presence",
+  "leave", "clear", "block", "report", "draft", "story_view"
+]);
 
 Deno.serve(async request => {
   if (request.method === "OPTIONS") return new Response("ok", { headers });

@@ -4,9 +4,11 @@ _Last reviewed: 2026-08-20_
 
 ## Status
 
-**Overall: foundation started; not production-ready.**
+**Overall: chats inbox/conversation/groups/stories/calls are repository-backed; not production-ready.**
 
-The Android project now has native prototype screens for Chats, DMs, Calls, Groups, and Stories, plus an initial Supabase data model and local Docker support. The systems below are not yet end-to-end connected, tested, or deployable as a production communications platform.
+Shared Kotlin chat logic lives in `shared/chats` and is used by the Android Kotlin data layer. iOS has a UIKit adapter in `iphone/Maps/UI/Chats` that follows the same RPC contract. The client stack is open-source only: Supabase + supabase-kt + OkHttp/Ktor + SQLite cache + LiveKit (WebRTC) + MapLibre. No Stream/Sendbird/Twilio Chat. Encryption, media uploads, LiveKit remote-track rendering, incoming-call push, and ConnectionService are still open. Story privacy is Friends or Only me. Coil/Media3/CameraX are not wired until the media pipeline exists.
+
+The chats screen itself (tray, filters, search, auth, new-chat, pin/mute/leave, conversation send/edit/delete/reply/react, contact/venue/event/location cards) is wired to Supabase RPCs. It is not a 10/10 production messenger.
 
 ## Environment and secret policy
 
@@ -46,6 +48,7 @@ The Android project now has native prototype screens for Chats, DMs, Calls, Grou
 - [x] Add authenticated Supabase Edge Function operation queue and Android OkHttp dispatcher for durable queued operations.
 - [x] Add public Android build configuration and an engine factory that binds Socket.IO transport to the authenticated Supabase operation dispatcher.
 - [x] Connect Android repositories/UI to the engine with local inbox/message cache, optimistic send, and delivery state.
+- [x] V1 realtime: delivered receipts, typing labels, busy/in-call presence, connection banners, live hint refresh for edits/reactions/deletes. Push, media, and nightlife V2 layers remain open.
 - [ ] Implement presence, attachment, analytics, and notification managers.
 - [ ] Add Supabase Realtime subscriptions, presence, database reconciliation cursor, foreground/background handling, and network-change tests.
 - [ ] Add OpenTelemetry traces, rate limits, Redis-backed distributed presence, and operational dashboards.
@@ -58,10 +61,11 @@ The Android project now has native prototype screens for Chats, DMs, Calls, Grou
 - [x] Add local SQLite inbox/message cache, drafts, and outbox replay.
 - [ ] Add encrypted local database and local search index.
 - [x] Implement conversation pagination, optimistic sends, idempotency, retries, pins, and read receipts.
-- [ ] Add editing, deletion, reply threading, and reactions in the UI.
-- [ ] Add realtime subscriptions for messages, typing, presence, edits, reactions, and membership.
-- [ ] Implement offline operation queue replay and conflict handling.
-- [ ] Add composer attachment bottom sheet, camera/gallery/document/location/contact integrations, and upload progress.
+- [x] Add editing, deletion, reply threading, and reactions in the UI (outbox-backed).
+- [ ] Add Supabase Realtime subscriptions (Socket.IO hints + polling fallback are live).
+- [x] Implement offline operation queue replay and queued/server merge.
+- [x] Add composer attachment sheet for venue/event/location/contact cards (camera/gallery/document wait on media pipeline).
+- [x] Device contacts: READ_CONTACTS / CNContactStore, picker, share-as-card, and new-chat matching. The address book is never bulk-uploaded.
 - [ ] Add rich native cards for venues, events, routes, Moments, profiles, tickets, and Flash Drops.
 
 ## Encryption and security
@@ -84,8 +88,9 @@ The Android project now has native prototype screens for Chats, DMs, Calls, Grou
 
 - [x] Stories inbox and viewer UI.
 - [x] Initial story/story-view schema with expiry timestamp.
-- [ ] Add story create/upload/publish flow from FOMO Camera.
-- [ ] Add audience/privacy selection, view tracking, replies, reactions, mute/block behavior, and viewer lists.
+- [x] Text story publish with audience selection (Friends or Only me); photo/video still opens FOMO Camera.
+- [x] View tracking, replies into chat, reactions, mute, and delete-own-story RPCs/UI.
+- [x] Story privacy is Friends or Only me only; followers/public were removed from UI, RPCs, RLS, and the column check.
 - [ ] Add scheduled expiry/deletion worker and storage cleanup.
 - [ ] Add moderation/reporting and notification behavior.
 
@@ -99,11 +104,11 @@ The Android project now has native prototype screens for Chats, DMs, Calls, Grou
 
 ## Calling
 
-- [x] Calls history and all core call-state UI screens: outgoing, incoming, active voice, active video, and group state.
-- [x] Initial call-session table.
+- [x] Calls history and all core call-state UI screens: outgoing, incoming, active voice, active video, group, reconnecting, participant sheet, reply/silence.
+- [x] Initial call-session table plus `call_inbox` / `start_chat_call` / `end_chat_call` RPCs.
 - [x] Integrate the maintained LiveKit Android WebRTC SDK and add a real room-session engine for microphone/camera publication.
 - [x] Implement authenticated Socket.IO signaling and a Supabase Edge Function that issues short-lived LiveKit tokens.
-- [ ] Wire Android runtime permission requests, token retrieval, remote-track rendering, incoming-call notifications, and call lifecycle UI to the LiveKit session engine.
+- [x] Wire call lifecycle UI, runtime permission requests, and LiveKit token retrieval (demo UI continues when LiveKit is unconfigured). Remote-track rendering and incoming-call notifications remain open.
 - [ ] Provision STUN/TURN infrastructure, credential issuance, ICE validation, regional routing, and observability.
 - [ ] Implement incoming-call push notifications, Android ConnectionService/foreground service behavior, lock-screen answer/decline, and call notifications.
 - [ ] Implement peer connections, media tracks, echo cancellation, noise suppression, audio routing, Bluetooth/headset behavior, camera switching, PiP, bitrate adaptation, and reconnect logic.
@@ -144,17 +149,21 @@ The Android project now has native prototype screens for Chats, DMs, Calls, Grou
 
 - [x] Native media-first Feed UI with tabs and local interaction states.
 - [x] Initial Moments, invitations, reactions, comments, and personalised feed-item schema migration.
-- [ ] Implement Android feed repository, paging, cache, optimistic interactions, and realtime delta updates.
+- [x] Android `FeedRepository` + `FeedBinder`: For You / Following / Nearby / Live, `feed_page` RPC, optimistic like/ripple/save/follow/comment. Unsigned/unconfigured uses labeled demo Moments.
+- [x] Server Ripple engine: one Ripple per user, removable, idempotent `set_moment_reaction`, trust weight, velocity, decay, Quiet→Viral bands. Rollup tables for venue / event / city / creator. Clients never score. Invitation card states Active/Ended/Venue Closed. Who's Here is not in Feed or Ripple RPCs.
+- [x] Offline Ripple outbox stores desired on/off state and replays `set_moment_reaction`.
+- [x] Ranking worker reads server `decayed_score`; Discover / Smart Places / Flash Drops order by public bands. `ripple_snapshot` / `ripple_trending` / own-creator analytics RPCs.
 - [ ] Create signed upload/publish workflow from Camera with moderation state transitions.
 - [x] Add a self-hosted trusted For You ranking-worker baseline; clients cannot write rank scores.
 - [x] Add self-hosted follow/block graph, consented discovery-location, venue safety schema, and ranking branches for Following, Nearby, and Live.
-- [ ] Add engagement velocity, reports, sponsored-content policy, user-facing privacy controls, cache invalidation, and ranking evaluation before production enablement.
+- [ ] Add reports, sponsored-content policy, user-facing privacy controls, cache invalidation, and ranking evaluation before production enablement.
 - [x] Add initial authenticated publish and short-lived LiveKit-token Edge Function foundations.
 - [x] Add initial live broadcast, device-push, and feed-event schema migration.
-- [ ] Add follow graph, venue/event integration, LiveKit ingest/egress/replay pipeline, and invitation expiry worker.
+- [ ] Add LiveKit ingest/egress/replay pipeline and invitation expiry worker.
 - [ ] Implement self-hosted push gateway worker and Android UnifiedPush registration/incoming notification flows.
-- [ ] Add moderation, sponsored-content disclosure, reporting, blocking, privacy enforcement, analytics, and abuse/rate protections.
+- [ ] Add moderation, sponsored-content disclosure, reporting, blocking, privacy enforcement, creator analytics UI, and stronger abuse/rate protections (device attestation, farms, impossible travel).
 - [ ] Add media CDN/transcode/thumbnail delivery, preload strategy, performance telemetry, and feed-load tests.
+- [ ] Club Lobby heat banners, Ripple realtime fanout to other viewers, iOS Feed UI in the Xcode target.
 
 ## Current committed foundations
 
