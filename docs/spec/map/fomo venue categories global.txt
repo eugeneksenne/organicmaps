@@ -1,0 +1,346 @@
+FOMO — Global Map Venue Category System
+Billion-Dollar Social Energy Architecture (Updated Master Plan)
+FOMO is not a traditional maps platform.
+It is a:
+real-time social discovery engine,
+live energy map,
+cultural pulse tracker,
+and behavioral coordination system.
+The platform maps:
+where people gather,
+where energy moves,
+where moments happen,
+and where users fear missing out.
+
+Core Philosophy
+Every venue/category must answer:
+“Can this place create social energy and FOMO right now?”
+If YES → it belongs on the map.
+If NO → it does not belong.
+This keeps the ecosystem emotionally charged instead of becoming cluttered like traditional maps.
+
+GLOBAL CATEGORY ARCHITECTURE
+The FOMO map operates using:
+1. Permanent Venues
+Stable long-term locations.
+Examples:
+clubs,
+cafés,
+salons,
+rooftops,
+gyms,
+restaurants,
+lounges.
+These build:
+search depth,
+partnerships,
+monetization,
+reliability,
+city coverage.
+
+2. Dynamic / Temporary Venues
+Short-lived social energy nodes.
+Examples:
+house parties,
+warehouse raves,
+popup festivals,
+rooftop takeovers,
+yacht parties,
+secret locations.
+These create:
+urgency,
+virality,
+addictive refresh behavior,
+exclusivity.
+Pins disappear after expiry.
+This is a core differentiator.
+
+UPDATED GLOBAL VENUE CATEGORY SYSTEM
+1. NIGHTLIFE VENUES
+(Primary Retention Engine)
+
+The strongest daily engagement category.
+Subcategories
+Nightclubs & Discos
+Lounges
+Cocktail Bars
+Rooftop Bars
+Sports Bars
+Taverns & Shisanyamas
+Beach Clubs
+Pool Parties
+Hookah/Shisha Lounges
+Karaoke Bars
+After-Hours Spots
+Underground Raves
+Live Music Venues
+Salsa Clubs
+Jazz Bars
+Afrobeat Venues
+Live Signals
+Packed Right Now
+Queue Length
+DJ Live
+Table Availability
+Entry Cost
+Gender Ratio
+Vibe Score
+Celebrity Spotted
+Crowd Energy Meter
+Global Adaptation Tags
+Amapiano
+Afrobeats
+Reggaeton
+K-Pop
+Techno
+EDM
+Hip-Hop
+Dancehall
+Salsa
+House Music
+
+2. EVENTS
+(Virality Layer)
+
+Events create temporary spikes in user activity.
+Subcategories
+Music Festivals
+Concerts
+Stadium Events
+Sports Events
+Esports Events
+Fashion Shows
+Art Exhibitions
+Food Festivals
+Auto Shows
+Campus Events
+Networking Mixers
+Cultural Celebrations
+Pop-up Experiences
+Carnival Events
+Street Festivals
+Core Structure
+Every event is:
+EVENT @ VENUE
+Example:
+AfroFuture @ Waterfront Park
+Cotton Fest @ The Station
+Features
+Countdown Timers
+Live Attendance
+Ticket Integration
+Artist Lineups
+Event Story Feed
+Friend Attendance Sync
+
+3. FOOD 
+(Daily Habit Layer)
+
+
+Not just restaurants.
+This category tracks:
+social dining,
+pregame culture,
+brunch culture,
+afterparty food movement.
+Subcategories
+Trendy Restaurants
+Date Spots
+Rooftop Dining
+Brunch Cafés
+Sushi Bars
+Wine Bars
+Speakeasies
+Street Food Markets
+Night Markets
+Food Halls
+Late-Night Eats
+Scenic Restaurants
+Hidden Gems
+Live Signals
+Wait Time
+Most Ordered Items
+Crowd Activity
+Trending Dish
+Date Night Popularity
+Creator Hotspot
+
+4. PREP 
+(Habit + Identity Layer)
+
+One of FOMO’s strongest differentiators.
+Subcategories
+Barbershops
+Salons
+Nail Studios
+Makeup Studios
+Lash Bars
+Tattoo Studios
+Fashion Boutiques
+Sneaker Stores
+Perfume Stores
+Jewelry Stores
+Gyms
+Pilates Studios
+Content Studios
+Connected Features
+Prep Room
+Outfit Voting
+Group Coordination
+Before/After Stories
+Beauty Trends
+Event Preparation Sync
+Why Powerful
+This creates:
+repeat weekly usage,
+creator engagement,
+social preparation culture,
+and strong Gen Z retention.
+
+
+6. TEMPORARY & DYNAMIC VENUES
+(FOMO Innovation Layer)
+
+This category separates FOMO from every major map platform.
+Types
+House Parties
+Secret Events
+Popup Locations
+Rooftop Takeovers
+Warehouse Sessions
+Boat Parties
+Invite-Only Functions
+Street Gatherings
+Flash Markets
+One-Night Experiences
+Mechanics
+Temporary Pins
+Auto Expiry
+Privacy Tiers
+Friend Unlocks
+Verification System
+Host Approval
+Live Activity Detection
+Pin Behavior
+Pins:
+pulse when active,
+glow during peak energy,
+fade after inactivity,
+disappear after expiry.
+
+
+9. WELLNESS
+(Daytime Retention Layer)
+
+Subcategories
+Wellness Retreats
+Yoga Studios
+Spas
+Recovery Clubs
+Co-working Spaces
+Social Coffee Shops
+Meditation Events
+Healthy Cafés
+
+10. TRAVEL
+(Tourism Expansion Layer)
+
+Subcategories
+Airports
+Transit Hubs
+Scenic Viewpoints
+Tourist Attractions
+Hotel Pools
+Cruise Events
+Resort Experiences
+Travel Meetups
+
+
+CROSS-CATEGORY GLOBAL SYSTEMS
+Smart Tagging System
+Applied to ALL venues.
+Vibe Tags
+Vibey
+Romantic
+Lit
+Exclusive
+Cozy
+Chill
+Luxury
+Underground
+Crowd Tags
+Young Crowd
+Mature Crowd
+Tourist Favorite
+LGBTQ+ Friendly
+Creator Hotspot
+Music Tags
+Amapiano
+Afrobeats
+EDM
+Jazz
+Hip-Hop
+K-Pop
+Salsa
+Utility Tags
+Wheelchair Accessible
+Halal
+Kosher
+Pet Friendly
+Outdoor Seating
+
+REAL-TIME SIGNAL SYSTEM
+Core to the platform.
+Live Data Points
+Crowd Density
+Queue Time
+Live Stories
+Check-ins
+Friend Presence
+Noise Level
+Entry Fee
+Venue Heat Score
+DJ/Artist Live
+Viral Momentum
+
+FOMO MAP PIN SYSTEM
+Pin Types
+Static Pins
+Permanent venues.
+Dynamic Pins
+Temporary social energy.
+Live Pulsing Pins
+Currently active hotspots.
+Friend Pins
+Places where friends are active.
+Sponsored Hot Pins
+Paid boosted placements.
+
+GLOBAL AI PERSONALIZATION
+“For You” Map Layers
+AI adapts based on:
+music taste,
+nightlife behavior,
+spending habits,
+creator interests,
+relationship status,
+travel patterns,
+social graph.
+Example:
+A techno fan in Berlin sees warehouse raves.
+An amapiano fan in Johannesburg sees groove hotspots.
+A luxury traveler in Dubai sees rooftop lounges and yacht events.
+
+FINAL POSITIONING
+FOMO becomes:
+“The real-time social energy layer of the world.”
+Not:
+a maps app,
+a nightlife app,
+or an events app.
+But:
+a live behavioral map,
+powered by culture,
+movement,
+status,
+and social momentum.

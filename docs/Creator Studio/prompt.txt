@@ -1,0 +1,1072 @@
+
+
+---
+
+# MASTER IMPLEMENTATION PROMPT
+
+You are a Principal Software Architect, Senior Kotlin Multiplatform Engineer, Distributed Systems Engineer, Payments Systems Engineer, Analytics Engineer, and Mobile UX Architect.
+
+Build the complete **Creator Studio & Venue Claim Platform** as production-ready software.
+
+This is NOT a prototype.
+
+Everything must be production-ready and deployable to Google Play Store and Apple App Store.
+
+The application is fully native.
+
+Business logic is shared using Kotlin Multiplatform.
+
+Android and iOS must use native UI frameworks.
+
+The Creator Studio is NOT a social media creator dashboard.
+
+It is the professional operations platform for verified nightlife professionals.
+
+Only approved users may access Creator Studio.
+
+---
+
+# Technology Stack
+
+## Shared
+
+Kotlin Multiplatform
+
+Coroutines
+
+Flow
+
+Kotlin Serialization
+
+Ktor
+
+SQLDelight
+
+Dependency Injection
+
+Offline-first
+
+## Android
+
+Jetpack Compose
+
+Material 3
+
+Navigation Compose
+
+CameraX
+
+Media3
+
+WorkManager
+
+BiometricPrompt
+
+## iOS
+
+SwiftUI
+
+Combine
+
+AVFoundation
+
+BackgroundTasks
+
+MapKit
+
+LocalAuthentication
+
+Keychain
+
+## Backend
+
+Supabase Authentication
+
+Supabase PostgreSQL
+
+Supabase Realtime
+
+Supabase Edge Functions
+
+Redis
+
+CDN
+
+Object Storage abstraction
+
+Push Notifications
+
+Stateless APIs
+
+Horizontal Scaling
+
+Background Workers
+
+---
+
+# Architecture
+
+Use
+
+Clean Architecture
+
+MVVM
+
+Repository Pattern
+
+Use Cases
+
+Feature Modules
+
+StateFlow
+
+Immutable UI State
+
+CQRS where beneficial
+
+Offline-first
+
+Optimistic Updates
+
+Event-driven architecture
+
+No monolithic implementation.
+
+---
+
+# Build Feature Modules
+
+creator-core
+
+creator-dashboard
+
+creator-profile
+
+verification
+
+venue-claim
+
+venue-management
+
+club-lobby-management
+
+event-management
+
+lineup-management
+
+ticketing
+
+guest-list
+
+flash-drops
+
+campaigns
+
+promotions
+
+analytics
+
+media-library
+
+notifications
+
+team-management
+
+approval-workflow
+
+payments
+
+offline
+
+sync
+
+security
+
+performance
+
+---
+
+# Core Philosophy
+
+Creator Studio empowers professionals who create nightlife experiences.
+
+Support only these verified account types:
+
+Night Venue Owner
+
+DJ
+
+Music Artist
+
+Event Organiser
+
+Do not expose Creator Studio to regular users.
+
+Restaurant, café, hotel, influencer, and general brand accounts must not have Creator Studio access unless future product requirements change.
+
+---
+
+# Access Control Engine
+
+Implement Role-Based Access Control (RBAC).
+
+Roles
+
+Venue Owner
+
+Venue Manager
+
+DJ
+
+Music Artist
+
+Event Organiser
+
+Moderator
+
+Support
+
+Admin
+
+Permissions must be granular.
+
+Every API endpoint validates permissions.
+
+Support future permission expansion without schema changes.
+
+---
+
+# Verification Platform
+
+Implement a complete verification workflow.
+
+Support verification applications for:
+
+Venue Owners
+
+DJs
+
+Music Artists
+
+Event Organisers
+
+Requirements depend on account type.
+
+Support:
+
+Identity Verification
+
+Business Verification
+
+Venue Ownership Verification
+
+Professional Portfolio
+
+Social Links
+
+Supporting Documents
+
+Application Status
+
+Pending
+
+Approved
+
+Rejected
+
+Under Review
+
+Additional Information Requested
+
+Notifications at every stage.
+
+---
+
+# Creator Dashboard
+
+Build a premium dashboard.
+
+Display
+
+Tonight's Events
+
+Upcoming Events
+
+Venue Performance
+
+Audience Growth
+
+Ticket Sales
+
+Campaign Performance
+
+Flash Drop Activity
+
+Recent Notifications
+
+Quick Actions
+
+Realtime updates
+
+Offline cache
+
+---
+
+# Creator Profile
+
+Manage
+
+Profile Photo
+
+Cover Image
+
+Biography
+
+Contact Details
+
+Social Links
+
+Verification Badge
+
+Categories
+
+Genres
+
+Availability
+
+Booking Preferences
+
+Business Hours
+
+Portfolio
+
+---
+
+# Venue Claim Platform
+
+Venue owners can
+
+Search existing venues
+
+Claim venue ownership
+
+Submit new venues
+
+Upload ownership documents
+
+Track claim progress
+
+Request ownership transfer
+
+Support:
+
+Single owner
+
+Multi-owner
+
+Venue management teams
+
+Audit trail for every ownership change.
+
+---
+
+# Venue Management
+
+Venue owners manage:
+
+Venue Information
+
+Opening Hours
+
+Amenities
+
+Hero Media
+
+Announcements
+
+Gallery
+
+Music Genres
+
+Dress Code
+
+Capacity
+
+Contact Information
+
+Reservation Links
+
+Realtime updates
+
+Version history
+
+---
+
+# Club Lobby Management
+
+Venue Owners only.
+
+Manage:
+
+Hero Media
+
+Featured Moments
+
+Venue Stories
+
+Announcements
+
+Opening Hours
+
+Welcome Messages
+
+Pinned Events
+
+Featured Flash Drops
+
+Live Broadcast Banner
+
+Realtime publishing
+
+Schedule updates
+
+Preview before publishing
+
+---
+
+# Event Management
+
+Create and manage:
+
+Title
+
+Poster
+
+Description
+
+Venue
+
+Date
+
+Time
+
+Capacity
+
+Age Restrictions
+
+Dress Code
+
+Categories
+
+Ticket Types
+
+Artists
+
+DJs
+
+Hosts
+
+Sponsors
+
+Actions
+
+Draft
+
+Publish
+
+Duplicate
+
+Archive
+
+Cancel
+
+Reschedule
+
+Event approval workflow
+
+Realtime updates
+
+---
+
+# Lineup Management
+
+Manage
+
+Artists
+
+DJs
+
+Hosts
+
+Performance Times
+
+Running Order
+
+Stage Assignment
+
+Appearance Confirmation
+
+Automatic schedule conflict detection.
+
+---
+
+# Ticketing Platform
+
+Support
+
+General Admission
+
+VIP
+
+Tables
+
+Complimentary
+
+Early Bird
+
+Backstage
+
+QR Tickets
+
+Offline QR Validation
+
+Guest Lists
+
+Capacity Tracking
+
+Check-ins
+
+Refund Workflow
+
+Ticket Transfers
+
+Waitlists
+
+Design the payment layer behind an abstraction so Stripe, regional gateways, or future providers can be integrated without changing business logic.
+
+---
+
+# Guest List Management
+
+Support
+
+Manual Guests
+
+VIP Guests
+
+Sponsors
+
+Staff
+
+Media
+
+Creators
+
+QR Check-in
+
+Offline Validation
+
+Arrival Tracking
+
+Capacity Monitoring
+
+Realtime updates
+
+---
+
+# Flash Drop Management
+
+Venue owners create:
+
+Free Drinks
+
+VIP Upgrades
+
+Merchandise
+
+Food Vouchers
+
+Entry Discounts
+
+Configuration
+
+Start
+
+End
+
+Quantity
+
+Eligibility Rules
+
+Sponsors
+
+Availability
+
+Countdown
+
+Venue Staff Redemption
+
+Flash Drops cannot be redeemed inside the app.
+
+Redemption must be confirmed physically by venue staff.
+
+---
+
+# Promotions Platform
+
+Promote
+
+Events
+
+Venue
+
+Flash Drops
+
+Targeting
+
+City
+
+Province
+
+Country
+
+Audience Segments
+
+Interests
+
+Date Range
+
+Budget
+
+Campaign Goals
+
+Scheduling
+
+Performance Tracking
+
+Pause
+
+Resume
+
+Duplicate
+
+Archive
+
+---
+
+# Analytics Platform
+
+Dashboard includes
+
+Audience
+
+Reach
+
+Followers
+
+Views
+
+Venue Visitors
+
+Ticket Sales
+
+Attendance
+
+Check-ins
+
+Peak Hours
+
+Venue Trends
+
+Flash Drop Performance
+
+Campaign Performance
+
+Creator Growth
+
+Moment Performance
+
+Story Performance
+
+Club Lobby Visits
+
+Route Requests
+
+Privacy-compliant aggregation only.
+
+---
+
+# Media Library
+
+Manage
+
+Photos
+
+Videos
+
+Posters
+
+Logos
+
+Stories
+
+Templates
+
+Campaign Assets
+
+Version History
+
+Bulk Upload
+
+Compression
+
+Background Upload
+
+Smart Search
+
+Offline Drafts
+
+---
+
+# Notifications
+
+Support
+
+Verification Updates
+
+Venue Claims
+
+Event Approval
+
+Ticket Purchases
+
+Guest List Updates
+
+Flash Drop Activity
+
+Venue Reviews
+
+Campaign Results
+
+Realtime
+
+Push
+
+Local
+
+---
+
+# Team Management
+
+Venue Owners can invite
+
+Managers
+
+Marketing Staff
+
+Event Managers
+
+Finance Staff
+
+Permissions
+
+View
+
+Edit
+
+Publish
+
+Manage Tickets
+
+Manage Flash Drops
+
+Analytics Only
+
+Audit Logs
+
+Role Changes
+
+---
+
+# Search
+
+Support
+
+Events
+
+Venues
+
+Creators
+
+Artists
+
+DJs
+
+Campaigns
+
+Media
+
+Guest Lists
+
+Tickets
+
+Verification Requests
+
+Indexed locally
+
+Realtime suggestions
+
+---
+
+# Offline Engine
+
+Support
+
+Draft Events
+
+Draft Flash Drops
+
+Media Upload Queue
+
+Offline Ticket Validation
+
+Offline Guest Lists
+
+Campaign Drafts
+
+Background Synchronization
+
+Conflict Resolution
+
+Automatic Retry
+
+---
+
+# AI Intelligence Layer
+
+Invisible intelligence only.
+
+Support
+
+Best Posting Time Suggestions
+
+Audience Insights
+
+Campaign Optimization
+
+Event Description Assistance
+
+Venue Recommendation
+
+Smart Tags
+
+Duplicate Event Detection
+
+Performance Forecasts
+
+Never publish content automatically.
+
+Creators approve every public action.
+
+---
+
+# Performance
+
+Studio Launch
+
+<300ms
+
+Dashboard Load
+
+<500ms
+
+Event Editor
+
+<150ms
+
+Search
+
+<100ms
+
+60–120 FPS
+
+Adaptive Media Loading
+
+Battery Optimized
+
+Memory Optimized
+
+---
+
+# Security
+
+Implement
+
+Authenticated APIs
+
+Role-Based Access Control
+
+Encrypted Local Storage
+
+Biometric Protection
+
+Audit Logs
+
+Signed Upload URLs
+
+Rate Limiting
+
+Fraud Detection
+
+Content Moderation
+
+Permission Validation
+
+---
+
+# Backend
+
+Design scalable backend services using
+
+Supabase PostgreSQL
+
+Supabase Realtime
+
+Edge Functions
+
+Redis
+
+Background Workers
+
+Object Storage abstraction
+
+Structured Logging
+
+Distributed Tracing
+
+Versioned APIs
+
+Optimistic Concurrency
+
+Idempotent Endpoints
+
+Event-driven architecture
+
+---
+
+# Ecosystem Integration
+
+Creator Studio integrates with
+
+Profile
+
+Feed
+
+Camera
+
+Stories
+
+Club Lobby
+
+Events
+
+Flash Drops
+
+Ticketing
+
+Venue Claims
+
+Map
+
+Chats
+
+Notifications
+
+Analytics
+
+Live Broadcasts
+
+Route Engine
+
+Every feature must reuse shared domain models and backend services.
+
+---
+
+# Testing
+
+Generate
+
+Unit Tests
+
+Integration Tests
+
+UI Tests
+
+Offline Tests
+
+Realtime Tests
+
+Permission Tests
+
+Verification Workflow Tests
+
+Ticket Validation Tests
+
+Analytics Tests
+
+Security Tests
+
+Performance Benchmarks
+
+Load Tests
+
+Accessibility Tests
+
+End-to-End Tests
+
+Chaos Engineering Scenarios
+
+---
+
+# Deliverables
+
+Generate the implementation in production phases.
+
+Each phase must compile successfully before continuing.
+
+For every phase generate:
+
+* Complete folder structure
+* Feature module architecture
+* Domain layer
+* Shared Kotlin Multiplatform code
+* Android implementation
+* iOS implementation
+* Navigation graph
+* ViewModels
+* Use Cases
+* Repositories
+* Database schema
+* Supabase schema
+* Realtime channels
+* Edge Functions
+* API contracts
+* Dependency Injection
+* Background workers
+* Media pipeline
+* Verification workflow
+* Venue claim workflow
+* Offline storage
+* Error handling
+* Retry policies
+* Offline synchronization
+* Unit tests
+* Integration tests
+* Performance validation
+* Security validation
+* Accessibility validation
+* Documentation
+
+Do not generate placeholder code, mock implementations, or TODO comments.
+
+Design the implementation so the Creator Studio becomes the professional operations hub for the nightlife ecosystem, enabling verified venue owners, DJs, music artists, and event organisers to manage venues, Club Lobbies, events, Flash Drops, ticketing, promotions, analytics, and team collaboration through a secure, offline-first, highly scalable, and maintainable platform capable of supporting hundreds of millions of users and thousands of concurrent nightlife businesses worldwide.

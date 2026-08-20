@@ -1,0 +1,217 @@
+FOMO Real-Time Map Engine
+
+FOMO Map Engine ┌─────────────────────────────────────┐ │ UI (Kotlin Compose) │ └─────────────────────────────────────┘ ▲ │ ┌─────────────────────────────────────┐ │ Shared Map Domain (KMP) │ └─────────────────────────────────────┘ ▲ ────────────────────────────────────────────────────── Realtime Transport Layer Supabase Realtime Socket.IO WebRTC MQTT GraphQL Live Queries ────────────────────────────────────────────────────── ▲ ────────────────────────────────────────────────────── Geo Intelligence Layer H3 PostGIS Turf JTS S2 Geometry ────────────────────────────────────────────────────── ▲ ────────────────────────────────────────────────────── Navigation Layer OSRM Valhalla GraphHopper ────────────────────────────────────────────────────── ▲ ────────────────────────────────────────────────────── Offline Layer MBTiles PMTiles Mapsforge ────────────────────────────────────────────────────── 
+
+1. Live User Locations
+
+Instead of polling every few seconds:
+
+Use
+
+✅ Supabase Realtime
+
+✅ PostGIS
+
+✅ H3
+
+Flow
+
+User moves ↓ Location Service ↓ Supabase ↓ Realtime Broadcast ↓ Nearby users receive update ↓ Marker smoothly animates 
+
+Updates only when
+
+moved >10m
+
+heading changed
+
+speed changed
+
+venue entered
+
+venue exited
+
+instead of every second.
+
+2. Live Venue Activity
+
+Every venue maintains a realtime state.
+
+Venue Current Crowd Queue Length Music Genre Temperature Capacity Special Event Open/Closed Flash Drop Police Alert Emergency DJ Playing Happy Hour 
+
+Broadcast through
+
+Supabase Realtime Channels 
+
+Only users subscribed to nearby venues receive updates.
+
+3. Live Heat Map
+
+Libraries
+
+H3
+
+Deck.gl algorithms (ported)
+
+Turf
+
+Instead of static colours.
+
+Heat updates continuously.
+
+People entering ↓ Density changes ↓ Heat recalculated ↓ Map animates 
+
+Every 3–5 seconds.
+
+4. Live Traffic
+
+Open source
+
+OSRM
+
+Valhalla
+
+Traffic sources
+
+OpenStreetMap
+
+User GPS traces
+
+Current road speed
+
+Road closures
+
+Construction
+
+Event congestion
+
+5. Live Friend Tracking
+
+Use
+
+Supabase Presence
+
+instead of database polling.
+
+Friend status
+
+Walking Driving At Venue Idle Offline Sharing Live NightGuard Active 
+
+Movement interpolated locally.
+
+6. Live Venue Occupancy
+
+When someone checks in
+
+Venue Occupancy ++ Realtime ↓ Crowd % ↓ Colour Changes Green Yellow Orange Red 
+
+7. Live Events
+
+Realtime event updates.
+
+Tickets left Doors opened Artist arrived Cancelled Running Late Queue Open VIP Full Parking Full After Party Started 
+
+8. Live Flash Drops
+
+Flash Drops appear instantly.
+
+Venue creates Flash Drop ↓ Supabase Broadcast ↓ Users nearby receive ↓ Animated map marker ↓ Countdown begins 
+
+9. Live Routing
+
+Current route updates when
+
+Road closed Accident Event Traffic Flood Construction Parking full 
+
+OSRM recalculates immediately.
+
+10. Live Weather Overlay
+
+Open-source weather providers can update
+
+Rain Fog Wind Lightning Temperature UV 
+
+Useful for nightlife planning.
+
+11. Live Parking
+
+Every parking lot streams
+
+Available Almost Full Full Closed 
+
+12. Live Safety Layer
+
+NightGuard streams
+
+Emergency reports Unsafe areas Police activity Medical assistance Road blocks Temporary hazards 
+
+Visible only to nearby users.
+
+13. Live City Pulse
+
+Entire city has a heartbeat.
+
+Current Activity People Out Trending Areas Average Wait Average Queue Music Trends Crowd Age Mood Safety Score 
+
+Updates every few seconds.
+
+14. Live Dynamic Clustering
+
+Instead of rebuilding markers.
+
+Use
+
+Supercluster + KDBush 
+
+Clusters expand smoothly.
+
+Millions of markers remain fast.
+
+15. Live Presence Detection
+
+Current venue changes
+
+Walking ↓ Geofence ↓ Entered Venue ↓ Venue Presence++ ↓ Friends notified ↓ Heat updated ↓ Venue ranking updated 
+
+16. Live Camera Moments
+
+When someone uploads a Moment
+
+Upload ↓ Venue Feed ↓ Map Marker ↓ Animated Ring ↓ Users Nearby ↓ Tap to Watch 
+
+No refresh required.
+
+17. Live Club Lobby Status
+
+Venue card updates instantly.
+
+Open Closing Soon Capacity Current DJ Live Broadcast VIP Average Age Dress Code Alert Entry Fee Queue Time 
+
+18. Live Public Transport
+
+Taxi availability Ride waiting time Bus arrival Train delays 
+
+Optional plugins.
+
+19. Live Battery-Aware Streaming
+
+The engine automatically adjusts update frequency:
+
+Battery >70% High-frequency updates Battery 30–70% Balanced updates Battery <30% Low-frequency updates Battery Saver Venue-only updates 
+
+This significantly reduces battery consumption.
+
+20. Intelligent Realtime Subscription Engine
+
+Instead of subscribing to the entire country, subscribe only to relevant H3 cells.
+
+Current Location ↓ Generate H3 Cell ↓ Subscribe to Cell ↓ Move to Next Cell ↓ Unsubscribe Old Cell ↓ Subscribe New Cell 
+
+This keeps bandwidth low while scaling to millions of concurrent users.
+
+Recommended Open-Source Library Stack
+
+SystemLibrariesRealtime DatabaseSupabase RealtimePresenceSupabase PresenceBroadcastSupabase BroadcastUltra-low Latency EventsSocket.IOPeer-to-PeerWebRTCGeospatial DatabasePostGISSpatial IndexingH3GeometryTurf + JTS + S2 GeometryMarker ClusteringSupercluster + KDBushRoutingOSRM + ValhallaOffline MapsPMTiles + MBTiles + MapsforgeOffline SyncSupabase + WorkManager (Android) / BackgroundTasks (iOS)SerializationKotlinx SerializationAsync ProcessingKotlin Coroutines + FlowImage LoadingCoilCachingSQLDelight + LRU Memory Cache
+
+Architecture recommendation
+
+Since you've already standardized on native Kotlin with shared logic and Supabase, I would make Supabase Realtime (Presence, Broadcast, and Postgres Changes) the default transport for nearly all map updates because it integrates directly with your backend and simplifies operations. Reserve Socket.IO for features that demand extremely high-frequency, bidirectional messaging—such as collaborative map interactions or live multiplayer experiences—where its event model provides an advantage. This hybrid approach minimizes infrastructure complexity while preserving the flexibility to support future high-scale realtime features.

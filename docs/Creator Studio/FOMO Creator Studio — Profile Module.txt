@@ -1,0 +1,462 @@
+# FOMO Creator Studio — Profile Module
+
+## Product Vision
+
+The **Profile Module** is the professional identity hub of FOMO Creator Studio.
+
+It represents the verified public identity of every creator on the platform—whether a venue owner, event organiser, DJ, or music artist.
+
+Unlike a personal social media profile, a Creator Profile is a **professional portfolio** that establishes trust, showcases experience, and enables collaboration across the nightlife ecosystem.
+
+Every verified creator has one profile, but may hold multiple professional roles.
+
+---
+
+# Design Principles
+
+The Profile Module should be:
+
+* Professional rather than social.
+* Verification-first to establish authenticity.
+* Portfolio-driven, showcasing work and achievements.
+* Collaborative, enabling bookings and partnerships.
+* Flexible enough to support multiple creator roles.
+* Integrated with the entire FOMO ecosystem.
+
+---
+
+# Supported Creator Roles
+
+| Creator Role       | Access |
+| ------------------ | ------ |
+| 🏙 Venue Owner     | ✅ Full |
+| 🎟 Event Organiser | ✅ Full |
+| 🎧 DJ              | ✅ Full |
+| 🎤 Music Artist    | ✅ Full |
+
+Each creator manages the sections relevant to their verified roles.
+
+---
+
+# Professional Identity
+
+Every creator profile contains:
+
+## Basic Information
+
+* Profile photo
+* Cover image
+* Display name
+* Professional name (if different)
+* Biography
+* Creator roles
+* Verification badge
+
+Example:
+
+```text
+DJ Nova
+
+✓ Verified DJ
+✓ Event Organiser
+```
+
+---
+
+# Public Profile URL
+
+Each verified creator receives a public FOMO profile.
+
+Example:
+
+```text
+fomo.app/@djnova
+```
+
+This profile can be shared with venues, organisers, and fans.
+
+---
+
+# Professional Information
+
+Depending on role, creators can manage:
+
+## Venue Owner
+
+* Venue ownership
+* Managed venues
+* Business information
+* Venue history
+
+---
+
+## Event Organiser
+
+* Organisation name
+* Company details
+* Previous events
+* Areas of operation
+
+---
+
+## DJ
+
+* DJ name
+* Genres
+* Home city
+* Years active
+
+---
+
+## Music Artist
+
+* Artist name
+* Genres
+* Label (optional)
+* Touring regions
+
+---
+
+# About
+
+Professional biography.
+
+Supports:
+
+* Short bio
+* Full biography
+* Career highlights
+* Mission statement
+
+---
+
+# Contact Information
+
+Manage:
+
+* Business email
+* Phone number
+* Website
+* Booking email
+
+Visibility settings determine which information is public.
+
+---
+
+# Social & Professional Links
+
+Supported platforms include:
+
+## DJs & Artists
+
+* Spotify
+* Apple Music
+* SoundCloud
+* Beatport
+* YouTube
+* Instagram
+* Facebook
+* TikTok
+
+---
+
+## Organisers
+
+* Website
+* Instagram
+* Facebook
+* LinkedIn
+
+---
+
+## Venue Owners
+
+* Venue website
+* Instagram
+* Facebook
+* WhatsApp Business
+
+Future integrations can expand this list.
+
+---
+
+# Portfolio
+
+Showcase professional work.
+
+Supports:
+
+## Images
+
+* Event photography
+* Venue photography
+* Promotional material
+
+---
+
+## Videos
+
+* Performance highlights
+* Venue walkthroughs
+* Event recaps
+
+---
+
+## Press
+
+* Articles
+* Interviews
+* Awards
+
+---
+
+## Featured Projects
+
+Examples:
+
+* Major events
+* Festivals
+* Venue launches
+* Tours
+
+---
+
+# Experience
+
+Professional history.
+
+Examples:
+
+## DJs
+
+* Clubs performed at
+* Festivals
+* Tours
+
+---
+
+## Artists
+
+* Albums
+* Tours
+* Collaborations
+
+---
+
+## Organisers
+
+* Events organised
+* Attendance records
+
+---
+
+## Venue Owners
+
+* Venues managed
+* Years in operation
+
+---
+
+# Achievements
+
+Highlight notable accomplishments.
+
+Examples:
+
+* Verified creator
+* Top-performing venue
+* Sold-out events
+* Featured creator
+* Community awards
+
+Future achievements may include platform milestones.
+
+---
+
+# Schedule
+
+Displays upcoming activity.
+
+Examples:
+
+* Upcoming performances
+* Hosted events
+* Venue appearances
+
+Integrated with the Events Module.
+
+---
+
+# Collaborations
+
+Displays current and previous collaborations.
+
+Examples:
+
+* Venues worked with
+* DJs booked
+* Artists featured
+* Organisers partnered with
+
+Future roadmap:
+
+Verified collaboration history.
+
+---
+
+# Media Library
+
+Central repository for profile assets.
+
+Supports:
+
+* Logos
+* Headshots
+* Cover images
+* Promotional photos
+* Videos
+
+Assets can be reused across Events, Marketing, and Club Lobby.
+
+---
+
+# Verification Status
+
+Displays:
+
+* Verification badge
+* Creator roles
+* Verification date
+* Current status
+
+Links directly to the Verification Module for renewals and document management.
+
+---
+
+# Profile Insights
+
+Analytics specific to the creator profile.
+
+Displays:
+
+## Visibility
+
+* Profile views
+* Search appearances
+
+---
+
+## Engagement
+
+* Profile shares
+* Contact clicks
+* Booking inquiries
+
+---
+
+## Growth
+
+* Followers (if applicable)
+* Returning visitors
+* Collaboration requests
+
+These metrics help creators understand their professional reach.
+
+---
+
+# Privacy & Visibility
+
+Creators control profile visibility.
+
+Options include:
+
+* Public
+* Visible only to verified creators
+* Hidden from search (limited scenarios)
+
+Contact information can be individually hidden or shown.
+
+---
+
+# Profile Settings
+
+Manage:
+
+* Display preferences
+* Default role
+* Public URL
+* Language
+* Region
+* Notification preferences
+
+---
+
+# AI Profile Assistant (Future Roadmap)
+
+The Profile Module can evolve into a career development assistant.
+
+Potential capabilities:
+
+* Suggest profile improvements.
+* Recommend portfolio updates.
+* Identify missing verification information.
+* Recommend collaborators based on genre or venue.
+* Suggest upcoming events to join.
+* Optimize biography for discoverability.
+
+---
+
+# Integration with Other Modules
+
+## Events
+
+Profile information populates performer lineups and organiser details.
+
+---
+
+## Venue
+
+Venue owners are linked to managed venues.
+
+---
+
+## Marketing
+
+Marketing campaigns can promote creator profiles.
+
+---
+
+## Audience
+
+Profile engagement contributes to audience insights.
+
+---
+
+## Collaboration
+
+Creators receive invitations, partnership requests, and booking opportunities.
+
+---
+
+## Verification
+
+Professional status and badges are managed through the Verification Module.
+
+---
+
+# Success Metrics
+
+The Profile Module should help creators:
+
+* Establish professional credibility.
+* Increase visibility within the nightlife ecosystem.
+* Secure more bookings and collaborations.
+* Showcase experience and achievements.
+* Maintain a trusted verified identity.
+* Present a consistent professional brand.
+
+---
+
+# Guiding Principle
+
+The Profile Module should function as a creator's **professional identity and portfolio**, not as another social media page. Every section should strengthen trust, showcase expertise, and make it easier for venues, organisers, DJs, and artists to discover, evaluate, and collaborate with one another. By integrating seamlessly with Events, Marketing, Collaboration, and Verification, the profile becomes the creator's long-term professional presence within the FOMO ecosystem.

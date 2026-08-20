@@ -1,0 +1,516 @@
+# FOMO Creator Studio — Marketing Module
+
+## Product Vision
+
+The **Marketing Module** is the growth engine of FOMO Creator Studio.
+
+Its purpose is to help venues, event organisers, DJs, and artists reach the right audience, increase attendance, sell more tickets, drive venue visits, and grow their brands.
+
+This is **not** a social media scheduler.
+
+It is a **nightlife marketing platform** built specifically for promoting nightlife experiences inside the FOMO ecosystem and, where supported, across connected channels.
+
+---
+
+# Design Principles
+
+The Marketing Module should be:
+
+* Goal-driven, with campaigns tied to measurable business outcomes.
+* Integrated with Events, Ticketing, Flash Drops, and Audience.
+* Performance-focused, emphasizing ROI rather than vanity metrics.
+* Simple enough for a club owner, powerful enough for a festival organiser.
+* Mobile-first, enabling campaign management from anywhere.
+
+---
+
+# Supported Creator Roles
+
+| Creator Role       | Access    |
+| ------------------ | --------- |
+| 🏙 Venue Owner     | ✅ Full    |
+| 🎟 Event Organiser | ✅ Full    |
+| 🎧 DJ              | ✅ Limited |
+| 🎤 Music Artist    | ✅ Limited |
+
+---
+
+## Venue Owner
+
+Can:
+
+* Promote venue
+* Promote events
+* Promote Flash Drops
+* Promote Club Lobby
+* Create marketing campaigns
+* View campaign analytics
+
+---
+
+## Event Organiser
+
+Can:
+
+* Promote events
+* Promote ticket sales
+* Promote event announcements
+* View campaign analytics
+
+---
+
+## DJ
+
+Can:
+
+* Promote performances
+* Promote public profile
+* Promote upcoming appearances
+* View performance analytics
+
+---
+
+## Music Artist
+
+Can:
+
+* Promote performances
+* Promote artist profile
+* Promote upcoming shows
+* View campaign analytics
+
+---
+
+# Marketing Dashboard
+
+The dashboard provides an overview of all marketing activity.
+
+## Sections
+
+* Active Campaigns
+* Scheduled Campaigns
+* Completed Campaigns
+* Draft Campaigns
+
+---
+
+## Dashboard Metrics
+
+* Reach
+* Impressions
+* Profile Visits
+* Event Views
+* Ticket Conversions
+* Flash Drop Engagement
+* Campaign Spend
+* Return on Ad Spend (ROAS)
+
+---
+
+## Quick Actions
+
+* New Campaign
+* Promote Event
+* Promote Venue
+* Promote Flash Drop
+* Promote Performance
+
+---
+
+# Campaign Objectives
+
+Every campaign begins with a clear objective.
+
+Available objectives:
+
+* Increase Event Awareness
+* Sell Tickets
+* Increase Venue Visits
+* Promote Flash Drops
+* Promote Venue
+* Promote DJ Performance
+* Promote Artist Performance
+* Increase Followers
+* Promote Announcements
+
+Campaign success is measured based on the selected objective.
+
+---
+
+# Campaign Creation Flow
+
+```text
+Campaign Objective
+
+↓
+
+Content Selection
+
+↓
+
+Audience
+
+↓
+
+Budget
+
+↓
+
+Schedule
+
+↓
+
+Review
+
+↓
+
+Launch
+```
+
+Campaigns can be saved as drafts.
+
+---
+
+# Content Selection
+
+Marketing campaigns can promote:
+
+## Events
+
+* Upcoming event
+* Event announcement
+* Lineup reveal
+* Last chance tickets
+
+---
+
+## Venue
+
+* Venue profile
+* Club Lobby
+* Weekly schedule
+* New opening
+
+---
+
+## Flash Drops
+
+* Free drink
+* VIP upgrade
+* Entry promotion
+* Limited rewards
+
+---
+
+## Performances
+
+* DJ performance
+* Artist performance
+* Tour announcement
+
+---
+
+## General Announcements
+
+* New menu
+* Special guests
+* Venue updates
+* Holiday schedule
+
+---
+
+# Audience Targeting
+
+Creators define who should see their campaign.
+
+## Geographic
+
+* Country
+* Province
+* City
+* Radius around venue
+
+---
+
+## Demographics
+
+* Age
+* Gender
+
+---
+
+## Interests
+
+* Music genres
+* Nightlife interests
+* Event categories
+
+---
+
+## Behaviour
+
+* Previous attendees
+* Returning guests
+* Followers
+* Ticket buyers
+* Flash Drop participants
+
+---
+
+## Custom Audiences (Future)
+
+Examples:
+
+* VIP guests
+* Students
+* Festival attendees
+* Repeat visitors
+
+---
+
+# Budget
+
+Creators choose how much to spend.
+
+Supports:
+
+* Daily budget
+* Lifetime budget
+
+Campaign summary includes:
+
+* Estimated reach
+* Estimated impressions
+* Estimated ticket sales (future AI estimate)
+
+---
+
+# Scheduling
+
+Campaign scheduling supports:
+
+* Start date
+* End date
+* Immediate launch
+* Scheduled launch
+
+Future roadmap:
+
+Smart scheduling recommendations based on audience activity.
+
+---
+
+# Campaign Management
+
+Each campaign includes:
+
+* Name
+* Objective
+* Status
+* Budget
+* Schedule
+* Audience
+* Performance summary
+
+Statuses:
+
+* Draft
+* Scheduled
+* Active
+* Paused
+* Completed
+* Archived
+
+Actions:
+
+* Edit
+* Pause
+* Resume
+* Duplicate
+* Archive
+
+---
+
+# Creative Assets
+
+Creators manage campaign media.
+
+Supports:
+
+* Images
+* Posters
+* Videos
+* Cover images
+* Promotional graphics
+
+Future roadmap:
+
+AI-generated promotional artwork and copy suggestions.
+
+---
+
+# Campaign Analytics
+
+Each campaign displays detailed performance.
+
+## Reach
+
+* Total reach
+* Unique users
+* Impressions
+
+---
+
+## Engagement
+
+* Views
+* Clicks
+* Saves
+* Shares
+
+---
+
+## Conversions
+
+Depending on campaign objective:
+
+### Event
+
+* Event views
+* Event saves
+* Attendance
+
+---
+
+### Tickets
+
+* Ticket purchases
+* Revenue
+* Conversion rate
+
+---
+
+### Venue
+
+* Venue profile visits
+* Navigation requests
+* Venue arrivals
+
+---
+
+### Flash Drops
+
+* Views
+* Venue arrivals
+* Redemptions
+
+---
+
+### DJ / Artist
+
+* Profile visits
+* Followers gained
+* Performance interest
+
+---
+
+# AI Marketing Insights (Future Roadmap)
+
+The Marketing Module will provide intelligent recommendations.
+
+Examples:
+
+* Recommend the best day to launch a campaign.
+* Suggest the ideal campaign budget.
+* Predict campaign reach.
+* Identify audiences most likely to buy tickets.
+* Recommend when to reveal performers.
+* Suggest Flash Drop timing to maximize venue arrivals.
+
+---
+
+# Campaign Calendar
+
+A visual calendar displays all scheduled marketing activity.
+
+Includes:
+
+* Campaign launches
+* Promotion end dates
+* Event dates
+* Flash Drop campaigns
+
+This helps creators avoid overlapping promotions.
+
+---
+
+# Notifications
+
+Creators receive notifications for:
+
+* Campaign approved
+* Campaign launched
+* Budget exhausted
+* Campaign completed
+* Performance milestones
+* Ticket conversion milestones
+
+---
+
+# Integration with Other Modules
+
+## Events
+
+Promote:
+
+* Event announcements
+* Ticket launches
+* Performer reveals
+
+---
+
+## Ticketing
+
+Measure:
+
+* Ticket conversions
+* Revenue
+* Sales trends
+
+---
+
+## Flash Drops
+
+Promote reward campaigns and measure their impact.
+
+---
+
+## Audience
+
+Use audience insights for campaign targeting.
+
+---
+
+## Intelligence
+
+Marketing analytics contribute to business insights and forecasting.
+
+---
+
+# Success Metrics
+
+The Marketing Module should help creators:
+
+* Increase event awareness.
+* Sell more tickets.
+* Increase venue visits.
+* Grow their audience.
+* Improve campaign ROI.
+* Build stronger creator brands.
+* Make data-driven marketing decisions.
+
+---
+
+# Guiding Principle
+
+The Marketing Module should empower nightlife professionals to **grow their business, not just advertise**. Every campaign should be connected to a measurable business outcome—whether that's filling a venue, selling tickets, increasing Flash Drop participation, or building a loyal audience. By integrating seamlessly with Events, Ticketing, Audience, and Intelligence, marketing becomes an ongoing growth strategy rather than a collection of disconnected promotional tools.

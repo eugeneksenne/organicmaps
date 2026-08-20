@@ -1,0 +1,352 @@
+# FOMO Ticket Purchase Experience
+
+## Product Vision
+
+The **Ticket Purchase Experience** enables users to discover, purchase, store, transfer, and redeem tickets directly within the FOMO app.
+
+It provides a secure, fast, and mobile-first checkout experience while giving creators complete control over ticket sales.
+
+The goal is to make buying a ticket take less than a minute.
+
+---
+
+# Design Principles
+
+The experience should be:
+
+* Fast (under 60 seconds)
+* Secure
+* Transparent
+* Mobile-first
+* QR-code based
+* Fraud-resistant
+* Offline-capable for venue scanning
+
+---
+
+# Purchase Journey
+
+```text
+Discover Event
+        │
+        ▼
+View Event
+        │
+        ▼
+Select Tickets
+        │
+        ▼
+Checkout
+        │
+        ▼
+Payment
+        │
+        ▼
+Ticket Issued
+        │
+        ▼
+My Tickets
+```
+
+---
+
+# 1. Event Ticket Section
+
+On every ticketed event, users see a dedicated ticket section.
+
+Example:
+
+```text
+Tickets
+
+Early Bird
+R150
+Available
+
+General Admission
+R250
+
+VIP
+R500
+
+[ Buy Tickets ]
+```
+
+Each ticket type displays:
+
+* Price
+* Availability
+* Benefits
+* Remaining quantity (optional)
+* Sale end date
+
+---
+
+# 2. Ticket Selection
+
+Users choose:
+
+* Ticket type
+* Quantity
+
+Example:
+
+```text
+General Admission
+
+[-] 2 [+]
+
+R250 each
+
+Total
+
+R500
+```
+
+---
+
+# 3. Checkout
+
+The checkout screen summarizes:
+
+* Event
+* Venue
+* Date
+* Selected tickets
+* Fees
+* Total amount
+
+Users confirm before paying.
+
+---
+
+# 4. Payments
+
+Support regional and international payment methods.
+
+Examples:
+
+* Credit/Debit Cards
+* Apple Pay
+* Google Pay
+* EFT/Open Banking (where available)
+* Local wallets and payment providers
+
+Payment providers can vary by country while the FOMO experience remains the same.
+
+---
+
+# 5. Ticket Issued
+
+Once payment succeeds:
+
+The ticket is generated instantly.
+
+Each ticket includes:
+
+* Unique QR code
+* Ticket ID
+* Event
+* Venue
+* Date and time
+* Ticket type
+* Purchaser name
+* Security signature
+
+---
+
+# 6. My Tickets
+
+A dedicated section in the consumer app.
+
+Displays:
+
+* Upcoming
+* Past
+* Transferred
+* Cancelled
+
+Each ticket card shows:
+
+* Event poster
+* Venue
+* Date
+* Ticket status
+
+---
+
+# 7. Ticket Details
+
+Opening a ticket shows:
+
+* QR code
+* Event information
+* Venue location
+* Entry instructions
+* Dress code
+* Age restriction
+* Route button
+* Add to calendar
+
+---
+
+# 8. QR Check-in
+
+Venue staff scan tickets using the Creator Studio.
+
+The scanner validates:
+
+* Ticket authenticity
+* Event
+* Entry status
+* Time
+* Duplicate scans
+
+The app should support temporary offline validation and sync once connectivity returns.
+
+---
+
+# 9. Ticket Transfer
+
+Users can transfer eligible tickets to another FOMO account.
+
+Flow:
+
+```text
+Open Ticket
+      │
+      ▼
+Transfer
+      │
+      ▼
+Select Recipient
+      │
+      ▼
+Recipient Accepts
+      │
+      ▼
+Ownership Updated
+```
+
+Rules are defined by the organiser.
+
+---
+
+# 10. Ticket Refunds
+
+Refund policies are configured per event.
+
+Possible options:
+
+* No refunds
+* Refund until a specified date
+* Full refund
+* Partial refund
+
+Refund requests are managed by the organiser through Creator Studio.
+
+---
+
+# 11. Guest Tickets
+
+Creators can issue:
+
+* Complimentary tickets
+* Staff passes
+* Media passes
+* Artist passes
+* VIP invitations
+
+Each uses the same secure ticketing infrastructure.
+
+---
+
+# 12. Ticket Status
+
+Every ticket has a lifecycle:
+
+* Reserved
+* Paid
+* Issued
+* Checked In
+* Transferred
+* Refunded
+* Cancelled
+* Expired
+
+---
+
+# 13. Security
+
+Each ticket includes:
+
+* Unique QR code
+* Cryptographic signature
+* Duplicate detection
+* Tamper protection
+* Audit log
+* Scan history
+
+This reduces fraud and unauthorized entry.
+
+---
+
+# 14. Notifications
+
+Users receive updates for:
+
+* Purchase confirmation
+* Payment receipt
+* Event reminders
+* Venue updates
+* Schedule changes
+* Ticket transfers
+* Refund status
+
+---
+
+# 15. Creator Controls
+
+Organisers can:
+
+* View live ticket sales
+* Pause sales
+* Release more tickets
+* Close ticket sales
+* Scan tickets
+* Export attendee lists
+* Manage refunds
+* Issue complimentary tickets
+
+---
+
+# How FOMO Makes Money
+
+Rather than charging organisers upfront, align revenue with successful sales.
+
+Possible revenue streams include:
+
+1. **Service Fee** – A transparent fee added to each paid ticket.
+2. **Platform Fee** – A small percentage retained from each sale.
+3. **Promoted Events** – Paid promotion through the Promote module.
+4. **Premium Creator Features** – Advanced analytics, team tools, and automation.
+
+This means organisers only pay when they successfully sell tickets.
+
+---
+
+# A Feature That Could Differentiate FOMO
+
+Instead of treating tickets as static QR codes, make them **living tickets**.
+
+A purchased ticket could automatically update with:
+
+* Countdown to doors opening.
+* Real-time event announcements.
+* Venue notices (e.g., parking changes or last entry).
+* Flash Drops available to ticket holders.
+* Live navigation to the venue.
+* Weather information.
+* Entry gate or VIP access instructions.
+
+The ticket becomes a companion throughout the event journey—from purchase, to arrival, to entry—rather than just a barcode. This reinforces FOMO's vision of connecting the entire nightlife experience into one platform while giving users a reason to keep opening the app even after they've bought their ticket.

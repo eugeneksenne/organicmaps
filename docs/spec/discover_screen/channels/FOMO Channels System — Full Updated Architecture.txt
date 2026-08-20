@@ -1,0 +1,669 @@
+# FOMO Channels — Premium Global Nightlife Network
+
+## Design Philosophy
+
+The new Channels experience is no longer a traditional social feed.
+
+It becomes the **live operating system for nightlife.**
+
+The goal is to answer three questions within five seconds:
+
+* What's happening right now?
+* Where should I go?
+* Why should I go there?
+
+Everything else is secondary.
+
+---
+
+# Screen Structure
+
+```
+Top Navigation
+
+↓
+
+Channel Hero
+
+↓
+
+AI Night Brief
+
+↓
+
+Quick Actions
+
+↓
+
+Trending Tonight
+
+↓
+
+Live Now
+
+↓
+
+Feed / Live / Plans / Polls
+
+↓
+
+Bottom Navigation
+```
+
+Instead of many small widgets, the screen is built from **large cinematic sections** with generous spacing.
+
+---
+
+# 1. Top Navigation
+
+Minimal and premium.
+
+```
+← Channels
+
+                 🔍     🔔     👤
+```
+
+Below:
+
+A single Channel Switcher.
+
+Instead of three chips.
+
+Example
+
+```
+📍 Johannesburg Nights ✓
+▼
+```
+
+Tapping opens
+
+Province Channels
+
+City Channels
+
+Club Channels
+
+Pinned Channels
+
+Recent Channels
+
+Search
+
+No clutter.
+
+---
+
+# 2. Channel Hero
+
+Almost full-screen width.
+
+Beautiful city photography.
+
+or
+
+Live cinematic video.
+
+```
+Johannesburg Nights ✓
+
+Peak nightlife has just begun.
+
+24,200 people exploring tonight
+
+Updated now
+```
+
+Only one CTA
+
+Explore Tonight →
+
+No statistics dashboard.
+
+No tiny cards.
+
+---
+
+# 3. AI Night Brief
+
+The first intelligent card.
+
+```
+✨ Tonight's Brief
+
+DBN Gogo starts in 40 min.
+
+Konka is filling rapidly.
+
+Madison has shorter queues.
+
+Rosebank is gaining momentum.
+
+Your friends are heading to Booth.
+```
+
+Everything generated automatically.
+
+Users don't need to scroll through hundreds of posts.
+
+---
+
+# 4. Quick Actions
+
+Only four premium cards.
+
+Large.
+
+Visual.
+
+```
+🔥 Live Now
+
+🎉 Events Tonight
+
+⚡ Flash Drops
+
+🏛 Trending Venues
+```
+
+Each opens its dedicated experience.
+
+---
+
+# 5. Trending Tonight
+
+Large horizontal cards.
+
+Example
+
+```
+Konka
+
+LIVE
+
+Peak Energy
+
+92%
+```
+
+Swipe horizontally.
+
+Each card includes
+
+Hero image
+
+Venue name
+
+Energy
+
+Queue
+
+Distance
+
+Friends there
+
+Live indicator
+
+No tiny text.
+
+---
+
+# 6. Live Now
+
+Beautiful livestream cards.
+
+```
+LIVE
+
+Konka
+
+1.4K watching
+
+Hatfield
+```
+
+Horizontal scrolling.
+
+No lists.
+
+---
+
+# 7. Main Navigation Tabs
+
+Simple.
+
+```
+Overview
+
+Feed
+
+Live
+
+Plans
+
+Polls
+```
+
+Overview is default.
+
+---
+
+# Overview Tab
+
+Curated.
+
+Not chronological.
+
+Contains
+
+Trending venues
+
+Featured events
+
+Flash Drops
+
+AI recommendations
+
+Friend activity
+
+Premium editorial layout.
+
+---
+
+# Feed Tab
+
+Realtime nightlife updates.
+
+Prioritized by
+
+Distance
+
+Momentum
+
+Friend activity
+
+Venue relevance
+
+Recency
+
+Not follower count.
+
+Posts include
+
+Moments
+
+Photos
+
+Short videos
+
+Venue updates
+
+Questions
+
+Recommendations
+
+---
+
+# Live Tab
+
+Only livestreams.
+
+Sorted by
+
+Nearby
+
+Trending
+
+Highest energy
+
+Friends watching
+
+Creator quality
+
+Each card shows
+
+Thumbnail
+
+LIVE badge
+
+Venue
+
+Viewers
+
+Energy
+
+Distance
+
+---
+
+# Plans Tab
+
+Temporary nightlife groups.
+
+Example
+
+Saturday Groove Run
+
+7 members
+
+Hatfield → Konka
+
+States
+
+Planning
+
+Meeting
+
+Travelling
+
+Inside Venue
+
+Moving Again
+
+Ended
+
+---
+
+# Polls Tab
+
+Visual-first.
+
+Never text-only.
+
+Types
+
+Venue Battle
+
+Event Battle
+
+Outfit Battle
+
+Crowd Energy
+
+Drink Choice
+
+Afterparty Vote
+
+Users vote using images.
+
+---
+
+# AI Layer
+
+Every channel has an intelligence engine.
+
+Examples
+
+Tonight is quieter than usual.
+
+Afrohouse dominates tonight.
+
+Peak expected at 11:30 PM.
+
+Rain expected after midnight.
+
+Konka likely reaches capacity soon.
+
+---
+
+# Friend Layer
+
+Beautiful avatars.
+
+Example
+
+```
+Friends Tonight
+
+Sipho
+
+Inside Konka
+
+Neo
+
+Heading to Madison
+
+Lerato
+
+Watching Live
+
++6 Nearby
+```
+
+No map.
+
+No heatmap.
+
+Just meaningful context.
+
+---
+
+# Smart Recommendations
+
+Instead of search.
+
+```
+Recommended for You
+
+Madison
+
+89%
+
+Because your friends are there.
+
+```
+
+```
+Booth
+
+84%
+
+Shortest queues nearby.
+
+```
+
+```
+Ayepyep
+
+82%
+
+Matches your music taste.
+```
+
+---
+
+# Flash Drop Integration
+
+Not another section.
+
+Integrated naturally.
+
+```
+⚡ Happening Now
+
+FREE ENTRY
+
+Konka
+
+Ends in
+
+12 min
+```
+
+Beautiful.
+
+Urgent.
+
+---
+
+# Club Channels
+
+Hero changes.
+
+Instead of city skyline.
+
+Show
+
+Venue hero image
+
+Live crowd
+
+Current DJ
+
+Energy
+
+Upcoming event
+
+Everything else remains consistent.
+
+---
+
+# Event Distribution
+
+Venue posts once.
+
+Automatically appears in
+
+Club Channel
+
+↓
+
+City Channel
+
+↓
+
+Province Channel
+
+↓
+
+Discover
+
+↓
+
+Map
+
+↓
+
+Events
+
+↓
+
+Feed
+
+↓
+
+Notifications
+
+No reposting.
+
+---
+
+# Community Moderation
+
+Keep the existing system.
+
+* 🚮 Garbage
+* 🛡 Keep
+
+Weighted by
+
+Trust
+
+Activity
+
+Verification
+
+Reputation
+
+No downvotes.
+
+---
+
+# Premium Animations
+
+Everything feels alive.
+
+* Hero image slowly animates.
+* Live indicators pulse.
+* Cards gently float.
+* Sections fade into view.
+* Feed refreshes seamlessly.
+* Channel switching slides horizontally.
+* AI Brief updates with subtle shimmer.
+* Flash Drops animate only when active.
+
+No distracting effects—just polished motion.
+
+---
+
+# Design System
+
+* Dark-first interface
+* Large cinematic photography
+* Large typography
+* Plenty of whitespace
+* Glassmorphism only where it adds focus
+* Rounded 28–32 px corners
+* Minimal icons
+* Purple accent reserved for key actions
+* Red reserved exclusively for live/urgent states
+* Information revealed progressively rather than all at once
+
+---
+
+# Final Screen Hierarchy
+
+```
+Top Navigation
+
+↓
+
+Channel Switcher
+
+↓
+
+Hero
+
+↓
+
+AI Night Brief
+
+↓
+
+Quick Actions
+
+↓
+
+Trending Tonight
+
+↓
+
+Live Now
+
+↓
+
+Tabs
+
+Overview
+
+Feed
+
+Live
+
+Plans
+
+Polls
+
+↓
+
+Scrollable content
+
+↓
+
+Standard FOMO Bottom Navigation
+```
+
+## Why this is a stronger direction
+
+This redesign removes the "dashboard" feeling and replaces it with an immersive, premium experience. Rather than showing every metric at once, it tells a story: you arrive, understand the city's nightlife in seconds, discover where to go, and then dive deeper if you choose. It aligns much better with the Apple-tier, consumer-first design language you've established across FOMO's Discover, Events, Smart Places, and Map screens.

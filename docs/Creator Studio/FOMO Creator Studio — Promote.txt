@@ -1,0 +1,536 @@
+This is probably the **most important revenue module** in the entire FOMO ecosystem.
+
+I would actually avoid calling it **Marketing** internally. That's a generic business term used by every dashboard.
+
+For FOMO, this module should feel like **growing nightlife**, not just running ads.
+
+I would rename it:
+
+# 🚀 FOMO Creator Studio — Promote
+
+or
+
+# 🚀 Promote
+
+It's shorter, action-oriented, and users immediately understand what it's for.
+
+---
+
+# Product Vision
+
+The **Promote Module** is FOMO's advertising and growth platform.
+
+It enables venues, event organisers, DJs, and artists to increase visibility, attract more attendees, sell more tickets, and drive more venue visits through intelligent promotional campaigns.
+
+Unlike traditional advertising platforms, every promotion is designed specifically for nightlife.
+
+The objective is simple:
+
+> **Help creators fill venues, sell tickets, and grow audiences while generating advertising revenue for FOMO.**
+
+---
+
+# What Can Be Promoted?
+
+Instead of promoting only events, nearly every asset in the ecosystem can become a campaign.
+
+### Events
+
+Increase attendance.
+
+---
+
+### Venues
+
+Promote a club, lounge, rooftop, or bar.
+
+---
+
+### Flash Drops
+
+Drive immediate venue visits.
+
+---
+
+### Tickets
+
+Boost ticket sales.
+
+---
+
+### DJs
+
+Promote performances or residency nights.
+
+---
+
+### Music Artists
+
+Promote tours, performances, or appearances.
+
+---
+
+### Club Lobby
+
+Drive users directly to the venue's digital front door.
+
+---
+
+### Moments
+
+Promote iconic venue memories to build brand awareness.
+
+---
+
+# Campaign Types
+
+## 1. Featured Placement ⭐⭐⭐⭐⭐
+
+Appear at the top of:
+
+* Discover
+* Search
+* Nearby
+* Event listings
+
+Example
+
+```text
+Featured Tonight
+```
+
+---
+
+## 2. Sponsored Discovery
+
+Appear naturally inside Discover.
+
+Example
+
+```text
+Sponsored
+```
+
+Clearly labelled.
+
+---
+
+## 3. Home Feed Placement
+
+Appear in:
+
+* Tonight recommendations
+* Trending Tonight
+* Weekend Picks
+
+---
+
+## 4. Nearby Promotion
+
+Boost visibility within a chosen radius.
+
+Examples:
+
+5 km
+
+10 km
+
+25 km
+
+Entire city
+
+---
+
+## 5. Push Notifications
+
+Examples:
+
+> Neon Fridays starts in 2 hours.
+
+---
+
+## 6. Flash Promotion
+
+Highlight Flash Drops.
+
+Example
+
+```text
+⚡ Free Drink Tonight
+
+Sponsored
+```
+
+---
+
+## 7. Live Broadcast Promotion
+
+Increase viewers.
+
+---
+
+## 8. Club Lobby Promotion
+
+Drive traffic directly to the Lobby.
+
+---
+
+## Campaign Objectives
+
+Instead of asking users to "create an ad," ask what they want to achieve.
+
+```text
+What do you want to achieve?
+
+○ More Venue Visits
+
+○ Sell More Tickets
+
+○ Promote Tonight's Event
+
+○ Promote My Venue
+
+○ Grow Followers
+
+○ Increase Live Broadcast Viewers
+
+○ Boost Flash Drops
+```
+
+This feels much simpler.
+
+---
+
+# Audience Targeting
+
+Creators choose:
+
+## Location
+
+Country
+
+Province
+
+City
+
+Radius
+
+---
+
+## Age
+
+18+
+
+21+
+
+Custom
+
+---
+
+## Gender (Optional)
+
+---
+
+## Music Preferences
+
+Examples:
+
+House
+
+Hip Hop
+
+Afrobeats
+
+Amapiano
+
+EDM
+
+---
+
+## Nightlife Interests
+
+Bars
+
+Clubs
+
+Cocktail Lounges
+
+Festivals
+
+Live Music
+
+---
+
+## Days
+
+Weekends
+
+Fridays
+
+Saturdays
+
+Public Holidays
+
+---
+
+# AI Campaign Assistant
+
+Instead of manually configuring everything.
+
+User says:
+
+```text
+Fill my venue tonight.
+```
+
+AI suggests:
+
+```text
+Campaign
+
+Venue Promotion
+
+Radius
+
+8 km
+
+Budget
+
+R250
+
+Expected Reach
+
+7,200 users
+```
+
+---
+
+# Budget
+
+Simple slider.
+
+```text
+Budget
+
+R100
+
+────────●────────
+
+R5 000
+```
+
+---
+
+# Duration
+
+Tonight
+
+Weekend
+
+7 Days
+
+30 Days
+
+Custom
+
+---
+
+# Live Performance
+
+Once running.
+
+Display:
+
+Reach
+
+Clicks
+
+Lobby Visits
+
+Route Requests
+
+Ticket Purchases
+
+Flash Drop Views
+
+Venue Visits
+
+Follower Growth
+
+---
+
+# Revenue Attribution
+
+One of FOMO's biggest advantages.
+
+Instead of only:
+
+Impressions
+
+Clicks
+
+Measure:
+
+✅ Route requests
+
+✅ Ticket purchases
+
+✅ Venue arrivals (through check-ins or validated visit signals)
+
+✅ Flash Drop redemptions
+
+✅ Broadcast viewers
+
+This is much more valuable than traditional ad metrics.
+
+---
+
+# Billing
+
+Support:
+
+Credit Card
+
+Apple Pay
+
+Google Pay
+
+PayPal
+
+Local payment methods (e.g., Ozow, PayFast, Yoco where supported)
+
+FOMO Wallet (future)
+
+---
+
+# Campaign Dashboard
+
+Each campaign card shows:
+
+```text
+Summer Fridays
+
+Running
+
+Reach
+
+18,200
+
+Route Requests
+
+2,304
+
+Tickets Sold
+
+184
+
+Spend
+
+R1,250
+```
+
+---
+
+# Campaign Status
+
+Draft
+
+Scheduled
+
+Running
+
+Paused
+
+Completed
+
+Rejected
+
+Archived
+
+---
+
+# Quick Actions
+
+Pause
+
+Resume
+
+Duplicate
+
+Increase Budget
+
+View Analytics
+
+Stop Campaign
+
+---
+
+# AI Optimization
+
+Every few hours.
+
+AI recommends:
+
+> Increase radius by 5 km.
+
+> Friday performs better than Thursday.
+
+> Lower CPC by reducing audience overlap.
+
+> Promote your Flash Drop instead of your event.
+
+---
+
+# Creator Subscription Benefits
+
+If FOMO introduces premium Creator plans:
+
+Basic
+
+* Organic promotion only
+
+Pro
+
+* Advanced targeting
+* AI recommendations
+* Priority support
+
+Business
+
+* Team campaigns
+* Multi-venue campaigns
+* Advanced analytics
+* Higher spending limits
+
+---
+
+# How FOMO Makes Money
+
+This module becomes one of several revenue engines:
+
+1. **Sponsored Campaigns** – creators pay to promote venues, events, tickets, DJs, artists, Club Lobbies, and Flash Drops.
+2. **Featured Placements** – premium positioning in Discover, Search, and Nearby.
+3. **Push Notification Campaigns** – paid delivery of timely event alerts.
+4. **Live Broadcast Boosts** – increase exposure for live streams.
+5. **Premium Creator Plans** – unlock advanced promotion tools and AI optimization.
+
+This creates recurring revenue while directly helping creators grow their nightlife businesses.
+
+---
+
+# One Feature I Think Could Differentiate FOMO
+
+Instead of a traditional ad manager, introduce **Night Goals**.
+
+When a creator taps **Promote**, they don't start by building an ad. They start by choosing a goal:
+
+* Fill my venue tonight.
+* Sell 100 more tickets.
+* Get more people to watch the live broadcast.
+* Bring people in before 10 PM.
+* Increase Flash Drop redemptions.
+* Grow my followers.
+
+FOMO's AI then builds the campaign automatically—choosing the audience, placement, budget allocation, and timing based on historical nightlife performance. The creator reviews the plan, adjusts if needed, and launches it with a single tap.
+
+This shifts the experience from **campaign management** to **business outcomes**, making the module far more accessible while creating a compelling reason for creators to spend money on the platform.

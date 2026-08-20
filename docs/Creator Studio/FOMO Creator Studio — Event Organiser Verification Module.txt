@@ -1,0 +1,484 @@
+# FOMO Creator Studio — Event Organiser Verification Module
+
+## Product Vision
+
+The **Event Organiser Verification Module** verifies legitimate event organisers and event management companies before granting access to the Event Organiser role within FOMO Creator Studio.
+
+Unlike Venue Owners, who verify ownership of a physical venue, Event Organisers verify their **professional business identity**.
+
+The primary verification method is through a **business email with a custom domain**, ensuring that organisers represent a legitimate organization rather than a personal account.
+
+Once verified, organisers gain access to create and manage events, ticketing, marketing campaigns, Flash Drops, and collaborate with venues, DJs, and artists.
+
+---
+
+# Design Principles
+
+The Event Organiser Verification Module should be:
+
+* Fast to complete.
+* Business-first.
+* Secure.
+* Transparent.
+* Easy for legitimate organisers.
+* Difficult to abuse.
+* Scalable for organizations of all sizes.
+
+---
+
+# Eligible Accounts
+
+Examples include:
+
+* Event Companies
+* Festival Organisers
+* Concert Promoters
+* Entertainment Agencies
+* Corporate Event Teams
+* University Event Offices
+* Nightlife Promotion Companies
+* Venue Event Departments
+
+---
+
+# Verification Dashboard
+
+Displays:
+
+* Verification Status
+* Business Identity
+* Email Status
+* Organization Details
+* Verification History
+
+---
+
+## Quick Actions
+
+* Start Verification
+* Verify Business Email
+* Update Organization Information
+* View Verification History
+* Contact Support
+
+---
+
+# Verification Workflow
+
+```text
+Select Role
+
+↓
+
+Business Email
+
+↓
+
+Email Validation
+
+↓
+
+Send OTP
+
+↓
+
+Verify OTP
+
+↓
+
+Organization Detection
+
+↓
+
+Complete Organization Profile
+
+↓
+
+Approved
+
+↓
+
+Creator Studio Access
+```
+
+---
+
+# Step 1 — Select Creator Role
+
+```text
+I am a...
+
+○ Venue Owner
+
+○ Event Organiser
+
+○ DJ
+
+○ Music Artist
+```
+
+↓
+
+Event Organiser
+
+---
+
+# Step 2 — Business Email
+
+The organiser enters their business email.
+
+Examples:
+
+```text
+events@redbull.com
+
+bookings@ultra.co.za
+
+info@festivalafrica.com
+```
+
+Not accepted for automatic verification:
+
+```text
+party@gmail.com
+
+events@yahoo.com
+
+club@hotmail.com
+```
+
+---
+
+# Business Email Requirements
+
+The email must:
+
+* Use a custom business domain.
+* Be able to receive email.
+* Belong to the organization.
+* Not be from a free email provider.
+
+---
+
+# Step 3 — Email Validation
+
+FOMO validates:
+
+* Email format
+* Custom domain
+* Domain MX records
+* Existing verified organization (if applicable)
+
+If valid:
+
+```text
+✓ Business Email Detected
+
+Domain
+
+redbull.com
+```
+
+---
+
+# Step 4 — Send Verification Code
+
+The organiser confirms:
+
+```text
+Send verification code to
+
+events@redbull.com
+
+[ Send Code ]
+```
+
+FOMO sends a secure one-time password (OTP) to the email address.
+
+---
+
+# Step 5 — Verify Email
+
+The organiser enters the verification code.
+
+```text
+Verification Code
+
+_ _ _ _ _ _
+```
+
+↓
+
+Correct code
+
+↓
+
+```text
+✓ Email Verified
+```
+
+The verified business email becomes the trusted identity for the organization.
+
+---
+
+# Step 6 — Organization Detection
+
+FOMO extracts the domain.
+
+Example:
+
+```text
+events@redbull.com
+
+↓
+
+redbull.com
+```
+
+If the organization already exists:
+
+```text
+Organization Found
+
+Red Bull
+
+✓ Verified Organization
+```
+
+The organiser confirms the organization before continuing.
+
+If the domain is new:
+
+```text
+Organization Name
+
+____________________
+```
+
+The organiser enters the organization name, which becomes the organization's profile in FOMO.
+
+---
+
+# Step 7 — Organization Profile
+
+The organiser completes the organization's public profile.
+
+Fields include:
+
+* Organization Name
+* Logo
+* Cover Image
+* Description
+* Website
+* Contact Number
+* City
+* Country
+* Social Links
+
+This profile is used across Creator Studio and public event pages.
+
+---
+
+# Team Workspaces
+
+Every verified organization has a shared workspace.
+
+Example:
+
+```text
+Red Bull Events
+
+Members
+
+Sarah
+Michael
+John
+
+Owner
+
+Sarah
+```
+
+Team members can collaborate on:
+
+* Events
+* Ticketing
+* Marketing
+* Flash Drops
+* Audience Management
+
+Permissions are managed through the Team module.
+
+---
+
+# Organization Roles
+
+Within the organization:
+
+* Organization Owner
+* Event Manager
+* Marketing Manager
+* Ticket Manager
+* Finance Manager
+* Promoter
+
+Each role has configurable permissions.
+
+---
+
+# Trusted Domains
+
+Once an organization is verified, its domain becomes trusted.
+
+Example:
+
+```text
+redbull.com
+
+✓ Trusted Domain
+```
+
+Future team members using the same domain can join the organization through an invitation or approval workflow.
+
+---
+
+# Manual Verification
+
+If automatic verification cannot be completed, organisers may submit supporting evidence.
+
+Accepted examples:
+
+* Business registration
+* Company website
+* Event portfolio
+* Event permits
+* Previous event contracts
+* Tax registration
+
+Applications requiring manual review remain pending until approved.
+
+---
+
+# Verification Statuses
+
+Supported statuses:
+
+* Not Started
+* Email Verification Pending
+* Email Verified
+* Organization Profile Incomplete
+* Under Review
+* Approved
+* Rejected
+* Suspended
+
+---
+
+# Notifications
+
+Organisers receive updates for:
+
+* Verification code sent
+* Email verified
+* Organization approved
+* Additional information requested
+* Verification rejected
+* Account suspended
+
+Notifications are available via:
+
+* Email
+* Push notifications
+* In-app notifications
+
+---
+
+# Security
+
+The module should provide:
+
+* Secure OTP delivery.
+* Rate-limited verification attempts.
+* Encrypted verification data.
+* Domain validation.
+* Audit logging.
+* Session monitoring.
+
+All verification events should be recorded for compliance and security.
+
+---
+
+# AI Verification Assistant (Future Roadmap)
+
+The AI assistant can:
+
+* Detect invalid business email formats.
+* Identify suspicious domains.
+* Recommend completing missing organization details.
+* Suggest linking a company website or social accounts.
+* Flag duplicate organization registrations for review.
+
+The AI assists with onboarding but does not approve or reject verification requests.
+
+---
+
+# Integration with Other Modules
+
+## Events
+
+Verified organisers can create and manage events.
+
+---
+
+## Ticketing
+
+Verified organisations can issue and manage tickets.
+
+---
+
+## Marketing
+
+Organizations can promote events and campaigns.
+
+---
+
+## Flash Drops
+
+Organizers can launch event-specific Flash Drops.
+
+---
+
+## Profile
+
+Organization information populates the public organiser profile.
+
+---
+
+## Team
+
+Verified organizations can invite and manage staff.
+
+---
+
+## Intelligence
+
+Business performance is analyzed at the organization level.
+
+---
+
+# Success Metrics
+
+The Event Organiser Verification Module should help FOMO:
+
+* Verify legitimate event organizations.
+* Eliminate fake organiser accounts.
+* Enable collaborative team workspaces.
+* Simplify onboarding for professional organisers.
+* Build trust between venues, organisers, artists, and attendees.
+* Scale efficiently as more organizations join the platform.
+
+---
+
+# Guiding Principle
+
+The Event Organiser Verification Module should establish **business identity**, not just individual identity. By using verified custom-domain email addresses as the primary trust signal, FOMO creates a fast, low-friction onboarding experience for professional event organizations while maintaining a high standard of authenticity. Once verified, the organization becomes a collaborative workspace capable of managing events, tickets, marketing, Flash Drops, and teams within the FOMO nightlife ecosystem.

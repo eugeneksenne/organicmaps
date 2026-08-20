@@ -1,0 +1,546 @@
+I think the **Event Management Screen** should be the heart of Creator Studio.
+
+Creating an event is something creators do occasionally. **Managing events is what they'll do every day.**
+
+This screen shouldn't feel like a CRUD table—it should feel like an **operations center** for running nightlife events.
+
+---
+
+# FOMO Creator Studio — Event Management Screen
+
+## Product Vision
+
+The **Event Management Screen** is the central workspace for managing every event created within FOMO.
+
+It provides creators with a comprehensive overview of all events, their current status, operational health, and performance, while enabling quick access to every aspect of event management.
+
+This screen serves as the primary operational hub for Venue Owners and Event Organisers.
+
+---
+
+# Design Principles
+
+The screen should be:
+
+* Mobile-first
+* Fast to navigate
+* Action-oriented
+* Status-driven
+* Visual
+* Searchable
+* Intelligent
+
+Creators should never need to open an event just to know what's happening.
+
+---
+
+# Screen Layout
+
+```
+Header
+
+↓
+
+Quick Stats
+
+↓
+
+Quick Actions
+
+↓
+
+Filters & Search
+
+↓
+
+Event List
+
+↓
+
+Floating Create Button
+```
+
+---
+
+# Header
+
+Displays:
+
+```
+Events
+```
+
+Subtitle
+
+```
+Manage all your events
+```
+
+Top actions:
+
+* Search
+* Notifications
+* More
+
+---
+
+# Quick Stats
+
+Displayed as swipeable cards.
+
+## Total Events
+
+```
+42
+```
+
+---
+
+## Live Today
+
+```
+3
+```
+
+---
+
+## Drafts
+
+```
+5
+```
+
+---
+
+## Upcoming
+
+```
+18
+```
+
+---
+
+## Completed
+
+```
+16
+```
+
+---
+
+# Quick Actions
+
+Buttons
+
+```
++ Create Event
+
+Duplicate Event
+
+Import Lineup
+```
+
+---
+
+# Search
+
+Search by:
+
+* Event name
+* Venue
+* Artist
+* DJ
+* City
+
+Results update instantly.
+
+---
+
+# Filters
+
+Filter by:
+
+Status
+
+* Draft
+* Pending Approval
+* Published
+* Live
+* Completed
+* Cancelled
+* Archived
+
+---
+
+Date
+
+* Today
+* This Week
+* This Month
+* Custom
+
+---
+
+Venue
+
+Select venue.
+
+---
+
+Event Type
+
+* Club Night
+* Festival
+* Concert
+* Private Event
+
+---
+
+Ticket Status
+
+* Selling
+* Sold Out
+* Free Event
+
+---
+
+# Event List
+
+Each event is shown as a rich card.
+
+Example
+
+```
+──────────────────────────
+
+Poster
+
+Neon Fridays
+
+Sky Lounge
+
+Fri • 18 July
+
+20:00
+
+Published
+
+Tickets
+
+356 Sold
+
+Flash Drop Active
+
+──────────────────────────
+```
+
+---
+
+# Event Card Information
+
+Every card displays:
+
+* Event poster
+* Event title
+* Venue
+* Date
+* Start time
+* Status
+* Ticket status
+* Flash Drop status
+* Capacity
+* Lineup preview
+
+---
+
+# Event Status
+
+Possible statuses:
+
+Draft
+
+Pending Approval
+
+Scheduled
+
+Published
+
+Live
+
+Completed
+
+Cancelled
+
+Archived
+
+---
+
+# Quick Actions
+
+Without opening the event:
+
+* Edit
+* Duplicate
+* Pause Sales
+* View Tickets
+* View Marketing
+* Cancel
+* Archive
+
+---
+
+# Event Details
+
+Opening an event reveals a tabbed workspace.
+
+```
+Overview
+
+Lineup
+
+Tickets
+
+Flash Drops
+
+Marketing
+
+Guests
+
+Activity
+```
+
+---
+
+# Overview
+
+Displays:
+
+* Poster
+* Description
+* Venue
+* Schedule
+* Capacity
+* Revenue summary
+* Attendance summary
+
+Quick actions:
+
+* Edit
+* Publish
+* Cancel
+
+---
+
+# Lineup
+
+Manage:
+
+* DJs
+* Artists
+* Hosts
+* MCs
+
+Invite:
+
+```
++ Add Performer
+```
+
+View:
+
+* Accepted
+* Pending
+* Declined
+
+---
+
+# Tickets
+
+Displays:
+
+Ticket Types
+
+Sales
+
+Capacity
+
+Revenue
+
+QR Statistics
+
+Quick actions:
+
+* Create Ticket
+* Pause Sales
+* Refund
+
+---
+
+# Flash Drops
+
+Displays:
+
+* Active Drops
+* Upcoming Drops
+* Redeemed Drops
+
+Actions:
+
+* Create Flash Drop
+* Pause
+* Duplicate
+
+---
+
+# Marketing
+
+Displays:
+
+Campaigns
+
+Reach
+
+Conversions
+
+Promotions
+
+Actions:
+
+* Boost Event
+* Create Campaign
+* Schedule Announcement
+
+---
+
+# Guests
+
+Displays:
+
+* Tickets Sold
+* Guest List
+* VIP Guests
+* Check-ins
+
+Actions:
+
+* Add Guest
+* Export Guest List
+
+---
+
+# Activity
+
+Shows an audit timeline.
+
+Example
+
+```
+Yesterday
+
+VIP Tickets Created
+
+-------------------
+
+2 days ago
+
+Flash Drop Published
+
+-------------------
+
+Last Week
+
+DJ Kent Confirmed
+```
+
+---
+
+# Floating Action Button
+
+Always visible.
+
+```
++
+
+Create Event
+```
+
+Opens the Event Creation Wizard.
+
+---
+
+# Empty State
+
+```
+No events yet
+
+Start creating unforgettable nightlife experiences.
+
+[ Create Your First Event ]
+```
+
+---
+
+# Bulk Actions
+
+Multi-select events.
+
+Available actions:
+
+* Publish
+* Archive
+* Duplicate
+* Cancel
+* Delete
+
+---
+
+# Smart Suggestions
+
+The screen can surface proactive recommendations.
+
+Examples:
+
+> Your event "Neon Fridays" is missing a Flash Drop.
+
+> Ticket sales are slower than your recent average.
+
+> This event doesn't have any confirmed performers yet.
+
+> Your event is scheduled for tomorrow but hasn't been published.
+
+These appear as non-intrusive insight cards above the event list.
+
+---
+
+# Integrations
+
+Every event acts as the parent object for:
+
+* Venue
+* Tickets
+* Flash Drops
+* Marketing
+* Lineup
+* Guest Lists
+* Intelligence
+* Notifications
+
+Changes in these modules are reflected immediately on the Event Management Screen.
+
+---
+
+# Success Metrics
+
+The Event Management Screen should allow creators to:
+
+* See the status of every event at a glance.
+* Take common actions without unnecessary navigation.
+* Identify operational issues quickly.
+* Access all event-related tools from a single place.
+* Manage multiple events efficiently.
+
+---
+
+# Guiding Principle
+
+**The Event Management Screen should feel like an event command center, not a list of events.** Every event card should communicate its operational health through status, ticket sales, Flash Drops, lineup progress, and key actions, enabling creators to manage their nightlife business efficiently from a single, intelligent workspace.

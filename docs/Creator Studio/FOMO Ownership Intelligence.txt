@@ -1,0 +1,306 @@
+
+# FOMO Ownership Intelligence
+
+## Product Vision
+
+The Ownership Intelligence Engine continuously analyzes a user's authenticated identities and compares them with venue records to identify likely ownership matches.
+
+When a high-confidence match is found, FOMO proactively offers the user the opportunity to claim the venue.
+
+The system should never expose private business information or silently assign ownership.
+
+---
+
+# Example 1 — Google Login
+
+A user logs into FOMO with:
+
+```
+clubxyz@gmail.com
+```
+
+Google Places data for a venue contains:
+
+```
+Business Email
+
+clubxyz@gmail.com
+```
+
+Ownership Intelligence detects a 100% match.
+
+Instead of asking the user to search manually, FOMO shows:
+
+> **We found a venue that may belong to you.**
+
+```
+Sky Lounge
+
+Johannesburg
+
+✓ Verified Business Match
+
+[ Claim Venue ]
+```
+
+The user taps **Claim Venue**.
+
+Ownership is granted instantly (assuming all other checks pass).
+
+---
+
+# Example 2 — Phone Login
+
+User signs into FOMO with:
+
+```
+0723456789
+```
+
+Google Places:
+
+```
+Business Phone
+
+0723456789
+```
+
+FOMO detects:
+
+```
+High Confidence Match
+
+✓ Phone matches business listing
+```
+
+The user receives:
+
+> **Claim Sky Lounge?**
+
+---
+
+# Example 3 — WhatsApp Login
+
+If FOMO authenticates the user with WhatsApp using the business number:
+
+```
+0723456789
+```
+
+And the venue uses the same WhatsApp number:
+
+```
+✓ Match Found
+```
+
+The claim can be offered immediately.
+
+---
+
+# Example 4 — Google OAuth
+
+User signs in with:
+
+```
+clubxyz@gmail.com
+```
+
+FOMO detects:
+
+```
+Google Places
+
+Business Email
+
+clubxyz@gmail.com
+
+↓
+
+Exact Match
+
+↓
+
+Recommended Claim
+```
+
+No additional OTP is required because the user has already authenticated ownership of that Google account.
+
+---
+
+# Smart Creator Onboarding
+
+Imagine this experience.
+
+User downloads FOMO.
+
+Signs in.
+
+FOMO immediately says:
+
+> **Welcome! We found businesses associated with your account.**
+
+```
+Sky Lounge
+
+✓ Business email matched
+
+[ Claim ]
+```
+
+or
+
+```
+Pulse Rooftop
+
+✓ Phone number matched
+
+[ Claim ]
+```
+
+No searching.
+
+No paperwork.
+
+No friction.
+
+---
+
+# Multiple Matches
+
+```
+We found 3 venues associated with your account.
+
+✓ Sky Lounge
+
+✓ Neon Club
+
+✓ Pulse Rooftop
+```
+
+The owner can claim all of them.
+
+---
+
+# Confidence Engine
+
+Instead of relying on one signal, FOMO builds a confidence score.
+
+| Signal                                   | Confidence |
+| ---------------------------------------- | ---------: |
+| Google account email matches venue email |        100 |
+| Phone matches venue phone                |        100 |
+| WhatsApp matches business number         |        100 |
+| Facebook Business Page admin             |         95 |
+| Instagram Business account               |         90 |
+| Verified Venue Owner role                |         20 |
+| Existing business documents              |        100 |
+| Previous verified ownership              |        100 |
+
+For example:
+
+```
+Google Email Match
+
+100
+
+Phone Match
+
+100
+
+Verified Identity
+
+20
+
+----------------
+
+220
+
+Confidence
+
+Very High
+```
+
+Result:
+
+```
+Instant Claim Available
+```
+
+---
+
+# Medium Confidence
+
+Suppose the user logs in with:
+
+```
+owner@gmail.com
+```
+
+The venue lists:
+
+```
+club@gmail.com
+```
+
+No direct match.
+
+But:
+
+* Same phone number
+* Verified Venue Owner
+* Matching business registration
+
+Confidence:
+
+```
+78%
+```
+
+Result:
+
+```
+Additional verification required.
+```
+
+---
+
+# Important Safeguards
+
+I would add these rules:
+
+* Never auto-assign ownership without the user's confirmation.
+* Never reveal hidden business contact details while suggesting a claim.
+* If a venue is already claimed, offer **Request Ownership Transfer** instead of a direct claim.
+* Log every automatic claim recommendation for auditing.
+* Re-evaluate claim suggestions whenever a user adds a new verified login method.
+
+---
+
+# A Better Name
+
+I would avoid calling it **Auto Claim**, because that suggests ownership changes happen without user involvement.
+
+Instead, call it:
+
+* **Smart Claim**
+* **Instant Claim**
+* **Ownership Intelligence**
+* **Verified Claim**
+* **Claim Suggestions**
+
+For example:
+
+> **Ownership Intelligence found a venue associated with your verified account. Would you like to claim it?**
+
+This feels intentional and trustworthy.
+
+## My Recommendation
+
+Build a dedicated **Ownership Intelligence Engine** that runs in the background whenever a user:
+
+* Signs in.
+* Links a new Google account.
+* Changes their email or phone number.
+* Completes Venue Owner verification.
+
+It continuously compares verified identities against venue records and surfaces high-confidence claim opportunities. This makes onboarding almost effortless for legitimate venue owners while preserving an explicit confirmation step before ownership is granted. That combination of convenience and security is likely to scale much better as FOMO grows.

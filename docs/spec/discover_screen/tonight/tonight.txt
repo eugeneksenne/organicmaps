@@ -1,0 +1,723 @@
+# FOMO Discover Screen — “tonight” Full Implementation Plan
+
+The **tonight** section is FOMO’s operational nightlife layer.
+
+It combines:
+
+* planning
+* safety
+* coordination
+* realtime nightlife awareness
+* intelligent assistance
+
+This section is designed to feel like:
+
+> a premium nightlife operating system
+
+NOT:
+
+> a utility dashboard
+
+It should feel:
+
+* alive
+* adaptive
+* cinematic
+* effortless
+* socially aware
+
+# Core Architecture
+
+MyMovesEngine
+ ├── NightGuardModule
+ ├── PlansModule
+ ├── ContextEngine
+ ├── RealtimeStatusEngine
+ └── SmartSuggestionsEngine
+```
+
+Each engine powers the UI invisibly.
+
+The user experiences:
+
+* smooth actions
+* intelligent coordination
+* realtime nightlife assistance
+
+---
+
+# Engine Responsibilities
+
+---
+
+# 1. NightGuardModule
+
+The protection system.
+
+Handles:
+
+* trusted contacts
+* emergency triggers
+* inactivity monitoring
+* live safety tracking
+* route awareness
+* safe arrival verification
+* group separation alerts
+
+---
+
+# 2. PlansModule
+
+The nightlife coordination engine.
+
+Supports:
+
+* solo plans
+* duo plans
+* group nightlife plans
+* venue timelines
+* invitations
+* realtime plan syncing
+* shared nightlife movement
+
+Architecture:
+
+```txt id="ji4fy4"
+PlansModule
+ ├── SoloPlansEngine
+ ├── DuoPlansEngine
+ ├── GroupPlansEngine
+ ├── InvitationsEngine
+ ├── SharedTimelineEngine
+ ├── VenueRoutingEngine
+ ├── PresenceEngine
+ ├── RealtimeSyncEngine
+ └── PlansChatEngine
+```
+
+---
+
+# 3. ContextEngine
+
+The adaptive intelligence system.
+
+Tracks:
+
+* time
+* nightlife density
+* user behavior
+* social proximity
+* weather
+* venue activity
+* movement patterns
+
+This engine personalizes the entire Discover screen.
+
+---
+
+# 4. RealtimeStatusEngine
+
+Makes FOMO feel alive.
+
+Handles:
+
+* live venue changes
+* friend movement
+* plan updates
+* NightGuard status
+* live arrivals
+* queue conditions
+* ride activity
+
+Without this:
+FOMO feels static.
+
+---
+
+# 5. SmartSuggestionsEngine
+
+The predictive nightlife intelligence layer.
+
+Generates:
+
+* venue recommendations
+* timing suggestions
+* queue avoidance
+* traffic optimization
+* nightlife predictions
+* safety suggestions
+
+Examples:
+
+```txt id="d95w51"
+Leave now to avoid queue surge at LIV.
+```
+
+```txt id="wkqj54"
+Bolt prices rising near Rosebank.
+```
+
+---
+
+# MY MOVES UI STRUCTURE
+
+The UI should remain:
+
+* minimal
+* elegant
+* cinematic
+* utility-focused
+
+NOT overloaded.
+
+---
+
+# Main Container
+
+```txt id="9c7rk6"
+Radius: 30px
+Padding: 20px
+Glass background
+24px blur
+Adaptive ambient glow
+```
+
+Glow adapts based on:
+
+* nightlife intensity
+* safety state
+* active plans
+* realtime activity
+
+---
+
+# Header
+
+## Left
+
+```txt id="u6nhvj"
+My Moves
+```
+
+Dynamic subtitle examples:
+
+```txt id="hjlwmq"
+Everything ready for tonight.
+```
+
+```txt id="jxvjqt"
+2 plans active tonight.
+```
+
+```txt id="0z85fy"
+NightGuard is active.
+```
+
+---
+
+## Right Status Capsule
+
+Examples:
+
+```txt id="l72g3k"
+LIVE
+```
+
+```txt id="phoy4t"
+SAFE
+```
+
+```txt id="zt5gy8"
+3 ACTIVE
+```
+
+Subtle pulse animation.
+
+---
+
+# MAIN CARD LAYOUT
+
+Adaptive:
+
+* 2-column grid
+* stacked mobile layout
+* spatial floating cards
+
+Cards:
+
+* slightly elevated
+* glass layered
+* motion reactive
+
+---
+
+# PRIMARY CARD 1 — NightGuard
+
+## Purpose
+
+Safety + protection.
+
+---
+
+# Visual Design
+
+```txt id="n2d2gd"
+Dark gradient
+Blue glow
+Radar pulse animation
+Floating shield icon
+```
+
+---
+
+# Content
+
+```txt id="m5xlwp"
+NightGuard
+Protection active tonight
+```
+
+Status:
+
+```txt id="qhvcju"
+Monitoring until 4:00 AM
+```
+
+---
+
+# Features
+
+```txt id="r0pm7o"
+• Trusted contacts
+• Emergency trigger
+• Live monitoring
+• Safe arrival detection
+• Group separation alerts
+• Route awareness
+```
+
+---
+
+# CTA
+
+```txt id="fd1cwu"
+Manage →
+```
+
+---
+
+# PRIMARY CARD 2 — My Plans
+
+The nightlife coordination card.
+
+Powered by:
+
+```txt id="m1vfc4"
+PlansModule
+```
+
+---
+
+# Planning Types
+
+## Solo
+
+```txt id="xt1mvv"
+Solo Move
+```
+
+---
+
+## Duo
+
+```txt id="c6g7lk"
+You + Amanda
+```
+
+---
+
+## Group
+
+```txt id="5ltd4q"
+8 friends moving tonight
+```
+
+---
+
+# Main Card Content
+
+```txt id="x5h38p"
+My Plans
+2 active tonight
+```
+
+Example timeline:
+
+```txt id="mr45li"
+8:30 PM — Saint
+11:45 PM — LIV Sandton
+```
+
+---
+
+# Plan Features
+
+## Create Plan
+
+```txt id="6t3v2l"
++ New Plan
+```
+
+---
+
+# Plan Creation Flow
+
+## Step 1 — Select Type
+
+```txt id="cbmb9h"
+○ Solo
+○ Duo
+○ Group
+```
+
+---
+
+## Step 2 — Add Venues
+
+```txt id="rqvibw"
+1. Marble — 7:30 PM
+2. Saint — 10:15 PM
+3. LIV — 12:00 AM
+```
+
+---
+
+## Step 3 — Invite Users
+
+Powered by:
+
+```txt id="v0dqea"
+InvitationsEngine
+```
+
+Supports:
+
+* followers
+* contacts
+* share links
+* external sharing
+
+---
+
+# Invitation System
+
+## Direct Invite
+
+```txt id="m7j0ka"
+Alfred invited you to Tonight’s Move.
+```
+
+---
+
+## Share Links
+
+Supports:
+
+* deep links
+* app redirects
+* install fallback
+
+---
+
+## External Sharing
+
+```txt id="ezwmt4"
+WhatsApp
+Instagram DM
+Snapchat
+iMessage
+```
+
+---
+
+# Shared Timeline System
+
+Powered by:
+
+```txt id="zgb9h0"
+SharedTimelineEngine
+```
+
+Features:
+
+* live updates
+* venue progression
+* realtime movement
+* synced arrivals
+
+---
+
+# Examples
+
+```txt id="pf0q1h"
+Currently at Saint
+```
+
+```txt id="my02gi"
+3 friends arriving in 11 min
+```
+
+```txt id="0r8n3r"
+Venue order updated
+```
+
+---
+
+# Group Features
+
+## Presence Tracking
+
+```txt id="2v0prm"
+6/8 arrived
+```
+
+---
+
+## Group Voting
+
+```txt id="6b3wut"
+Next Move?
+○ LIV
+○ Konka
+○ Rockets
+```
+
+---
+
+## Plans Chat
+
+Every plan gets:
+
+* temporary group chat
+* pinned venues
+* media sharing
+* ride coordination
+
+---
+
+# PRIMARY CARD 3 — Smart Suggestions
+
+Powered by:
+
+* ContextEngine
+* SmartSuggestionsEngine
+
+This card constantly adapts.
+
+---
+
+# Example Suggestions
+
+## Queue Awareness
+
+```txt id="4np73k"
+Leave now to avoid queue surge at LIV.
+```
+
+---
+
+## Traffic
+
+```txt id="5w4ctm"
+Traffic building near Sandton.
+```
+
+---
+
+## Ride Surge
+
+```txt id="swnzy1"
+Ride prices increasing nearby.
+```
+
+---
+
+## Venue Energy
+
+```txt id="nghshx"
+Saint is peaking right now.
+```
+
+---
+
+# MINI QUICK ACTIONS ROW
+
+Compact pills below main cards.
+
+```txt id="jzcfvb"
+[ Split Fare ]
+[ Find Friends ]
+[ Emergency ]
+[ Save Tonight ]
+```
+
+---
+
+# REALTIME EXPERIENCE
+
+Powered by:
+
+```txt id="z89a2x"
+RealtimeStatusEngine
+```
+
+Realtime updates:
+
+* arrivals
+* venue movement
+* ride ETAs
+* plan changes
+* crowd shifts
+* live venue energy
+
+---
+
+# MOTION SYSTEM
+
+The section must feel:
+
+* floating
+* responsive
+* alive
+
+---
+
+# Motion Behaviors
+
+## Card Physics
+
+* touch tilt
+* parallax
+* depth movement
+
+---
+
+## Live Signals
+
+* pulse indicators
+* soft shimmer
+* realtime text updates
+
+---
+
+## Timeline Animation
+
+Venue route line animates as the night progresses.
+
+---
+
+## Avatar Movement
+
+Friends animate between venue nodes.
+
+---
+
+# CONTEXTUAL STATES
+
+Powered by:
+
+```txt id="g1o5py"
+ContextEngine
+```
+
+---
+
+# Before Going Out
+
+```txt id="8r8wk6"
+Need a ride tonight?
+```
+
+---
+
+# Active Nightlife State
+
+```txt id="0dkjlwm"
+Your group is active nearby.
+```
+
+---
+
+# Late Night
+
+```txt id="6p1egq"
+Safe ride options available.
+```
+
+---
+
+# No Plans State
+
+```txt id="4pklga"
+Nothing planned yet tonight.
+```
+
+CTA:
+
+```txt id="mjlwm1"
+Explore Venues →
+```
+
+---
+
+# BACKEND ARCHITECTURE
+
+```txt id="e4ukah"
+MyMovesEngine
+ ├── plans
+ ├── plan_members
+ ├── plan_stops
+ ├── invitations
+ ├── realtime_presence
+ ├── group_votes
+ ├── shared_messages
+ ├── safety_events
+ └── smart_suggestions
+```
+
+---
+
+# RECOMMENDED STACK
+
+```txt id="0zpgm6"
+Frontend
+ ├── Next.js
+ ├── Tamagui
+ ├── Framer Motion
+ ├── Zustand
+ └── Solito
+
+Backend
+ ├── Supabase
+ ├── Postgres
+ ├── Realtime Channels
+ ├── Edge Functions
+ └── Redis later
+```
+
+---
+
+# FINAL EXPERIENCE GOAL
+
+“My Moves” should make users feel:
+
+* coordinated
+* protected
+* socially connected
+* intelligently assisted
+* operationally ready
+
+When users open Discover:
+they should feel like:
+
+> FOMO already understands tonight before they even start moving.

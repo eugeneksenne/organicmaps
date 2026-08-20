@@ -1,0 +1,599 @@
+# FOMO — Dynamic Hero System
+
+## The Living Pulse of the City
+
+---
+
+# Product Vision
+
+The **Dynamic Hero System** is the emotional heartbeat of FOMO.
+
+It is the first experience users encounter on the Discover screen and serves as the city's live showcase.
+
+Rather than displaying static banners, the Hero System presents an intelligent carousel of real-time experiences, helping users instantly answer one question:
+
+> **"What's worth checking out right now?"**
+
+Every Hero card tells one story, has one purpose, and leads to one meaningful action.
+
+The Hero continuously adapts using live city intelligence to ensure every visit feels fresh, relevant, and connected to what's happening around the user.
+
+---
+
+# Core Product Goal
+
+Within the first **2 seconds**, users should feel:
+
+* Curiosity
+* Excitement
+* Urgency
+* Discovery
+
+The Hero should create the feeling that the city is alive and invite users to become part of it.
+
+---
+
+# Screen Layout
+
+```text
+──────────────────────────────────
+
+Dynamic Hero Carousel
+
+──────────────────────────────────
+
+Discover Places Around You
+
+🌙 Nightlife
+🍽 Food
+✨ Prep
+🌿 Recover
+✈️ Travel
+🕒 24/7
+
+──────────────────────────────────
+
+Dynamic Venue Feed
+
+──────────────────────────────────
+```
+
+---
+
+# Hero Carousel
+
+The Hero is a horizontally swipeable carousel.
+
+Each card represents one important story happening in or around the city.
+
+Only relevant cards are displayed.
+
+---
+
+# Carousel Behaviour
+
+## Automatic Rotation
+
+The carousel automatically advances every **6–8 seconds**.
+
+Behaviour:
+
+* Smooth left-slide animation
+* Infinite looping
+* Progress indicator for the active card
+* Rotation pauses while the user is interacting
+* Automatically resumes after a short period of inactivity
+
+---
+
+## Manual Navigation
+
+Users can:
+
+* Swipe left
+* Swipe right
+* Tap pagination indicators
+* Tap any Hero card
+
+Manual interaction always takes priority over automatic movement.
+
+---
+
+# Hero Card Layout
+
+```text
+┌────────────────────────────────────┐
+│                                    │
+│      Cinematic Background          │
+│                                    │
+│ Optional Badge                     │
+│                                    │
+│ Headline                           │
+│ Supporting Text                    │
+│                                    │
+│ Primary CTA                        │
+│                                    │
+└────────────────────────────────────┘
+
+● ○ ○ ○ ○ ○ ○
+```
+
+---
+
+# Hero Card Components
+
+Every Hero card includes:
+
+* Full-width cinematic image or short looping video
+* Glassmorphism content panel
+* Dynamic gradient overlay
+* Optional badge (Live, Sponsored, Mayor, Featured)
+* Headline
+* Supporting description
+* Single primary CTA
+* Pagination indicator
+
+---
+
+# Dynamic Hero Intelligence
+
+The Hero System adapts using live contextual signals.
+
+Signals include:
+
+* Time of day
+* User location
+* Nearby venues
+* Live events
+* Weather conditions
+* City campaigns
+* Current Mayor
+* Sponsored campaigns
+
+Only content that is relevant to the user is surfaced.
+
+---
+
+# Hero Card Types
+
+The Hero Carousel intelligently rotates between multiple content types.
+
+---
+
+# 🌍 City Pulse
+
+### Purpose
+
+Show the overall energy of the city.
+
+### Examples
+
+> **Johannesburg Is Alive Tonight**
+>
+> Discover nightlife, food and experiences happening across the city.
+>
+> **Explore**
+
+---
+
+> **The City Is Warming Up**
+>
+> Restaurants and nightlife are opening across Johannesburg.
+>
+> **Explore**
+
+---
+
+# 🎟️ Featured Event
+
+### Purpose
+
+Highlight the most relevant nearby event.
+
+### Examples
+
+> **Amapiano Festival Tonight**
+>
+> Starts in 45 minutes.
+>
+> **View Event**
+
+---
+
+> **Comedy Night at The Bioscope**
+>
+> Doors open at 7:00 PM.
+>
+> **View Event**
+
+---
+
+# 📍 Featured Venue
+
+### Purpose
+
+Highlight a recommended venue based on time of day, quality, popularity, and relevance.
+
+### Morning
+
+> **Start Your Day at Father Coffee**
+>
+> One of Johannesburg's favourite cafés.
+>
+> **View Venue**
+
+---
+
+### Evening
+
+> **Konka Is Open Tonight**
+>
+> Premium nightlife until 4:00 AM.
+>
+> **View Venue**
+
+---
+
+### Late Night
+
+> **Montecasino Never Sleeps**
+>
+> Dining, entertainment and gaming all night.
+>
+> **View Venue**
+
+---
+
+# 👑 City Mayor
+
+### Purpose
+
+Celebrate the city's current nightlife leader and showcase FOMO's flagship identity system.
+
+The Mayor card appears periodically within the Hero Carousel as a premium editorial feature.
+
+---
+
+### Standard Mayor Card
+
+```text
+👑 Mayor of Johannesburg
+
+Sarah Mokoena
+
+18-Day Reign
+
+The face of Johannesburg's nightlife.
+
+View Profile
+```
+
+---
+
+### New Mayor
+
+```text
+👑 NEW MAYOR
+
+Sarah Mokoena
+
+Now leading Johannesburg nightlife.
+
+View Profile
+```
+
+---
+
+### Returning Mayor
+
+Shown only when the signed-in user is the current Mayor.
+
+```text
+👑 Welcome Back
+
+Mayor of Johannesburg
+
+Day 19
+
+View Legacy
+```
+
+---
+
+### No Mayor
+
+Displayed only if no Mayor has yet been crowned.
+
+```text
+👑 The Crown Awaits
+
+Become Johannesburg's first nightlife leader.
+
+Learn More
+```
+
+---
+
+# ☁️ Weather Insight
+
+### Purpose
+
+Recommend experiences based on current weather conditions.
+
+### Examples
+
+> **Perfect Rooftop Weather**
+>
+> Discover rooftop restaurants and sunset views.
+>
+> **Explore**
+
+---
+
+> **Rainy Evening**
+>
+> Discover cosy cocktail bars and indoor lounges nearby.
+>
+> **Explore**
+
+---
+
+# 🏙️ City Spotlight
+
+### Purpose
+
+Highlight official city campaigns and major seasonal experiences.
+
+Examples include:
+
+* Restaurant Week
+* Heritage Month
+* Tourism Campaigns
+* City Festivals
+* Seasonal Celebrations
+
+### Example
+
+> **Restaurant Week Johannesburg**
+>
+> Discover exclusive dining experiences across the city.
+>
+> **Learn More**
+
+---
+
+# ⭐ Sponsored Spotlight
+
+### Purpose
+
+Premium promotional placement for approved partners.
+
+Examples:
+
+* Venue promotions
+* Entertainment brands
+* Tourism boards
+* Beverage campaigns
+* Lifestyle partnerships
+
+Sponsored content must always be clearly identified.
+
+Example:
+
+```text
+Sponsored
+
+Hennessy Presents
+
+The Rooftop Sessions
+
+View Event
+```
+
+Sponsored cards follow the same premium design language while remaining transparent.
+
+---
+
+# Hero Prioritization Engine
+
+The Hero intelligently orders cards based on relevance.
+
+Typical priority:
+
+1. Featured Event
+2. Featured Venue
+3. City Pulse
+4. City Mayor
+5. Weather Insight
+6. City Spotlight
+7. Sponsored Spotlight
+
+The order automatically adapts based on:
+
+* Time of day
+* Day of week
+* User location
+* Nearby activity
+* Live events
+* Available content
+
+---
+
+# Dynamic Hero Modes
+
+The Hero naturally evolves throughout the day.
+
+---
+
+## ☀️ Morning
+
+Primary focus:
+
+* Food
+* Prep
+* Recover
+* Travel
+
+---
+
+## 🌤️ Afternoon
+
+Primary focus:
+
+* Food
+* Travel
+* Discovering the city
+* Planning the evening
+
+---
+
+## 🌇 Evening
+
+Primary focus:
+
+* Nightlife
+* Restaurants
+* Featured venues
+* Live events
+
+---
+
+## 🌃 Night
+
+Primary focus:
+
+* Nightlife
+* Live events
+* Entertainment
+* Premium venues
+
+---
+
+## 🌙 Late Night
+
+Primary focus:
+
+* 24/7 venues
+* Late-night food
+* Casinos
+* Venues still open
+
+---
+
+# Motion System
+
+Motion should feel cinematic and effortless.
+
+Animations include:
+
+* Automatic horizontal slide
+* Manual swipe gestures
+* Background parallax
+* Ambient lighting movement
+* Smooth CTA transitions
+* Animated pagination indicators
+* Gentle card elevation
+
+Avoid:
+
+* Aggressive motion
+* Fast transitions
+* Distracting effects
+
+---
+
+# Visual Language
+
+The Hero should feel like a premium city magazine.
+
+Use:
+
+* Full-width immersive photography
+* Short looping background videos
+* Dark cinematic gradients
+* Glassmorphism overlays
+* Electric purple accents
+* Warm amber highlights
+* Live status badges
+* Premium typography
+* Soft depth and shadows
+
+---
+
+# Personalization
+
+The Hero System becomes smarter over time.
+
+It learns from:
+
+* Preferred venue categories
+* Frequently visited areas
+* Favourite venue types
+* Time-of-day usage patterns
+* Previously viewed venues
+
+The goal is to improve relevance without limiting discovery.
+
+---
+
+# Safety & Trust
+
+The Hero must never:
+
+* Display fabricated popularity.
+* Invent attendance numbers.
+* Misrepresent venue activity.
+* Promote unsafe or restricted locations.
+
+Sponsored content must always be clearly labeled.
+
+Authenticity always takes priority over engagement.
+
+---
+
+# Performance & Scalability
+
+Built to support millions of users.
+
+* Lazy-loaded Hero media
+* Progressive image and video loading
+* Intelligent content caching
+* GPU-accelerated animations
+* Optimized 60 FPS scrolling
+* Adaptive media quality based on network conditions
+* Background content prefetching for seamless transitions
+
+---
+
+# Monetization
+
+The Hero Carousel supports premium placements while preserving trust.
+
+Supported placements:
+
+* Sponsored Spotlights
+* Venue Takeovers
+* Brand Campaigns
+* Tourism Promotions
+* Seasonal City Campaigns
+
+Sponsored cards are limited in frequency and never overshadow organic city discovery.
+
+---
+
+# Product Principles
+
+* **Discovery first:** Help users quickly decide where to go.
+* **One story per card:** Every Hero focuses on a single experience.
+* **City-first intelligence:** Reflect the real rhythm of the city throughout the day.
+* **Authenticity by design:** Use real, verifiable information instead of artificial hype.
+* **Premium simplicity:** Keep the experience immersive, elegant, and uncluttered.
+* **Nightlife at the core:** Every card should reinforce FOMO as the platform for discovering nightlife and city experiences.
+
+---
+
+# Final Positioning
+
+The **Dynamic Hero System** is the living front page of FOMO. It blends real-time city intelligence, featured venues, major events, weather-aware recommendations, the city's reigning Mayor, official campaigns, and premium sponsorships into a beautifully curated carousel that evolves throughout the day. More than just a banner, it becomes the emotional gateway to the app—welcoming users into the rhythm of their city and helping them answer one simple question every time they open FOMO:
+
+> **"Where should I go next?"**

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/events_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/event_screen_background">
+
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:clipToPadding="false"
+      android:fillViewport="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="32dp">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:gravity="center_vertical"
+          android:orientation="horizontal"
+          android:paddingLeft="20dp"
+          android:paddingTop="18dp"
+          android:paddingRight="16dp">
+        <TextView
+            android:id="@+id/events_back"
+            android:layout_width="42dp"
+            android:layout_height="44dp"
+            android:gravity="center"
+            android:text="‹"
+            android:textColor="#FFFFFFFF"
+            android:textSize="38sp" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+          <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="EVENTS" android:textColor="#FFFFFFFF" android:textSize="22sp" android:textStyle="bold" />
+          <TextView android:id="@+id/events_location" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="Johannesburg  ▾" android:textColor="#BFFFFFFF" android:textSize="13sp" />
+        </LinearLayout>
+        <TextView android:id="@+id/events_calendar" android:layout_width="42dp" android:layout_height="44dp" android:gravity="center" android:text="□" android:textColor="#FFFFFFFF" android:textSize="24sp" />
+        <TextView android:id="@+id/events_settings" android:layout_width="36dp" android:layout_height="44dp" android:gravity="center" android:text="⋮" android:textColor="#FFFFFFFF" android:textSize="27sp" />
+      </LinearLayout>
+
+      <TextView android:id="@+id/events_search" android:layout_width="match_parent" android:layout_height="48dp" android:layout_marginLeft="20dp" android:layout_marginTop="14dp" android:layout_marginRight="20dp" android:background="@drawable/event_search_background" android:gravity="center_vertical" android:paddingLeft="17dp" android:text="⌕   Search events, artists, venues..." android:textColor="#9EFFFFFF" android:textSize="14sp" />
+
+      <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:layout_marginLeft="20dp" android:layout_marginTop="28dp" android:layout_marginRight="20dp">
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Tonight’s Highlights" android:textColor="#FFFFFFFF" android:textSize="21sp" android:textStyle="bold" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="1 / 3" android:textColor="#91FFFFFF" android:textSize="12sp" />
+      </LinearLayout>
+      <LinearLayout android:id="@+id/events_hero" android:layout_width="match_parent" android:layout_height="218dp" android:layout_marginLeft="20dp" android:layout_marginTop="12dp" android:layout_marginRight="20dp" android:background="@drawable/event_hero_background" android:gravity="bottom" android:orientation="vertical" android:padding="20dp">
+        <TextView android:layout_width="wrap_content" android:layout_height="25dp" android:background="@drawable/event_live_badge" android:gravity="center" android:paddingLeft="10dp" android:paddingRight="10dp" android:text="●  STARTS IN 01:42" android:textColor="#FFFFFFFF" android:textSize="10sp" android:textStyle="bold" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="30dp" android:text="AMAPIANO\nFRIDAYS" android:textColor="#FFFFFFFF" android:textSize="29sp" android:textStyle="bold" android:lineSpacingExtra="-3dp" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5dp" android:text="Truth Nightclub  •  R120 from" android:textColor="#D9FFFFFF" android:textSize="13sp" />
+      </LinearLayout>
+
+      <HorizontalScrollView android:layout_width="match_parent" android:layout_height="54dp" android:layout_marginTop="22dp" android:scrollbars="none">
+        <LinearLayout android:id="@+id/events_chips" android:layout_width="wrap_content" android:layout_height="match_parent" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="20dp" android:paddingRight="20dp">
+          <TextView android:id="@+id/events_chip_all" style="@style/EventChipSelected" android:text="🔥  All" />
+          <TextView android:id="@+id/events_chip_tonight" style="@style/EventChip" android:text="🌙  Tonight" />
+          <TextView android:id="@+id/events_chip_week" style="@style/EventChip" android:text="📅  This Week" />
+        </LinearLayout>
+      </HorizontalScrollView>
+
+      <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="20dp" android:layout_marginTop="18dp" android:layout_marginRight="20dp" android:gravity="center_vertical">
+        <TextView android:id="@+id/events_feed_title" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Nearby &amp; heating up" android:textColor="#FFFFFFFF" android:textSize="20sp" android:textStyle="bold" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ranked for you" android:textColor="#8FFFFFFF" android:textSize="12sp" />
+      </LinearLayout>
+      <LinearLayout android:id="@+id/events_feed" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:orientation="vertical" android:paddingLeft="20dp" android:paddingRight="20dp" />
+    </LinearLayout>
+  </ScrollView>
+
+  <FrameLayout android:id="@+id/events_preview_layer" android:layout_width="match_parent" android:layout_height="match_parent" android:visibility="gone" />
+</FrameLayout>

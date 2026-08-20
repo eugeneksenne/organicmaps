@@ -1,0 +1,250 @@
+# FOMO Venue Web Experience Engine — Full Spec v2.0
+
+> **Vision**
+>
+> The FOMO Venue Web Experience Engine transforms a venue's website into a seamless extension of the FOMO experience. Users remain inside FOMO while interacting with the venue's website. FOMO never becomes a web browser — it provides a secure, immersive, full-screen venue experience while the venue continues to own and manage its own digital services.
+
+## Mission
+
+Provide users with a native, uninterrupted experience for interacting with venue websites while preserving the FOMO ecosystem before, during, and after every interaction. The engine is responsible only for displaying and managing the website experience — any additional functionality delegates to the appropriate FOMO engine.
+
+## Core Philosophy
+
+**FOMO owns:** venue discovery, venue information, reviews, live venue intelligence, navigation, route integration, auto check-in, plans, sharing, communication shortcuts, safety features, session management, native UI, returning users to FOMO.
+
+**Venue owns:** website, products, menus, reservations, customer accounts, loyalty programmes, online ordering, payments, customer support, website content, authentication.
+
+## Availability
+
+Available only when a venue displays a **Website** button on its venue card. If a venue has no Website button, the engine is unavailable and cannot be launched independently — there's no generic "open any URL" entry point into this engine.
+
+## User Journey
+
+```
+Discover → Venue Details → Website → Venue Web Experience Engine
+  → Interact With Website → Launch FOMO Engines (when needed)
+  → Continue Website → Close → Return To Venue → Continue Using FOMO
+```
+
+---
+
+## Native User Experience
+
+The venue website fills the screen. No URL bar, browser tabs, browser menus, address field, refresh controls, or browser branding. The experience feels like another native FOMO screen.
+
+## Top Navigation
+
+```
+←    Venue Name    Share    ✕
+```
+Back, venue name, Share, Close. **Close** exits immediately and returns to the previous FOMO screen.
+
+## Full Screen Website
+
+The website occupies the entire content area. No floating FOMO cards appear over it during normal browsing — users interact directly with the venue's own site.
+
+## Bottom Action Bar
+
+Replaces standard FOMO navigation entirely for the duration of the session:
+```
+📍 Route     📞 Call Venue     ↗ Share     📅 Plan
+```
+
+**On the duplicate Share control:** the top-nav Share and bottom-bar Share are the same action, not two features — the top-nav one exists purely as an always-reachable shortcut (matching the venue-name header users already scan), while the bottom bar keeps it alongside the other three delegated actions for one-handed thumb reach. Both call the same Share Engine entry point with identical venue context; there is no second, distinct sharing behavior to design.
+
+## Action Delegation
+
+The engine never implements business logic belonging to other systems.
+
+| Button | Launches | Responsible for |
+|---|---|---|
+| Route | FOMO Route Engine | Route calculation, navigation, arrival detection, auto check-in, route preferences |
+| Call Venue | FOMO Communication Engine | Calling, communication permissions, phone integration |
+| Share | FOMO Share Engine | Sharing venues/links, sharing with friends, deep links |
+| Plan | FOMO Planning Overlay | Native bottom sheet over the website (see below) |
+
+### Plan (Planning Overlay)
+Appears as a native bottom sheet; the website remains visible and running behind it. Closing the overlay returns users to the website exactly as they left it — no reload, no lost scroll position.
+```
+Website
+═══════════════════════
+▲ Plan Your Visit
+Date · Time · Friends · Notes
+[ Save Plan ]
+═══════════════════════
+Website remains underneath
+```
+
+---
+
+## Venue Context Layer
+
+FOMO continuously maintains venue context — current venue, venue identifier, distance, navigation state, venue metadata — without ever modifying the website itself. This lets other FOMO engines launch with correct context regardless of what page the user is currently on within the venue's site.
+
+## Intelligent Website Preloading
+
+Triggered the moment a user opens a **Venue Details** page (before the Website button is even tapped), not on app launch or discovery-feed scroll — preloading every venue card a user scrolls past would waste data and battery for negligible benefit, since most venue detail views are never followed by a Website tap.
+
+Prepares: DNS lookup, HTTPS validation, SSL negotiation, metadata, connection warming, asset preloading.
+
+**Resolved default:** the preload connection is held warm for 5 minutes from when Venue Details was opened; if the Website button hasn't been tapped by then, the connection is released rather than held indefinitely per venue.
+
+## Session Isolation
+
+Every venue website runs in an isolated session — independent cookies, storage, and authentication per venue, so a logged-in loyalty account at one venue's site never leaks into another venue's session. Sessions never interfere with one another.
+
+**Native implementation:** Android uses a separate `WebView` instance per venue with its own `CookieManager` partition; iOS uses a distinct `WKWebsiteDataStore` per venue rather than the shared/default store. Both are wired through a common KMP `expect`/`actual` `VenueWebSessionController` so the delegation logic (§Action Delegation) and context layer are shared, while the actual webview implementation stays platform-native.
+
+**Resolved default:** an isolated session persists for 30 days of inactivity before FOMO clears it (matching typical loyalty-login expectations), then is purged — consistent with not becoming an indefinite data store for venue-side accounts FOMO has no visibility into.
+
+## Session Recovery
+
+If a user temporarily leaves for bank authentication, wallet confirmation, or identity verification (e.g. a payment provider's own app or a system biometric prompt), the engine restores current page, scroll position, active form (where supported), and website session (where supported) — users continue exactly where they left off.
+
+## Error Recovery
+
+If the website cannot be opened:
+```
+Can't load [Venue Name]'s website
+
+[ Retry ]  [ Route ]  [ Call Venue ]  [ Share ]  [ Report Website ]
+```
+Always provides a useful next step rather than a dead end. "Report Website" logs the venue ID and failure reason for the venue-data team — it does not attempt to auto-diagnose or expose technical error detail to the user.
+
+## Download Centre
+
+Venue downloads (tickets, receipts, invoices, menus, booking confirmations) stay organized inside FOMO rather than a device's generic downloads folder. Users may view, save, share, or delete.
+
+**Screen — Download Centre**
+```
+Downloads
+──────────────────
+🎟 Concert Ticket — The Grand Hall        Aug 3
+🧾 Receipt — Rooftop Bar                  Jul 21
+📖 Menu — Sakura Sushi                    Jul 14
+```
+Grouped by venue, newest first. Tapping an item opens it in-place (PDF/image viewer); long-press surfaces Share/Delete.
+
+---
+
+## Security Engine
+
+- Validating trusted venue URLs against the venue record FOMO already holds — the engine only ever opens the URL associated with that venue's profile, never an arbitrary link
+- Supporting secure HTTPS connections where available
+- Detecting redirect loops — **resolved default:** more than 5 redirects within a single navigation is treated as a loop and routed to Error Recovery rather than followed further
+- Isolating website sessions (see above)
+- Restricting unsupported URL schemes
+- Managing safe transitions to external authentication when required
+
+**Resolved URL scheme handling** (the original spec named this as a safeguard without listing what's actually allowed):
+
+| Scheme | Behavior |
+|---|---|
+| `https://` | Loaded in-engine (required) |
+| `http://` | Loaded in-engine with a non-blocking security notice; venues are encouraged toward HTTPS |
+| `tel:` | Delegated to native dialer (same path as Call Venue) |
+| `mailto:` | Delegated to native mail client |
+| `maps:` / geo intents | Delegated to FOMO's own Route Engine, not the device's default maps app, to keep navigation inside FOMO context |
+| Custom/unknown app schemes (e.g. a payment provider's own deep link) | Allowed only as part of Session Recovery's external-authentication handoff; otherwise blocked and routed to Error Recovery |
+
+## Privacy
+
+FOMO never accesses passwords, customer accounts, payment details, banking information, or checkout information. Authentication and payments remain strictly between the user and the venue's website.
+
+## Performance Engine
+
+WebView pooling, intelligent caching, memory optimisation, asset preloading, DNS prefetch, background cleanup, connection-aware loading, fast session restoration.
+
+**Resolved default:** the WebView pool holds a maximum of 3 warm instances at once (matching typical usage of browsing 1–2 venues in a session plus one preloaded); the least-recently-used instance is evicted first when a 4th is needed.
+
+## Analytics
+
+Privacy-first, aggregated only — no browsing content, credentials, or payment information collected.
+
+- **Venue Experience:** website opened, website load time, session duration, return-to-FOMO rate
+- **Engine Usage:** Route Engine launched, Communication Engine launched, Share Engine launched, Planning Overlay opened
+- **Performance:** page load success, website errors, session recovery success
+
+---
+
+## Backend Data Model
+
+```
+venue_web_sessions
+------------------
+id
+userId
+venueId
+createdAt
+lastActiveAt
+expiresAt          -- default createdAt + 30 days inactivity
+
+venue_downloads
+----------------
+id
+userId
+venueId
+type               -- Ticket | Receipt | Invoice | Menu | BookingConfirmation
+title
+fileRef            -- object storage reference
+createdAt
+
+venue_web_events
+-----------------
+sessionId
+eventType          -- Opened | Closed | RouteEngineLaunched | CommsEngineLaunched
+                      | ShareEngineLaunched | PlanOverlayOpened | ErrorOccurred
+                      | SessionRecovered
+timestamp
+metadata
+
+venue_web_errors
+-----------------
+venueId
+errorType          -- LoadFailure | RedirectLoop | UnsupportedScheme | Timeout
+occurredAt
+reportedByUser      -- boolean, true if via "Report Website"
+```
+
+## Production Architecture
+
+```
+Venue Card
+   │
+   ▼
+Website Button
+   │
+   ▼
+Venue Web Experience Engine
+   │
+   ├──────────────┬──────────────┬──────────────┐
+   ▼              ▼              ▼              ▼
+Venue Website   Route Engine   Share Engine   Communication Engine
+   │
+   ▼
+Planning Overlay
+   │
+   ▼
+Continue Website → Close → Return To Venue → Continue Using FOMO
+```
+
+## Design Principles
+
+- **Native-first** — the website feels like part of FOMO rather than a browser.
+- **Full-screen immersion** — no URL bar or browser controls.
+- **Dedicated action bar** — Route, Call Venue, Share, Plan replace standard navigation while open.
+- **Modular architecture** — every action delegates to its dedicated FOMO engine instead of duplicating logic.
+- **Non-destructive overlays** — Plan appears as an overlay; users resume exactly where they left off.
+- **Privacy and security** — authentication, accounts, and payments stay entirely under the venue's control; FOMO provides a secure, context-aware container.
+
+---
+
+## Changes from v1.0
+
+- Added **native implementation detail** (Android `WebView`/`CookieManager` per venue, iOS `WKWebsiteDataStore` per venue, shared via a KMP `expect`/`actual` `VenueWebSessionController`), matching FOMO's actual Kotlin Multiplatform architecture — the original spec described behavior without pinning down how session isolation is actually implemented per platform.
+- Resolved five previously-open defaults: preload connection lifetime (5 min), session isolation retention (30 days inactivity), redirect-loop threshold (5 redirects), WebView pool size (3 instances, LRU eviction), and a full URL-scheme allowlist (the original named "restricting unsupported schemes" as a safeguard without saying what's actually allowed vs. blocked).
+- Clarified that top-nav Share and bottom-bar Share are the same action surfaced twice for reach, not two distinct behaviors — worth stating explicitly since the original spec listed both without addressing the overlap.
+- Added a **Download Centre screen mock** and backing data model (`venue_downloads`) — the original described the feature's capabilities but had no visual spec or schema.
+- Added an **Error Recovery screen mock** with venue name substituted in, and clarified "Report Website" logs venue ID + failure reason rather than surfacing technical detail to the user.
+- Added a full **Backend Data Model** section (`venue_web_sessions`, `venue_downloads`, `venue_web_events`, `venue_web_errors`) since the original spec had no schema at all despite describing session, download, and analytics behavior in detail.
+

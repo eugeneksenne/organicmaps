@@ -1,0 +1,74 @@
+**UI/UX Design Description: Nearest Venue Card**
+
+### **Overall Layout & Structure**
+- **Card Shape**: Rounded rectangular container with soft, glowing purple neon border on a dark (near-black) background. The card has a subtle inner shadow/glow effect, giving it a floating, premium feel against the map screen.
+- **Two-Column Layout**:
+  - **Left Column** (~35-40% width): Hero image area with overlaid badges.
+  - **Right Column** (~60-65% width): Content stack with venue details, metadata, and actions.
+
+### **Color Scheme**
+- **Primary Background**: Deep black / very dark navy.
+- **Accent Color**: Vibrant neon purple/magenta (#C026D3 or similar) used for borders, buttons, icons, and highlights.
+- **Secondary Accents**: Bright cyan/blue lighting in the venue photo, red/orange flame icons.
+- **Text**:
+  - Primary text: White / off-white.
+  - Supporting text: Lighter purple or muted gray.
+- **Mood**: Cyberpunk / nightclub aesthetic — dark, energetic, immersive, and premium.
+
+### **Top Bar (Header)**
+- Left: **"NEAREST VENUE"** in uppercase tracking, paired with a purple location pin icon.
+- Right: **"Trending"** label with flame icon + **92%** pill badge (bright purple background).
+
+### **Hero Image Section (Left)**
+- Full-height venue photo showing a packed techno club interior (crowd, dramatic stage lighting, beams, DJ booth).
+- Large glowing neon **"V"** logo (club branding) centered on the stage in the photo.
+- **"HOT TONIGHT"** badge (black rounded rectangle with red flame icon) overlaid top-left on the image.
+
+### **Venue Information (Right Column)**
+- **Venue Name**: "The Vault" — Large, bold, white typography (likely 28-32px).
+- **Type**: "Techno Club" in smaller purple text with a verified checkmark icon.
+- **Location**: "Braamfontein, Johannesburg" with map pin icon.
+- **Distance**: "0.1 km away (2 min walk)" with walking person icon.
+- **Status**:
+  - Green dot + **"Open Now"** + "Closes 04:00 AM".
+  - Hours pill: "Thu – Sun 18:00 – 04:00".
+- **Rating**: Large yellow star + **"4.7"** (bold) with "(2,481 reviews)" in smaller text. "View Reviews" link on the right.
+- **FOMO Score**: Prominent right-side box with flame icon, **"92%"** in large pink/purple, labeled "FOMO SCORE".
+
+### **Tags (Bottom Left of Image)**
+Three rounded pill tags with icons:
+- **Techno** (music note icon)
+- **Cocktails** (martini icon)
+- **21+** (user icon)
+
+### **Action Buttons (Bottom Right)**
+Two prominent rounded buttons with purple gradients:
+1. **Club Lobby** (left)
+   - Icon of three people.
+   - Subtitle: "Photos, Events & More".
+2. **Route** (right, more vibrant purple)
+   - Paper plane / navigation icon.
+   - Subtitle: "Get Directions".
+
+### **Typography Hierarchy**
+- **Headline**: Bold, condensed sans-serif for venue name.
+- **Body**: Clean, modern sans-serif (medium weight for metadata).
+- **Labels**: Uppercase, tight tracking for tags and section headers.
+- **Numbers**: Extra-bold for rating, percentage, and distance to draw attention.
+
+### **Visual & Interaction Highlights**
+- Strong use of **neon glow effects** on borders, buttons, and badges.
+- High contrast between the dark UI and the colorful venue photo.
+- Clear visual hierarchy: Name > Status/FOMO > Rating > Actions.
+- Micro-interactions likely intended for:
+  - Tap "Route" → opens map directions.
+  - Tap "Club Lobby" → opens detailed venue screen.
+  - "View Reviews" → expands reviews.
+- Responsive consideration: Card should scale gracefully on mobile while maintaining the image/content ratio.
+
+---
+
+**Recommended Design Language Keywords**: Dark mode, neon cyberpunk, nightlife app, premium, immersive, high-energy, modern nightclub UI.
+
+This card successfully combines **information density** with **emotional appeal** — the vibrant photo and FOMO/trending metrics create urgency, while the clean layout keeps it scannable.
+

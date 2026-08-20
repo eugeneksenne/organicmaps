@@ -1,0 +1,551 @@
+# FOMO Events System
+
+## Premium Production Specification 
+
+---
+
+# Vision
+
+The FOMO Events section is not an event marketplace.
+
+It is a **premium nightlife discovery and planning engine** that helps users answer one question:
+
+> **"Where should I go tonight?"**
+
+Everything is designed around:
+
+* Discovery
+* Planning
+* Venue-first experiences
+* Fast decision making
+* Beautiful UI
+* Premium interactions
+
+---
+
+# Core Principles
+
+The Events screen should always feel:
+
+* Premium
+* Cinematic
+* Fast
+* Spacious
+* Venue-first
+* Social
+* Trustworthy
+
+Avoid:
+
+* Clutter
+* Tiny text
+* Marketplace layouts
+* Information overload
+
+---
+
+# Navigation
+
+```
+Bottom Navigation
+
+Discover
+
+Feed
+
+Camera
+
+Map
+
+Chats
+```
+
+Events are accessed from:
+
+* Discover
+* Club Lobby
+* Search
+* Creator Studio
+* Shared links
+* Hero banners
+
+Events are **not** part of the bottom navigation.
+
+---
+
+# Events Home
+
+```
+← Events
+
+Johannesburg ▼                📅     ⚙️
+
+Search events, artists, venues...
+```
+
+Sticky header.
+
+Dark glass background.
+
+---
+
+# Calendar
+
+The calendar is accessed **only** from the 📅 icon.
+
+The Events screen never switches into calendar mode.
+
+This keeps discovery fast while allowing long-term planning.
+
+The calendar contains:
+
+* Month view
+* Event indicators
+* Day timeline
+* My Plans
+* Ticket reminders
+* Festivals
+* Public holidays
+* Upcoming weekends
+
+---
+
+# Hero Section
+
+## Tonight's Highlights
+
+Large cinematic carousel.
+
+Displays:
+
+* Event poster
+* Event name
+* Venue
+* Countdown
+* Ticket price
+* Preview button
+
+Premium motion:
+
+* Slow parallax
+* Soft glow
+* Auto-scroll
+* Shared transitions
+
+---
+
+# My Plans
+
+Visible only if the user has planned events.
+
+Each plan shows:
+
+* Poster
+* Countdown
+* Reminder status
+* Route shortcut
+
+---
+
+# Categories
+
+Horizontal chips.
+
+```
+🔥 All
+
+🌙 Tonight
+
+📅 This Week
+```
+
+Only three categories.
+
+Everything beyond this week is accessed through the Calendar.
+
+---
+
+# Search
+
+Search supports:
+
+Events
+
+Artists
+
+Venues
+
+Genres
+
+Examples
+
+Amapiano
+
+Kelvin Momo
+
+Rosebank
+
+VIP
+
+---
+
+# Event Feed
+
+Vertical scrolling.
+
+One premium event card per row.
+
+No sections.
+
+No nested lists.
+
+Infinite scrolling.
+
+---
+
+# Event Sorting
+
+Events are intelligently ranked.
+
+Priority:
+
+1. Distance
+2. Starts soon
+3. Live now
+4. Ripple Heat
+5. Venue quality
+6. Ticket availability
+7. Sponsored events (clearly labeled)
+
+This ensures nearby events that are about to begin appear first.
+
+---
+
+# Premium Event Card (Collapsed)
+
+Displays:
+
+* Full event poster/flyer (original aspect ratio)
+* Event title
+* Venue name
+* Venue verification (if verified)
+* Status (Live, Starts Soon, Tomorrow)
+* Distance
+* Ripple Heat
+
+No action buttons.
+
+Tap anywhere to preview.
+
+---
+
+# Floating Event Preview
+
+Instead of navigating immediately to a new page, tapping an event opens a centered floating preview.
+
+Background:
+
+* Blur
+* Dim
+* Feed locked
+
+Preview animation:
+
+* Poster expands
+* Card scales into the center
+* Premium spring motion
+
+---
+
+# Floating Event Preview Layout
+
+Contains:
+
+Large full poster
+
+Event title
+
+Venue card
+
+Venue rating
+
+Venue status
+
+Date
+
+Time
+
+Distance
+
+Travel time
+
+Ticket price
+
+Ticket availability
+
+Ripple Heat
+
+Short description
+
+---
+
+# Event Actions
+
+## Social
+
+❤️ Interested
+
+Adds the event to user interests.
+
+Improves recommendations.
+
+---
+
+🗓 Plan
+
+Adds to My Plans.
+
+Supports inviting friends.
+
+Integrates with Chats and NightGuard.
+
+---
+
+⏰ Reminder
+
+Reminder options:
+
+* 15 min
+* 30 min
+* 1 hour
+* 3 hours
+* Custom
+
+---
+
+📤 Share
+
+Supports:
+
+* FOMO Chats
+* WhatsApp
+* Instagram
+* Telegram
+* Copy Link
+* System Share
+
+---
+
+## Primary Actions
+
+🎟 Tickets
+
+Supports:
+
+* Buy Tickets
+* Guest List
+* Register
+* VIP
+* Free Entry
+* Sold Out
+
+Button adapts automatically.
+
+---
+
+📍 Route
+
+Opens FOMO navigation.
+
+Users may continue in Google Maps or Waze if desired.
+
+Shows:
+
+* ETA
+* Walking time
+* Driving time
+
+---
+
+🏛 Club Lobby
+
+**Only displayed for nightlife venue events.**
+
+Appears for:
+
+* Nightclubs
+* Bars
+* Lounges
+* Rooftops
+* Music venues
+
+Opens the venue's Club Lobby.
+
+---
+
+# Adaptive Venue Actions
+
+Nightclub
+
+* Tickets
+* Route
+* Club Lobby
+
+Restaurant
+
+* Website
+* Route
+* Book
+
+Festival
+
+* Tickets
+* Route
+* Festival Guide
+
+Conference
+
+* Register
+* Route
+* Website
+
+---
+
+# Event Details Screen
+
+Selecting **View Full Details** expands the preview into the dedicated event page.
+
+Structure:
+
+1. Hero poster/video
+2. Countdown
+3. Sticky action bar
+4. Venue card
+5. Event description
+6. Artists & line-up
+7. Event schedule
+8. Gallery
+9. Map preview
+10. Club Lobby preview (nightlife only)
+11. Similar events
+
+Sticky actions:
+
+* Tickets
+* Route
+* Share
+
+---
+
+# Club Lobby Integration
+
+Every nightlife event is linked to its venue's Club Lobby.
+
+Users can instantly:
+
+* View live moments
+* See venue activity
+* Join conversations
+* View active Flash Drops
+* Explore other events at the venue
+
+---
+
+# Flash Drop Integration
+
+If the venue has an active Flash Drop, the preview displays:
+
+🎁 Flash Drop Active
+
+Available until 23:30
+
+Claim at Venue
+
+Users must physically visit the venue to claim it.
+
+---
+
+# Ripple Integration
+
+Replace attendance counts with Event Heat:
+
+🔥 Heating Up
+
+🌊 Peak Night
+
+⚡ Trending Nearby
+
+🎉 Flash Drop Active
+
+🍾 VIP Filling Fast
+
+No fake social proof.
+
+---
+
+# Creator Studio Integration
+
+Creators can:
+
+* Create events
+* Upload high-resolution posters
+* Link venues
+* Configure ticketing
+* Add line-ups
+* Schedule reminders
+* Attach Flash Drops
+* Promote events
+* View analytics
+
+---
+
+# Personalization
+
+The Events screen adapts based on:
+
+* Time of day
+* User location
+* Preferred music genres
+* Ripple Heat
+* Venue status
+* Distance
+* Ticket availability
+
+Behavior:
+
+* Daytime → **All** selected by default.
+* From 18:00 onward → **Tonight** selected automatically.
+
+---
+
+# Motion & Animation
+
+* Shared-element transitions from card to preview and preview to details.
+* Frosted glass floating previews.
+* Smooth spring animations.
+* Hero poster parallax.
+* Gentle Ripple Heat pulse.
+* Live badges with subtle animation.
+* Consistent 120 Hz-ready motion on supported devices.
+
+---
+
+# Design Language
+
+* Dark-mode first.
+* Apple-tier typography.
+* Glassmorphism surfaces.
+* Cinematic edge-to-edge posters.
+* Neon accent highlights.
+* Spacious layouts with generous padding.
+* Minimal but purposeful icons.
+* Large touch targets.
+* Consistent visual hierarchy.
+
+---
+
+# Final User Journey
+
+**Discover → Events → Floating Event Preview → Tickets / Route / Club Lobby / Plan / Reminder / Share → Event Details → Venue Experience**
+
+This creates a seamless nightlife journey where users can discover an event, plan it, navigate to the venue, engage with the Club Lobby, and participate in the nightlife experience—all without the Events section ever feeling like a traditional ticket marketplace.

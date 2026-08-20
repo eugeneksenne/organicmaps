@@ -1,0 +1,1291 @@
+Yes. And this is an important distinction: **you should not try to make Supabase and Organic Maps both "own" the same map files.** Give each one a clear job.
+
+### The clean architecture for FOMO
+
+![Image](https://images.openai.com/static-rsc-4/8lsKhP4A7zNCMM6nOSxLXY-R_7a8mWyExOdtk1IJZnu_0Wr79RvqB2xmEE7G0EL_ZqdOsdnHkolOJZdOcfpp0wjXO-ezt-omVtSxLSgNQDn2rRtO8tA1oVdJ4IU0O1ehSE7rw0hgWQ5Dm9SW7q7SZ-5xgGsESpBc7e8Exvw6F-RQEtDHWpjStR2Cby4kSlzt?purpose=fullsize)
+
+![Image](https://images.openai.com/static-rsc-4/9ZVuYBcwLO5UeZXvlQwXXY9zJRh1KR-NjpOVqAR6LbYtww5mHkdrxEnuUsn-dko9qWlzifA2hrxRFwTOfWE0qDjiHtJ1RysDxbfVdvbeg1UrL2AGYx7vzBAvwwDNLlWokAL5PJNtVbqUfvvFuKdrVLHpcp8Kf06WaxEKv5iTfWs-JzE-Wo-9JZjXbNIh6s7l?purpose=fullsize)
+
+![Image](https://images.openai.com/static-rsc-4/wlPa6GKLLEcvM7S0anaKT5fKbL9nt87rJcgWtYiHNeMjj6jKqUbSoDHf59hEHXa572Xf0UNLHZQJOhL8Z70jOypXz8ZQ-G5k6CqS-gF7tCqPQB5YJLLqiDMWOhxLaqdttr__qOCbfdUvizg3hFq9jWU_bpo1FmFDSuAR5jcZG--dmvt_78-H0wqhTM7mTEHe?purpose=fullsize)
+
+Think of it as two storage layers:
+
+```text
+                    FOMO MAP
+                       │
+          ┌────────────┴────────────┐
+          │                         │
+          ▼                         ▼
+   ORGANIC MAPS                 SUPABASE
+   LOCAL DEVICE                 CLOUD/BACKEND
+          │                         │
+          │                         │
+   Geographic data            FOMO application data
+   Offline map files          Venues
+   Routing data               Events
+   Search indexes             FOMO categories
+   Map rendering              FOMO scores
+   OSM data                   Photos/media metadata
+                              User-created places
+                              Plans
+                              Social data
+                              Sync metadata
+```
+
+## 1. Where does Organic Maps store its map data?
+
+Organic Maps downloads map packages onto the **device's local storage** and uses those local files for offline maps, search and routing. Its Android app supports storing downloaded maps in internal private storage or other available storage, including SD storage on supported devices. ([Organic Maps][1])
+
+So when someone downloads:
+
+```text
+South Africa
+   └── Mpumalanga
+```
+
+the actual geographic map data ends up **on that user's phone**, not in Supabase.
+
+That is exactly what you want for FOMO's offline map capability.
+
+The important point is that Organic Maps does not normally work like:
+
+```text
+Supabase
+   ↓
+Organic Maps
+   ↓
+Map
+```
+
+Instead it is more like:
+
+```text
+Map package download
+        ↓
+PHONE STORAGE
+        ↓
+Organic Maps engine
+        ↓
+Map / Search / Routing
+```
+
+Organic Maps also publishes map-data resources/mirrors, and its current releases continue to use regularly updated OSM data. ([Organic Maps][2])
+
+---
+
+# 2. So what should YOUR Supabase contain?
+
+This is where your architecture gets interesting.
+
+You already have:
+
+```text
+Supabase
+   ↓
+FOMO map data
+```
+
+I would **not delete that**.
+
+Instead, change what "map data" means.
+
+Supabase should store the **FOMO geographic intelligence**, not the complete Organic Maps geographic database.
+
+For example:
+
+```text
+SUPABASE
+│
+├── venues
+│
+├── venue_categories
+│
+├── venue_media
+│
+├── venue_events
+│
+├── venue_scores
+│
+├── venue_status
+│
+├── venue_submissions
+│
+├── user_saved_places
+│
+├── user_plans
+│
+├── flash_drops
+│
+├── live_moments
+│
+├── friend_presence
+│
+├── nightguard_sessions
+│
+└── map_region_metadata
+```
+
+Organic Maps handles:
+
+```text
+ROADS
+BUILDINGS
+STREETS
+PATHS
+RIVERS
+PARKS
+TERRAIN
+GEOGRAPHIC POIs
+OFFLINE SEARCH
+ROUTING
+```
+
+That's a much cleaner division.
+
+---
+
+# 3. But how do the two actually connect?
+
+This is the key part.
+
+You connect them using **coordinates + stable IDs**.
+
+For example, Organic Maps knows:
+
+```text
+Latitude:
+-25.7479
+
+Longitude:
+28.2293
+```
+
+Your Supabase venue record might be:
+
+```text
+venue_id:
+venue_83921
+
+name:
+Some Club
+
+latitude:
+-25.7479
+
+longitude:
+28.2293
+
+osm_id:
+node/123456789
+
+category:
+nightlife
+
+fomo_score:
+92
+```
+
+Now FOMO can tell Organic Maps:
+
+```text
+"Put a FOMO marker at
+-25.7479, 28.2293"
+```
+
+Organic Maps renders the geographic world.
+
+FOMO renders the FOMO information on top.
+
+---
+
+# 4. The relationship should look like this
+
+```text
+                    OPENSTREETMAP
+                          │
+                          ▼
+                   ORGANIC MAPS
+                          │
+              ┌───────────┴───────────┐
+              │                       │
+              ▼                       ▼
+        Map Rendering             Routing
+              │
+              ▼
+       Offline Map Files
+              │
+              ▼
+          USER DEVICE
+              ▲
+              │
+              │ FOMO overlays
+              │
+       FOMO MAP ENGINE
+              ▲
+              │
+              ▼
+           SUPABASE
+              │
+       ┌──────┼────────┐
+       ▼      ▼        ▼
+    Venues  Events   Social
+       │
+       ▼
+   FOMO Scores
+```
+
+That's the architecture I would use for your app.
+
+---
+
+# 5. And there is an even better trick
+
+Your Supabase venue record should reference the corresponding OSM entity **when one exists**.
+
+For example:
+
+```text
+venues
+--------------------------------
+id
+osm_id
+name
+latitude
+longitude
+category
+fomo_score
+verified
+updated_at
+```
+
+Example:
+
+```text
+id:        fomo_000128
+osm_id:    node_123456789
+name:      Example Nightclub
+latitude:  -25.7479
+longitude:  28.2293
+category:  nightlife
+score:     92
+```
+
+Now you have a bridge:
+
+```text
+OSM / Organic Maps
+        │
+        │ osm_id
+        ▼
+FOMO Venue
+        │
+        ▼
+Supabase
+```
+
+This becomes incredibly useful later.
+
+---
+
+# 6. But don't depend on OSM IDs for everything
+
+This is important.
+
+Some FOMO venues might not exist in OSM.
+
+For example:
+
+```text
+A brand-new underground event
+Temporary rooftop party
+Private event
+Flash Drop
+Pop-up venue
+User-created meetup
+```
+
+Those can exist entirely inside FOMO:
+
+```text
+FOMO ID
++
+coordinates
+```
+
+So:
+
+```text
+osm_id = nullable
+```
+
+not:
+
+```text
+osm_id = required
+```
+
+Your model should therefore be:
+
+```text
+FOMO VENUE
+│
+├── fomo_id       REQUIRED
+├── latitude      REQUIRED
+├── longitude     REQUIRED
+├── name          REQUIRED
+├── category      REQUIRED
+│
+└── osm_id        OPTIONAL
+```
+
+---
+
+# 7. What happens when the user opens the map?
+
+Imagine I'm standing in Pretoria.
+
+The sequence becomes:
+
+```text
+1. FOMO starts map
+        ↓
+2. Organic Maps loads local map
+        ↓
+3. GPS gets user location
+        ↓
+4. FOMO queries local/cache + Supabase
+        ↓
+5. FOMO gets nearby venues
+        ↓
+6. FOMO converts venues into map markers
+        ↓
+7. Organic Maps renders the geographic map
+        ↓
+8. FOMO renders its overlays
+```
+
+Result:
+
+```text
+             ORGANIC MAPS
+    ┌───────────────────────────┐
+    │ roads                     │
+    │ buildings                 │
+    │ parks                     │
+    │ streets                   │
+    │                           │
+    │        🔥92               │
+    │       CLUB                │
+    │                           │
+    │               🔥87        │
+    │              LOUNGE       │
+    │                           │
+    │     👤 friend             │
+    │                           │
+    └───────────────────────────┘
+             FOMO LAYER
+```
+
+The map itself is Organic Maps.
+
+The nightlife intelligence is FOMO.
+
+---
+
+# 8. What happens offline?
+
+This is where your architecture becomes powerful.
+
+Suppose the user has downloaded:
+
+```text
+Mpumalanga
+```
+
+Organic Maps has:
+
+```text
+Mpumalanga map
+      ↓
+PHONE
+```
+
+Then the user loses internet.
+
+They can still:
+
+```text
+✓ See the map
+✓ Move around the map
+✓ Search geographic locations
+✓ Navigate
+✓ Get GPS location
+✓ Calculate routes
+```
+
+because the geographic foundation is local.
+
+For FOMO, you cache the important nearby information:
+
+```text
+FOMO LOCAL DATABASE
+
+venues
+events
+saved_places
+plans
+cached_recommendations
+```
+
+So:
+
+```text
+INTERNET OFF
+
+Organic Maps
+     ↓
+Offline geographic map
+
+FOMO Local DB
+     ↓
+Cached FOMO information
+```
+
+You don't need Supabase to be alive for the map to work.
+
+---
+
+# 9. When internet returns
+
+Then:
+
+```text
+PHONE
+  │
+  ├── Organic Maps
+  │      ↓
+  │   Offline map
+  │
+  └── FOMO Local DB
+         ↓
+      Sync Engine
+         ↓
+      SUPABASE
+```
+
+Supabase refreshes:
+
+```text
+Venue changes
+New venues
+Events
+FOMO scores
+Flash Drops
+Live activity
+Friend presence
+etc.
+```
+
+The Organic Maps geographic layer doesn't need to be rebuilt every time someone changes a FOMO venue score.
+
+---
+
+# 10. What about storing the Organic Maps files in Supabase?
+
+**You technically could create a system where your infrastructure hosts downloadable Organic Maps-compatible map packages, but I would not use your normal FOMO database tables/storage as the runtime map database.**
+
+Instead:
+
+```text
+Supabase
+   │
+   ├── FOMO database
+   │
+   └── optional map-package distribution/storage
+```
+
+The user's device ultimately needs:
+
+```text
+Map package
+      ↓
+Local storage
+      ↓
+Organic Maps
+```
+
+The cloud is the **distribution source**, not the runtime map database.
+
+Also, Organic Maps has its own map-data distribution infrastructure and licensing considerations. Its map-data resources are subject to Organic Maps' Binary Data License, so your agent should inspect the exact licensing/distribution requirements before simply mirroring their packages into your own storage. ([Organic Maps][2])
+
+---
+
+# 11. I would actually change your FOMO architecture slightly
+
+Instead of:
+
+```text
+Supabase
+   ↓
+FOMO Map Data
+   ↓
+Map
+```
+
+make it:
+
+```text
+                FOMO MAP PLATFORM
+                       │
+          ┌────────────┴────────────┐
+          │                         │
+          ▼                         ▼
+   ORGANIC MAPS                 FOMO DATA
+          │                         │
+          ▼                         ▼
+   Local map files              Supabase
+          │                         │
+          ▼                         ▼
+   Roads / buildings          Venues / events
+   routing / search           social / scores
+          │                         │
+          └────────────┬────────────┘
+                       ▼
+                FOMO MAP UI
+```
+
+That's the architecture I'd recommend for your current app.
+
+---
+
+# 12. The really important part for your map agent
+
+Since your Organic Maps source is:
+
+```text
+D:\Android-fomo-main\engine
+```
+
+your agent should **inspect that repository and determine exactly how that particular checkout handles map storage, downloads, indexes, search and routing**.
+
+I would not tell the agent:
+
+> "Store Organic Maps data in `/some/fixed/path`."
+
+That would be dangerous because the actual repository may have platform-specific storage abstractions.
+
+Instead, tell it:
+
+```text
+Inspect D:\Android-fomo-main\engine and identify:
+
+1. Map storage abstraction
+2. Map download manager
+3. Map package format
+4. Map installation process
+5. Map file location on Android
+6. Map file location on iOS
+7. Map version metadata
+8. Map update mechanism
+9. Search database/index
+10. Routing data
+11. Native C++ ownership
+12. JNI/Objective-C++ boundaries
+
+Do not replace Organic Maps' storage architecture.
+
+Integrate FOMO's Supabase-backed venue intelligence around it.
+```
+
+### In other words
+
+**Don't make Supabase and Organic Maps fight over the same database.**
+
+Make them complementary:
+
+> **Organic Maps owns the physical world. Supabase owns the FOMO world.**
+
+And your **FOMO Map Engine owns the bridge between them.** 🗺️🔥
+
+That is the architecture I'd use for FOMO.
+
+[1]: https://organicmaps.app/faq/embedded-faq/?lang=en&utm_source=chatgpt.com "Organic Maps: Frequently Asked Questions"
+[2]: https://cdn.organicmaps.app/?utm_source=chatgpt.com "Organic Maps map data mirrors"
+
+
+
+Yes. **This changes the picture in a good way.** Your Global Venue Pack system and Organic Maps should not compete. They should become two layers of the same offline map platform.
+
+Your uploaded specification explicitly defines the Venue Pack platform as the system that discovers, verifies, normalizes, deduplicates, permanently identifies, geographically indexes, and packages venues into SQLite Country Packs. 
+
+So I would revise what I said earlier slightly.
+
+## The architecture should be this
+
+```text
+                  FOMO GLOBAL DATA PLATFORM
+                           │
+                           ▼
+              GLOBAL VENUE PACK PLATFORM
+                           │
+       ┌───────────────────┼───────────────────┐
+       │                   │                   │
+       ▼                   ▼                   ▼
+    OSM data          Google Places       Foursquare
+       │                   │                   │
+       └───────────────────┼───────────────────┘
+                           ▼
+              Acquisition + Normalization
+                           │
+                           ▼
+                 Duplicate Resolution
+                           │
+                           ▼
+                Permanent Venue Identity
+                           │
+                           ▼
+                Geographic Intelligence
+                           │
+                           ▼
+                 Verification / Quality
+                           │
+                           ▼
+                  COUNTRY PACK BUILDER
+                           │
+            ┌──────────────┼──────────────┐
+            ▼              ▼              ▼
+       Core Pack       Nightlife        Food
+            │              │              │
+            ├──────────────┼──────────────┤
+            ▼              ▼              ▼
+          Prep          Wellness        Travel
+                           │
+                           ▼
+                    SQLite PACKS
+                           │
+                           ▼
+                 FOMO OFFLINE DEVICE
+                           │
+              ┌────────────┴────────────┐
+              ▼                         ▼
+       ORGANIC MAPS                 FOMO VENUE
+       MAP DATABASE                PACK DATABASE
+              │                         │
+              ▼                         ▼
+       Roads / Buildings          Venues / Metadata
+       Terrain / Paths            Categories
+       Routing                    FOMO IDs
+       Geographic POIs            Hours / Contacts
+       Offline Search             Venue intelligence
+              │                         │
+              └────────────┬────────────┘
+                           ▼
+                     FOMO MAP ENGINE
+                           │
+                           ▼
+                       FOMO UI
+```
+
+### This is much better than putting everything into Supabase.
+
+---
+
+# The crucial distinction
+
+Your uploaded specification says:
+
+> "The FOMO Global Venue Pack Creation Intelligence Platform is responsible for building and maintaining the permanent venue database used throughout FOMO."
+
+That means your **Venue Pack system is actually a third data layer**.
+
+You therefore have:
+
+### Layer 1: Organic Maps
+
+Owns the **physical geographic world**.
+
+```text
+Roads
+Buildings
+Paths
+Terrain
+Geography
+Routing
+Offline geographic search
+```
+
+### Layer 2: FOMO Venue Packs
+
+Owns the **permanent FOMO venue world**.
+
+```text
+FOMO Venue IDs
+Venues
+Categories
+Addresses
+Hours
+Phone
+Website
+Social links
+Amenities
+Images references
+OSM IDs
+Google IDs
+Foursquare IDs
+Geographic hierarchy
+Verification
+Completeness
+```
+
+Your uploaded spec explicitly defines these venue records and external references. 
+
+### Layer 3: FOMO Dynamic Cloud
+
+Owns the **changing social world**.
+
+```text
+Events
+Flash Drops
+Live Moments
+Friend presence
+FOMO Scores
+Comments
+Reactions
+Creator activity
+Realtime status
+```
+
+That is where Supabase becomes useful.
+
+---
+
+# And this solves your original question
+
+You asked:
+
+> "because I store my map data on Supabase, where does Organic Maps store the map data and how can I link both to own?"
+
+With this architecture:
+
+**Supabase should not be your primary offline map database.**
+
+Instead:
+
+```text
+SUPABASE
+   │
+   │ source / management
+   ▼
+VENUE PACK GENERATION PLATFORM
+   │
+   │ generates
+   ▼
+SQLite FOMO COUNTRY PACKS
+   │
+   │ downloaded to device
+   ▼
+FOMO LOCAL VENUE DATABASE
+```
+
+While separately:
+
+```text
+OSM
+ │
+ ▼
+ORGANIC MAPS
+ │
+ │ downloads
+ ▼
+LOCAL ORGANIC MAP DATABASE
+```
+
+Then the two meet inside:
+
+```text
+                 FOMO MAP ENGINE
+                       │
+             ┌─────────┴─────────┐
+             ▼                   ▼
+       Organic Maps          FOMO Venue DB
+             │                   │
+             └─────────┬─────────┘
+                       ▼
+                  MAP OVERLAYS
+```
+
+---
+
+# Your SQLite packs are actually very important
+
+Your uploaded specification already proposes:
+
+```text
+packs/
+
+south_africa_core.db
+south_africa_nightlife.db
+south_africa_food.db
+south_africa_prep.db
+south_africa_wellness.db
+south_africa_travel.db
+```
+
+That is exactly the direction I would take. 
+
+But I would make one architectural distinction:
+
+## Organic Maps SQLite/data ≠ FOMO Venue SQLite
+
+Don't try to inject your venue pack tables directly into Organic Maps' internal database.
+
+Instead:
+
+```text
+DEVICE
+
+Organic Maps storage
+│
+├── geographic map data
+├── routing
+├── geographic search
+└── rendering data
+
+
+FOMO storage
+│
+├── south_africa_core.db
+├── south_africa_nightlife.db
+├── south_africa_food.db
+├── south_africa_prep.db
+├── south_africa_wellness.db
+└── south_africa_travel.db
+```
+
+Then your FOMO Map Engine joins them logically.
+
+---
+
+# The bridge is your FOMO Venue ID
+
+This part of your specification is excellent.
+
+You have:
+
+```text
+FMO-ZA-GP-JHB-00000127
+```
+
+as a permanent identifier. 
+
+That becomes the identity FOMO uses everywhere.
+
+For example:
+
+```text
+FMO-ZA-GP-JHB-00000127
+
+        │
+        ├── OSM ID
+        ├── Google Place ID
+        ├── Foursquare ID
+        │
+        ├── latitude
+        ├── longitude
+        │
+        ├── nightlife
+        ├── Johannesburg
+        ├── Sandton
+        │
+        └── FOMO metadata
+```
+
+So you don't need Organic Maps and Supabase to share the same database.
+
+They only need to share **location and identity relationships**.
+
+---
+
+# Example: nightclub
+
+Suppose your Venue Pack system discovers a club.
+
+Your permanent record might be:
+
+```text
+FOMO Venue ID:
+FMO-ZA-GP-JHB-00000127
+
+Name:
+Club Example
+
+Latitude:
+-26.xxxxxx
+
+Longitude:
+28.xxxxxx
+
+Category:
+Nightlife
+
+OSM ID:
+node/123456789
+
+Google Place ID:
+ChIJ....
+
+Foursquare ID:
+abc123
+```
+
+The Venue Pack system produces:
+
+```text
+south_africa_nightlife.db
+```
+
+Then the user's device downloads it.
+
+Organic Maps independently has the geographic map around those coordinates.
+
+FOMO does:
+
+```text
+Venue:
+FMO-ZA-GP-JHB-00000127
+
+        ↓
+
+coordinates
+
+        ↓
+
+Organic Maps camera / geographic position
+
+        +
+
+FOMO venue marker
+```
+
+Result:
+
+```text
+         ORGANIC MAP
+
+       ┌─────────────┐
+       │   roads     │
+       │             │
+       │       🔥92  │
+       │    Club X   │
+       │             │
+       │   ───────   │
+       │   roads     │
+       └─────────────┘
+```
+
+---
+
+# There is another major advantage
+
+Your Venue Pack system says that each venue is linked through:
+
+```text
+Country
+ ↓
+Province
+ ↓
+Metro
+ ↓
+City
+ ↓
+District
+ ↓
+Suburb
+ ↓
+Postal Code
+ ↓
+Regional Cell
+ ↓
+Venue
+```
+
+That is **much richer than Organic Maps' geographic POI model** for FOMO's purposes. 
+
+You can therefore do things like:
+
+```text
+Map
+ ↓
+South Africa
+ ↓
+Gauteng
+ ↓
+Johannesburg
+ ↓
+Sandton
+ ↓
+Nightlife
+```
+
+without asking Organic Maps to understand FOMO's entire venue intelligence hierarchy.
+
+---
+
+# And your Regional Cell Engine fits perfectly
+
+This is where I think your architecture becomes particularly strong.
+
+Your backend can scan:
+
+```text
+South Africa
+ ↓
+Gauteng
+ ↓
+Johannesburg
+ ↓
+Sandton
+ ↓
+Regional Cell 001
+```
+
+Then:
+
+```text
+Regional Cell
+ ↓
+Google Places
+OSM
+Foursquare
+Registries
+Owner submissions
+Community submissions
+ ↓
+Normalize
+ ↓
+Deduplicate
+ ↓
+Verify
+ ↓
+FOMO Venue ID
+ ↓
+SQLite Country Pack
+```
+
+Your uploaded specification explicitly defines this regional-cell lifecycle. 
+
+That means **the expensive global venue discovery work happens before the user ever opens the app.**
+
+That's exactly what you want.
+
+---
+
+# Then Supabase becomes your control plane
+
+I'd structure Supabase roughly like:
+
+```text
+SUPABASE
+│
+├── venue_master
+│
+├── venue_sources
+│
+├── venue_verification
+│
+├── venue_versions
+│
+├── geographic_regions
+│
+├── regional_cells
+│
+├── country_packs
+│
+├── pack_versions
+│
+├── pack_deltas
+│
+└── coverage_analytics
+```
+
+Then your mobile app doesn't need to query thousands of venues every time someone opens the map.
+
+Instead:
+
+```text
+Supabase
+    ↓
+Pack Builder
+    ↓
+SQLite Country Pack
+    ↓
+User Device
+```
+
+This is **far more efficient**.
+
+---
+
+# Then your dynamic Supabase data sits separately
+
+For example:
+
+```text
+SUPABASE
+
+Permanent venue data
+        │
+        ▼
+Country Pack system
+
+
+Dynamic FOMO data
+        │
+        ▼
+Realtime / API
+```
+
+So the device gets:
+
+```text
+PERMANENT
+──────────────
+Venue identity
+Coordinates
+Category
+Address
+Hours
+Amenities
+Basic media references
+Geographic hierarchy
+
+        +
+
+DYNAMIC
+──────────────
+Events
+Flash Drops
+Live status
+Friends
+FOMO Score
+Crowd information
+Live Moments
+```
+
+That's the sweet spot.
+
+---
+
+# One thing I would change in your current Venue Pack specification
+
+Your document says:
+
+> "Permanent venue database"
+
+and then outputs SQLite packs. 
+
+I'd make the terminology slightly more precise:
+
+### Global Venue Master
+
+```text
+Supabase/Postgres
+```
+
+Authoritative global dataset.
+
+### Country Pack
+
+```text
+SQLite
+```
+
+Optimized offline distribution snapshot of the Global Venue Master.
+
+### Device Venue Store
+
+```text
+SQLite
+```
+
+Installed subset of Country Packs plus user/local state.
+
+That gives you:
+
+```text
+GLOBAL VENUE MASTER
+        │
+        ▼
+COUNTRY PACK
+        │
+        ▼
+DEVICE VENUE STORE
+```
+
+This is cleaner than treating every SQLite pack as the ultimate permanent database.
+
+---
+
+# The final FOMO map architecture I'd use
+
+```text
+                       ┌─────────────────────┐
+                       │      OSM DATA       │
+                       └──────────┬──────────┘
+                                  ▼
+                       ┌─────────────────────┐
+                       │   ORGANIC MAPS      │
+                       │     REPOSITORY      │
+                       │ D:\Android-fomo-main│
+                       │       \engine       │
+                       └──────────┬──────────┘
+                                  │
+                       Geographic Map Engine
+                                  │
+                                  ▼
+┌─────────────────────────────────────────────────────────┐
+│                    FOMO MAP ENGINE                       │
+│                                                         │
+│  Organic Maps Adapter                                  │
+│  Venue Engine                                          │
+│  Layer Manager                                         │
+│  Search                                                │
+│  Routing                                               │
+│  Offline Maps                                          │
+│  Location                                              │
+│  Sync                                                  │
+└───────────────┬──────────────────────┬──────────────────┘
+                │                      │
+                ▼                      ▼
+       ORGANIC MAP DATA         FOMO VENUE DATA
+       LOCAL DEVICE             LOCAL DEVICE
+                │                      │
+                │                Country Packs
+                │                      │
+                │                      ▲
+                │                      │
+                │               PACK BUILDER
+                │                      ▲
+                │                      │
+                │              GLOBAL VENUE MASTER
+                │                      ▲
+                │                      │
+                │                  SUPABASE
+                │
+                └──────────┬───────────┘
+                           ▼
+                       FOMO MAP UI
+                           │
+          ┌────────────────┼────────────────┐
+          ▼                ▼                ▼
+       Venues            Events          Friends
+          ▼                ▼                ▼
+     Flash Drops       Live Moments    NightGuard
+```
+
+## So, in one sentence
+
+**Organic Maps should own the offline physical map, your Global Venue Pack system should own the permanent FOMO venue universe, Supabase should own the authoritative cloud/control-plane data and dynamic state, and the FOMO Map Engine should unite all three on the user's device.**
+
+That actually makes your existing **Global Venue Pack Creation Intelligence Platform** much more valuable. It becomes the bridge between your cloud venue intelligence and the offline FOMO experience, rather than something that competes with Organic Maps. 
+

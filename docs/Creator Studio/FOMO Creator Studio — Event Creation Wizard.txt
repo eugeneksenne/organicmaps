@@ -1,0 +1,811 @@
+I actually think a **wizard is the best UX** for FOMO.
+
+Creating a nightlife event involves a lot of information, and putting everything into one long form is overwhelming. A wizard also lets you validate each step, auto-save progress, and adapt the flow based on choices (for example, only showing ticket options if the event is ticketed).
+
+I would design it like this:
+
+# FOMO Creator Studio — Event Creation Wizard
+
+## Design Principles
+
+The wizard should be:
+
+* Fast (3–5 minutes to complete)
+* Auto-saving after every step
+* Mobile-first
+* Smart (pre-fill known data)
+* Flexible (skip irrelevant steps)
+* Visually driven
+
+Every step should end with a **Continue** button and allow **Save as Draft**.
+
+---
+
+# Wizard Overview
+
+```
+1. Event Basics
+
+↓
+
+2. Venue
+
+↓
+
+3. Schedule
+
+↓
+
+4. Lineup
+
+↓
+
+5. Tickets
+
+↓
+
+6. Flash Drops
+
+↓
+
+7. Marketing
+
+↓
+
+8. Review
+
+↓
+
+Publish
+```
+
+A progress indicator stays visible throughout.
+
+Example:
+
+```
+Step 3 of 8
+
+██████░░░░░
+```
+
+---
+
+# Step 1 — Event Basics
+
+This defines the event.
+
+Fields:
+
+* Event Name
+* Event Poster
+* Event Category
+* Description
+* Music Genres
+* Dress Code
+* Age Restriction
+* Visibility
+
+Examples:
+
+```
+Neon Fridays
+
+House • Afro House • Amapiano
+```
+
+AI suggestions:
+
+* Improve event title.
+* Generate event description.
+* Recommend tags.
+
+---
+
+# Step 2 — Venue
+
+If the creator owns venues:
+
+```
+Select Venue
+
+○ Sky Lounge
+
+○ Pulse Rooftop
+
+○ Neon Club
+```
+
+If they don't:
+
+```
+Search Venue
+```
+
+If no venue exists:
+
+```
+Add New Venue
+```
+
+Automatically fills:
+
+* Address
+* GPS
+* Capacity
+* Opening hours
+
+---
+
+# Step 3 — Schedule
+
+Fields:
+
+* Event Date
+* Doors Open
+* Event Starts
+* Event Ends
+* Last Entry
+* Recurring Event
+
+Recurring options:
+
+* Weekly
+* Monthly
+* Custom
+
+AI checks:
+
+* Scheduling conflicts
+* Public holidays
+* Existing bookings
+
+---
+
+# Step 4 — Lineup
+
+Add performers.
+
+Supported:
+
+* DJs
+* Artists
+* Hosts
+* MCs
+* Special Guests
+
+Search verified creators.
+
+Example:
+
+```
++ Add DJ
+
+DJ Kent
+
+Confirmed
+```
+
+Invitation flow:
+
+```
+Invite
+
+↓
+
+Creator accepts
+
+↓
+
+Added to lineup
+```
+
+---
+
+## Step 5 — Entry & Ticketing
+
+### Purpose
+
+Configure how guests will access the event.
+
+FOMO supports:
+
+* Free entry
+* Door sales only
+* Online ticket sales
+* Hybrid (online + door sales)
+
+This gives creators maximum flexibility while allowing FOMO to facilitate online sales when desired.
+
+---
+
+# Step 1 — Choose Entry Method
+
+```text
+How will guests enter this event?
+
+○ Free Event
+
+○ Door Sales Only
+
+○ Online Tickets
+
+○ Online Tickets + Door Sales (Recommended)
+```
+
+---
+
+## Free Event
+
+Guests do not need to purchase tickets.
+
+Optional:
+
+* Free RSVP
+* Capacity limit
+* Guest registration
+
+FOMO creates a free guest list instead of tickets.
+
+---
+
+## Door Sales Only
+
+Perfect for clubs that sell tickets at the entrance.
+
+Creators configure:
+
+* Door Entry Price
+* Opening Time
+* Closing Time
+* Accepted Payment Methods
+* Door Capacity (optional)
+
+Example:
+
+```text
+Door Entry
+
+Price
+
+R200
+
+Sales
+
+At the venue only
+
+Capacity
+
+500 Guests
+```
+
+No online ticket sales are enabled.
+
+---
+
+## Online Tickets
+
+Tickets are sold exclusively through the FOMO app.
+
+Users purchase tickets before arriving.
+
+Creators configure ticket types.
+
+---
+
+## Online Tickets + Door Sales
+
+The most flexible option.
+
+Example:
+
+```text
+Early Bird
+
+R100
+
+Online
+
+------------------
+
+General Admission
+
+R180
+
+Online
+
+------------------
+
+Door Entry
+
+R250
+
+At Venue
+```
+
+This encourages early purchases while still accommodating walk-ins.
+
+---
+
+# Step 2 — Create Ticket Types
+
+Creators can add multiple ticket types.
+
+Examples:
+
+* Early Bird
+* General Admission
+* VIP
+* Table Booking
+* Complimentary
+* Backstage
+* Student
+* Couples Ticket
+* Ladies Ticket
+* Group Ticket
+
+Tap:
+
+```text
++ Add Ticket Type
+```
+
+---
+
+# Ticket Configuration
+
+Each ticket includes:
+
+## Basic Information
+
+* Ticket Name
+* Description
+* Price
+* Currency
+
+---
+
+## Availability
+
+* Quantity
+* Unlimited (optional)
+* Sales Start
+* Sales End
+
+---
+
+## Entry Rules
+
+* Entry Before Time
+* Last Entry
+* Age Restriction
+* Dress Code (inherits from event by default)
+
+---
+
+## Benefits
+
+Examples:
+
+* Welcome Drink
+* Fast Lane Entry
+* VIP Lounge Access
+* Reserved Seating
+* Merchandise
+* Complimentary Parking
+
+---
+
+## Visibility
+
+* Public
+* Hidden (invite only)
+* Promo Code Required
+
+---
+
+## QR Access
+
+Creators choose:
+
+```text
+QR Entry
+
+☑ Generate QR Ticket
+
+☐ Guest List Only
+```
+
+---
+
+# Door Sales Configuration
+
+If Door Sales is enabled:
+
+```text
+Door Entry
+
+Price
+
+R250
+
+Available From
+
+20:00
+
+Until
+
+02:00
+
+Maximum Entries
+
+300
+```
+
+Optional:
+
+```text
+☑ Allow Cash
+
+☑ Allow Card
+
+☑ Allow Mobile Payments
+```
+
+Creators can also decide whether door sales count toward the same event capacity as online tickets.
+
+---
+
+# Capacity Management
+
+Rather than setting separate capacities manually, FOMO manages a single event capacity.
+
+Example:
+
+```text
+Venue Capacity
+
+500
+
+Allocated
+
+100 Early Bird
+
+200 General Admission
+
+50 VIP
+
+150 Reserved for Door Sales
+```
+
+A live indicator shows remaining capacity as tickets sell.
+
+---
+
+# Smart Capacity Allocation
+
+If the creator doesn't know how to split capacity, FOMO can suggest an allocation based on venue size and previous events.
+
+Example:
+
+> **Suggested Allocation**
+>
+> * 20% Early Bird
+> * 50% General Admission
+> * 10% VIP
+> * 20% Door Sales
+
+The creator can accept or adjust these values.
+
+---
+
+# Ticket Pricing Assistant
+
+The AI assistant can recommend prices using:
+
+* Venue history
+* Similar events
+* Artist popularity
+* Day of the week
+* City
+* Ticket sales trends
+
+Example:
+
+> Events like this in Johannesburg typically sell General Admission tickets between **R180 and R220**.
+
+---
+
+# Ticket Summary
+
+Before continuing, the wizard presents a summary.
+
+```text
+Entry Method
+
+✓ Online Tickets + Door Sales
+
+──────────────────
+
+Early Bird
+
+R100
+
+100 Available
+
+──────────────────
+
+General Admission
+
+R180
+
+250 Available
+
+──────────────────
+
+VIP
+
+R450
+
+50 Available
+
+──────────────────
+
+Door Entry
+
+R250
+
+100 Reserved
+
+──────────────────
+
+Estimated Capacity
+
+500 Guests
+```
+
+---
+
+# Integration with Other Modules
+
+This step connects directly with:
+
+* **Event Management** – displays ticket sales and capacity.
+* **Ticket Purchase** – enables in-app purchases for online tickets.
+* **Door Scanner** – validates QR tickets and records door entries.
+* **Analytics** – tracks online sales versus door sales.
+* **Promote** – allows creators to promote ticket sales.
+* **Intelligence** – recommends pricing, capacity, and sales strategies.
+
+---
+
+# Future Enhancement: Dynamic Pricing
+
+For creators who opt in, FOMO could offer **Dynamic Pricing**.
+
+Examples:
+
+* Increase prices automatically as ticket tiers sell out.
+* Raise door prices when the venue approaches capacity.
+* Launch last-minute discounts during slow sales.
+* Trigger special offers based on weather or local demand.
+
+This keeps the default experience simple while giving advanced organisers tools to maximize revenue without manually updating prices.
+
+
+---
+
+# Step 6 — Flash Drops
+
+Question:
+
+```
+Would you like to create
+a Flash Drop?
+
+○ Yes
+
+○ Skip
+```
+
+If skipped:
+
+Continue.
+
+If yes:
+
+Examples:
+
+* Free Drink
+* VIP Upgrade
+* Merchandise
+* Free Entry
+* Food Voucher
+
+Configure:
+
+* Reward
+* Quantity
+* Redemption window
+* Rules
+
+The event and Flash Drop become linked automatically.
+
+---
+
+# Step 7 — Marketing
+
+Choose what happens after publishing.
+
+Options:
+
+```
+Notify Followers
+
+✓
+
+Promote Event
+
+✓
+
+Create Campaign
+
+Optional
+
+Schedule Announcement
+
+Optional
+```
+
+AI recommendations:
+
+> Friday 6 PM is your highest-performing announcement time.
+
+---
+
+# Step 8 — Review
+
+Summary card.
+
+```
+Neon Fridays
+
+Sky Lounge
+
+Friday
+
+8 PM
+
+3 DJs
+
+4 Ticket Types
+
+1 Flash Drop
+
+Ready to Publish
+```
+
+Warnings:
+
+⚠ No cover image
+
+⚠ Capacity exceeds venue limit
+
+⚠ Lineup not confirmed
+
+---
+
+# Publish
+
+The creator chooses:
+
+```
+Publish Now
+
+Schedule Publication
+
+Save Draft
+```
+
+---
+
+# After Publishing
+
+Instead of returning to the Events list, show a success dashboard.
+
+```
+✓ Event Published
+
+Quick Actions
+
+Manage Tickets
+
+Launch Marketing
+
+Create Flash Drop
+
+Invite More Artists
+
+View Public Event
+```
+
+This immediately guides the creator to the next likely tasks.
+
+---
+
+# Smart Features
+
+The wizard should intelligently adapt:
+
+* Skip the Tickets step for free events.
+* Skip the Venue step if the event was started from a specific venue.
+* Pre-fill recurring event details.
+* Remember commonly used dress codes and age restrictions.
+* Suggest previous lineups for recurring events.
+
+---
+
+# Auto-Save
+
+Every step is automatically saved as a draft.
+
+If the creator leaves midway:
+
+```
+Draft Saved
+
+Continue where you left off?
+```
+
+---
+
+# AI Event Assistant
+
+An optional AI assistant is available throughout the wizard.
+
+It can:
+
+* Generate descriptions.
+* Suggest event names.
+* Recommend ticket pricing.
+* Predict attendance.
+* Recommend Flash Drops.
+* Suggest marketing times.
+* Estimate revenue.
+* Check for scheduling conflicts.
+
+---
+
+## One Enhancement I Think Would Make FOMO Stand Out
+
+Instead of treating the wizard as a **form**, make it a **production workflow**.
+
+Each completed step unlocks the next stage of preparing the event:
+
+```
+Concept
+        ✓
+
+Venue
+        ✓
+
+Schedule
+        ✓
+
+Talent
+        ✓
+
+Monetization
+        ✓
+
+Engagement
+        ✓
+
+Promotion
+        ✓
+
+Launch
+        🚀
+```
+
+This feels like producing a real nightlife experience rather than filling out administrative fields. It's more aligned with how venue owners and event organisers think about their work, and it naturally integrates the rest of Creator Studio—Ticketing, Flash Drops, Marketing, and Collaboration—into a single guided experience.

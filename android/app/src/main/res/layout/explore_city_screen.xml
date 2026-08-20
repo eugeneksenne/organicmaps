@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/event_screen_background">
+  <ScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:clipToPadding="false">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingBottom="32dp">
+      <LinearLayout android:layout_width="match_parent" android:layout_height="64dp" android:gravity="center_vertical" android:paddingLeft="20dp" android:paddingRight="16dp">
+        <TextView android:id="@+id/explore_back" android:layout_width="42dp" android:layout_height="44dp" android:gravity="center" android:text="‹" android:textColor="#FFFFFFFF" android:textSize="38sp" />
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="EXPLORE THE CITY" android:textColor="#FFFFFFFF" android:textSize="20sp" android:textStyle="bold" />
+        <TextView android:id="@+id/explore_search" android:layout_width="42dp" android:layout_height="44dp" android:gravity="center" android:text="⌕" android:textColor="#FFFFFFFF" android:textSize="27sp" />
+      </LinearLayout>
+      <LinearLayout android:id="@+id/explore_hero" android:layout_width="match_parent" android:layout_height="238dp" android:layout_marginLeft="20dp" android:layout_marginRight="20dp" android:background="@drawable/explore_hero_background" android:gravity="bottom" android:orientation="vertical" android:padding="22dp">
+        <TextView android:id="@+id/explore_hero_eyebrow" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="GOOD EVENING" android:textColor="#D6FFFFFF" android:textSize="11sp" android:textStyle="bold" />
+        <TextView android:id="@+id/explore_hero_title" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="The City Is Coming Alive" android:textColor="#FFFFFFFF" android:textSize="28sp" android:textStyle="bold" />
+        <TextView android:id="@+id/explore_hero_body" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="7dp" android:text="Nightlife, rooftops and unforgettable experiences await." android:textColor="#E6FFFFFF" android:textSize="14sp" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="15dp" android:text="Johannesburg  •  Explore nearby" android:textColor="#FFFFFFFF" android:textSize="12sp" android:textStyle="bold" />
+      </LinearLayout>
+      <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="20dp" android:layout_marginTop="27dp" android:text="Discover places around you" android:textColor="#FFFFFFFF" android:textSize="20sp" android:textStyle="bold" />
+      <HorizontalScrollView android:layout_width="match_parent" android:layout_height="58dp" android:layout_marginTop="8dp" android:scrollbars="none">
+        <LinearLayout android:id="@+id/explore_worlds" android:layout_width="wrap_content" android:layout_height="match_parent" android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="20dp" android:paddingRight="20dp" />
+      </HorizontalScrollView>
+      <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="20dp" android:layout_marginTop="16dp" android:layout_marginRight="20dp" android:gravity="center_vertical">
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+          <TextView android:id="@+id/explore_section_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Tonight's Hotspots" android:textColor="#FFFFFFFF" android:textSize="21sp" android:textStyle="bold" />
+          <TextView android:id="@+id/explore_section_subtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="Discover the city's best nightlife venues." android:textColor="#9EFFFFFF" android:textSize="13sp" />
+        </LinearLayout>
+        <TextView android:id="@+id/explore_see_all" android:layout_width="68dp" android:layout_height="42dp" android:gravity="center" android:text="See all  →" android:textColor="#FFFFC477" android:textSize="12sp" android:textStyle="bold" />
+      </LinearLayout>
+      <LinearLayout android:id="@+id/explore_venues" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="20dp" android:layout_marginTop="13dp" android:layout_marginRight="20dp" android:orientation="vertical" />
+    </LinearLayout>
+  </ScrollView>
+</FrameLayout>

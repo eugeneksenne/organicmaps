@@ -1,0 +1,671 @@
+# FOMO Club Lobby
+
+## Product Vision
+
+The **Club Lobby** is the digital front door of every nightlife venue on FOMO.
+
+It is not a social feed, review page, or venue directory.
+
+Its purpose is to answer one question:
+
+> **"Should I go here tonight?"**
+
+Every section should build trust, create excitement, reduce uncertainty, and help users confidently decide to visit the venue.
+
+The Club Lobby combines trusted venue information, live nightlife experiences, and operational features into a single immersive experience without becoming a social network.
+
+---
+
+# Design Principles
+
+The Club Lobby should be:
+
+* Trust-first
+* Live and dynamic
+* Emotionally persuasive
+* Visually immersive
+* Mobile-first
+* Conversion-focused
+* Privacy-conscious
+* Easy to explore
+
+---
+
+# Club Lobby Architecture
+
+```text
+Hero Experience
+│
+├── Tonight at a Glance
+│
+├── Live Updates
+│
+├── Tonight's Events
+│
+├── Tonight's Lineup
+│
+├── Flash Drops
+│
+├── Live Broadcast
+│
+├── Tonight at the Venue
+│
+├── Moments
+│
+├── Tonight's Vibe
+│
+├── Planning with Friends
+│
+├── Venue Experience
+│
+├── Amenities
+│
+├── Venue Highlights
+│
+├── Venue Notices
+│
+├── Venue Information
+│
+├── Location & Arrival
+│
+└── Sticky Action Dock
+```
+
+---
+
+# 1. Hero Experience
+
+The hero section is the emotional entry point into the venue.
+
+Instead of a static image, it cycles through premium media such as:
+
+* Venue cover video
+* Highlight reel
+* Live Broadcast preview
+* Featured Moment
+
+The transition is automatic and subtle.
+
+Example:
+
+```text
+━━━━━━━━━━━━━━━━━━━━━━
+
+🎥 HERO EXPERIENCE
+
+❤️ Save
+
+FOMO Club ✓
+
+🟢 Open Now
+
+Closes 04:00
+
+⭐ 4.7 (2.4k)
+
+📍 Rosebank
+
+1.2 km away
+
+[ View Live ]
+
+━━━━━━━━━━━━━━━━━━━━━━
+```
+
+The hero immediately communicates the venue's atmosphere.
+
+---
+
+# 2. Tonight at a Glance
+
+A premium summary card showing everything happening tonight.
+
+Example:
+
+```text
+━━━━━━━━━━━━━━━━━━━
+
+TONIGHT
+
+🟢 Open Now
+
+🎉 2 Events
+
+🎧 Live DJ Performance
+
+⚡ 4 Flash Drops
+
+📡 Live Broadcast
+
+Updated 2 min ago
+
+━━━━━━━━━━━━━━━━━━━
+```
+
+Users instantly understand what the venue offers tonight.
+
+---
+
+# 3. Live Updates
+
+A live feed of trusted updates that disappear after 24 hours.
+
+Sources:
+
+* Venue
+* DJs
+* Music Artists
+* Event Organisers
+* Verified Attendees (if enabled)
+
+Examples:
+
+* Doors are open
+* DJ soundcheck
+* VIP tables available
+* Champagne show starting
+* Queue update
+* Birthday celebration
+
+This is operational, not social.
+
+---
+
+# 4. Tonight's Events
+
+Displays all events happening today.
+
+Each event card includes:
+
+* Poster
+* Event name
+* Time
+* Headliner
+* Interested count
+* Ticket status
+
+Example:
+
+```text
+━━━━━━━━━━━━━━━━━━━
+
+Amapiano Fridays
+
+21:00 — 04:00
+
+🎧 DJ Maphorisa
+
+120 Interested
+
+🎟 Tickets Available
+
+[ View Event ]
+
+━━━━━━━━━━━━━━━━━━━
+```
+
+---
+
+# 5. Tonight's Lineup
+
+Displays everyone performing tonight.
+
+Supported performers:
+
+* DJs
+* Artists
+* MCs
+* Hosts
+* Special Guests
+
+Example:
+
+```text
+━━━━━━━━━━━━━━━━━━━
+
+TONIGHT'S LINEUP
+
+21:00
+
+DJ Kent
+
+23:00
+
+Kabza De Small
+
+01:00
+
+Uncle Waffles
+
+━━━━━━━━━━━━━━━━━━━
+```
+
+---
+
+# 6. Flash Drops
+
+Venue-exclusive rewards.
+
+Examples:
+
+* Free Drink
+* VIP Upgrade
+* Ladies Free Entry
+* Food Voucher
+* Merchandise
+
+Example:
+
+```text
+━━━━━━━━━━━━━━━━━━━
+
+⚡ Ladies Free Before 10 PM
+
+Expires in 52 min
+
+[ Route ]
+
+━━━━━━━━━━━━━━━━━━━
+
+🥃 Free Welcome Shot
+
+First 50 Guests
+
+[ Route ]
+
+━━━━━━━━━━━━━━━━━━━
+```
+
+Rewards cannot be claimed inside the app.
+
+Users must visit the venue to redeem them.
+
+---
+
+# 7. Live Broadcast
+
+If the venue is broadcasting live.
+
+Example:
+
+```text
+━━━━━━━━━━━━━━━━━━━
+
+LIVE NOW
+
+🎧 DJ Booth
+
+🔴 Live
+
+128 Watching
+
+[ Watch ]
+
+━━━━━━━━━━━━━━━━━━━
+```
+
+A muted preview automatically plays.
+
+---
+
+# 8. Tonight at the Venue
+
+A real-time view of what's happening inside the venue.
+
+This section is dynamic and refreshed throughout the night.
+
+Content includes:
+
+* Live videos
+* Live photos
+* Living Moments
+* Venue updates
+* Crowd highlights
+
+Example:
+
+```text
+━━━━━━━━━━━━━━━━━━━
+
+TONIGHT AT THE VENUE
+
+📸 8 New Photos
+
+🎥 5 New Videos
+
+✨ Champagne Show Started
+
+🔥 Dance Floor Full
+
+[ Explore Tonight ]
+
+━━━━━━━━━━━━━━━━━━━
+```
+
+This section helps users experience the night's energy before arriving.
+
+---
+
+# 9. Moments
+
+Moments are permanent, curated collections created by the venue.
+
+Unlike Tonight at the Venue, Moments never expire.
+
+They showcase the venue's best experiences.
+
+Examples:
+
+* New Year's Eve
+* Black Coffee Live
+* Anniversary Celebration
+* Celebrity Nights
+* Festival Takeovers
+
+Each Moment contains:
+
+* Photos
+* Videos
+* Event information
+* Highlights
+* Performers
+
+Example:
+
+```text
+━━━━━━━━━━━━━━━━━━━
+
+✨ Black Coffee Live
+
+📅 June 14
+
+📸 82 Photos
+
+🎥 24 Videos
+
+⭐ 4.9 Event Rating
+
+[ Relive the Night ]
+
+━━━━━━━━━━━━━━━━━━━
+```
+
+Moments become the venue's digital hall of fame.
+
+---
+
+# 10. Tonight's Vibe
+
+A live community sentiment indicator.
+
+Users attending the venue can vote once per day.
+
+Example:
+
+```text
+━━━━━━━━━━━━━━━━━━━
+
+TONIGHT'S VIBE
+
+🔥 Lit
+
+██████████ 71%
+
+🙂 Good
+
+████ 22%
+
+😴 Quiet
+
+█ 7%
+
+Based on verified attendee votes today.
+
+━━━━━━━━━━━━━━━━━━━
+```
+
+No attendance estimates are shown.
+
+---
+
+# 11. Planning with Friends
+
+Social proof without becoming social networking.
+
+Only friends who explicitly share their plans are shown.
+
+Example:
+
+```text
+━━━━━━━━━━━━━━━━━━━
+
+PLANNING TONIGHT
+
+Sarah
+
+Mike
+
+James
+
+Going Tonight
+
+[ Plan Night ]
+
+━━━━━━━━━━━━━━━━━━━
+```
+
+---
+
+# 12. Venue Experience
+
+Communicates the personality of the venue.
+
+Categories include:
+
+### Music
+
+* Amapiano
+* Afro House
+* House
+* Hip Hop
+
+### Atmosphere
+
+* Luxury
+* High Energy
+* Rooftop
+* VIP Friendly
+* Cocktail Experience
+
+This helps users understand the venue before visiting.
+
+---
+
+# 13. Amenities
+
+Displays venue facilities.
+
+Examples:
+
+* Parking
+* VIP Tables
+* Bottle Service
+* Restaurant
+* Rooftop
+* Dance Floor
+* Accessible Entrance
+* Smoking Area
+* Wi-Fi
+* Coat Check
+
+---
+
+# 14. Venue Highlights
+
+Large immersive media cards showcasing standout features.
+
+Examples:
+
+* VIP Lounge
+* Cocktail Bar
+* Rooftop
+* Signature Dance Floor
+* Outdoor Terrace
+
+Each card includes photography and a brief description.
+
+---
+
+# 15. Venue Notices
+
+Operational announcements from the venue.
+
+Examples:
+
+* VIP fully booked
+* Smart casual dress code
+* Cashless payments only
+* Last entry at 1:00 AM
+* Parking is limited
+* Special security screening tonight
+
+---
+
+# 16. Venue Information
+
+Displays trusted venue information.
+
+Includes:
+
+* Description
+* Opening hours
+* Contact information
+* Website
+* Social links
+* Dress code
+* Age restriction
+* Capacity
+* Venue verification status
+
+---
+
+# 17. Location & Arrival
+
+Everything needed to get to the venue.
+
+Displays:
+
+* Address
+* Distance
+* Drive time
+* Walking time
+
+Buttons:
+
+* Route
+* Ride Share
+* Save Parking
+
+If available, the **Club Lobby Route** includes:
+
+* Parking location
+* Main entrance
+* VIP entrance
+* Accessible entrance
+* Smoking area
+* Rooftop access
+
+---
+
+# 18. Sticky Action Dock
+
+Always visible at the bottom.
+
+```text
+━━━━━━━━━━━━━━━━━━━━━━
+
+📍 follow
+
+♡ Save
+
+📍 Route
+
+✨ Plan Night
+
+━━━━━━━━━━━━━━━━━━━━━━
+```
+### follow
+
+follows the venue for updates.
+
+### Save
+
+Adds the venue to favorites.
+
+### Route
+
+Opens navigation immediately.
+
+### Plan Night
+
+Starts a nightlife plan.
+
+Options:
+
+* Solo Night
+* With Friends
+* Group Night
+* Add to My Moves
+
+---
+
+# Creator Controls
+
+Venue owners can manage the Club Lobby through Creator Studio.
+
+They can update:
+
+* Hero media
+* Live Updates
+* Moments
+* Venue Highlights
+* Amenities
+* Venue Notices
+* Venue Information
+* Live Broadcast
+* Flash Drops
+
+---
+
+# AI Features (Future Roadmap)
+
+AI can assist venues by:
+
+* Recommending hero media.
+* Suggesting Moments to feature.
+* Detecting outdated venue information.
+* Highlighting missing amenities.
+* Recommending the best Flash Drops based on venue history.
+* Suggesting optimal times to start Live Broadcasts.
+
+AI supports content curation but does not publish changes automatically.
+
+---
+
+# Success Metrics
+
+The Club Lobby should help FOMO:
+
+* Increase venue visits.
+* Increase event attendance.
+* Increase Flash Drop redemption at venues.
+* Improve route conversions.
+* Increase follower growth for venues.
+* Build trust through verified information.
+* Showcase each venue's unique identity.
+
+---
+
+# Guiding Principle
+
+The **Club Lobby** should feel like stepping through the digital front door of a venue. It combines trusted information, live experiences, curated memories, and real-time operational updates into a single immersive destination that helps users answer one simple question: **"Is this where I want to spend my night?"** By balancing emotional storytelling with verified data, the Club Lobby becomes a powerful conversion engine that inspires confidence, excitement, and real-world venue visits.

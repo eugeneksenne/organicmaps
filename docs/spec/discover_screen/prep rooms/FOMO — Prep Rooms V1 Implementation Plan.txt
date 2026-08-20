@@ -1,0 +1,530 @@
+FOMO — Prep Rooms
+Billion-Dollar Product Specification
+Status: Production Design
+Purpose: Help users prepare for nightlife events together through inspiration, coordination, education, and social interaction.
+
+1. Vision
+Prep Rooms is the pre-nightlife social experience of FOMO.
+It is where users prepare for a night out by discovering inspiration, learning new looks, coordinating with friends, and sharing their preparation journey.
+It bridges the gap between:
+Choosing an event → Arriving at the venue.
+Prep Rooms is not a beauty marketplace or social network.
+It is a preparation ecosystem built specifically for nightlife.
+
+2. Core Principles
+Everything inside Prep Rooms must help users prepare for going out.
+Every feature should answer at least one question:
+What should I wear?
+What look fits this venue?
+How are my friends preparing?
+How should I do my makeup?
+What hairstyle should I try?
+Where can I prepare nearby?
+What do people normally wear here?
+If it doesn't improve preparation, it doesn't belong.
+
+3. Navigation
+Prep Rooms appears on Discover.
+Discover
+
+━━━━━━━━━━━━━━━━━━━
+
+Explore The City
+
+Smart Places
+
+Events
+
+Prep Rooms
+
+Channels
+
+People
+
+━━━━━━━━━━━━━━━━━━━
+Selecting Prep Rooms opens the dedicated experience.
+
+4. Prep Rooms Home
+← Prep Rooms                     Search
+
+Following   Trending   Nearby   Events
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Tonight's Plan
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Continue Preparing
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Your Circle
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Trending Looks
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Tutorials
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Preparation Tips
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Venue Guides
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Nearby Prep Places
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Floating +
+
+5. Top Tabs
+Replace category tabs with discovery tabs.
+Following
+
+Trending
+
+Nearby
+
+Events
+Content categories become filter chips.
+
+6. Content Categories
+👗 Looks
+
+💄 Makeup
+
+💇 Hair
+
+💅 Nails
+
+👞 Shoes
+
+👜 Accessories
+
+🎥 Tutorials
+
+✨ Prep Tips
+Users may combine filters.
+Example:
+Makeup
+
++
+
+Tutorials
+
++
+
+Nearby
+
+7. Tonight's Plan
+If user has plans.
+━━━━━━━━━━━━━━━━━━━━━━
+
+TONIGHT
+
+AfroHaus Rooftop
+
+Starts in
+
+03:12:18
+
+6 Friends Going
+
+Continue Preparing →
+
+━━━━━━━━━━━━━━━━━━━━━━
+If user has no plans.
+Who's Going Out Tonight?
+
+Browse Events
+
+or
+
+Create Plan
+
+8. Preparation Sessions
+Every event automatically receives a Preparation Session.
+Example:
+AfroHaus Rooftop
+
+Friday
+
+28 Preparing
+
+Inside every session:
+Group Chat
+Outfit Polls
+Tutorials
+Looks
+Makeup
+Hair
+Shared Inspiration
+Countdown
+Venue Guide
+Friend Activity
+
+9. Feed Structure
+The feed mixes several content types:
+Outfit Polls
+LOOK A
+
+VS
+
+LOOK B
+
+Vote
+Comment
+Share
+Friends voted
+Venue
+Countdown
+
+Inspiration Posts
+Supports:
+Photos
+Videos
+Carousels
+Examples:
+Outfits
+Hair
+Makeup
+Shoes
+Accessories
+Nails
+
+Tutorial Cards
+Examples:
+5-minute makeup
+Curly hairstyle
+Men's fade tutorial
+Luxury outfit styling
+Sneaker matching
+Beard grooming
+Vertical videos.
+
+Preparation Tips
+Examples:
+Bring ID
+Charge Phone
+Hydrate
+Weather
+Venue Entry Rules
+Parking
+Ride Pickup
+Safety reminders
+
+Venue Guide Cards
+Example
+Luxury Friday
+
+Dress Code
+
+Smart Casual
+
+Popular Colours
+
+Black
+
+Gold
+
+White
+
+
+10. Outfit Poll System
+Users create polls.
+Look A
+
+Look B
+
+Caption
+
+Venue
+
+Visibility
+
+Post
+After voting.
+Show
+Animated results
+Friend votes
+Comments
+Share
+
+11. Preparation Collections
+Users save inspiration.
+Examples.
+Luxury Looks
+
+Girls Night
+
+Date Night
+
+Weekend Fits
+
+Summer Looks
+
+Festival
+
+Collections are reusable.
+
+12. Your Circle
+Instead of basic activity.
+Show friends preparing.
+Sarah
+
+Posted Outfit Poll
+
+5 min ago
+
+━━━━━━━━━━━━━━━
+
+Jessica
+
+Uploaded Makeup Tutorial
+
+━━━━━━━━━━━━━━━
+
+Mike
+
+Preparing for Neon Friday
+
+━━━━━━━━━━━━━━━
+
+Sip Squad
+
+4 Members Active
+
+13. Shared Checklist
+Every Preparation Session includes.
+Tonight
+
+☑ Ticket
+
+☑ Invite Friends
+
+☐ Outfit
+
+☐ Hair
+
+☐ Makeup
+
+☐ Nails
+
+☐ Phone Charged
+
+☐ Uber
+
+☐ Wallet
+
+☐ ID
+Private to your squad.
+
+14. Ready Meter
+Every session has
+READY
+
+████████░░
+
+84%
+
+Based on:
+Completed checklists
+Votes
+Posts
+Squad activity
+Countdown
+
+15. Venue Guides
+Every venue includes.
+Popular Looks
+
+Dress Code
+
+Theme
+
+Popular Shoes
+
+Popular Makeup
+
+Popular Hairstyles
+
+Weather
+
+Parking
+
+Ride Pickup
+
+Opening Time
+
+Entry Requirements
+Community powered.
+
+16. Tutorials
+Dedicated section.
+Supports:
+Makeup tutorials
+Hair tutorials
+Outfit styling
+Nail inspiration
+Beard grooming
+Fragrance tips
+Accessories
+Fashion hacks
+Short-form vertical videos.
+
+17. Preparation Tips
+Editorial and community tips.
+Examples.
+Cold Tonight
+
+Wear Jacket
+
+━━━━━━━━━━━━━━━
+
+White Party Tonight
+
+Recommended White Shoes
+
+━━━━━━━━━━━━━━━
+
+Parking Limited
+
+Use Uber
+
+━━━━━━━━━━━━━━━
+
+Carry ID
+
+Entry Required
+
+18. Nearby Preparation Places
+Integrated with Smart Places.
+Examples.
+Hair Salons
+Barbers
+Nail Studios
+Makeup Artists
+Beauty Stores
+Fashion Boutiques
+Sneaker Stores
+Dry Cleaners
+Users can navigate directly.
+
+19. Creator Integration
+Verified creators can publish.
+Looks
+Tutorials
+Collections
+Venue Guides
+Preparation Tips
+Creator categories:
+Fashion Stylist
+Hair Stylist
+Makeup Artist
+Barber
+Fashion Creator
+Beauty Creator
+Creators cannot sell products in V2.
+
+20. Camera Integration
+Prep Mode inside Camera.
+Capture:
+Mirror Selfies
+Outfit Reveal
+Makeup Transformation
+Hair Reveal
+Before & After
+Preparation Videos
+One tap posting into Prep Rooms.
+
+21. Event Integration
+Every Event includes a Prep tab.
+Users instantly access:
+Preparation Session
+Outfit inspiration
+Tutorials
+Polls
+Venue Guide
+Friend activity
+Countdown
+
+22. Smart Places Integration
+Preparation venues appear naturally.
+Examples:
+Need Nails?
+
+Glow Nails
+
+1.4 km
+
+Navigate →
+Need Hair?
+
+Elite Barber
+
+800 m
+
+Navigate →
+
+23. Notifications
+Examples:
+Sarah voted on your outfit.
+Mike commented on your look.
+Your Prep Session is active.
+Event starts in 2 hours.
+Three friends are preparing.
+New venue guide available.
+Dress code updated by the venue.
+
+24. Safety & Moderation
+Focus on positive, respectful interactions.
+Features:
+Report content
+Report user
+Block user
+AI text moderation
+AI image moderation
+No appearance ratings
+No body scoring
+No attractiveness rankings
+Venue-fit and style-focused feedback only
+
+25. Performance Goals
+Native React Native UI
+Lazy loading
+Progressive image loading
+Vertical video autoplay only when visible
+Optimized media compression
+Fast scrolling with recycled lists
+Offline cache for saved collections and guides
+
+26. Success Metrics
+Prep Rooms succeeds when users naturally say:
+"Vote on my outfit."
+"Check the Prep Session."
+"Let's get ready together."
+"See the venue guide."
+"Watch this tutorial before we leave."
+"Save that look for Friday."
+
+27. Future Expansion (Post-V2)
+These remain intentionally out of scope until the core preparation experience is validated:
+AI outfit recommendations
+AR virtual try-on
+Beauty service bookings
+Product tagging and shopping
+Creator subscriptions
+Affiliate commerce
+Live co-prep video rooms
+Smart wardrobe integration
+Personalized styling AI
+Final Product Positioning
+Prep Rooms is no longer just a feed for outfit polls. It becomes FOMO's preparation engine—the place where users coordinate with friends, discover venue-specific inspiration, learn through tutorials, save ideas, and complete everything they need before stepping out. It naturally connects Discover, Events, My Circle, Smart Places, Camera, and Creator Studio into one seamless pre-nightlife experience while keeping the product focused on its core mission: helping people prepare for unforgettable nights out.

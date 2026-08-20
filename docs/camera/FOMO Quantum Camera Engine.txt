@@ -1,0 +1,899 @@
+FOMO Quantum Camera Engine
+
+Full Product & Technical Specification
+
+Version 2.0 (Master Architecture)
+
+Mission: Build a computational photography engine that consistently produces preferred images in real-world social scenarios, especially nightlife, portraits and mixed lighting, while extracting the maximum quality each supported device can deliver.
+
+Hard Requirement: Image quality is identical online and offline.
+
+1. Vision
+
+One computational photography engine.
+
+Two native camera front ends.
+
+One shared C++20 imaging core.
+
+FOMO Camera is designed to be the camera people open when they want photos and videos that look polished, natural and social-ready without relying on cloud processing.
+
+Every image is processed completely on-device.
+
+2. Core Principles
+
+Offline-first
+
+AI-first computational photography
+
+Shared C++ engine
+
+Native hardware integration
+
+Adaptive across all hardware tiers
+
+Privacy by design
+
+Natural colour science
+
+Nightlife-first optimisation
+
+Creator-friendly
+
+Quality before gimmicks
+
+3. Core Product Goals
+
+FOMO aims to:
+
+Produce the highest-quality image each supported device can realistically achieve.
+
+Deliver consistently preferred results in nightlife, portraits, mixed lighting and HDR scenes.
+
+Build a recognisable "FOMO Look."
+
+Keep 85 to 95% of imaging logic inside one shared C++ engine.
+
+Maintain identical image quality whether online or offline.
+
+Scale from entry-level Android phones to flagship Android and iPhone devices.
+
+4. Offline Quality Guarantee
+
+Every quality-critical operation runs locally.
+
+Always on-device:
+
+RAW processing
+
+HDR fusion
+
+Multi-frame merge
+
+AI denoise
+
+Super Resolution
+
+Portrait segmentation
+
+Subject tracking
+
+Colour science
+
+Tone mapping
+
+Sharpening
+
+Night Mode
+
+Capture Intelligence
+
+Final export
+
+Never required:
+
+Cloud enhancement
+
+Cloud AI
+
+Internet connection
+
+Cloud services are limited to:
+
+Gallery backup
+
+Sharing
+
+Optional model updates
+
+Analytics (opt-in)
+
+Crash reporting (opt-in)
+
+Image quality never depends on connectivity.
+
+5. Target Photography Scenarios
+
+Priority order
+
+Nightlife
+
+Concerts
+
+Portraits
+
+Mixed lighting
+
+City streets
+
+Restaurants
+
+Food
+
+Events
+
+Selfies
+
+Travel
+
+Landscapes
+
+Everyday photography
+
+6. Computational Photography Pipeline
+
+Capture ↓ RAW / High Quality YUV ↓ Lens Calibration ↓ Distortion Correction ↓ Black Level Correction ↓ Dead Pixel Removal ↓ Demosaicing ↓ Frame Alignment ↓ HDR Fusion ↓ Ghost Removal ↓ Noise Reduction ↓ Super Resolution ↓ Portrait Processing ↓ Colour Science ↓ Tone Mapping ↓ Local Contrast ↓ Sharpening ↓ Ultra HDR Export 
+
+Entire pipeline runs on-device.
+
+7. Neural Scene Intelligence
+
+Runs before capture.
+
+Recognises:
+
+Night
+
+Club
+
+Restaurant
+
+Food
+
+Sunset
+
+Fireworks
+
+Portrait
+
+Selfie
+
+Pets
+
+Landscape
+
+Beach
+
+Sports
+
+Rain
+
+Snow
+
+Fog
+
+Smoke
+
+Neon
+
+Laser show
+
+Concert
+
+Stage
+
+Indoor
+
+Outdoor
+
+Vehicle
+
+Crowd
+
+Documents
+
+Automatically adjusts:
+
+Exposure
+
+ISO
+
+White balance
+
+HDR strategy
+
+Lens selection
+
+Focus mode
+
+Burst strategy
+
+Tone curve
+
+Colour profile
+
+8. Burst Capture Engine
+
+Photo
+
+8 to 30 frames
+
+Night
+
+20 to 60 frames
+
+HDR
+
+Multi-exposure brackets
+
+Action
+
+High-speed burst
+
+Uses:
+
+Gyroscope alignment
+
+Optical flow
+
+Motion estimation
+
+Ghost rejection
+
+9. Neural ISP
+
+The software imaging engine.
+
+Modules
+
+RAW Engine
+
+HDR Engine
+
+Night Fusion
+
+AI Denoise
+
+Super Resolution
+
+Colour Engine
+
+Tone Mapper
+
+Detail Recovery
+
+Local Contrast Engine
+
+Ultra HDR Export
+
+10. Club Mode
+
+FOMO's signature feature.
+
+Optimised for:
+
+Clubs
+
+DJs
+
+Bars
+
+Festivals
+
+Concerts
+
+Detects:
+
+Neon
+
+Lasers
+
+Smoke
+
+Strobes
+
+Fast movement
+
+Mixed lighting
+
+Optimisations
+
+Motion freezing
+
+Skin protection
+
+Highlight recovery
+
+Neon preservation
+
+Noise reduction
+
+Dynamic exposure
+
+11. Portrait Engine
+
+Supports:
+
+Hair segmentation
+
+Beard detection
+
+Glasses
+
+Hats
+
+Pets
+
+Object portraits
+
+Features:
+
+Natural skin
+
+Accurate edge detection
+
+Depth-aware blur
+
+Adjustable bokeh
+
+Portrait video (supported devices)
+
+12. Night Vision Engine
+
+Automatically activates in low light.
+
+Pipeline:
+
+Long exposure
+
+↓
+
+Frame stacking
+
+↓
+
+AI denoise
+
+↓
+
+Shadow recovery
+
+↓
+
+Highlight recovery
+
+↓
+
+Colour correction
+
+↓
+
+Natural rendering
+
+Designed to preserve atmosphere rather than artificially brighten scenes.
+
+13. AI Focus Engine
+
+Tracks:
+
+Eyes
+
+Faces
+
+Groups
+
+Performers
+
+Dancers
+
+Pets
+
+Food
+
+Drinks
+
+Vehicles
+
+Features
+
+Predictive autofocus
+
+Eye priority
+
+Subject lock
+
+Motion prediction
+
+14. Capture Intelligence
+
+AI chooses the best moment from a burst.
+
+Detects:
+
+Smiles
+
+Open eyes
+
+Blinks
+
+Peak jumps
+
+Dance poses
+
+Fireworks timing
+
+Improves the likelihood of capturing the ideal frame.
+
+15. Super Resolution
+
+Uses multi-frame reconstruction.
+
+Pipeline
+
+Capture
+
+↓
+
+Alignment
+
+↓
+
+AI reconstruction
+
+↓
+
+Detail recovery
+
+↓
+
+Sharpening
+
+↓
+
+Final output
+
+Provides higher-quality zoom within hardware limits.
+
+16. Colour Science
+
+The signature FOMO Look.
+
+Goals
+
+Natural skin tones
+
+Accurate whites
+
+Deep blacks
+
+Rich but realistic colours
+
+Clean highlights
+
+Preserved neon
+
+Consistent rendering
+
+Profiles
+
+FOMO Natural
+
+FOMO Nightlife
+
+FOMO Cinema
+
+FOMO Portrait
+
+FOMO Documentary
+
+FOMO Neon
+
+17. Ultra HDR
+
+Supports:
+
+JPEG
+
+HEIF
+
+Ultra HDR
+
+HDR10
+
+10-bit colour
+
+Falls back automatically on unsupported devices.
+
+18. Creator Mode
+
+Manual controls
+
+ISO
+
+Exposure
+
+Focus
+
+White balance
+
+Shutter speed
+
+EV
+
+Focus peaking
+
+Histogram
+
+Zebra stripes
+
+RAW capture
+
+19. Device Capability Engine
+
+Benchmarks hardware on first launch.
+
+Detects:
+
+Camera2 capability
+
+RAW support
+
+Lens count
+
+Sensor characteristics
+
+OIS
+
+EIS
+
+HDR support
+
+GPU
+
+NPU
+
+RAM
+
+Thermal limits
+
+Automatically selects the best processing pipeline.
+
+20. Device Camera Database
+
+Maintains local profiles containing:
+
+Sensor behaviour
+
+Lens distortion
+
+Noise model
+
+HDR tuning
+
+Colour calibration
+
+Autofocus behaviour
+
+Unknown devices build a profile over time.
+
+21. Adaptive Performance Engine
+
+Entry devices
+
+Smaller burst stacks
+
+Lightweight AI
+
+Efficient shaders
+
+Mid-range
+
+Larger burst stacks
+
+AI HDR
+
+Improved denoise
+
+Flagships
+
+Maximum frame fusion
+
+Full Neural ISP
+
+Advanced AI
+
+Real-time HDR preview
+
+22. Camera Health Engine
+
+Monitors:
+
+Temperature
+
+CPU
+
+GPU
+
+Memory
+
+Battery
+
+Frame rate
+
+Automatically adjusts workload to maintain stability.
+
+23. Video Engine (Phase 2)
+
+Supports:
+
+1080p
+
+4K60
+
+4K120 (supported devices)
+
+HEVC
+
+AV1
+
+HDR Video
+
+Features:
+
+Temporal denoise
+
+AI stabilisation
+
+Motion estimation
+
+Colour grading
+
+Consistent FOMO Look
+
+24. AI Model Engine
+
+Runs entirely on-device.
+
+Models include:
+
+Scene Classification
+
+Portrait Segmentation
+
+Face Detection
+
+Eye Tracking
+
+Smile Detection
+
+Subject Tracking
+
+AI Denoising
+
+Super Resolution
+
+Acceleration:
+
+Android
+
+NNAPI
+
+GPU Delegate
+
+Hexagon DSP
+
+iOS
+
+Core ML Delegate
+
+Apple Neural Engine
+
+Models are:
+
+Versioned
+
+Signed
+
+Cached locally
+
+Rollback capable
+
+25. Privacy Architecture
+
+FOMO never uploads photos for enhancement.
+
+No cloud inference.
+
+No facial recognition database.
+
+No biometric storage.
+
+All computational photography remains on-device.
+
+26. Shared Architecture
+
+Android Kotlin Camera2 / CameraX │ │ JNI ▼ ═══════════════════════════════════════ FOMO Camera Core C++20 ═══════════════════════════════════════ RAW Engine HDR Engine Night Engine Neural ISP Colour Engine Portrait Engine Scene AI Super Resolution Capture Intelligence Export Engine ═══════════════════════════════════════ ▲ │ Objective-C++ │ Swift AVFoundation iOS 
+
+27. Technology Stack
+
+Core
+
+C++20
+
+CMake
+
+Android NDK
+
+Camera
+
+Camera2
+
+CameraX
+
+AVFoundation
+
+AI
+
+TensorFlow Lite
+
+MediaPipe (where appropriate)
+
+Vision
+
+OpenCV
+
+Eigen
+
+libyuv
+
+Imaging
+
+libjpeg-turbo
+
+libheif
+
+libraw (optional)
+
+OpenImageIO (optional)
+
+Video
+
+FFmpeg (muxing and media support)
+
+MediaCodec (Android)
+
+VideoToolbox (iOS)
+
+Graphics
+
+Vulkan (Android preferred)
+
+OpenGL ES (Android fallback)
+
+Metal (iOS)
+
+28. Benchmark & Validation Lab
+
+Every release is validated against:
+
+FOMO previous release
+
+Stock Android camera
+
+Google Pixel Camera
+
+Samsung Camera
+
+Apple Camera
+
+TikTok Camera
+
+Instagram Camera
+
+Test scenarios:
+
+Nightclubs
+
+Concerts
+
+Restaurants
+
+Portraits
+
+Selfies
+
+Neon streets
+
+Rain
+
+Candlelight
+
+Mixed lighting
+
+Daylight
+
+Measured metrics:
+
+Signal-to-noise ratio (SNR)
+
+Dynamic range
+
+Colour accuracy (Delta-E)
+
+Sharpness (MTF)
+
+White balance accuracy
+
+Ghosting
+
+Motion blur
+
+Skin-tone consistency
+
+Texture preservation
+
+29. Future Expansion
+
+Designed to support:
+
+Astrophotography
+
+Macro Fusion
+
+Panorama Fusion
+
+AI Reflection Removal
+
+AI Glare Reduction
+
+Motion Deblur
+
+Rain Removal
+
+Fog Removal
+
+Advanced Document Scanner
+
+User-initiated Object Removal
+
+30. Success Metrics
+
+Quality
+
+Preferred results in side-by-side comparisons against social app cameras and leading stock cameras in target scenarios.
+
+Consistent low-light and nightlife performance.
+
+Zero perceptible quality difference between online and offline capture.
+
+Technical
+
+≥85% shared imaging logic in the C++ core.
+
+Stable thermal performance across supported device tiers.
+
+Crash-free capture pipeline.
+
+Fully functional without internet access.
+
+Product
+
+Users choose FOMO Camera for important moments.
+
+The FOMO Look becomes instantly recognisable.
+
+Nightlife photography becomes a defining strength of the FOMO platform.
+
+Guiding Principle
+
+Image quality is an on-device capability, not a cloud service. Every photo should reflect the best the device can achieve through advanced computational photography, with the same trusted quality whether the user is connected to the internet or completely offline.

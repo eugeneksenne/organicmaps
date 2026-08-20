@@ -1,0 +1,239 @@
+I think this is where FOMO can beat competitors.
+
+Don't try to compete with Meta Ads or TikTok Ads on advertising sophistication. Compete on **simplicity, transparency, and affordability**.
+
+Your pricing should make creators think:
+
+> **"It's only R50… why not?"**
+
+Instead of:
+
+> "Should I spend R2,000 on Facebook Ads?"
+
+---
+
+# The FOMO Pricing Philosophy
+
+## Small, Measurable, Nightlife-Focused
+
+People in nightlife think in terms of **tonight's revenue**, not monthly marketing budgets.
+
+If a club can make an extra **R10,000** tonight, spending **R100–R300** is an easy decision.
+
+---
+
+# Promote an Event
+
+Flat daily pricing.
+
+| Reach        | Price (Example) |
+| ------------ | --------------: |
+| Local (5 km) |         R49/day |
+| City         |         R99/day |
+| Province     |        R199/day |
+| Nationwide   |        R399/day |
+
+The creator chooses the audience area rather than bidding against others.
+
+---
+
+# Promote a Venue
+
+Always-on promotion.
+
+Example:
+
+| Duration | Price |
+| -------- | ----: |
+| 7 Days   |   R99 |
+| 30 Days  |  R299 |
+
+This keeps the venue visible in Discover and Nearby.
+
+---
+
+# Promote a Flash Drop
+
+Flash Drops are short-lived, so keep pricing low.
+
+| Duration | Price |
+| -------- | ----: |
+| 3 Hours  |   R19 |
+| Tonight  |   R39 |
+| Weekend  |   R69 |
+
+This encourages impulse purchases.
+
+---
+
+# Promote a Live Broadcast
+
+| Duration | Price |
+| -------- | ----: |
+| 1 Hour   |   R29 |
+| Tonight  |   R49 |
+
+---
+
+# Promote a DJ
+
+Perfect before performances.
+
+| Duration | Price |
+| -------- | ----: |
+| 24 Hours |   R29 |
+| Weekend  |   R79 |
+
+---
+
+# Promote an Artist
+
+| Duration | Price |
+| -------- | ----: |
+| 24 Hours |   R39 |
+| 7 Days   |  R149 |
+
+---
+
+# Featured Placement
+
+Premium placement is limited to maintain value.
+
+| Placement |    Price |
+| --------- | -------: |
+| Discover  | R149/day |
+| Search    |  R99/day |
+| Nearby    |  R99/day |
+
+You can also cap the number of featured placements per city or category to avoid clutter.
+
+---
+
+# Push Notifications
+
+Instead of charging per notification sent, charge per campaign.
+
+| Campaign | Price |
+| -------- | ----: |
+| Local    |   R49 |
+| City     |   R99 |
+
+---
+
+# Ticketing Fees
+
+Rather than charging organisers a monthly subscription, consider a small fee per paid ticket sold.
+
+For example:
+
+* Free events: no ticketing fee.
+* Paid tickets: a fixed fee or a small percentage per ticket.
+
+This aligns your revenue with the organiser's success.
+
+---
+
+# Premium Analytics
+
+Basic analytics should be free.
+
+Advanced insights can be part of a Creator Pro subscription.
+
+Example:
+
+* Attendance trends.
+* Repeat visitor analysis.
+* Best-performing event times.
+* Marketing ROI.
+
+---
+
+# Flash Drop Sponsorships
+
+Brands could sponsor Flash Drops in the future.
+
+Example:
+
+> **Red Bull Free Drink Upgrade**
+
+The venue doesn't pay for the sponsorship—the brand does.
+
+---
+
+# FOMO Wallet
+
+Creators preload funds.
+
+Example:
+
+```text
+FOMO Wallet
+
+Balance
+
+R450
+
+Promote Event
+
+R49
+
+Confirm
+```
+
+This removes payment friction for repeat purchases.
+
+---
+
+# Suggested Starter Pricing (South Africa)
+
+| Service                | Suggested Price |
+| ---------------------- | --------------: |
+| Promote Flash Drop     |         R19–R69 |
+| Promote Event          |        R49–R199 |
+| Promote Venue          |        R99/week |
+| Promote DJ             |         R29/day |
+| Promote Artist         |         R39/day |
+| Promote Live Broadcast |        R29/hour |
+| Featured Placement     |    R99–R149/day |
+| Push Campaign          |         R49–R99 |
+
+These are intentionally low enough that independent DJs, small venues, and organisers can afford them.
+
+---
+
+## A Revenue Model I'd Avoid
+
+I would avoid charging **per click**, **per impression**, or running a real-time bidding auction like Meta or Google.
+
+Nightlife creators don't want to think in CPMs or CPCs. They want to know:
+
+* "How much will this cost?"
+* "How long will it run?"
+* "What am I promoting?"
+
+Flat, predictable pricing makes purchasing much easier.
+
+---
+
+# A Revenue Model I'd Add
+
+I would introduce **Performance Boost Credits**.
+
+Instead of every purchase requiring a custom campaign, creators buy credit packs:
+
+| Credit Pack   | Price |
+| ------------- | ----: |
+| 100 Credits   |  R100 |
+| 250 Credits   |  R225 |
+| 500 Credits   |  R425 |
+| 1,000 Credits |  R800 |
+
+Then services simply consume credits:
+
+* Flash Drop Boost: **20 credits**
+* Event Boost (Local): **50 credits**
+* Event Boost (City): **100 credits**
+* Venue Boost (7 days): **100 credits**
+* Live Broadcast Boost: **30 credits**
+
+Psychologically, spending **50 credits** feels easier than spending **R50**, and prepaid balances encourage repeat use. It also lets you reward creators with bonus credits for referrals, milestones, or premium subscriptions without issuing cash discounts. This gives FOMO a flexible, creator-friendly monetization system while keeping pricing transparent and approachable.

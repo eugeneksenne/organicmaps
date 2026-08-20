@@ -1,0 +1,2199 @@
+# FOMO Final Country Pack Installation Strategy
+
+## Global Modular Social-Energy Infrastructure
+
+### Production Architecture v2.0
+
+> **Purpose:** Define how FOMO discovers a user's country ecosystem, installs the required permanent venue infrastructure, prioritizes nightlife, progressively expands geographic/category coverage, and combines offline venue intelligence with Organic Maps and realtime FOMO activity.
+
+The strategy preserves the original architecture from the uploaded specification while incorporating the **permanent FOMO Venue Identity**, **Canonical Venue Record**, **Regional Cell**, **Country Pack Builder**, **pack validation**, **manifest**, **delta update**, and **Organic Maps/FOMO separation** requirements. 
+
+---
+
+# 1. Core Philosophy
+
+FOMO uses a:
+
+> **Country-Based Modular Venue Pack System**
+
+designed to:
+
+* eliminate empty maps
+* create instant nightlife density
+* support realtime social energy
+* reduce global infrastructure costs
+* support offline discovery
+* progressively expand geographic coverage
+* scale globally
+* personalize synchronization based on user behavior
+
+When a user joins FOMO:
+
+```text id="x0qvyn"
+USER ENTERS FOMO
+       ↓
+COUNTRY ECOSYSTEM DETECTED
+       ↓
+CORE INFRASTRUCTURE
+       ↓
+NIGHTLIFE FIRST
+       ↓
+MAP + REALTIME ACTIVATED
+       ↓
+OTHER PACKS INSTALL PROGRESSIVELY
+       ↓
+DISTRICT/CELL EXPANSION
+       ↓
+CONTINUOUS INTELLIGENCE UPDATES
+```
+
+The original strategy's central principle remains:
+
+> **NIGHTLIFE is installed first to maximize immediate social density and first-session excitement.** 
+
+---
+
+# 2. Complete FOMO Infrastructure Model
+
+FOMO consists of **four interconnected infrastructure layers**:
+
+```text id="1h2m0s"
+1. GLOBAL VENUE INTELLIGENCE
+            ↓
+2. PERMANENT VENUE INFRASTRUCTURE
+            ↓
+3. DYNAMIC EVENT INFRASTRUCTURE
+            ↓
+4. REALTIME ACTIVITY INFRASTRUCTURE
+```
+
+These layers have different lifecycles and must remain separate.
+
+---
+
+# 3. Global Venue Intelligence Platform
+
+This is the upstream system responsible for **creating the Country Packs**.
+
+```text id="l4qv6s"
+GLOBAL SOURCES
+     │
+     ├── OpenStreetMap
+     ├── Google
+     ├── Foursquare
+     └── Other permitted sources
+             ↓
+      SOURCE ADAPTERS
+             ↓
+     VENUE ACQUISITION
+             ↓
+       NORMALIZATION
+             ↓
+    DUPLICATE RESOLUTION
+             ↓
+       IDENTITY ENGINE
+             ↓
+   CANONICAL VENUE RECORD
+             ↓
+      VERIFICATION
+             ↓
+   CLASSIFICATION ENGINE
+             ↓
+   REGIONAL CELL INDEXING
+             ↓
+      QUALITY ENGINE
+             ↓
+   COUNTRY PACK BUILDER
+```
+
+This system produces the static venue databases that eventually reach the device.
+
+---
+
+# 4. Permanent FOMO Venue Identity
+
+Every production venue receives a:
+
+```text id="r2y9h7"
+FOMO Venue ID
+```
+
+Example:
+
+```text
+FMO-ZA-GP-JHB-00000127
+```
+
+## Non-Negotiable Rule
+
+> **This identifier never changes.**
+
+The FOMO Venue ID remains permanent even when:
+
+* venue name changes
+* business ownership changes
+* address changes
+* categories change
+* opening hours change
+* provider data changes
+* venue moves
+* Country Packs are rebuilt
+* pack versions change
+* external providers remove or replace their records
+
+---
+
+# 5. Provider IDs
+
+Provider IDs are **reference fields only**.
+
+Examples:
+
+```text id="j7a1yd"
+OSM ID
+Google Place ID
+Foursquare ID
+Other Provider IDs
+```
+
+They must never become FOMO's canonical identity.
+
+```text id="n8w7hj"
+FOMO Venue
+│
+├── FOMO Venue ID
+│      ↓
+│   PERMANENT
+│
+└── External References
+       ├── OSM
+       ├── Google
+       ├── Foursquare
+       └── Other
+```
+
+---
+
+# 6. Canonical Venue Record
+
+Every permanent venue stores the complete FOMO canonical record.
+
+## Identity
+
+```text id="s1f2nc"
+FOMO Venue ID
+Name
+Display Name
+Slug
+Description
+Status
+Verification Level
+```
+
+## Geographic Information
+
+```text id="2u8g0x"
+Country
+Province
+Metro
+City
+District
+Suburb
+Postal Code
+Regional Cell ID
+Latitude
+Longitude
+PostGIS Point
+Time Zone
+```
+
+## Address
+
+```text id="2k1j6e"
+Street Address
+Building Name
+Municipality
+Postal Code
+```
+
+## Classification
+
+```text id="8x8p5k"
+Country Pack
+Primary Category
+Secondary Categories
+Venue Type
+Search Tags
+```
+
+## Business Information
+
+```text id="8d3f7w"
+Business Name
+Brand
+Chain
+Branch
+```
+
+## Contact Information
+
+```text id="g4x2n0"
+Phone
+Email
+Website
+```
+
+## Social Media
+
+```text id="c8g4j5"
+Instagram
+Facebook
+TikTok
+X
+YouTube
+```
+
+## Operating Information
+
+```text id="7u3m1p"
+Opening Days
+Opening Hours
+Closing Hours
+Seasonal Hours
+Public Holiday Hours
+```
+
+## Static Amenities
+
+```text id="0g9k6b"
+Parking
+Wheelchair Access
+Outdoor Seating
+Indoor Seating
+Smoking Area
+Wi-Fi
+Card Payments
+Reservations
+Pet Friendly
+```
+
+## Media References
+
+```text id="2c8w4r"
+Logo
+Hero Image
+Cover Image
+Gallery References
+```
+
+### Media Storage Rule
+
+Only references are stored in the venue record.
+
+Actual media assets live in object storage.
+
+```text id="7g2f3m"
+Venue Record
+      ↓
+Media References
+      ↓
+Object Storage
+```
+
+Large images/videos must not be embedded into Country Pack SQLite databases.
+
+---
+
+# 7. Regional Cell System
+
+FOMO divides geographic coverage into manageable **Regional Cells**.
+
+```text id="0v5t7a"
+Country
+   ↓
+Province
+   ↓
+Metro
+   ↓
+City
+   ↓
+District
+   ↓
+Suburb
+   ↓
+Regional Cell
+   ↓
+Venues
+```
+
+Every cell tracks:
+
+```text id="e2k6w8"
+Cell ID
+Country
+Province
+Metro
+City
+District
+Suburb
+Postal Code
+Geographic Boundary
+Coverage Status
+Venue Count
+Verified Venue Count
+Last Scan
+Next Scan
+Pack Status
+```
+
+Regional Cells become the operational unit for:
+
+* venue discovery
+* scanning
+* verification
+* refresh
+* coverage measurement
+* progressive installation
+
+---
+
+# 8. Venue Acquisition Pipeline
+
+The production pipeline is:
+
+```text id="p6m9d2"
+SOURCE DATA
+      ↓
+SOURCE ADAPTER
+      ↓
+REGIONAL CELL
+      ↓
+VENUE ACQUISITION
+      ↓
+NORMALIZATION
+      ↓
+DUPLICATE RESOLUTION
+      ↓
+FOMO IDENTITY
+      ↓
+CANONICAL RECORD
+      ↓
+VERIFICATION
+      ↓
+CLASSIFICATION
+      ↓
+QUALITY CONTROL
+      ↓
+PACK BUILDER
+```
+
+---
+
+# 9. Source Separation
+
+External source schemas must never become FOMO's canonical schema.
+
+Each provider is converted into the FOMO model:
+
+```text id="c3z9a1"
+OSM
+Google
+Foursquare
+Other Sources
+     ↓
+SOURCE ADAPTERS
+     ↓
+FOMO CANONICAL MODEL
+```
+
+This prevents provider-specific structures from contaminating the permanent FOMO architecture.
+
+---
+
+# 10. Duplicate Resolution
+
+FOMO identifies potential duplicates using:
+
+```text id="e5p8r3"
+Name
+Coordinates
+Address
+Postal Code
+Business information
+Provider IDs
+Geographic proximity
+```
+
+The system must distinguish between:
+
+```text id="q1v5t8"
+Same venue
+Different branch
+Same brand
+Different physical location
+Temporary event
+Closed venue
+```
+
+Only genuinely distinct physical venues receive separate permanent FOMO Venue IDs.
+
+---
+
+# 11. Venue Verification
+
+Venue records pass through verification before production release.
+
+Verification can consider:
+
+```text id="k7d2m4"
+Source Agreement
+Data Freshness
+Geographic Consistency
+Business Existence
+Contact Validity
+Operating Information
+Owner Confirmation
+Community Confirmation
+```
+
+Example levels:
+
+```text id="r9c3b2"
+UNVERIFIED
+SOURCE_VERIFIED
+MULTI_SOURCE_VERIFIED
+OWNER_VERIFIED
+COMMUNITY_VERIFIED
+PRODUCTION_VERIFIED
+```
+
+---
+
+# 12. Venue Quality and Completeness
+
+Before a venue enters a production pack, FOMO evaluates:
+
+```text id="v6n1j5"
+Identity
+Coordinates
+Address
+Category
+Geographic hierarchy
+Verification
+Operating information
+Pack assignment
+```
+
+Optional fields should be populated where available:
+
+```text id="w8q2k6"
+Phone
+Website
+Social media
+Amenities
+Media
+```
+
+The system must distinguish:
+
+```text id="f2d7x4"
+UNKNOWN
+NOT_AVAILABLE
+NOT_APPLICABLE
+MISSING
+```
+
+These states must not be treated as identical.
+
+---
+
+# 13. Permanent Venue Infrastructure
+
+Permanent venues form FOMO's stable social/geographic foundation.
+
+They:
+
+* exist permanently
+* remain stored locally
+* are queryable offline
+* are indexed geographically
+* support FOMO search
+* support AI recommendations
+* support ranking systems
+* support long-term analytics
+* support map discovery
+* support social graph intelligence
+
+Permanent venues are **not deleted merely because they temporarily close**.
+
+---
+
+# 14. Permanent Venue Packs
+
+FOMO uses:
+
+```text id="p9x3r7"
+CORE
+NIGHTLIFE
+FOOD
+PREP
+WELLNESS
+TRAVEL
+```
+
+These are modular databases.
+
+A venue can belong to multiple packs.
+
+The FOMO Venue ID remains identical across every pack.
+
+```text id="m4y7z1"
+FOMO Venue
+FMO-ZA-GP-JHB-00000127
+       │
+       ├── Core
+       ├── Nightlife
+       └── Food
+```
+
+---
+
+# 15. CORE Pack
+
+Core provides the foundational permanent venue infrastructure.
+
+It should contain the essential venue identity and indexing information needed by the FOMO runtime.
+
+```text id="h5v2q9"
+CORE
+│
+├── FOMO Venue identity
+├── Geographic identity
+├── Address
+├── Core classification
+├── Search indexes
+├── Pack metadata
+└── Required runtime references
+```
+
+Core should not become a duplicate copy of all category-specific information.
+
+---
+
+# 16. NIGHTLIFE Pack
+
+## Primary Retention Engine
+
+Installed immediately during onboarding.
+
+Subcategories include:
+
+```text id="q8s1x4"
+nightclub
+lounge
+pub_and_grill
+bar
+shisanyama
+tavern
+```
+
+Features supported by the venue layer include:
+
+* glowing nightlife pins
+* nightlife discovery
+* nightlife filtering
+* realtime crowd overlays
+* DJ/live indicators
+* active user density
+* nightlife heatmaps
+* friend activity
+
+---
+
+# 17. FOOD Pack
+
+## Daily Discovery Layer
+
+Subcategories:
+
+```text id="m2v8c7"
+trendy_restaurant
+food
+date_spot
+brunch_cafe
+rooftop_dining
+sushi_bar
+wine_bar
+speakeasy
+hidden_gem
+food_hall
+night_market
+scenic_restaurant
+late_night_eats
+```
+
+Dynamic FOMO systems may provide:
+
+* trending dishes
+* wait times
+* creator hotspots
+* date-night recommendations
+
+These dynamic values **do not belong inside the static pack**.
+
+---
+
+# 18. PREP Pack
+
+## Identity + Lifestyle Layer
+
+Subcategories:
+
+```text id="d7w4p8"
+barbershop
+salon
+tattoo_studio
+nail_studio
+sneaker_store
+fashion_boutique
+jewelry_store
+gym
+pilates_studio
+```
+
+Supports:
+
+* prep room systems
+* before/after stories
+* creator integrations
+* bookings
+
+Realtime/social content remains outside the static database.
+
+---
+
+# 19. WELLNESS Pack
+
+## Daytime Retention Layer
+
+Subcategories:
+
+```text id="c6n9x2"
+yoga_studio
+spa
+wellness_retreat
+recovery_club
+healthy_cafe
+meditation_event
+social_coffee_shop
+```
+
+Supports:
+
+* wellness discovery
+* daytime recommendations
+* recovery experiences
+* social wellness culture
+
+---
+
+# 20. TRAVEL Pack
+
+## Tourism + Global Movement Layer
+
+Subcategories:
+
+```text id="b8r3v6"
+airport
+resort_experience
+scenic_viewpoint
+tourist_attraction
+cruise_event
+hotel_pool
+travel_meetup
+```
+
+Supports:
+
+* destination nightlife
+* tourism heatmaps
+* airport social feeds
+* travel recommendations
+
+---
+
+# 21. Permanent Venue Visibility
+
+Permanent venues are:
+
+> **Always stored locally, but only visible when their category filter is enabled.** 
+
+Example:
+
+```text id="p4j8y2"
+NIGHTLIFE
+     ↓
+clubs
+bars
+lounges
+taverns
+```
+
+Switch to:
+
+```text id="t6w9k1"
+FOOD
+     ↓
+restaurants
+food halls
+rooftop dining
+wine bars
+```
+
+The underlying venue data remains installed.
+
+Only the rendering/filter layer changes.
+
+---
+
+# 22. Permanent Map Architecture
+
+```text id="y7m2q8"
+Permanent Venue Infrastructure
+          ↓
+Category Filter Layer
+          ↓
+Geographic Index
+          ↓
+Realtime Overlay Layer
+          ↓
+FOMO Map Rendering
+```
+
+---
+
+# 23. Organic Maps Integration
+
+Organic Maps is the geographic/map foundation.
+
+FOMO's venue infrastructure remains separate.
+
+```text id="x4p8n2"
+ORGANIC MAPS
+│
+├── Roads
+├── Buildings
+├── Paths
+├── Geographic features
+├── Offline map rendering
+├── Offline routing
+└── Geographic map data
+```
+
+FOMO maintains:
+
+```text id="j5c9r3"
+FOMO VENUE STORE
+│
+├── FOMO Venue IDs
+├── Venue metadata
+├── Categories
+├── Hours
+├── Amenities
+├── Social references
+├── Verification
+└── FOMO intelligence
+```
+
+Together:
+
+```text id="k8v1m6"
+Organic Maps
+      +
+FOMO Venue Store
+      ↓
+FOMO Map Engine
+      ↓
+FOMO Map UI
+```
+
+### Critical rule
+
+**Never use Organic Maps' internal database as the FOMO venue database.**
+
+---
+
+# 24. Dynamic Event Infrastructure
+
+## Temporary Social Energy Layer
+
+Events are **not permanent venue infrastructure**.
+
+They:
+
+* appear
+* trend
+* become active
+* expire
+* disappear
+
+Events are dynamic overlays.
+
+---
+
+# 25. Dynamic Event Categories
+
+```text id="f9q4s2"
+concert
+music_festival
+fashion_show
+food_festival
+popup_experience
+campus_event
+cultural_celebration
+street_festival
+carnival
+```
+
+---
+
+# 26. Event Identity
+
+Every event should have its own:
+
+```text id="n7v3x1"
+Event ID
+```
+
+When an event occurs at a permanent venue:
+
+```text id="z8k2m4"
+Event
+   ↓
+FOMO Venue ID
+```
+
+The event does **not** create a second permanent venue.
+
+---
+
+# 27. Temporary Venue System
+
+Dynamic events may use:
+
+```text id="c5r9t2"
+temporary_venues
+```
+
+with:
+
+* auto-expiry
+* temporary visibility
+* realtime activation
+* start/end timestamps
+
+---
+
+# 28. Event Lifecycle
+
+```text id="h2m7v9"
+Event Created
+      ↓
+Scheduled
+      ↓
+Appears On Map
+      ↓
+LIVE
+      ↓
+Ending Soon
+      ↓
+Event Ends
+      ↓
+Expired
+      ↓
+Removed From Active Map
+```
+
+Recommended states:
+
+```text id="x3b8n6"
+scheduled
+live
+ending_soon
+expired
+cancelled
+```
+
+---
+
+# 29. Event Features
+
+Dynamic events may support:
+
+```text id="v7p1d4"
+Countdown timers
+RSVP
+Temporary heatmaps
+Live attendance
+Ticket integrations
+Invite systems
+Artist tagging
+Realtime activity
+```
+
+These do not become permanent Country Pack venue data.
+
+---
+
+# 30. Realtime Activity Infrastructure
+
+## Live Social Momentum Layer
+
+Realtime infrastructure powers:
+
+* urgency
+* social proof
+* live discovery
+* social energy
+* FOMO
+
+Realtime features:
+
+```text id="q9m4x7"
+Crowd scores
+Live check-ins
+Queue estimates
+Stories
+Active users
+Friend activity
+DJ live status
+Venue energy
+Heatmaps
+```
+
+---
+
+# 31. Realtime Technology Layer
+
+The platform may use:
+
+```text id="w3k8n1"
+Supabase Realtime
+WebSockets
+Redis Streams
+Pub/Sub Infrastructure
+```
+
+The exact runtime implementation can evolve independently of the static Country Packs.
+
+---
+
+# 32. The Three-Layer Runtime Model
+
+```text id="b6v2r9"
+PERMANENT VENUE INFRASTRUCTURE
+              +
+DYNAMIC EVENT INFRASTRUCTURE
+              +
+REALTIME ACTIVITY INFRASTRUCTURE
+              ↓
+         FOMO EXPERIENCE
+```
+
+---
+
+# 33. Country Pack Creation Pipeline
+
+Before installation, packs are produced through:
+
+```text id="t8m3x6"
+Global Sources
+      ↓
+Regional Cells
+      ↓
+Venue Acquisition
+      ↓
+Normalization
+      ↓
+Duplicate Resolution
+      ↓
+Permanent FOMO Venue ID
+      ↓
+Canonical Venue Record
+      ↓
+Verification
+      ↓
+Classification
+      ↓
+Completeness
+      ↓
+Quality Control
+      ↓
+Country Pack Assignment
+      ↓
+SQLite Build
+      ↓
+Validation
+      ↓
+Manifest
+      ↓
+Checksum
+      ↓
+Publish
+```
+
+Only validated packs can reach users.
+
+---
+
+# 34. Country Pack Installation Flow
+
+## Stage 1: Country Detection
+
+```text id="j4q7m2"
+Detect GPS Location
+        ↓
+GPS unavailable?
+        ↓
+IP fallback
+        ↓
+Determine Country
+```
+
+The detected country becomes the default ecosystem.
+
+---
+
+# 35. Stage 2: Fetch Country Manifest
+
+Example:
+
+```json
+{
+  "country": "ZA",
+  "name": "South Africa",
+  "schemaVersion": 2,
+  "minimumEngineVersion": "2.0.0",
+  "packs": [
+    {
+      "id": "core",
+      "version": 14,
+      "required": true
+    },
+    {
+      "id": "nightlife",
+      "version": 27,
+      "required": true
+    },
+    {
+      "id": "food",
+      "version": 21,
+      "required": false
+    },
+    {
+      "id": "prep",
+      "version": 12,
+      "required": false
+    },
+    {
+      "id": "wellness",
+      "version": 9,
+      "required": false
+    },
+    {
+      "id": "travel",
+      "version": 8,
+      "required": false
+    }
+  ]
+}
+```
+
+The manifest must provide enough information for the installer to determine:
+
+* pack identity
+* version
+* availability
+* checksum
+* size
+* compatibility
+* required/optional status
+
+---
+
+# 36. Stage 3: Immediate Installation
+
+Foreground priority:
+
+```text id="m5x8r2"
+CORE
++
+NIGHTLIFE
+```
+
+The purpose is to provide:
+
+* immediate map density
+* nightlife discovery
+* local venue search
+* initial social energy
+* fast first-session value
+
+---
+
+# 37. Stage 4: Realtime Activation
+
+Once Core + NIGHTLIFE are installed:
+
+```text id="n8v3q5"
+Activate Map
+      ↓
+Enable Realtime Streams
+      ↓
+Enable Heatmaps
+      ↓
+Enable Stories
+      ↓
+Enable Crowd Activity
+      ↓
+Enable Friend Activity
+```
+
+The app transitions from:
+
+**static geographic map**
+
+to:
+
+**live FOMO environment**
+
+---
+
+# 38. Stage 5: Background Permanent Pack Installation
+
+Remaining packs install progressively:
+
+```text id="v2m7x9"
+FOOD
+PREP
+WELLNESS
+TRAVEL
+```
+
+Installation is optimized for:
+
+* bandwidth
+* battery
+* storage
+* device performance
+* user behavior
+
+---
+
+# 39. Progressive Geographic Expansion
+
+Country installation does not necessarily mean downloading every detailed venue record immediately.
+
+Expansion can occur by:
+
+```text id="c8r4m1"
+Country
+   ↓
+Priority Metro
+   ↓
+City
+   ↓
+District
+   ↓
+Suburb
+   ↓
+Regional Cell
+```
+
+Example:
+
+```text id="p7n2x6"
+South Africa
+      ↓
+Gauteng
+      ↓
+Johannesburg
+      ↓
+Sandton
+      ↓
+Regional Cells
+```
+
+This reduces:
+
+* initial download size
+* storage consumption
+* processing
+* unnecessary data synchronization
+
+---
+
+# 40. Recommended Storage Architecture
+
+```text
+packs/
+│
+├── south_africa_core.db
+├── south_africa_nightlife.db
+├── south_africa_food.db
+├── south_africa_prep.db
+├── south_africa_wellness.db
+└── south_africa_travel.db
+```
+
+The exact filesystem path may differ by Android/iOS implementation.
+
+The architectural principle remains the same.
+
+---
+
+# 41. Pack Format
+
+Use:
+
+> **Compressed SQLite databases**
+
+Do not use raw JSON as the primary runtime database.
+
+Benefits:
+
+* fast local queries
+* offline support
+* indexing
+* compact storage
+* efficient filtering
+* efficient updates
+* mobile-friendly access
+
+---
+
+# 42. SQLite Pack Identity
+
+Each pack must have:
+
+```text id="r6k3v8"
+Pack ID
+Country
+Category
+Version
+Schema Version
+Generated At
+Venue Count
+Regional Cell Count
+Checksum
+Minimum Engine Version
+```
+
+---
+
+# 43. Pack Versioning
+
+Example:
+
+```text id="x5m8p2"
+South Africa Nightlife
+Version: 27
+```
+
+A venue can therefore exist across:
+
+```text id="h7c2v9"
+FOMO Venue ID
+FMO-ZA-GP-JHB-00000127
+
+Pack v25
+Pack v26
+Pack v27
+Pack v28
+```
+
+The Venue ID never changes.
+
+---
+
+# 44. Delta Updates
+
+Use:
+
+> **Delta Patch Updates**
+
+Example:
+
+```text id="g4n8q2"
+v14
+ ↓
+delta
+ ↓
+v15
+```
+
+Only changed records should be transferred where practical.
+
+Changes can include:
+
+```text id="m7x3r8"
+NEW
+UPDATED
+CLOSED
+RENAMED
+RECLASSIFIED
+MOVED
+HOURS_CHANGED
+CONTACT_CHANGED
+MEDIA_CHANGED
+VERIFICATION_CHANGED
+```
+
+Every change references:
+
+```text id="y8k4n2"
+FOMO Venue ID
+```
+
+as its canonical identity.
+
+---
+
+# 45. Atomic Pack Updates
+
+A pack update must never overwrite the currently active database until validation succeeds.
+
+```text id="f3v7m1"
+Current Pack v14
+        │
+        ▼
+Download v15
+        ↓
+Checksum
+        ↓
+SQLite Integrity
+        ↓
+Schema Validation
+        ↓
+Venue Validation
+        ↓
+PASS
+        ↓
+Atomic Activation
+        ↓
+v15 ACTIVE
+```
+
+If anything fails:
+
+```text id="r8c2x6"
+v14 remains active
+```
+
+---
+
+# 46. Realtime Systems Remain Separate
+
+Venue packs **never contain**:
+
+```text id="k6m1v8"
+Stories
+Live check-ins
+Crowd scores
+Queue estimates
+Live media
+Friend presence
+Live event activity
+```
+
+These stream dynamically through:
+
+```text id="p3x7n2"
+Realtime infrastructure
+WebSockets
+Supabase Realtime
+Activity services
+```
+
+---
+
+# 47. Static + Realtime Architecture
+
+```text id="j8v4m2"
+STATIC VENUE PACKS
+        +
+REALTIME ACTIVITY
+        +
+AI RANKING
+        +
+SOCIAL GRAPH
+        +
+HEATMAP ENGINE
+        ↓
+FOMO DISCOVERY
+```
+
+---
+
+# 48. Smart Behavioral Optimization
+
+FOMO can progressively optimize:
+
+```text id="q5m9x3"
+Pack synchronization
+Caching priority
+District detail
+Regional expansion
+Update frequency
+```
+
+based on user behavior.
+
+Example:
+
+```text id="w2r7n4"
+User frequently explores FOOD
+          ↓
+FOOD synchronization priority ↑
+          ↓
+Food-related regional detail ↑
+```
+
+Another user:
+
+```text id="c9x3m7"
+User frequently explores NIGHTLIFE
+          ↓
+NIGHTLIFE regional detail ↑
+          ↓
+Nightlife update priority ↑
+```
+
+This optimization must not destroy the user's ability to access installed permanent packs.
+
+It changes **priority**, not identity or ownership.
+
+---
+
+# 49. Offline Mode
+
+Once packs are installed, permanent venue discovery can function without Supabase.
+
+Offline capabilities include:
+
+```text id="n4v8x2"
+Venue search
+Venue browsing
+Category filtering
+Venue metadata
+Geographic filtering
+Installed venue packs
+Saved venues
+Offline map interaction
+```
+
+Organic Maps provides the offline geographic layer.
+
+FOMO provides the offline venue intelligence layer.
+
+---
+
+# 50. Online Mode
+
+When connected:
+
+```text id="p8m3x6"
+FOMO Device
+      │
+      ├── Pack Updates
+      ├── Venue Changes
+      ├── Events
+      ├── Stories
+      ├── Live Activity
+      ├── Friend Activity
+      ├── Crowd Data
+      └── Social Systems
+```
+
+---
+
+# 51. Permanent vs Dynamic Data
+
+## Permanent / Semi-Permanent
+
+```text id="v6q2m8"
+FOMO Venue ID
+Name
+Address
+Coordinates
+Geographic hierarchy
+Category
+Hours
+Amenities
+Contact
+Social references
+Provider references
+Verification
+```
+
+## Dynamic
+
+```text id="x8r3n5"
+Current crowd
+Current queue
+Current event
+Flash Drop
+Live activity
+Friend presence
+FOMO score
+Trending state
+Check-ins
+Stories
+```
+
+This separation is mandatory.
+
+---
+
+# 52. Event and Venue Relationship
+
+A permanent venue:
+
+```text id="c5m8x2"
+FMO-ZA-GP-JHB-00000127
+```
+
+can host:
+
+```text id="r7n3v9"
+Event A
+Event B
+Event C
+```
+
+without creating additional permanent venues.
+
+```text id="q8x2m5"
+Permanent Venue
+       │
+       ├── Event
+       ├── Event
+       └── Event
+```
+
+Temporary event locations without an existing venue can use `temporary_venues`.
+
+---
+
+# 53. Media Architecture
+
+```text id="v3n7m1"
+FOMO Venue
+      │
+      ├── logoReference
+      ├── heroImageReference
+      ├── coverImageReference
+      └── galleryReferences
+                 │
+                 ▼
+           Object Storage
+```
+
+Country Packs contain references, not heavy media assets.
+
+---
+
+# 54. Pack Distribution
+
+Production distribution:
+
+```text id="j4x8m2"
+GLOBAL VENUE PLATFORM
+          ↓
+PACK BUILDER
+          ↓
+PACK VALIDATION
+          ↓
+PACK MANIFEST
+          ↓
+OBJECT/CDN DISTRIBUTION
+          ↓
+FOMO PACK INSTALLER
+          ↓
+DEVICE
+```
+
+The mobile app should never directly query provider APIs just to build its permanent venue database.
+
+---
+
+# 55. Pack Validation
+
+Every release must pass:
+
+```text id="m7q2v8"
+✓ SQLite integrity
+✓ Schema validation
+✓ FOMO ID uniqueness
+✓ Duplicate validation
+✓ Coordinate validation
+✓ Geographic hierarchy validation
+✓ Category validation
+✓ Required-field validation
+✓ Pack membership validation
+✓ Regional cell validation
+✓ Manifest validation
+✓ Checksum generation
+```
+
+Only passing packs are published.
+
+---
+
+# 56. Country Pack Manifest
+
+Each country has a master manifest.
+
+```text id="x3v8m2"
+Country
+│
+├── Core
+├── Nightlife
+├── Food
+├── Prep
+├── Wellness
+└── Travel
+```
+
+Each pack has:
+
+```text id="n7c2r5"
+Pack ID
+Version
+Size
+Checksum
+Schema Version
+Minimum Engine Version
+Release Timestamp
+```
+
+---
+
+# 57. Installation State Machine
+
+The installer should maintain explicit states:
+
+```text id="f8m3x1"
+NOT_INSTALLED
+      ↓
+QUEUED
+      ↓
+DOWNLOADING
+      ↓
+VERIFYING
+      ↓
+INSTALLING
+      ↓
+INDEXING
+      ↓
+ACTIVE
+```
+
+Failure:
+
+```text id="q5v9m2"
+DOWNLOAD_FAILED
+VERIFY_FAILED
+INSTALL_FAILED
+```
+
+The installer can retry without corrupting the active pack.
+
+---
+
+# 58. Storage Management
+
+FOMO should monitor:
+
+```text id="w7x2m9"
+Available Storage
+Pack Size
+Update Size
+Cache Size
+Media Cache
+Regional Detail
+```
+
+If storage becomes constrained:
+
+```text id="j3n8v4"
+Low Storage
+    ↓
+Reduce background expansion
+    ↓
+Prioritize active region
+    ↓
+Retain Core + priority packs
+    ↓
+Offer optional pack removal
+```
+
+Removing a pack must not delete the permanent FOMO Venue ID from the global system.
+
+---
+
+# 59. Smart Installation Priority
+
+Initial:
+
+```text id="c8m4x7"
+CORE
+   ↓
+NIGHTLIFE
+```
+
+Then adaptive:
+
+```text id="v2n8q5"
+User Behavior
+      ↓
+Priority Engine
+      ↓
+FOOD / PREP / WELLNESS / TRAVEL
+```
+
+Geographic relevance should also influence priority.
+
+For example:
+
+```text id="m7x3c9"
+User near Sandton
+      ↓
+Sandton Regional Cells
+      ↓
+Higher sync priority
+```
+
+---
+
+# 60. Category Visibility Architecture
+
+All installed venue packs can feed a single FOMO venue query layer.
+
+```text id="r4n8m2"
+Installed Packs
+      ↓
+FOMO Venue Query Engine
+      ↓
+Category Filter
+      ↓
+Geographic Filter
+      ↓
+Search
+      ↓
+Realtime Overlay
+      ↓
+Map
+```
+
+This avoids maintaining separate map rendering systems for every pack.
+
+---
+
+# 61. FOMO Map Engine
+
+Final runtime:
+
+```text id="x8m3q1"
+Organic Maps
+       │
+       │ geographic world
+       ▼
+FOMO Map Engine
+       ▲
+       │
+FOMO Venue Store
+       │
+       ├── Permanent venues
+       ├── Categories
+       ├── Events
+       └── Realtime overlays
+```
+
+---
+
+# 62. Dynamic Map Rendering
+
+The map combines:
+
+```text id="v6p2n8"
+BASE MAP
+   +
+PERMANENT VENUES
+   +
+EVENT OVERLAYS
+   +
+REALTIME ACTIVITY
+   +
+FRIEND ACTIVITY
+   +
+HEATMAPS
+```
+
+The user experiences this as one map, while the underlying data remains modular.
+
+---
+
+# 63. Country Pack Lifecycle
+
+```text id="m3x8q5"
+DISCOVER
+   ↓
+BUILD
+   ↓
+VALIDATE
+   ↓
+PUBLISH
+   ↓
+INSTALL
+   ↓
+ACTIVATE
+   ↓
+MONITOR
+   ↓
+REFRESH
+   ↓
+DELTA UPDATE
+   ↓
+NEW VERSION
+```
+
+---
+
+# 64. Venue Lifecycle
+
+```text id="q8v3m7"
+DISCOVERED
+    ↓
+NORMALIZED
+    ↓
+DEDUPLICATED
+    ↓
+FOMO ID ASSIGNED
+    ↓
+VERIFIED
+    ↓
+CLASSIFIED
+    ↓
+PRODUCTION
+    ↓
+ACTIVE
+```
+
+Temporary closure:
+
+```text id="x4m9n2"
+ACTIVE
+  ↓
+TEMPORARILY_CLOSED
+  ↓
+ACTIVE
+```
+
+Permanent closure:
+
+```text id="p7v2c8"
+ACTIVE
+  ↓
+PERMANENTLY_CLOSED
+```
+
+The FOMO Venue ID remains permanently reserved.
+
+---
+
+# 65. Coverage Intelligence
+
+Every Regional Cell should expose:
+
+```text id="n6x3m8"
+Expected Venues
+Discovered Venues
+Verified Venues
+Production Venues
+Coverage
+Completeness
+Freshness
+Duplicate Rate
+Last Scan
+Next Scan
+```
+
+This allows FOMO to identify geographic holes before users encounter them.
+
+---
+
+# 66. Country Pack Release Gate
+
+A Country Pack cannot become production-ready until:
+
+```text id="v8m2q5"
+✓ Regional cells processed
+✓ Required coverage achieved
+✓ Venue identities unique
+✓ Required fields valid
+✓ Coordinates valid
+✓ Categories valid
+✓ Verification requirements satisfied
+✓ SQLite integrity passes
+✓ Schema passes
+✓ Manifest generated
+✓ Checksum generated
+✓ Pack installation tested
+```
+
+---
+
+# 67. Realtime Does Not Modify Static Packs
+
+If a venue suddenly becomes busy:
+
+```text id="j7x3m8"
+Venue Pack
+      │
+      └── unchanged
+
+Realtime
+      │
+      └── crowd = high
+```
+
+When the crowd disappears:
+
+```text id="q5n8v2"
+Realtime
+      ↓
+crowd = normal
+```
+
+The static database does not need rebuilding.
+
+---
+
+# 68. AI Intelligence Layer
+
+The static venue layer can provide the foundation for:
+
+```text id="m8v2x4"
+AI recommendations
+Venue ranking
+Personalization
+Discovery
+Trending analysis
+Social-energy scoring
+Geographic intelligence
+```
+
+But AI-generated dynamic scores should remain separate from the canonical venue identity.
+
+---
+
+# 69. Global Scalability
+
+The architecture scales:
+
+```text id="x3m7v8"
+1 Country
+   ↓
+10 Countries
+   ↓
+50 Countries
+   ↓
+100+ Countries
+```
+
+without requiring a completely different database architecture.
+
+Each country becomes a modular distribution unit:
+
+```text id="r8q2n6"
+Country
+├── Core
+├── Nightlife
+├── Food
+├── Prep
+├── Wellness
+└── Travel
+```
+
+---
+
+# 70. Strategic Architecture
+
+FOMO becomes:
+
+> **A dynamically expanding global social-energy platform where permanent venues anchor the ecosystem, dynamic events create momentum, realtime human activity powers discovery, and country packs progressively expand geographic intelligence.**
+
+The original strategy's strategic model remains:
+
+| Layer                            | Purpose                  |
+| -------------------------------- | ------------------------ |
+| Permanent Venue Infrastructure   | Stable social foundation |
+| Dynamic Event Infrastructure     | Temporary social energy  |
+| Realtime Activity Infrastructure | Live momentum            |
+
+
+
+---
+
+# 71. Pack Strategy
+
+| Pack          | Purpose                    |
+| ------------- | -------------------------- |
+| **CORE**      | Permanent venue foundation |
+| **NIGHTLIFE** | Primary retention engine   |
+| **FOOD**      | Daily discovery            |
+| **PREP**      | Identity + lifestyle       |
+| **WELLNESS**  | Daytime retention          |
+| **TRAVEL**    | Tourism + movement         |
+
+The original strategy explicitly positions NIGHTLIFE as the first-install retention layer and the remaining packs as progressive infrastructure. 
+
+---
+
+# 72. Final End-to-End Architecture
+
+```text id="g5v8m2"
+                     GLOBAL SOURCES
+                           │
+          ┌────────────────┼────────────────┐
+          ▼                ▼                ▼
+         OSM              Google         Foursquare
+          │                │                │
+          └────────────────┼────────────────┘
+                           ▼
+                  SOURCE ADAPTERS
+                           ↓
+                  REGIONAL CELL ENGINE
+                           ↓
+                  VENUE ACQUISITION
+                           ↓
+                    NORMALIZATION
+                           ↓
+                DUPLICATE RESOLUTION
+                           ↓
+                     IDENTITY ENGINE
+                           ↓
+              PERMANENT FOMO VENUE ID
+                           ↓
+               CANONICAL VENUE RECORD
+                           ↓
+              ┌────────────┼────────────┐
+              ▼            ▼            ▼
+        VERIFICATION   GEO ENGINE   CLASSIFICATION
+              └────────────┼────────────┘
+                           ↓
+                     QUALITY ENGINE
+                           ↓
+                    COVERAGE ENGINE
+                           ↓
+                  COUNTRY PACK BUILDER
+                           ↓
+             ┌─────────────┼─────────────┐
+             ▼             ▼             ▼
+           CORE        NIGHTLIFE         FOOD
+             │             │             │
+             ├─────────────┼─────────────┤
+             ▼             ▼             ▼
+           PREP         WELLNESS        TRAVEL
+                           ↓
+                    SQLITE GENERATOR
+                           ↓
+                    PACK VALIDATION
+                           ↓
+                  MANIFEST + CHECKSUM
+                           ↓
+                       PUBLISH
+                           ↓
+                    PACK DISTRIBUTION
+                           ↓
+                  COUNTRY DETECTION
+                           ↓
+                  CORE + NIGHTLIFE
+                           ↓
+                  REALTIME ACTIVATION
+                           ↓
+               BACKGROUND PACK QUEUE
+                           ↓
+                 PROGRESSIVE EXPANSION
+                           ↓
+              ┌────────────┴────────────┐
+              ▼                         ▼
+        ORGANIC MAPS              FOMO VENUE STORE
+        Geographic world          Venue intelligence
+              │                         │
+              └────────────┬────────────┘
+                           ▼
+                    FOMO MAP ENGINE
+                           │
+             ┌─────────────┼─────────────┐
+             ▼             ▼             ▼
+         PERMANENT       EVENTS       REALTIME
+          VENUES         OVERLAYS      ACTIVITY
+             │             │             │
+             └─────────────┼─────────────┘
+                           ▼
+                       FOMO UI
+```
+
+# 73. Non-Negotiable Production Rules
+
+### Identity
+
+> **FOMO Venue ID never changes.**
+
+### Providers
+
+> **Provider IDs remain reference fields only.**
+
+### Organic Maps
+
+> **Organic Maps owns the geographic map layer. FOMO owns the venue intelligence layer.**
+
+### Static packs
+
+> **Country Packs contain permanent venue intelligence, not realtime social activity.**
+
+### Events
+
+> **Events are temporary/dynamic and expire automatically.**
+
+### Realtime
+
+> **Stories, check-ins, crowd state, queues, live activity and friend presence remain outside static packs.**
+
+### Media
+
+> **Country Packs store media references, not large media binaries.**
+
+### Updates
+
+> **Pack updates are versioned, checksum-protected and atomic.**
+
+### Offline
+
+> **Installed FOMO venue packs must remain queryable without Supabase.**
+
+### Deletion
+
+> **A FOMO Venue ID is never recycled.**
+
+### Distribution
+
+> **Core + Nightlife are the initial high-priority installation; remaining packs progressively install according to system and user relevance.**
+
+---
+
+## Final architecture in one sentence
+
+**Global Venue Intelligence creates and validates the permanent FOMO venue universe; Country Packs distribute that universe efficiently to devices; Organic Maps provides the offline geographic world; and the FOMO Map Engine combines both with temporary events and realtime social energy to create the live FOMO experience.**

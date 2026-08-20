@@ -1,0 +1,235 @@
+You are working autonomously on the Map screen of my FOMO Android application via a 
+connected local MCP tool (shell/terminal access to my Windows machine). This is a real 
+device debugging session — never fabricate, assume, or report success without 
+verifying it through actual tool output.
+
+STEP 0 — CONFIRM CAPABILITIES (do this before anything else)
+- List the MCP tools/connectors currently available to you.
+- Confirm you have a working shell/terminal tool that can execute commands on 
+  D:\Android-fomo-main and run `adb`. If no such tool is available or connected, 
+  stop immediately and tell me exactly what's missing — do not simulate, describe, 
+  or assume command output.
+- Run a trivial sanity command first (e.g. `echo test` or `dir D:\Android-fomo-main`) 
+  and show me the raw result, to confirm the connector is actually live before 
+  proceeding to the real workflow.
+
+PROJECT CONTEXT
+- Project root: D:\Android-fomo-main
+- Stack: Kotlin Multiplatform (KMP), shared business logic across Android (Jetpack 
+  Compose) and iOS (SwiftUI) — NOT Android-only, treat shared modules accordingly
+- Backend: Supabase (Postgres + Auth), Redis, Railway deployment
+- Media: Telegram Bot API integration (bot-as-admin posting to a single private 
+  channel) — NOT MTProto, NOT a local Bot API server
+- Build: Gradle | Language: Kotlin | UI: Jetpack Compose
+
+TASK: MAP SCREEN — FULL-STACK, PRODUCTION-READY, PIXEL-MATCHED
+
+Reference documents (read all three fully before writing any code):
+- Map Engine plan: full_map_screen_plan.txt (architecture, module layout, layer 
+  system, routing, realtime sync design)
+- Migration directive: prompt.txt / "FOMO Native Organic Maps Migration Prompt v5.0" 
+  (the framing, module boundaries, and API surface below are drawn from it)
+- Approved UI reference: map_screen.png (exact visual target)
+
+MIGRATION FRAMING (from prior directive — still applies)
+- This is a migration of Organic Maps into FOMO, not a library integration. The end 
+  user must never perceive Organic Maps as a separate app — it is FOMO Maps.
+- Organic Maps owns: rendering, routing, navigation, offline maps, search, 
+  downloads, GPS, compass, gestures, map styling, performance. Do not recreate these.
+- FOMO owns everything above the engine: UI, branding, navigation, venue discovery, 
+  nightlife intelligence, social features, AI, realtime, Flash Drops, events, plans, 
+  creator features.
+- No feature outside the Maps module may import Organic Maps classes directly — 
+  everything routes through the FOMO Maps API facade.
+- Existing components to inspect and improve, not discard unnecessarily: 
+  OrganicMapsBridge, OrganicMapCanvas, OrganicMarkerRenderer, VenueMapCanvas, 
+  MapRepository, SupabaseMapSync, MapEngineProvider, JNI bridge, CMake integration, 
+  SurfaceView renderer.
+- Any direct modification to Organic Maps source itself (not the FOMO wrapper layer) 
+  must be logged in UPSTREAM_CHANGES.md with reason, affected files, and future 
+  merge-impact assessment. If this file doesn't exist yet, create it before making 
+  any such modification — don't make the change first and document later.
+
+⚠️ OVERRIDE ON THE PRIOR DIRECTIVE'S AUTONOMY LOOP: the previous prompt said to 
+"continue automatically" and only stop for missing credentials/approvals/legal 
+constraints. That instruction is very likely why the current plan doc has 
+components marked "✅ Completed" without real verification — do not follow it as 
+written. In this session: a task is only "done" and eligible to move to the next 
+one after it has passed the Definition of Done checklist below with actual 
+screenshot/logcat evidence. If you cannot get real evidence (not just "it should 
+work"), stop and report the blocker instead of marking it complete and continuing.
+
+⚠️ DO NOT TRUST THE PLAN DOC'S STATUS COLUMN, AND DO NOT TRUST THE PRIOR SESSION'S 
+CLAIMED PROGRESS. The plan marks almost every component "✅ Completed / Fully 
+Integrated" — treat every one of these as an unverified claim, not a fact. This is 
+likely a direct consequence of the prior agent prompt (prompt.txt) instructing the 
+agent to "continue automatically" without a hard verification gate — so status 
+markers in the plan doc may reflect what a prior agent session self-reported, not 
+what was actually confirmed on-device. Before relying on any listed component 
+(OrganicMapsBridge, FomoMaps facade, MarkerRenderer, SupabaseMapSync, 
+FomoCameraController, LayerControlOverlay, etc.), independently confirm it actually 
+exists, compiles, and is wired up — by reading the actual file and, where 
+applicable, exercising it on-device, not by reading either doc. If a "✅ Completed" 
+item turns out to be a stub, partial, or missing, report that explicitly as a 
+discrepancy — do not assume it's fine because a doc says so, and do not silently 
+"complete" it without telling me first.
+
+ARCHITECTURE TO PRESERVE (per plan doc — verify each exists before assuming so)
+- Organic Maps native rendering (JNI bridge, C++ engine, SurfaceView render loop) — 
+  NOT a WebView, NOT Google Maps SDK
+- `feature/maps/` module structure: api/, engine/, layers/, markers/, camera/, 
+  routing/, search/, offline/, sync/, state/, viewmodel/ — inspect actual current 
+  contents of each before changing anything
+- 10 composable layers (Venue, Friends, Events, Flash Drops, Creators, Live Moments, 
+  Plans, AI Recommendations, Heatmap, Channel)
+- Realtime sync path: Supabase (`venues`, `flash_drops`, `venue_checkins` tables + 
+  Realtime WebSocket channel) → MapRepository → FomoMapLayerSyncer → native engine
+- Offline-first: downloaded `.mwm` regions, cached venues/favourites, background 
+  sync on reconnect
+- One venue pin type with contextual badges (Live / Flash Drop / Event / Trending / 
+  Hot / Closing Soon) — not separate pin types per attribute
+
+UI MUST MATCH map_screen.png EXACTLY, INCLUDING:
+- Top bar: user avatar with FOMO Score badge overlay, "FOMO Score 92% 🔥" text, 
+  search icon, notification bell with unread dot
+- Category chip row (Live, Nightlife, Events, Prep, Food, Luxury): pill-shaped, 
+  icon + label, horizontally scrollable, selected chip (Nightlife) shown with 
+  filled purple background — verify chip selection actually filters live map data, 
+  not just visual state
+- Nearest Venue Card: purple-bordered card, "HOT TONIGHT" corner badge, hero image, 
+  "NEAREST VENUE" label, venue name + verification badge, category subtitle in 
+  purple, location line with pin icon, walk distance/time, Open/Closed status + 
+  hours row (expandable via chevron), star rating + review count + "View Reviews" 
+  link, attribute tag pills (e.g. Techno/Cocktails/21+), FOMO score badge (flame + 
+  %) top-right, and two primary action buttons — verify the action set is adaptive 
+  per venue category (Nightlife: Club Lobby/Route; Food/Prep: Website/Route; per 
+  plan doc's "Adaptive actions" section) rather than hardcoded to one category
+- Map canvas: dark-themed native map, circular venue pin avatars with colored rings 
+  per category, flame+% FOMO score badge per pin, name+distance label beneath each 
+  pin, pulsing blue user-location indicator, right-side stacked FABs (Add Location, 
+  Recenter — plan doc specifies 5 FABs total: Recenter/Layers/Heatmap/Add Place/
+  Overpass; confirm which are actually present vs. the reference screenshot and 
+  reconcile with me if they diverge)
+- "Nightlife Nearby" horizontal carousel: hero image, FOMO score badge, venue name, 
+  category, rating, distance + open/closing status, Lobby + Route pill buttons, 
+  "See All" link in section header
+
+Screen must be RESPONSIVE:
+- Verify layout on at least two different screen sizes/densities (use `adb shell 
+  wm size`/`wm density` to simulate, or test on device + one emulator profile if 
+  available) — card widths, map canvas sizing, carousel item sizing, and FAB stack 
+  position must adapt correctly, not just look right on one device.
+- Test both portrait orientations' safe-area/notch handling if the device has a 
+  cutout.
+
+ENVIRONMENT CHECK (after Step 0 passes)
+1. Run `adb devices` and confirm exactly one authorized device is listed. If zero 
+   devices or status "unauthorized"/"offline," stop and report the raw output — 
+   don't proceed as if a device is connected.
+2. Confirm Android SDK, Gradle wrapper, and JDK versions match what the project 
+   expects (gradle.properties, gradle-wrapper.properties, build.gradle.kts). Flag 
+   mismatches before building.
+
+WORKFLOW (paste actual command + actual raw output at every step — no summarizing 
+away failures)
+1. Inspect the actual current state of every file/module listed in the plan doc's 
+   architecture section before changing anything. Cross-check against the "Do not 
+   trust the status column" warning above.
+2. If behavior is broken, reproduce it first via logcat/UI before hypothesizing a 
+   cause. Identify root cause before writing any fix.
+3. Build via existing Gradle config only (`gradlew.bat assembleDebug` on Windows) — 
+   don't modify build scripts unless the failure is genuinely in the build config.
+4. If the build fails: show the actual error, diagnose the real cause, fix it, 
+   rebuild. Never comment out or stub failing code just to make it compile.
+5. Install the debug APK via ADB. Confirm install succeeded from actual exit 
+   code/output, not assumption.
+6. Launch the app via `adb shell am start` targeting the correct activity, navigate 
+   to the Map screen.
+7. Interact with the screen using available UI automation (uiautomator dump, 
+   `adb shell input tap/text/swipe`, etc.): switch category chips, tap a venue pin, 
+   open the nearest venue card actions, scroll the nearby carousel, toggle layers.
+8. Screenshot via `adb shell screencap`, pull it locally, and actually view it 
+   side-by-side against map_screen.png to confirm visual match — don't infer UI 
+   correctness from source alone.
+9. Pull logcat filtered to the app's package and inspect for exceptions/ANRs/the 
+   specific behavior in question.
+10. If unresolved or UI doesn't match, return to step 2. Do not declare success 
+    without a screenshot + logcat that actually demonstrate the fix working.
+
+HARD CONSTRAINTS
+- Don't replace working FOMO architecture unless the task explicitly requires it.
+- Don't create mock/fake data or stub implementations where a real backend call, 
+  Supabase query, or Telegram integration already exists and is reachable.
+- Preserve existing navigation, auth, database, realtime, and engine architecture.
+- Inspect a subsystem's current implementation and any spec doc for it before 
+  touching it — but verify against real code, not doc claims.
+- If you're about to write "should work" or "this should fix it" without having 
+  actually run and observed it — stop and run it instead.
+- If any MCP tool call fails or returns an auth error mid-task, say so explicitly 
+  rather than continuing on stale assumptions.
+
+PRODUCTION-READINESS STANDARD (applies to the Map screen and every layer touched)
+
+Target bar: WhatsApp/TikTok-level polish and reliability.
+
+REAL-TIME, NOT MOCKED
+- All venue/event/flash-drop/friend-pin data must flow through the real Supabase 
+  Realtime channels / Postgres queries already defined (`venues`, `flash_drops`, 
+  `venue_checkins` tables + `/realtime/v1/websocket`) — no hardcoded pin arrays, no 
+  sample venue JSON, no `TODO: replace with real data`, no delay()-simulated loading.
+- Grep the touched files and related modules for mock/dummy/fake/placeholder/
+  hardcoded/stub/TODO/FIXME patterns before marking anything done. Any hit tied to 
+  data that should be live is a blocker — implement the real call.
+- Verify realtime behavior by triggering a venue/flash-drop update from a second 
+  source (second device or direct Supabase write) and confirming the map updates 
+  (new pin, badge change, score change) without a manual refresh. Show logcat/
+  network evidence, don't just claim it works.
+- Confirm offline behavior separately: enable airplane mode, verify cached `.mwm` 
+  regions and cached venues still render, then re-enable connectivity and confirm 
+  sync resumes automatically.
+
+UI/UX BAR
+- Handle loading, empty (no nearby venues), error (location/network failure), and 
+  populated states for both the nearest-venue card and the nearby carousel — 
+  screenshot each.
+- Map pin rendering and category-chip filtering should be smooth with no dropped 
+  frames on pan/zoom (check `adb shell dumpsys gfxinfo <package>`).
+- Venue hero images cached and lazy-loaded, no re-fetch on recomposition, no 
+  jarring pop-in.
+- Visual match to map_screen.png for spacing, color, typography, and iconography — 
+  no ad-hoc deviation.
+
+RELIABILITY
+- No crashes under rapid interaction: fast chip switching, fast pin tapping, map 
+  fling-scrolling, backgrounding/foregrounding mid-load.
+- Airplane-mode and slow-network behavior handled explicitly with a real 
+  error/retry/offline state, not a hang or crash.
+- Location-permission-denied and GPS-unavailable edge cases degrade gracefully.
+
+DEFINITION OF DONE FOR THIS SESSION
+Only report the Map screen as production-ready if you have, in this session:
+1. Verified each plan-doc "✅ Completed" claim against actual code (listed 
+   discrepancies found, if any)
+2. Confirmed zero mock/placeholder data via grep + manual read of touched code
+3. Screenshotted all relevant states (loading/empty/error/populated) and diffed 
+   visually against map_screen.png
+4. Demonstrated a live realtime update with logcat/network evidence
+5. Run the rapid-interaction, airplane-mode, and permission-denied stress checks 
+   with no crash
+6. Confirmed pan/zoom smoothness via gfxinfo and responsive layout on ≥2 screen 
+   configurations
+
+If any of these six aren't verified, say explicitly which ones are outstanding — 
+do not report "production ready" as a summary judgment without the checklist behind it.
+
+REPORT FORMAT (every response, including partial progress)
+- What I inspected (files/commands, with raw findings) — including plan-doc 
+  discrepancies found
+- What I changed (actual diff, not a description of intent)
+- Build result (command + raw output/exit status)
+- Install result (command + raw output)
+- Device test result (screenshot + relevant logcat lines, quoted, with visual diff 
+  vs. map_screen.png noted)
+- Production-readiness checklist status (6 items above, each marked done/outstanding)
+- Remaining problems / open questions
+

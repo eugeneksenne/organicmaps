@@ -1,0 +1,589 @@
+FOMO Map — Add Business Engine
+
+Production Specification (Updated)
+
+Product Vision
+
+The Add Business engine is the gateway for businesses to join the FOMO ecosystem.
+
+It serves two purposes:
+
+Allow owners to claim existing businesses already on the map.
+
+Allow owners to create brand-new businesses that don't yet exist.
+
+The onboarding experience should take less than 3 minutes.
+
+No paperwork.
+
+No manual verification.
+
+Ownership is verified using OTP.
+
+Entry Point
+
+Map Screen
+
+Floating Action Button
+
+➕ Add Business
+
+Welcome Screen
+
+Add Your Business
+
+Bring your business to FOMO.
+
+Before creating a new business, we'll first check whether it already exists.
+
+Continue
+
+Step 1 — Choose Business Category
+
+Select one category.
+
+🎉 Nightlife
+
+Nightclub
+
+Bar
+
+Lounge
+
+Pub
+
+Cocktail Bar
+
+Rooftop
+
+Tavern
+
+💈 Prep
+
+Barber
+
+Hair Salon
+
+Nail Studio
+
+Beauty Salon
+
+Makeup Artist
+
+Tattoo Studio
+
+Piercing Studio
+
+Spa
+
+🍔 Food
+
+Restaurant
+
+Café
+
+Bakery
+
+Fast Food
+
+Street Food
+
+Food Truck
+
+Market Stall
+
+Pop-up Kitchen
+
+🌿 Wellness
+
+Gym
+
+Spa
+
+Yoga Studio
+
+Recovery Centre
+
+Massage
+
+Physiotherapy
+
+✈️ Travel
+
+Hotel
+
+Guest House
+
+Lodge
+
+Car Rental
+
+Tourist Attraction
+
+Tap Continue
+
+Step 2 — Search Existing Business
+
+Search using:
+
+Business Name
+
+Address
+
+Area
+
+Example
+
+Joe's Barber
+
+FOMO searches:
+
+Existing FOMO Businesses
+
+Official Map Businesses
+
+Search Result A — Business Found
+
+Business card displayed.
+
+Example
+
+Joe's Barber
+
+⭐ 4.7
+
+Barber
+
+Sandton
+
+Buttons
+
+Claim Business
+
+Search Result B — No Business Found
+
+Message
+
+We couldn't find this business.
+
+Button
+
+Create New Business
+
+Existing Business Flow
+
+Claim Business
+
+Claiming is always FREE.
+
+No payment required.
+
+Business Ownership Verification
+
+Verify Business Ownership
+
+To protect this business, verify ownership using one of the contact methods already associated with the business.
+
+Choose one method.
+
+📱 SMS
+
+079******09
+
+Send Code
+
+💬 WhatsApp
+
+079******09
+
+Send Code
+
+✉️ Email
+
+jo***@gmail.com
+
+Send Code
+
+Only masked contact details are displayed.
+
+Examples:
+
+OriginalDisplayed0799090009079******090821234567082******67info@joesbarber.co.zain**@joesbarber.co.zabookings@venue.combo******@venue.com
+
+OTP Verification
+
+Enter the 6-digit verification code.
+
+Buttons
+
+Verify
+
+Resend Code
+
+Change Method
+
+Claim Successful
+
+🎉
+
+Business ownership verified.
+
+You are now the verified owner.
+
+Automatically unlocked:
+
+✓ Verified Badge
+
+Business Dashboard
+
+Business Lobby
+
+Reviews Management
+
+Analytics
+
+Promotions
+
+Flash Deals
+
+Settings
+
+No payment required.
+
+No Contact Information Available
+
+If the official business has no phone number or email:
+
+Message
+
+We couldn't find contact details for this business.
+
+Button
+
+Add Business Contact Details
+
+The owner enters:
+
+Phone
+
+WhatsApp (optional)
+
+Email (optional)
+
+FOMO verifies one contact method using OTP.
+
+Once verified:
+
+Business becomes claimed.
+
+No payment required.
+
+This updates the business with verified contact information while avoiding duplicate listings.
+
+New Business Flow
+
+If no existing business is found:
+
+Tap
+
+Create New Business
+
+Step 3 — Business Information
+
+Business Name
+
+Business Description
+
+Category
+
+Subcategory
+
+Step 4 — Business Location
+
+Choose
+
+○ Permanent Location
+
+○ Mobile Business
+
+Permanent
+
+Pin exact location.
+
+Mobile
+
+Select operating area.
+
+Examples
+
+Sandton
+
+Soweto
+
+Pretoria CBD
+
+Braamfontein
+
+Cape Town CBD
+
+Step 5 — Contact Details
+
+Business Phone
+
+WhatsApp (optional)
+
+Email (optional)
+
+Website (optional)
+
+Social Media (optional)
+
+Step 6 — Operating Hours
+
+Configure:
+
+Days
+
+Opening Time
+
+Closing Time
+
+Step 7 — Upload Photos
+
+Required
+
+Hero Cover
+
+Optional
+
+Gallery
+
+Logo
+
+Step 8 — Category-Specific Details
+
+Fields adapt based on business type.
+
+Nightlife
+
+Music Genres
+
+Amenities
+
+Dress Code
+
+VIP Available
+
+Capacity
+
+Prep
+
+Services
+
+Prices
+
+Staff
+
+Appointment Required
+
+Food
+
+Cuisine
+
+Menu
+
+Prices
+
+Popular Dishes
+
+Wellness
+
+Treatments
+
+Services
+
+Prices
+
+Travel
+
+Accommodation
+
+Amenities
+
+Pricing
+
+Step 9 — Review
+
+Display a summary of:
+
+Business Information
+
+Location
+
+Contact Details
+
+Hours
+
+Photos
+
+Step 10 — Verify Contact
+
+Choose one verification method.
+
+○ SMS
+
+○ WhatsApp
+
+○ Email
+
+Receive OTP.
+
+Enter code.
+
+Verification successful.
+
+Step 11 — One-Time Verification Fee
+
+Creating a brand-new business requires a one-time verification fee.
+
+R50
+
+Included:
+
+✓ Verified Badge
+
+Business Lobby
+
+Business Dashboard
+
+Analytics
+
+Promotions
+
+Flash Deals
+
+No subscriptions.
+
+No monthly payments.
+
+No annual renewals.
+
+Step 12 — Payment
+
+Pay
+
+R50
+
+Step 13 — Success
+
+🎉
+
+Business Created Successfully
+
+Status
+
+✓ Verified Business
+
+Buttons
+
+Open Dashboard
+
+View Business Lobby
+
+Return to Map
+
+Automatic Provisioning
+
+Every newly created verified business automatically receives:
+
+Business Lobby
+
+Category-specific lobby.
+
+Business Dashboard
+
+Category-specific management dashboard.
+
+Verified Badge
+
+Visible across FOMO.
+
+Duplicate Protection Engine
+
+Before a new business is created, FOMO checks:
+
+Business name
+
+Similar business names
+
+Phone number
+
+Email
+
+Website
+
+GPS location
+
+Existing FOMO businesses
+
+Official map businesses
+
+If a likely duplicate is detected:
+
+We found a similar business.
+
+Options:
+
+Claim Existing Business
+
+Continue Anyway
+
+Verification Rules
+
+Existing Business (Already on Map)
+
+Claim Business
+
+Verify ownership using OTP
+
+Uses the business contact details already stored in FOMO (displayed in masked form)
+
+If no contact details exist, the owner adds them and verifies via OTP
+
+Free
+
+New Business (Not on Map)
+
+Create Business
+
+Verify contact using OTP
+
+Pay R50 once-off verification fee
+
+Business is created as a verified FOMO business
+
+Business Lobby Assignment
+
+Every verified business receives a lobby based on its category.
+
+CategoryLobby🎉 NightlifeClub Lobby💈 PrepPrep Lobby🍔 FoodFood Lobby🌿 WellnessWellness Lobby✈️ TravelTravel Lobby
+
+Business Dashboard Assignment
+
+CategoryDashboardNightlifeCreator StudioPrepPrep DashboardFoodFood DashboardWellnessWellness DashboardTravelTravel Dashboard
+
+Core Principles
+
+Search before creating to prevent duplicates.
+
+Claiming existing businesses is always free.
+
+Existing businesses are verified using masked contact details and OTP.
+
+If no contact details exist, owners add and verify them without creating a duplicate listing.
+
+Only brand-new businesses pay the one-time R50 verification fee.
+
+Every verified business receives a category-specific Lobby and Dashboard.
+
+No subscriptions, no paperwork, and no manual verification—just a fast, secure, OTP-based onboarding experience.

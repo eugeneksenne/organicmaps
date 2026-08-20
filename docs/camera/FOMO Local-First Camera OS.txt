@@ -1,0 +1,401 @@
+FOMO Local-First Camera OS
+
+Production Implementation Plan (v2.0)
+
+Vision
+
+The FOMO Camera is a Local-First Camera Operating System built specifically for nightlife and real-world experiences. The entire camera works without internet while seamlessly synchronizing with Supabase and Telegram whenever connectivity becomes available.
+
+The user should never know—or care—whether they are online or offline.
+
+This extends the existing FOMO Camera Engine by making the device the primary runtime, while Supabase and Telegram become synchronization services rather than runtime dependencies. It also aligns with the existing Offline Engine and Upload Engine in your Camera architecture.
+
+Core Principles
+
+Local First
+
+Everything runs locally first.
+
+Offline First
+
+No internet required.
+
+Cloud Sync
+
+Cloud is only used for synchronization.
+
+Privacy First
+
+Processing happens on-device whenever possible.
+
+Production Ready
+
+Designed to scale to millions of users.
+
+Local-First Philosophy
+
+The camera should never depend on:
+
+Internet
+
+Supabase
+
+Telegram
+
+Cloud AI
+
+Server availability
+
+Instead, it should depend only on:
+
+Device camera
+
+Local storage
+
+Local AI
+
+Downloaded venue packs
+
+Native processing
+
+Camera Operating System
+
+FOMO Local-First Camera OS │ ├── Camera Hardware Layer ├── Camera UI Engine ├── Camera Capture Engine ├── Local AI Engine ├── Local Storage Engine ├── Local Database Engine ├── Local Venue Intelligence ├── Local Media Engine ├── Local Draft Engine ├── Background Upload Queue ├── Background Sync Engine ├── Telegram Sync Engine ├── Supabase Sync Engine ├── Cloud Event Intelligence ├── Ripple Sync Engine ├── Performance Engine ├── Privacy Engine └── Analytics Engine 
+
+Camera Startup
+
+User Opens Camera ↓ Initialize Camera OS ↓ Load Camera ↓ Load User Settings ↓ Load Venue Packs ↓ Load AI Models ↓ Restore Upload Queue ↓ Camera Ready 
+
+Target startup:
+
+Under 250 ms
+
+Instant preview
+
+Zero network dependency
+
+Local Storage Engine
+
+Every capture follows the same workflow.
+
+Capture ↓ Original Media ↓ Thumbnail ↓ Metadata ↓ Encrypt ↓ Local Storage ↓ Upload Queue 
+
+Nothing is uploaded immediately.
+
+Local Database Engine
+
+The Camera OS maintains a dedicated local database.
+
+Tables
+
+Camera Database ├── Moments ├── Drafts ├── Upload Queue ├── Venue Cache ├── Camera Settings ├── AI Cache ├── Looks ├── Templates ├── Effects ├── Sync Status └── User Preferences 
+
+Recommended implementation:
+
+SQLite
+
+Room (Android)
+
+Shared persistence layer for Kotlin Multiplatform
+
+Local Media Engine
+
+Stores:
+
+Photos Videos Live Buffers Drafts Thumbnails Optimized Copies AI Cache Temporary Files 
+
+Media never disappears because of network issues.
+
+Local AI Engine
+
+Runs entirely on-device.
+
+Features
+
+Scene recognition
+
+Noise reduction
+
+Stabilization
+
+Face optimization
+
+Beat detection
+
+BPM detection
+
+Bass detection
+
+Crowd energy estimation
+
+Thumbnail selection
+
+Caption suggestions
+
+Looks rendering
+
+Effects rendering
+
+Cloud AI may improve results later but is not required to capture or edit media.
+
+Local Venue Intelligence
+
+Venue information is always available offline using downloaded venue packs.
+
+GPS ↓ Downloaded Venue Pack ↓ Nearby Venues ↓ Confidence Score ↓ Venue Selected 
+
+Capabilities:
+
+Venue identification
+
+Distance calculation
+
+Venue category
+
+City
+
+Province
+
+Nearby places
+
+Offline venue metadata
+
+If no venue is identified:
+
+GPS fallback
+
+Nearby venue list
+
+Manual venue selection
+
+Sync later
+
+Cloud Event Intelligence
+
+Unlike venues, events are not downloaded.
+
+Events exist only in Supabase.
+
+When offline:
+
+Moment ↓ Venue Detected ↓ Event = Pending ↓ Saved Locally 
+
+When online:
+
+Moment Sync ↓ Supabase ↓ Find Active Event ↓ Attach Event ↓ Update Moment 
+
+The user never manually searches for an event after reconnecting.
+
+Local Capture Pipeline
+
+Capture ↓ Original File ↓ AI Processing ↓ Thumbnail ↓ Metadata ↓ Encryption ↓ Draft ↓ Upload Queue 
+
+Every step completes before any cloud communication begins.
+
+Local Draft Engine
+
+Every capture becomes a draft immediately.
+
+Moment ↓ Draft ↓ Auto Save ↓ Edit ↓ Publish 
+
+Drafts include:
+
+Caption
+
+Looks
+
+Effects
+
+Templates
+
+Venue
+
+Visibility
+
+Thumbnail
+
+Crop
+
+Trim
+
+Offline Editing
+
+All editing features work without internet.
+
+Supported:
+
+Looks
+
+Filters
+
+Templates
+
+Effects
+
+Cropping
+
+Video trimming
+
+Stabilization
+
+Audio synchronization
+
+Caption editing
+
+Thumbnail selection
+
+Upload Queue
+
+Uploads are managed independently of the camera UI.
+
+Pending ↓ Processing ↓ Ready ↓ Uploading ↓ Telegram Uploaded ↓ Supabase Updated ↓ Ripple Updated ↓ Completed 
+
+If synchronization fails:
+
+Retry ↓ Wait ↓ Retry Automatically 
+
+Telegram Sync Engine
+
+Telegram stores media only.
+
+Uploads:
+
+Photos
+
+Videos
+
+Live recordings
+
+Thumbnails
+
+Optimized versions
+
+Returns:
+
+Media reference
+
+Thumbnail reference
+
+Upload status
+
+Supabase Sync Engine
+
+Supabase stores structured application data.
+
+Synchronizes:
+
+Moment metadata
+
+Caption
+
+Venue
+
+Event
+
+Visibility
+
+User
+
+Media references
+
+Ripple metadata
+
+Analytics
+
+Supabase is the source of truth for application state.
+
+Cloud Event Verification
+
+After upload:
+
+Moment ↓ Venue ID ↓ Capture Time ↓ Supabase ↓ Find Active Event ↓ Confidence Score ↓ Attach Event ↓ Feed Updated ↓ Club Lobby Updated 
+
+If no event exists:
+
+The moment remains associated with the venue only.
+
+Live Recovery
+
+If connection drops:
+
+Live ↓ Recording Continues ↓ Saved Locally ↓ Reconnect ↓ Resume Stream ↓ Replay Generated ↓ Replay Uploaded 
+
+The creator never loses their recording.
+
+Background Sync Engine
+
+Runs continuously in the background.
+
+Network Available ↓ Upload Queue ↓ Telegram Upload ↓ Supabase Update ↓ Event Verification ↓ Ripple Update ↓ Cleanup 
+
+The user never presses a "Retry" button.
+
+Security Engine
+
+Protects:
+
+Local media
+
+Local database
+
+Upload queue
+
+Authentication tokens
+
+Temporary files
+
+AI cache
+
+Performance Engine
+
+Targets:
+
+Camera launch under 250 ms
+
+60 FPS preview
+
+120 FPS animations (supported devices)
+
+GPU-accelerated rendering
+
+Hardware video encoding
+
+Battery-aware AI
+
+Thermal management
+
+Adaptive quality scaling
+
+Crash recovery
+
+Background synchronization
+
+These build directly on the performance goals already defined in the Camera Engine.
+
+Camera State Machine
+
+Idle ↓ Starting ↓ Ready ↓ Capturing ↓ Processing ↓ Draft Saved ↓ Queued ↓ Synchronizing ↓ Completed 
+
+If an error occurs:
+
+Error ↓ Recover ↓ Resume Previous State 
+
+Integration with the FOMO Ecosystem
+
+FOMO Local-First Camera OS │ ├── Discover Engine ├── Feed Engine ├── Map Engine ├── Club Lobby ├── Chats ├── Creator Studio ├── Ripple Engine ├── NightGuard ├── Supabase Backend └── Telegram Media Storage 
+
+Production Data Flow
+
+Offline
+
+User ↓ Camera ↓ Local AI ↓ Venue Detection ↓ Local Storage ↓ Draft ↓ Upload Queue 
+
+Online
+
+Upload Queue ↓ Telegram (Media Storage) ↓ Supabase (Metadata) ↓ Cloud Event Verification ↓ Ripple Engine ↓ Feed ↓ Discover ↓ Map ↓ Club Lobby ↓ Profile 
+
+Final Vision
+
+The FOMO Local-First Camera OS transforms the camera into a resilient, production-grade platform where the device is always the primary execution environment. Photos, videos, Live sessions, AI processing, editing, venue detection, drafts, and media management all function without connectivity. When a network becomes available, the Background Sync Engine uploads media to Telegram, synchronizes metadata with Supabase, performs online event verification, updates Ripple, and refreshes the Feed, Discover, Map, Club Lobby, and Profile automatically.
+
+By treating venue intelligence as offline, event intelligence as cloud-only, and Supabase and Telegram as synchronization services, the camera remains fast, reliable, and ready for real-world nightlife conditions where connectivity can be inconsistent.

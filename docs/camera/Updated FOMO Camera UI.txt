@@ -1,0 +1,706 @@
+# FOMO Camera Engine
+
+> **Vision**
+>
+> The FOMO Camera is **not** a social media camera.
+>
+> It is the **world's first nightlife-aware camera**, designed to disappear into the background while intelligently understanding where the user is, what's happening around them, who they're with, the music, the crowd, and the atmosphere.
+>
+> It should feel as simple as Apple's Camera while quietly performing dozens of AI-powered tasks in the background. 
+
+---
+
+# Design Principles
+
+The camera follows one philosophy:
+
+> **Capture first.
+> Everything else stays out of the way.**
+
+Core principles:
+
+* Instant launch (<250 ms)
+* Full-screen immersive preview
+* One-handed operation
+* Minimal interface
+* Context-aware
+* Venue-aware
+* Event-aware
+* AI-assisted
+* Sound-reactive
+* Creator-ready
+* Offline-first
+* Privacy-first
+
+---
+
+# Camera Architecture
+
+```text
+FOMO Camera
+│
+├── Camera UI Engine
+├── Camera Capture Engine
+├── Camera Intelligence Engine
+│   ├── Venue Intelligence
+│   ├── Event Intelligence
+│   ├── AI Scene Recognition
+│   ├── Crowd Intelligence
+│   ├── Sound Aware
+│   ├── Weather Intelligence
+│   └── Safety Engine
+│
+├── FOMO Studio
+│   ├── Looks
+│   ├── Templates
+│   ├── Effects
+│   ├── Audio
+│   ├── Dual Shot
+│   └── Settings
+│
+├── AI Processing
+├── Live Engine
+├── Upload Engine
+├── Publish Engine
+├── Ripple Engine
+└── Analytics
+```
+
+---
+
+# Camera Journey
+
+```text
+Open Camera
+
+↓
+
+Venue Detection
+
+↓
+
+Event Detection
+
+↓
+
+Camera Ready
+
+↓
+
+Capture
+
+↓
+
+AI Enhancement
+
+↓
+
+Moment Preview
+
+↓
+
+Publish
+
+↓
+
+Ripple Generation
+```
+
+Everything feels like one uninterrupted experience.
+
+---
+
+# Camera UI
+
+```text
+╭──────────────────────────────────────────────╮
+│                                              │
+│ ╭──────────────────────────────────────────╮ │
+│ │ ✕                              ⚡  ⬡      │ │
+│ │                                          │ │
+│ │ ○ Truth Nightclub ✓                      │ │
+│ │ 🌍 Public ▼                              │ │
+│ │ 📍 3 Wells Street, Emalahleni            │ │
+│ ╰──────────────────────────────────────────╯ │
+│                                              │
+│                                              │
+│                                              │
+│                                              │
+│                                              │
+│             Camera Preview                   │
+│                                              │
+│                                              │
+│                                              │
+│                                              │
+│                                              │
+│                                              │
+│            ○0.5   ●1×   ○2   ○3             │
+│                                              │
+│           PHOTO  VIDEO  LIVE                │
+│                                              │
+│ Gallery      ◉ Capture      Flip            │
+│                                              │
+╰──────────────────────────────────────────────╯
+```
+
+---
+
+# Top Glass Header
+
+The header is a floating glass pill.
+
+No unnecessary information.
+
+No clutter.
+
+## Left
+
+Close
+
+```text
+✕
+```
+
+---
+
+## Center
+
+Venue Avatar
+
+Venue Name
+
+Verified Badge
+
+Location Visibility Selector
+
+Venue Address
+
+Example
+
+```text
+○ Truth Nightclub ✓
+
+🌍 Public ▼
+
+📍 3 Wells Street
+```
+
+---
+
+## Right
+
+```text
+⚡ Flash
+
+⬡ Studio
+```
+
+Only two actions remain.
+
+Settings have been moved into Studio.
+
+---
+
+# Location Visibility
+
+This replaces the old "Followers" label.
+
+It is **not** a follower count.
+
+It controls **who can see the venue attached to the Moment after publishing**.
+
+---
+
+## Options
+
+### Private
+
+```text
+👤 Private
+```
+
+Only the user can see the attached venue.
+
+Feed viewers see
+
+```text
+Location Hidden
+```
+
+---
+
+### Followers
+
+```text
+👥 Followers
+```
+
+Only followers can see
+
+* Venue
+* Club Lobby
+* Event
+* Route
+
+Everyone else sees the post without location.
+
+---
+
+### Public
+
+```text
+🌍 Public
+```
+
+Everyone sees
+
+* Venue
+* Event
+* Club Lobby
+* Directions
+
+Perfect for nightlife creators and venues.
+
+---
+
+# Flash
+
+Tap
+
+```text
+AUTO
+
+ON
+
+OFF
+
+TORCH
+```
+
+Long press
+
+Brightness slider.
+
+---
+
+# Studio
+
+Studio is now the home for every advanced feature.
+
+Opening Studio slides in a side sheet while keeping the camera preview visible.
+
+---
+
+## Studio
+
+### Looks
+
+* Pulse
+* Glow
+* Electric
+* Luxe
+* Noir
+* Stage
+* Vintage
+* Midnight
+
+---
+
+### Templates
+
+* Club Recap
+* Festival
+* Birthday
+* Date Night
+* Concert
+* Night Started
+
+---
+
+### Effects
+
+* Motion Blur
+* Bloom
+* VHS
+* Neon Reflection
+* Film Grain
+* Slow Shutter
+* Bokeh
+
+---
+
+### Audio
+
+* Beat Detection
+* BPM Detection
+* Sound Reactive Effects
+* Pulse Sync
+
+---
+
+### Dual Shot
+
+* Bubble
+* Side by Side
+* Creator View
+* Audience View
+* Custom Layout
+
+---
+
+### Settings
+
+Moved from the top bar.
+
+Contains
+
+* Grid
+* HDR
+* Timer
+* RAW
+* Aspect Ratio
+* Save to Gallery
+* Upload Quality
+* Privacy
+* Storage
+* Performance
+
+---
+
+# Camera Preview
+
+Always
+
+* Full-screen
+* Edge-to-edge
+* No overlays
+* No gradients
+
+Nothing should compete with the moment.
+
+---
+
+# Zoom
+
+Apple-style segmented controls.
+
+```text
+○ 0.5
+
+● 1×
+
+○ 2×
+
+○ 3×
+```
+
+Supports
+
+* Tap
+* Pinch
+* Long Press
+
+---
+
+# Camera Modes
+
+Only three.
+
+```text
+PHOTO
+
+VIDEO
+
+LIVE
+```
+
+Swipe horizontally.
+
+No additional modes.
+
+---
+
+# Gallery
+
+Bottom left.
+
+Live thumbnail.
+
+Long press
+
+Recent captures.
+
+---
+
+# Capture Button
+
+Large centered shutter.
+
+States
+
+Photo
+
+Video
+
+Live
+
+Processing
+
+---
+
+# Flip
+
+Bottom right.
+
+Tap
+
+Switch cameras.
+
+Long press
+
+Launch Dual Shot.
+
+---
+
+# Venue Intelligence
+
+Runs automatically.
+
+Detects
+
+* Venue
+* City
+* District
+* Nearby Places
+
+No manual tagging.
+
+---
+
+# Event Intelligence
+
+Runs silently.
+
+Detects
+
+* Concerts
+* Festivals
+* Flash Drops
+* Promotions
+* Tonight's Events
+
+Unlike previous versions, **event information is not permanently shown in the camera header**. It is attached in the background and can be reviewed or edited during publishing.
+
+---
+
+# AI Scene Recognition
+
+Automatically recognizes
+
+* Nightclubs
+* Concerts
+* Rooftops
+* Restaurants
+* Beaches
+* Stadiums
+* Lounges
+
+Optimizes exposure and color automatically.
+
+---
+
+# Sound Aware Engine
+
+Detects
+
+* BPM
+* Bass
+* Beat
+* Crowd Energy
+* Vocal Peaks
+
+Applies music-reactive effects in real time.
+
+---
+
+# AI Suggestions
+
+Occasionally display lightweight floating prompts.
+
+Examples
+
+```text
+🔥 Crowd heating up
+
+Go Live?
+```
+
+```text
+🎁 Flash Drop nearby
+
+Capture this moment
+```
+
+```text
+🎵 Pulse Look recommended
+```
+
+They disappear automatically and never interrupt shooting.
+
+---
+
+# AI Processing
+
+Immediately after capture
+
+Automatically performs
+
+* Best Frame Selection
+* Noise Reduction
+* Stabilization
+* Face Optimization
+* Thumbnail Selection
+* Venue Confirmation
+* Event Confirmation
+* Sound Synchronization
+* Ripple Generation
+
+---
+
+# Moment Preview
+
+Editable fields
+
+* Caption
+* Venue
+* Event
+* Visibility
+* Look
+* Template
+* Effects
+
+The selected **Location Visibility** (Private, Followers, Public) is displayed here and can still be changed before publishing.
+
+---
+
+# Publish Engine
+
+Visibility
+
+* Private
+* Followers
+* Public
+
+Destination
+
+* Feed
+* Venue
+* Club Lobby
+* Event
+* Profile
+
+Location
+
+* Share Venue
+* Hide Venue
+
+The camera remembers the user's last-used location visibility preference.
+
+---
+
+# Upload Engine
+
+Progress is shown by destination.
+
+```text
+Uploading...
+
+Venue ✓
+
+Feed ✓
+
+Profile ✓
+
+Ripple ✓
+```
+
+---
+
+# Live Engine
+
+Supports
+
+* Venue-aware Live
+* Event-aware Live
+* Dual Shot Live
+* Live Comments
+* Live Reactions
+* AI Highlights
+* Replay Generation
+* Adaptive Bitrate
+* Local Recording Backup
+
+---
+
+# Creator Features
+
+Verified creators unlock
+
+* Scheduled Live
+* Multi-camera Live
+* Replay Editor
+* Event Branding
+* Audience Analytics
+* Venue Collaboration
+* Ticket Promotion
+* Sponsored Moments
+
+---
+
+# Performance Targets
+
+* Launch <250 ms
+* 60 FPS preview
+* 120 FPS UI animations (supported devices)
+* GPU acceleration
+* Native hardware encoding
+* Battery optimization
+* Thermal management
+* Background uploads
+* Crash recovery
+
+---
+
+# Complete Camera Ecosystem
+
+```text
+Camera
+│
+├── Photo
+├── Video
+├── Live
+│
+├── Venue Intelligence
+├── Event Intelligence
+├── AI Scene Recognition
+├── Sound Aware
+├── AI Processing
+├── Ripple Engine
+│
+├── Studio
+│   ├── Looks
+│   ├── Templates
+│   ├── Effects
+│   ├── Audio
+│   ├── Dual Shot
+│   └── Settings
+│
+├── Moment Preview
+├── Publish Engine
+├── Upload Queue
+└── Creator Tools
+```
+
+# Final Vision
+
+The FOMO Camera should feel invisible. Users open it and immediately start capturing without thinking about settings, tagging, or workflow. The interface surfaces only the essentials: venue context, location-sharing preference, Flash, Studio, zoom, and capture controls. Everything else—from venue detection and event association to AI enhancement, music awareness, and publishing—is handled intelligently in the background, delivering a camera purpose-built for nightlife that remains as approachable as a default smartphone camera. 

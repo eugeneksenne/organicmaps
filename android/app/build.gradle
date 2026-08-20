@@ -72,6 +72,11 @@ android {
     println('VersionCode: ' + versionCode)
     applicationId rootProject.ext.appId
     buildConfigField 'String', 'SUPPORT_MAIL', '"android@organicmaps.app"'
+    // Optional online provider key. Supply FOURSquare_API_KEY in the environment or Gradle property;
+    // never commit provider credentials.
+    def foursquareKey = (findProperty('FOURSQUARE_API_KEY') ?: System.getenv('FOURSQUARE_API_KEY') ?: '').toString()
+        .replace('\\', '\\\\').replace('"', '\\"')
+    buildConfigField 'String', 'FOURSQUARE_API_KEY', '"' + foursquareKey + '"'
     buildConfigField 'String', 'FOMO_SUPABASE_URL', '"' + fomoClientValue('FOMO_SUPABASE_URL') + '"'
     buildConfigField 'String', 'FOMO_SUPABASE_ANON_KEY', '"' + fomoClientValue('FOMO_SUPABASE_ANON_KEY') + '"'
     buildConfigField 'String', 'FOMO_SOCKET_URL', '"' + fomoClientValue('FOMO_SOCKET_URL') + '"'

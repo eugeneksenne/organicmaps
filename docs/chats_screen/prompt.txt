@@ -1,0 +1,199 @@
+You are working autonomously on the Chats system of my FOMO Android application via 
+a connected local MCP tool (shell/terminal access to my Windows machine). This is a 
+real device debugging session — never fabricate, assume, or report success without 
+verifying it through actual tool output.
+
+STEP 0 — CONFIRM CAPABILITIES (do this before anything else)
+- List the MCP tools/connectors currently available to you.
+- Confirm you have a working shell/terminal tool that can execute commands on 
+  D:\Android-fomo-main and run `adb`. If no such tool is available or connected, 
+  stop immediately and tell me exactly what's missing — do not simulate, describe, 
+  or assume command output.
+- Run a trivial sanity command first (e.g. `echo test` or `dir D:\Android-fomo-main`) 
+  and show me the raw result, to confirm the connector is actually live before 
+  proceeding.
+
+PROJECT CONTEXT
+- Project root: D:\Android-fomo-main
+- Stack: Kotlin Multiplatform (KMP), shared business logic across Android (Jetpack 
+  Compose) and iOS (SwiftUI) — NOT Android-only, treat shared modules accordingly
+- Backend: Supabase (Postgres + Auth), Redis, Railway deployment
+- Media: Telegram Bot API integration (bot-as-admin posting to a single private 
+  channel) — NOT MTProto, NOT a local Bot API server
+- Build: Gradle | Language: Kotlin | UI: Jetpack Compose
+
+⚠️ SCOPE REALITY CHECK — READ BEFORE STARTING
+This task covers 24 production categories (below), several of which are genuinely 
+large subsystems on their own — E2E encryption, adaptive-bitrate WebRTC calling, 
+horizontal-scale infrastructure, offline conflict resolution. You will NOT complete 
+all 24 to true production depth in one session, and pretending otherwise produces 
+exactly what I don't want: shallow or mocked implementations wearing a "done" label.
+So the rule for this session is:
+- Work through categories in the priority order given below.
+- For each category, first determine via actual code inspection whether it already 
+  exists, partially exists, or doesn't exist — do not assume from any prior spec 
+  or plan doc.
+- Only mark a category "done" when you have real evidence (see Definition of Done 
+  per category, below). If you run out of session time before finishing all 24, 
+  STOP and give me an honest status report of exactly which categories are 
+  verified-done, which are partially implemented, and which are untouched — do not 
+  imply broader completion than what you actually verified.
+- If a category is too large to complete in this session, implement the smallest 
+  real (non-mocked) vertical slice of it rather than a stub, and say so explicitly.
+
+TASK: FOMO CHATS SYSTEM — FULL PRODUCTION BUILD-OUT
+
+Reference document: FOMO_chats_screen.txt (24-category production-readiness spec)
+
+Core principle from the spec (keep this as the north star, not a checklist to pad):
+FOMO is a social discovery platform first. Chats should feel as fast, reliable, and 
+unshowy as WhatsApp/Telegram/iMessage — the win condition is speed and reliability, 
+not maximum feature surface. Don't add complexity for its own sake.
+
+PRIORITY ORDER FOR THIS SESSION (work top to bottom; don't skip ahead)
+1. Communication Engine — one unified messaging engine for 1:1, group, venue, 
+   event, NightGuard, and Buddy Pair conversations. Verify no duplicate/parallel 
+   messaging paths exist before adding new conversation types onto it.
+2. Conversation Types — Personal, Group, Venue, Event Organizer, Business 
+   (verified venues), Temporary NightGuard.
+3. Message Lifecycle — every message must pass through explicit states (Draft → 
+   Queued → Encrypt → Uploading → Sending → Sent → Delivered → Read → 
+   Edited/Deleted/Recovered/Expired). No state-skipping.
+4. Realtime Engine — typing, recording, online, seen, delivered, edits, deletes, 
+   story views, call invitations, presence, location, venue status — all via 
+   Supabase Realtime, no manual refresh anywhere.
+5. Offline Engine — full conversation caching, offline search, queue replay, 
+   conflict resolution, automatic merge, background sync.
+6. Rich Message Types — text, emoji, GIF, stickers, voice, image, video, audio, 
+   PDF, ZIP, contact, current/live location, venue card, event card, ticket QR, 
+   Flash Drop, shared profile/moment/route.
+7. Premium Composer — growing input, @mentions, emoji/sticker search, voice 
+   recording, media drag-drop, clipboard detection, URL preview, draft recovery, 
+   undo send.
+8. Media Engine — background/chunked uploads with pause/resume/retry, HEIC 
+   conversion, image compression, video transcoding, thumbnails, previews, 
+   duplicate detection, storage cleanup, Telegram sync, MinIO cache.
+9. Smart Chat Categories — automatic sorting into Pinned/Unread/Personal/Groups/
+   Venues/Businesses/Archived with zero manual organization required.
+10. Venue Integration — venue chat actions (Open Lobby, Route, Reserve, Website, 
+    Flash Drops, Live crowd, Share venue/with group).
+11. Event Integration — invitation share, invite friends, Going status, meeting 
+    point, countdown, ticket sharing, route.
+12. NightGuard Integration — Safety Check, Walk Me Home, Buddy Pair, emergency 
+    alert, trusted contacts, live location, arrival confirmation, launchable from 
+    chat with one tap.
+13. Story Integration — story reply/react opens chat; share venue/event/moment/
+    profile flows into messaging.
+14. Groups — role hierarchy (Owner/Admin/Moderator/Member/Guest-future), 
+    permissions, approve/mute members, delete messages, announcements, pinned 
+    posts, media permissions, invite links, QR join.
+15. Search Engine — one global index across users, messages, groups, venues, 
+    events, files, voice notes, photos, videos, links, documents, profiles.
+16. Storage Management — per-type breakdown (images/videos/voice/documents), 
+    largest chats/groups, cache, downloads, one-tap cleanup.
+17. Notification Engine — priority-aware, smart batching, silent chats, mentions, 
+    reactions, missed calls, venue/event/NightGuard/Flash Drop alerts.
+18. Call Engine — adaptive bitrate, packet loss recovery, echo cancellation, noise 
+    suppression, Bluetooth switching, PiP, background continuation, network 
+    handover, battery optimization, auto-reconnect, call diagnostics.
+19. Security — E2E encryption for personal messages, encrypted media keys, device 
+    verification, rate limiting, spam detection, abuse reporting, malware scanning 
+    on attachments, key rotation, remote logout, session management.
+20. Accessibility — dynamic fonts, VoiceOver/TalkBack, large touch targets, color 
+    contrast, reduced motion, haptic feedback, keyboard navigation.
+21. Performance Targets — see explicit budgets below.
+22. Scalability — stateless services, Redis caching, BullMQ queues, Supabase 
+    Realtime, Socket.IO clustering, horizontal scaling, Postgres partitioning, 
+    regional media storage, graceful degradation, zero-downtime deploys.
+23. AI Optimization (invisible) — preload likely conversations, predict frequent 
+    contacts, adapt media quality to network speed, prioritize active-chat sync, 
+    intelligent battery use, auto-recover failed messages. No user-facing AI 
+    assistant UI — this must be invisible.
+24. FOMO Ecosystem Integration — share venues from Map, events from Discover, 
+    Moments from Feed, launch NightGuard from chat, open Club Lobbies from venue 
+    cards, share routes via Route Engine, invite to Flash Drops with rich previews.
+
+PERFORMANCE TARGETS (verify with real measurement, not estimation)
+- App launch → Chats ready: <500ms
+- Chat list render: <80ms
+- Conversation open: <100ms
+- Send acknowledgement: <30ms
+- Typing indicator latency: <50ms
+- Story open: <80ms
+- Call setup: <1.5s
+- 60–120 FPS scrolling
+Measure via `adb shell dumpsys gfxinfo <package>`, logcat timestamps around the 
+relevant calls, or in-app instrumentation timers — not by reading code and 
+estimating. If you can't measure something with available tooling, say so rather 
+than reporting an estimated number as if measured.
+
+ENVIRONMENT CHECK (after Step 0 passes)
+1. Run `adb devices` and confirm exactly one authorized device is listed. If zero 
+   devices or status "unauthorized"/"offline," stop and report the raw output.
+2. Confirm Android SDK, Gradle wrapper, and JDK versions match what the project 
+   expects (gradle.properties, gradle-wrapper.properties, build.gradle.kts). Flag 
+   mismatches before building.
+
+WORKFLOW PER CATEGORY (repeat for each category in priority order; paste actual 
+command + actual raw output at every step)
+1. Inspect the current implementation of the category (existing chat modules, 
+   ViewModels, repositories, Supabase schema/tables involved). Do not assume 
+   anything from the spec doc reflects current reality — it's a target, not a 
+   status report.
+2. If something is broken or missing, identify root cause / actual gap before 
+   writing code.
+3. Build via existing Gradle config only (`gradlew.bat assembleDebug` on Windows) — 
+   don't modify build scripts unless the failure is genuinely in the build config.
+4. If the build fails: show the actual error, diagnose the real cause, fix it, 
+   rebuild. Never stub failing code just to make it compile.
+5. Install the debug APK via ADB. Confirm install succeeded from actual exit 
+   code/output.
+6. Launch the app, navigate to the relevant Chats surface.
+7. Exercise the specific behavior via UI automation (uiautomator dump, 
+   `adb shell input tap/text/swipe`) and, where relevant, a second device/account 
+   to test realtime/delivery behavior between two real users.
+8. Screenshot relevant states via `adb shell screencap` and pull locally.
+9. Pull logcat filtered to the app's package; inspect for exceptions/ANRs/the 
+   specific behavior in question.
+10. Only after 7-9 produce real evidence, mark the category done in your report. 
+    Otherwise mark it partial/blocked and state exactly what's missing.
+
+HARD CONSTRAINTS
+- Don't replace working FOMO architecture unless the task explicitly requires it.
+- Don't create mock/fake data or stub implementations where a real backend call, 
+  Supabase query, or Telegram integration already exists and is reachable. This 
+  applies to every one of the 24 categories — e.g. "realtime typing indicator" 
+  must use a real Supabase Realtime channel, not a local timer simulating it.
+- Preserve existing navigation, auth, database, realtime, and engine architecture.
+- Inspect a subsystem's current implementation before touching it.
+- If you're about to write "should work" or "this should fix it" without having 
+  actually run and observed it — stop and run it instead.
+- If any MCP tool call fails or returns an auth error mid-task, say so explicitly 
+  rather than continuing on stale assumptions.
+- Do not silently narrow scope (e.g. quietly skipping Security or Scalability 
+  because they're hard) — if you're deprioritizing or skipping a category this 
+  session, say so explicitly in the report.
+
+DEFINITION OF DONE — PER CATEGORY
+A category is only "done," not "attempted," when:
+1. Confirmed zero mock/placeholder data via grep + manual read of touched code
+2. Relevant UI states (loading/empty/error/populated, where applicable) 
+   screenshotted
+3. Realtime-dependent behavior demonstrated across two real clients/accounts with 
+   logcat/network evidence, where the category involves realtime behavior
+4. No crash under basic rapid-interaction and airplane-mode stress test for the 
+   touched surface
+5. Any performance target claimed for this category actually measured, not estimated
+
+END-OF-SESSION REPORT (mandatory, even if session is cut short)
+- Category-by-category status: Done (with evidence) / Partial (what's missing) / 
+  Not started
+- What I inspected (files/commands, raw findings)
+- What I changed (actual diffs)
+- Build result (command + raw output/exit status)
+- Install result (command + raw output)
+- Device test evidence per category touched (screenshots + logcat excerpts)
+- Performance numbers actually measured vs. targets
+- Explicit list of anything mocked, stubbed, or deferred, and why
+- Remaining problems / open questions / recommended next-session priority
+

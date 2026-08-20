@@ -1,0 +1,918 @@
+# FOMO Map Screen UI/UX Design Specification
+
+## Billion-Dollar Standard (Version 3.0)
+
+> ## Product Vision
+>
+> The FOMO Map is **not** a navigation app.
+>
+> It is the **live operating system of the city's social energy.**
+>
+> Unlike traditional maps that show roads and places, the FOMO Map visualizes **where life is happening right now.**
+>
+> Within five seconds, every user should know:
+>
+> * Where should I go?
+> * What's happening nearby?
+> * What's worth visiting?
+> * How do I get there?
+>
+> The experience should feel alive every second.
+
+---
+
+# Design Philosophy
+
+The Map should feel like a fusion of
+
+* Apple Maps
+* Uber
+* Tesla
+* Spotify
+* Airbnb
+
+while remaining unmistakably **FOMO**.
+
+The experience must be
+
+* Live
+* Premium
+* Beautiful
+* Intelligent
+* Minimal
+* Context-aware
+* One-handed
+* Fast
+
+Every animation should communicate activity.
+
+Every interaction should reduce friction.
+
+---
+
+# Screen Hierarchy
+
+```text
+Header
+
+↓
+
+Category Filters
+
+↓
+
+Nearest Venue Card
+
+↓
+
+Interactive Live Map
+
+↓
+
+Nearby Venue Cards Carousel
+
+↓
+
+Bottom Navigation
+```
+
+Each layer has a clear visual priority.
+
+---
+
+# Screen Layout
+
+```text
+┌──────────────────────────────────────────────┐
+│ Status Bar                                   │
+├──────────────────────────────────────────────┤
+│ Header                                       │
+├──────────────────────────────────────────────┤
+│ Category Filters                             │
+├──────────────────────────────────────────────┤
+│ Nearest Venue Card                           │
+├──────────────────────────────────────────────┤
+│                                              │
+│             Interactive Live Map             │
+│                                              │
+│                    Floating Actions          │
+│                                              │
+├──────────────────────────────────────────────┤
+│ Nearby Venue Cards Carousel                  │
+├──────────────────────────────────────────────┤
+│ Bottom Navigation                            │
+└──────────────────────────────────────────────┘
+```
+
+---
+
+# Theme
+
+## Background
+
+Deep black.
+
+The city should feel cinematic.
+
+---
+
+## Accent Colours
+
+Purple
+
+Nightlife
+
+Blue
+
+Prep
+
+Orange
+
+Food
+
+Green
+
+Wellness
+
+Cyan
+
+Travel
+
+Pink
+
+Live Broadcast
+
+---
+
+## Card Style
+
+Every card uses
+
+* Glassmorphism
+* Frosted blur
+* Semi-transparent background
+* 20dp radius
+* Thin purple outline
+* Soft shadow
+* Floating appearance
+
+---
+
+# Header
+
+Height
+
+**88dp**
+
+---
+
+## Left
+
+### Profile
+
+Circular avatar.
+
+Tap opens Profile.
+
+---
+
+### FOMO Score
+
+```text
+🔥 92%
+
+FOMO Score
+```
+
+Always visible.
+
+Tapping opens the score breakdown.
+
+---
+
+## Right
+
+Three floating buttons.
+
+* Search
+* Notifications
+* Chats
+
+Glass style.
+
+Equal spacing.
+
+---
+
+# Category Filters
+
+Horizontal scrolling chips.
+
+```text
+All
+
+Nightlife
+
+Food
+
+Prep
+
+Wellness
+
+Travel
+```
+
+---
+
+## Active
+
+Purple gradient.
+
+---
+
+## Inactive
+
+Glass outline.
+
+---
+
+## Behaviour
+
+Changing a category instantly updates
+
+* Nearest Venue Card
+* Interactive Live Map
+* Venue Pins
+* Nearby Venue Cards Carousel
+* Search Results
+
+No loading screen.
+
+Only animated transitions.
+
+---
+
+# Nearest Venue Card
+
+The **Nearest Venue Card** is the hero component of the screen.
+
+It always displays the nearest venue for the currently selected category.
+
+Approximate height
+
+**260dp**
+
+---
+
+## Layout
+
+### Left
+
+Large hero image
+
+Top badge
+
+```text
+HOT TONIGHT
+```
+
+Bottom chips
+
+* Genre
+* Drinks
+* Age Restriction
+
+---
+
+### Right
+
+Section label
+
+```text
+NEAREST VENUE
+```
+
+Displays
+
+* Venue Name
+* Verification Badge
+* Venue Category
+* Address
+* Walking Distance
+* Open Status
+* Trading Hours
+* Rating
+* Reviews
+
+---
+
+## FOMO Score
+
+Displayed in the top-right corner.
+
+```text
+🔥 92%
+```
+
+---
+
+## Actions
+
+### Primary
+
+Route
+
+Purple gradient button.
+
+---
+
+### Secondary
+
+Club Lobby
+
+Outlined button.
+
+---
+
+## Behaviour
+
+Selecting another venue from the map or carousel instantly updates the Nearest Venue Card with a smooth crossfade animation.
+
+---
+
+# Interactive Live Map
+
+The Interactive Live Map is the heart of the experience.
+
+Occupies approximately **45–50%** of the screen.
+
+Unlike traditional navigation apps, it visualizes **live social activity**, not just roads and locations.
+
+---
+
+## Map Style
+
+* Dark custom map
+* Minimal labels
+* Soft building outlines
+* Purple ambient glow
+* Reduced clutter
+
+---
+
+## User Location
+
+Blue glowing location indicator.
+
+Soft ripple animation every few seconds.
+
+---
+
+# Venue Pins
+
+Venue pins are living objects.
+
+Each pin contains
+
+* Hero image
+* Category colour
+* Pointer
+* FOMO Score badge
+* Animated glow ring
+
+---
+
+## Colour System
+
+Purple
+
+Nightlife
+
+Blue
+
+Prep
+
+Orange
+
+Food
+
+Green
+
+Wellness
+
+Cyan
+
+Travel
+
+Pink
+
+Live Broadcast
+
+---
+
+## Selected Pin
+
+When selected
+
+* Enlarges
+* Glow intensifies
+* Slow breathing animation
+* Map centers on the venue
+* Nearest Venue Card updates
+* Nearby Venue Cards Carousel synchronizes
+
+---
+
+# Live Broadcast Pins
+
+Separate from venue pins.
+
+Display
+
+* LIVE badge
+* Animated pulse
+* Live indicator
+
+Tapping instantly joins the broadcast.
+
+---
+
+# Floating Action Stack
+
+Positioned on the right side of the Interactive Live Map.
+
+Uses floating glass buttons with equal spacing and soft elevation.
+
+Contains three primary actions.
+
+```text
+＋ Add Venue
+
+🛡 Night Guard
+
+◎ Recenter
+```
+
+The controls remain accessible while panning, zooming, or exploring the map.
+
+---
+
+# Add Venue
+
+## Purpose
+
+Allows users to add venues that are not currently available on the FOMO Map, helping expand the venue database through community contributions.
+
+---
+
+## Behaviour
+
+Tapping **Add Venue** launches the dedicated **FOMO Add Venue** workflow.
+
+The complete user flow, validation, moderation process, and submission experience are defined in the **FOMO Add Venue Specification**.
+
+The Map screen serves only as the entry point.
+
+---
+
+## Integration
+
+Approved venues automatically become available throughout the FOMO ecosystem, including:
+
+* Discover
+* Map
+* Search
+* Club Lobby
+* Creator Studio (when claimed)
+* Events
+* Flash Drops
+
+---
+
+# Night Guard
+
+## Purpose
+
+Provides users with access to FOMO's dedicated nightlife safety platform.
+
+---
+
+## Behaviour
+
+Tapping **Night Guard** launches the dedicated **FOMO Night Guard** experience.
+
+All safety tools, emergency features, trusted contacts, reporting, and additional capabilities are defined in the **FOMO Night Guard Specification**.
+
+The Map screen serves only as the entry point.
+
+---
+
+# Recenter
+
+Returns the map camera to the user's live location.
+
+---
+
+## Behaviour
+
+### Tap
+
+* Center on user
+* Maintain current zoom level
+
+### Long Press
+
+* Center on user
+* Rotate map to match device heading (if enabled)
+
+---
+
+# Nearby Venue Cards Carousel
+
+Located at the bottom of the map.
+
+Behaves as an extension of the Interactive Live Map rather than a separate section.
+
+The map remains interactive while the carousel is visible.
+
+---
+
+## Section Header
+
+Updates dynamically based on the selected category.
+
+Examples
+
+```text
+Nightlife Nearby
+```
+
+```text
+Food Nearby
+```
+
+```text
+Prep Nearby
+```
+
+```text
+Wellness Nearby
+```
+
+```text
+Travel Nearby
+```
+
+Right action
+
+```text
+See All →
+```
+
+---
+
+## Card Layout
+
+Each venue card displays
+
+* Hero Image
+* FOMO Score
+* Venue Name
+* Verification Badge
+* Venue Category
+* Rating
+* Review Count
+* Distance
+* Open Status
+* Primary Actions
+
+---
+
+## Actions
+
+Outlined
+
+```text
+Lobby
+```
+
+Filled
+
+```text
+Route
+```
+
+---
+
+## Selection Behaviour
+
+Selecting a Nearby Venue Card
+
+↓
+
+Map centers on the venue
+
+↓
+
+Venue pin enlarges
+
+↓
+
+Nearest Venue Card updates
+
+↓
+
+Selected card receives a glowing purple border
+
+---
+
+# Synchronization
+
+Every interaction remains synchronized.
+
+## Selecting a Venue Pin
+
+Updates
+
+* Nearest Venue Card
+* Nearby Venue Cards Carousel
+* Selected Marker
+
+---
+
+## Selecting a Nearby Venue Card
+
+Updates
+
+* Selected Marker
+* Nearest Venue Card
+* Map Camera
+
+---
+
+## Changing Categories
+
+Updates
+
+* Nearest Venue Card
+* Venue Pins
+* Nearby Venue Cards Carousel
+* Search Context
+
+No screen reload.
+
+---
+
+# Bottom Navigation
+
+Five primary tabs.
+
+```text
+Discover
+
+Feed
+
+Camera
+
+Map
+
+Chats
+```
+
+---
+
+## Camera
+
+Largest floating button.
+
+Purple glow.
+
+---
+
+## Active Tab
+
+Purple icon.
+
+---
+
+## Inactive Tabs
+
+Grey.
+
+---
+
+# Motion Design
+
+Nothing should feel static.
+
+---
+
+## Nearest Venue Card
+
+* Slide transition
+* Crossfade content
+* Spring animation
+
+---
+
+## Venue Pins
+
+Idle
+
+* Soft glow
+* Gentle breathing animation
+
+Selected
+
+* Scale
+* Glow
+* Subtle bounce
+
+---
+
+## Carousel
+
+* Snap scrolling
+* Momentum physics
+
+---
+
+## Route Button
+
+Soft pulse animation.
+
+---
+
+## User Location
+
+Continuous ripple animation.
+
+---
+
+# Haptics
+
+### Light
+
+* Selecting venue
+* Carousel interaction
+
+### Medium
+
+* Club Lobby
+* Route
+
+### Heavy
+
+* Navigation started
+
+---
+
+# Spacing
+
+Outer margin
+
+24dp
+
+Card padding
+
+20dp
+
+Button spacing
+
+16dp
+
+Section spacing
+
+24dp
+
+---
+
+# Typography
+
+Venue Name
+
+32sp
+
+Section Labels
+
+12sp
+
+Body
+
+16sp
+
+Metadata
+
+14sp
+
+Button Text
+
+16sp
+
+---
+
+# Loading Experience
+
+Load progressively.
+
+1. Base map
+2. User location
+3. Venue pins
+4. Nearest Venue Card
+5. Nearby Venue Cards Carousel
+
+Skeleton placeholders are displayed only for cards.
+
+The map becomes interactive immediately.
+
+---
+
+# Empty State
+
+```text
+Nothing exciting nearby.
+
+Try expanding your search radius
+or explore another district.
+```
+
+Primary action
+
+```text
+Explore City
+```
+
+---
+
+# Accessibility
+
+* WCAG AA colour contrast
+* Dynamic font sizing
+* Screen reader support
+* Minimum 48×48dp touch targets
+* Reduced motion support
+* High-contrast mode
+
+---
+
+# Responsive Behaviour
+
+## Compact Phones
+
+* Shorter Nearest Venue Card
+* Narrower carousel cards
+* Reduced floating action spacing
+
+---
+
+## Large Phones
+
+* Taller map
+* Larger Nearest Venue Card
+* Wider carousel
+
+---
+
+## Tablets
+
+* Nearest Venue Card docks to the left
+* Interactive Live Map expands
+* Nearby Venue Cards Carousel spans the bottom
+
+---
+
+# Complete User Journey
+
+```text
+Open Map
+        │
+        ▼
+View Nearest Venue
+        │
+        ▼
+Explore Interactive Live Map
+        │
+        ▼
+Browse Nearby Venue Cards
+        │
+        ▼
+Select Venue
+        │
+        ├───────────────┐
+        ▼               ▼
+   Club Lobby       Route
+        │               │
+        └───────┬───────┘
+                ▼
+        Arrive at Venue
+                │
+                ▼
+        Capture a Moment
+                │
+                ▼
+        Share on FOMO
+```
+
+# Final Experience
+
+The FOMO Map should make users feel connected to the city's energy the moment it opens. The **Nearest Venue Card** immediately highlights the closest destination, the **Interactive Live Map** visualizes activity across the city, and the **Nearby Venue Cards Carousel** enables seamless exploration while staying synchronized with the map. The streamlined **Floating Action Stack**—**Add Venue**, **Night Guard**, and **Recenter**—keeps the interface focused while integrating with dedicated specifications for venue submissions and nightlife safety. Every animation, glow, transition, and interaction should reinforce a single goal: helping users confidently discover where to go next while making the city feel alive in real time.

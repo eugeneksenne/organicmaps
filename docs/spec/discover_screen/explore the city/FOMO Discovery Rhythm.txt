@@ -1,0 +1,256 @@
+## FOMO Discovery Rhythm
+
+Don't think of Explore as static.
+
+Think of it as **following the city's rhythm**.
+
+The order of discovery worlds changes automatically based on:
+
+* Time of day
+* Day of week
+* Public holidays
+* Local events
+* User location
+* Seasonal trends (future)
+
+---
+
+# 🌅 Morning (05:00–10:59)
+
+People are getting ready for the day.
+
+```text
+✨ Prep
+
+🌿 Wellness
+
+🍽 Food
+
+✈️ Travel
+
+🕒 24/7
+
+🌙 Nightlife
+```
+
+Hero message:
+
+> Good morning ☀️
+> Start your day or plan tonight.
+
+---
+
+# ☀️ Afternoon (11:00–16:59)
+
+People are meeting for lunch, shopping, or planning the evening.
+
+```text
+🍽 Food
+
+✨ Prep
+
+✈️ Travel
+
+🌿 Wellness
+
+🕒 24/7
+
+🌙 Nightlife
+```
+
+Hero:
+
+> Discover what's happening later today.
+
+---
+
+# 🌇 Evening (17:00–20:59)
+
+The city starts coming alive.
+
+```text
+🌙 Nightlife
+
+🍽 Food
+
+🌇 Rooftops
+
+🎰 Casinos
+
+✨ Prep
+
+🕒 24/7
+
+🌿 Wellness
+```
+
+This is when FOMO becomes a nightlife app.
+
+Nightlife should dominate.
+
+---
+
+# 🌃 Night (21:00–01:59)
+
+Peak hours.
+
+```text
+🌙 Nightlife
+
+🎰 Casinos
+
+🍽 Food
+
+🕒 24/7
+
+🌇 Rooftops
+
+🌿 Wellness
+
+✈️ Travel
+```
+
+Everything prioritizes places still open.
+
+---
+
+# 🌙 Late Night (02:00–04:59)
+
+The city is winding down.
+
+```text
+🕒 24/7
+
+🍽 Food
+
+🎰 Casinos
+
+🌿 Wellness
+
+🌙 Nightlife
+```
+
+Now users want:
+
+Late food
+
+Coffee
+
+Casinos
+
+Places still open
+
+Recovery
+
+---
+
+# Dynamic Card Ranking
+
+Not only should the **sections** reorder, but the **venues inside them** should as well.
+
+For example:
+
+At **9 AM**:
+
+```text
+🍽 Food
+
+Open for Breakfast
+
+☕ Father Coffee
+
+🥐 Tashas
+
+🥯 Seattle Coffee
+```
+
+At **8 PM**:
+
+```text
+🍽 Food
+
+Dinner Tonight
+
+🍣 Marble
+
+🍝 Saint
+
+🥩 The Grillhouse
+```
+
+At **2 AM**:
+
+```text
+🍽 Food
+
+Still Open
+
+🍔 McDonald's
+
+🌮 Late Bite
+
+🌯 KFC 24/7
+```
+
+The same category feels completely different depending on the time.
+
+---
+
+# Nightlife Intelligence
+
+Nightlife should have its own internal ranking.
+
+At **3 PM**
+
+```text
+Opening Tonight
+
+Opens in 3 hours
+
+Tonight's DJs
+
+Book a table
+```
+
+At **9 PM**
+
+```text
+Open Now
+
+Peak Energy
+
+Live DJ
+
+No Cover Before 10 PM
+```
+
+At **1 AM**
+
+```text
+Still Open
+
+Closing at 4 AM
+
+Afterparty
+
+Late Entry Available
+```
+
+The venue hasn't changed—but the information presented has.
+
+---
+
+# The FOMO Clock
+
+This could become one of the app's signature systems.
+
+Every part of Discover adapts to the city's daily rhythm:
+
+* The order of discovery worlds changes.
+* The hero messaging changes.
+* Category artwork shifts from daylight to nightlife.
+* Venue rankings update based on relevance.
+* Search suggestions become time-aware (e.g., "Breakfast near me" in the morning, "Cocktail bars" in the evening).
+* Heatmaps emphasize lunch districts by day and nightlife districts by night.
+
+Users may not consciously notice these changes, but they'll consistently feel that **FOMO always knows what they're looking for**. That's the hallmark of a premium product: the interface quietly adapts to the user's context instead of asking them to do the work.

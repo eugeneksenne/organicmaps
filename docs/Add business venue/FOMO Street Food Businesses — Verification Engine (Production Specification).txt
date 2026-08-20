@@ -1,0 +1,552 @@
+FOMO Street Food Businesses — Verification Engine (Production Specification)
+
+Product Vision
+
+FOMO believes great food isn't defined by a building.
+
+The best meal in the city could come from:
+
+a kota stand
+
+a food truck
+
+a market stall
+
+a weekend pop-up
+
+a roadside braai
+
+a bunny chow vendor
+
+a festival food tent
+
+a container kitchen
+
+Street food deserves the same visibility and trust as traditional restaurants.
+
+Every food business can join FOMO.
+
+Anyone can discover them.
+
+Anyone can support them.
+
+Verification builds trust.
+
+Business Model
+
+Create Business
+
+FREE
+
+Anyone can add their street food business.
+
+No payment required.
+
+Business immediately appears on FOMO as:
+
+Unverified
+
+Verify Business
+
+One-time Verification Fee
+
+R50
+
+Never pay again.
+
+No subscriptions.
+
+No monthly fees.
+
+No annual renewal.
+
+One payment.
+
+Permanent verification (unless revoked for fraud or policy violations).
+
+Supported Business Types
+
+Users choose one.
+
+Street Food Stall
+
+Permanent roadside stand.
+
+Examples
+
+Kota
+
+Vetkoek
+
+Bunny Chow
+
+Boerewors Roll
+
+Chips
+
+Pap & Meat
+
+Food Truck
+
+Mobile vehicle.
+
+Can update location.
+
+Market Stall
+
+Weekend markets.
+
+Farmers markets.
+
+Night markets.
+
+Pop-up Kitchen
+
+Temporary businesses.
+
+Shopping centres.
+
+Events.
+
+Festivals.
+
+Festival Vendor
+
+Music festivals.
+
+Sport events.
+
+Concerts.
+
+Nightlife events.
+
+Container Kitchen
+
+Converted shipping container.
+
+Permanent location.
+
+Braai Stand
+
+Outdoor grill.
+
+Shisanyama.
+
+BBQ.
+
+Mobile Cart
+
+Push cart.
+
+Ice cream.
+
+Coffee cart.
+
+Snack cart.
+
+Create Business Flow
+
+Step 1
+
+Business Name
+
+Step 2
+
+Business Type
+
+Choose one.
+
+Step 3
+
+Cuisine
+
+Examples
+
+South African
+
+Kota
+
+Braai
+
+Fast Food
+
+Burgers
+
+Chicken
+
+Seafood
+
+Vegan
+
+Desserts
+
+Coffee
+
+Pizza
+
+Mexican
+
+Indian
+
+Ethiopian
+
+Nigerian
+
+Chinese
+
+Middle Eastern
+
+Multiple allowed.
+
+Step 4
+
+Location
+
+Choose:
+
+○ Permanent
+
+○ Mobile
+
+If Permanent
+
+Pin location on map.
+
+If Mobile
+
+Set default operating area.
+
+Example
+
+Sandton
+
+Soweto
+
+Pretoria CBD
+
+Braamfontein
+
+Step 5
+
+Business Hours
+
+Example
+
+Friday
+
+18:00–03:00
+
+Saturday
+
+12:00–04:00
+
+Step 6
+
+Photos
+
+Upload
+
+Cover photo
+
+Food
+
+Menu
+
+Stall
+
+Cooking area
+
+Step 7
+
+Menu
+
+Example
+
+Large Kota — R55
+
+Cheese Burger — R70
+
+Boerewors Roll — R45
+
+Cold Drink — R20
+
+Step 8
+
+Contact
+
+Phone
+
+WhatsApp
+
+Instagram
+
+Facebook
+
+TikTok
+
+Step 9
+
+Finish
+
+Business goes live.
+
+Status
+
+Unverified Street Food Business
+
+Verification Engine
+
+Businesses press
+
+Verify Business
+
+Verification Fee
+
+R50
+
+One-time payment.
+
+Verification Requirements
+
+The owner must complete at least one of the following:
+
+✓ SMS OTP
+
+✓ WhatsApp OTP
+
+✓ Email OTP
+
+
+Once the one-time password (OTP) is successfully verified and the R50 verification fee is paid, the business becomes:
+
+✓ Verified
+
+No paperwork.
+
+No permits.
+
+No business registration.
+
+No manual document review.
+
+Verification confirms control of the business contact details, not legal licensing.
+
+After Verification
+
+Business receives:
+
+✅ Verified Badge
+
+✅ Priority Search Ranking
+
+✅ Eligible for AI Recommendations
+
+✅ Business Dashboard
+
+✅ Customer Reviews
+
+✅ Reply to Reviews
+
+✅ Promotions
+
+✅ Flash Deals
+
+✅ Live Queue Status
+
+✅ Business Analytics
+
+✅ Featured in "Trending Food"
+
+✅ Featured in "Near You"
+
+✅ Featured during events
+
+Business Dashboard
+
+Verified vendors unlock a professional dashboard.
+
+Home
+
+Today's views
+
+Today's favourites
+
+Navigation requests
+
+Customer actions
+
+Orders (Future)
+
+Incoming food orders.
+
+Pickup.
+
+Delivery integrations.
+
+Flash Deals
+
+Examples
+
+Buy One Get One
+
+20% Off
+
+Free Drink
+
+Student Special
+
+Late Night Special
+
+Analytics
+
+Visitors
+
+Popular dishes
+
+Peak hours
+
+Customer demographics
+
+Repeat customers
+
+Conversion rate
+
+Reviews
+
+Customer ratings
+
+Photos
+
+Replies
+
+Report abuse
+
+Photos
+
+Manage gallery.
+
+Menu
+
+Edit pricing.
+
+Add items.
+
+Mark items sold out.
+
+Live Status
+
+Open
+
+Busy
+
+Very Busy
+
+Closing Soon
+
+Closed
+
+Sold Out
+
+Location
+
+For mobile vendors:
+
+Start sharing live location.
+
+Stop sharing location.
+
+Update operating area.
+
+Customer Experience
+
+When users open a verified street food profile they see:
+
+Hero photo
+
+⭐ Rating
+
+✓ Verified badge
+
+Business type
+
+Open/Closed status
+
+Live queue (if enabled)
+
+Distance
+
+Cuisine tags
+
+Menu
+
+Photos
+
+Reviews
+
+Flash Deals
+
+Directions
+
+WhatsApp/Call buttons
+
+Save to favourites
+
+Share business
+
+AI Discovery
+
+Verified vendors become eligible for intelligent recommendations such as:
+
+"Popular after midnight"
+
+"Best Kota near you"
+
+"Trending Braai tonight"
+
+"Highly rated street food within 2 km"
+
+"Late-night food open now"
+
+"Festival food nearby"
+
+Search Ranking
+
+Search results prioritize:
+
+Verified businesses
+
+Rating and review quality
+
+Distance
+
+Open now
+
+Live popularity
+
+Recent customer activity
+
+Relevance to the search
+
+Unverified businesses remain discoverable but appear lower when other factors are similar.
+
+Trust & Safety
+
+Verification can be suspended or revoked if a business:
+
+Uses false information
+
+Impersonates another business
+
+Commits payment fraud
+
+Repeatedly violates food safety or platform policies
+
+Receives verified reports of serious misconduct after investigation
+
+This protects customers while preserving the value of the verified badge.
+
+Core Principle
+
+FOMO's Street Food Verification Engine is built on a simple promise:
+
+Every street food business can join FOMO for free. Businesses that choose to verify with a one-time R50 fee unlock trust, visibility, and professional tools—without ever paying a subscription.

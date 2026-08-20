@@ -1,0 +1,399 @@
+﻿FOMO Universal Venue Preview System (Updated)
+
+Product Vision
+
+The Universal Venue Preview System is FOMO's standard interaction model for every venue in the app.
+
+Regardless of where a venue is discovered, users always experience the same premium preview, making the app predictable, fast, and consistent. The layout never changes—only the venue data, imagery, category chips, and contextual actions adapt to the venue type. This builds on the design goal of a lightweight preview that bridges browsing and the full venue profile.
+
+Design Principles
+
+One reusable component across the entire app.
+
+Fast browsing with minimal cognitive load.
+
+Rich information before entering a venue profile.
+
+Context-aware actions.
+
+Consistent animations and interactions.
+
+Premium Apple-quality UI.
+
+Dynamic content based on venue type.
+
+Used Throughout FOMO
+
+The Universal Venue Preview Card is reused in:
+
+Explore the City
+
+Smart Places
+
+Closing Soon
+
+Flash Drops
+
+Trending Now
+
+Search Results
+
+Saved Places
+
+Related Venues
+
+AI Recommendations
+
+Venue recommendations throughout the app
+
+Stage 1 — Browse Card
+
+The default compact card shown in horizontal scrolling lists.
+
+Displays:
+
+Cinematic hero image
+
+Floating ❤️ Reaction button
+
+Venue verification badge
+
+Venue name
+
+Live status
+
+Closing time
+
+Distance
+
+Rating
+
+Review count
+
+One-line address
+
+Dynamic category chips
+
+Opening hours
+
+No action buttons are displayed in this state for fast browsing.
+
+Stage 2 — Universal Venue Preview
+
+Tapping the Browse Card smoothly expands it into the premium Venue Preview.
+
+Displays:
+
+Large cinematic hero image
+
+Floating ❤️ Reaction button
+
+Venue verification badge
+
+Venue name
+
+Live status
+
+Distance
+
+Rating & review count
+
+Address
+
+Dynamic category chips
+
+Opening hours
+
+Two contextual action buttons
+
+The animation expands from the tapped card, blurs the background, and elevates the preview before allowing the user to continue to the full venue profile.
+
+Universal Layout
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Hero Image ❤️ Verified Venue Venue Name ✓ 🟢 Open Now • Closes XX:XX 📍 Distance • ⭐ Rating (Reviews) 📍 Address Dynamic Category Chips Opening Hours Primary Action Secondary Action ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 
+
+The layout remains identical for every venue category.
+
+Dynamic Hero Images
+
+🌙 Nightlife
+
+Hero examples:
+
+DJ booth
+
+Dance floor
+
+VIP section
+
+Live crowd
+
+Rooftop party
+
+Cocktail bar
+
+🍽 Food
+
+Hero examples:
+
+Signature dish
+
+Restaurant interior
+
+Featured meal
+
+Dessert
+
+Coffee
+
+Chef's special
+
+✨ Prep
+
+Hero examples:
+
+Barber cutting hair
+
+Hair salon
+
+Makeup studio
+
+Nail salon
+
+Fashion boutique
+
+🌿 Recover
+
+Hero examples:
+
+Spa
+
+Massage room
+
+Wellness centre
+
+Ice bath
+
+Recovery lounge
+
+✈️ Travel
+
+Hero examples:
+
+Hotel lobby
+
+Resort
+
+Luxury room
+
+Swimming pool
+
+Reception
+
+Scenic view
+
+🕒 24/7
+
+Hero examples:
+
+Petrol station
+
+Pharmacy
+
+Convenience store
+
+Coffee shop
+
+Fast food
+
+Supermarket
+
+Dynamic Category Chips
+
+Every venue automatically generates chips from its metadata.
+
+🌙 Nightlife
+
+Examples:
+
+Nightclub
+
+DJ
+
+VIP
+
+Dance Floor
+
+Cocktails
+
+Live Music
+
+Rooftop
+
+Lounge
+
+🍽 Food
+
+Examples:
+
+Restaurant
+
+Fast Food
+
+Chicken
+
+Burgers
+
+Pizza
+
+Sushi
+
+Café
+
+Dessert
+
+Takeaway
+
+Family Friendly
+
+✨ Prep
+
+Examples:
+
+Barber
+
+Salon
+
+Makeup
+
+Nails
+
+Beauty
+
+Walk-ins
+
+Premium
+
+Card Payments
+
+🌿 Recover
+
+Examples:
+
+Spa
+
+Massage
+
+Wellness
+
+Ice Bath
+
+Sauna
+
+Physiotherapy
+
+✈️ Travel
+
+Examples:
+
+Hotel
+
+Resort
+
+Pool
+
+Restaurant
+
+Wi-Fi
+
+Conference
+
+Airport Shuttle
+
+🕒 24/7
+
+Examples:
+
+Pharmacy
+
+Filling Station
+
+Convenience Store
+
+Coffee
+
+ATM
+
+Fast Food
+
+Open 24 Hours
+
+Smart Status
+
+Open
+
+🟢 Open Now Closes 04:00 
+
+Closing Soon
+
+🟠 Closing Soon Closes in 45 min 
+
+Closed
+
+⚫ Closed Opens Today at 18:00 
+
+or
+
+⚫ Closed Opens Tomorrow at 10:00 
+
+The preview always tells users when the venue closes or reopens.
+
+Context-Aware Action Buttons
+
+The layout always has two primary buttons. Only the left button changes based on the venue type.
+
+Venue CategoryPrimary ActionSecondary Action🌙 NightlifeClub LobbyRoute🍽 FoodWebsite (future: Menu / Reserve Table / Order Online)Route✨ PrepWebsite (future: Book Appointment)Route🌿 RecoverWebsite (future: Book Session)Route✈️ TravelWebsite (future: Book Stay / Book Experience)Route🕒 24/7WebsiteRoute
+
+This keeps the interaction familiar while adapting to each venue's capabilities, matching the contextual action model in your specification.
+
+Universal Interaction Flow
+
+Browse Venue ↓ Tap Card ↓ Universal Venue Preview ↓ Choose Action ↓ Venue Profile 
+
+Motion & Animation
+
+When a venue is tapped:
+
+Expand from the source card.
+
+Dim and blur the background.
+
+Elevate the preview with a soft shadow.
+
+Smoothly scale the hero image.
+
+Fade in the dynamic chips.
+
+Pulse the live status indicator.
+
+Dismiss by tapping outside or swiping down.
+
+The motion remains consistent regardless of venue category.
+
+Performance
+
+Progressive hero image loading.
+
+Cached venue metadata.
+
+Lazy-loaded high-resolution images.
+
+Hardware-accelerated animations.
+
+Smooth scrolling in horizontal lists.
+
+Responsive performance on lower-end devices.
+
+Final Design Philosophy
+
+The Universal Venue Preview Card becomes one of FOMO's core design system components. Every venue—whether discovered through Explore the City, Smart Places, Closing Soon, Flash Drops, Trending Now, Search, or the Map—uses the same premium interaction pattern. Users learn it once, and the app simply swaps the venue data, imagery, chips, and contextual actions based on the venue type. This creates a scalable, maintainable, and consistently premium discovery experience across the entire platform.

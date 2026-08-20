@@ -1,0 +1,1918 @@
+# FOMO Global Venue Pack Creation Intelligence Platform
+
+## Full Updated Production Specification v2.0
+
+> **Purpose:** Build and continuously maintain FOMO's authoritative global venue intelligence system, then transform that intelligence into versioned, validated, offline-ready Country Packs consumed by the FOMO mobile application.
+>
+> **Core invariant:** The **FOMO Venue ID is permanent and never changes. Provider IDs are reference fields only.**
+
+---
+
+# 1. Platform Mission
+
+The **FOMO Global Venue Pack Creation Intelligence Platform** is responsible for:
+
+1. Discovering venues globally.
+2. Scanning geographic regions systematically.
+3. Acquiring venue information from supported sources.
+4. Normalizing heterogeneous source data.
+5. Resolving duplicate venues.
+6. Assigning permanent FOMO Venue IDs.
+7. Maintaining the canonical venue record.
+8. Verifying venue information.
+9. Classifying venues into FOMO categories.
+10. Building geographic indexes.
+11. Measuring venue completeness and coverage.
+12. Generating Country Packs.
+13. Generating category-specific packs.
+14. Validating SQLite packs.
+15. Versioning every pack.
+16. Producing manifests and checksums.
+17. Publishing full and delta updates.
+18. Maintaining pack freshness.
+19. Monitoring regional coverage.
+20. Providing offline-ready venue intelligence to FOMO.
+
+The platform is the **venue intelligence layer** of FOMO.
+
+It does **not** replace Organic Maps.
+
+---
+
+# 2. System Ownership
+
+The platform must maintain strict ownership boundaries.
+
+```text
+┌──────────────────────────┬──────────────────────────────────┐
+│ SYSTEM                   │ RESPONSIBILITY                    │
+├──────────────────────────┼──────────────────────────────────┤
+│ OpenStreetMap            │ Geographic source data            │
+│ Organic Maps             │ Offline geographic map engine     │
+│ Supabase/Postgres        │ FOMO cloud venue master/control   │
+│ Venue Intelligence       │ Venue discovery + intelligence    │
+│ Country Pack Builder     │ Offline venue databases           │
+│ SQLite Country Packs     │ Device venue distribution          │
+│ FOMO Map Engine          │ Runtime integration               │
+│ Supabase Realtime        │ Dynamic FOMO application state    │
+│ FOMO Mobile App          │ User experience                    │
+└──────────────────────────┴──────────────────────────────────┘
+```
+
+### Critical rule
+
+**Do not attempt to store FOMO venue records inside Organic Maps' internal map database.**
+
+Organic Maps provides the geographic foundation.
+
+FOMO provides the venue intelligence layer above it.
+
+---
+
+# 3. Global Architecture
+
+```text
+                         EXTERNAL DATA
+                              │
+          ┌───────────────────┼───────────────────┐
+          │                   │                   │
+          ▼                   ▼                   ▼
+         OSM               Google            Foursquare
+          │                   │                   │
+          └───────────────────┼───────────────────┘
+                              ▼
+                   SOURCE ADAPTER LAYER
+                              │
+                              ▼
+                   REGIONAL CELL ENGINE
+                              │
+                              ▼
+                   VENUE ACQUISITION ENGINE
+                              │
+                              ▼
+                   NORMALIZATION ENGINE
+                              │
+                              ▼
+                  DUPLICATE RESOLUTION ENGINE
+                              │
+                              ▼
+                    IDENTITY ENGINE
+                              │
+                              ▼
+                 CANONICAL VENUE RECORD
+                              │
+          ┌───────────────────┼───────────────────┐
+          ▼                   ▼                   ▼
+    VERIFICATION        GEO INTELLIGENCE     CLASSIFICATION
+          │                   │                   │
+          └───────────────────┼───────────────────┘
+                              ▼
+                     QUALITY ENGINE
+                              │
+                              ▼
+                    COUNTRY PACK BUILDER
+                              │
+          ┌───────────────────┼───────────────────┐
+          ▼                   ▼                   ▼
+        CORE              NIGHTLIFE             FOOD
+          │                   │                   │
+          ├───────────────────┼───────────────────┤
+          ▼                   ▼                   ▼
+        PREP              WELLNESS             TRAVEL
+                              │
+                              ▼
+                       SQLITE GENERATOR
+                              │
+                              ▼
+                      PACK VALIDATION
+                              │
+                              ▼
+                     MANIFEST + CHECKSUM
+                              │
+                              ▼
+                       PACK RELEASE
+                              │
+                              ▼
+                         FOMO DEVICE
+                              │
+                ┌─────────────┴─────────────┐
+                ▼                           ▼
+          ORGANIC MAPS                FOMO VENUE STORE
+                │                           │
+                └─────────────┬─────────────┘
+                              ▼
+                       FOMO MAP ENGINE
+                              │
+                              ▼
+                           FOMO UI
+```
+
+---
+
+# 4. Global Venue Master
+
+The authoritative cloud dataset is the **Global Venue Master**.
+
+It lives in the FOMO backend, using Supabase/Postgres.
+
+```text
+Global Venue Master
+│
+├── Venue Identity
+├── Venue Records
+├── External References
+├── Geographic Hierarchy
+├── Regional Cells
+├── Source Provenance
+├── Verification
+├── Completeness
+├── Classification
+├── Pack Membership
+├── Venue Versions
+├── Change History
+└── Quality Metrics
+```
+
+The mobile application should **not** treat Supabase as its primary offline venue database.
+
+Instead:
+
+```text
+GLOBAL VENUE MASTER
+        ↓
+COUNTRY PACK BUILDER
+        ↓
+VERSIONED SQLITE PACK
+        ↓
+FOMO DEVICE
+```
+
+---
+
+# 5. Permanent FOMO Venue Identity
+
+Every accepted venue receives a globally unique FOMO Venue ID.
+
+Example:
+
+```text
+FMO-ZA-GP-JHB-00000127
+```
+
+## Permanent Identity Rules
+
+The **FOMO Venue ID never changes.**
+
+It survives:
+
+* venue updates
+* source changes
+* provider changes
+* category changes
+* ownership changes
+* address updates
+* pack regeneration
+* Country Pack versions
+* database migrations
+* synchronization
+* mobile pack updates
+
+### Provider IDs are reference fields only
+
+Examples:
+
+```text
+OSM ID
+Google Place ID
+Foursquare ID
+Other Provider IDs
+```
+
+They must **never** become the canonical FOMO identity.
+
+```text
+FOMO Venue
+│
+├── FOMO Venue ID
+│       └── PERMANENT
+│
+└── External References
+    ├── OSM ID
+    ├── Google Place ID
+    ├── Foursquare ID
+    └── Other IDs
+```
+
+---
+
+# 6. Canonical Venue Record
+
+Every production venue permanently stores the following canonical record.
+
+---
+
+## 6.1 Identity
+
+```text
+FOMO Venue ID
+Name
+Display Name
+Slug
+Description
+Status
+Verification Level
+```
+
+### FOMO Venue ID
+
+Permanent globally unique identity.
+
+### Name
+
+Canonical venue name.
+
+### Display Name
+
+User-facing venue name.
+
+### Slug
+
+Stable URL/search identifier.
+
+### Description
+
+Canonical FOMO description.
+
+### Status
+
+Example lifecycle:
+
+```text
+DISCOVERED
+ACTIVE
+TEMPORARILY_CLOSED
+PERMANENTLY_CLOSED
+DEPRECATED
+```
+
+### Verification Level
+
+Example:
+
+```text
+UNVERIFIED
+SOURCE_VERIFIED
+MULTI_SOURCE_VERIFIED
+OWNER_VERIFIED
+COMMUNITY_VERIFIED
+PRODUCTION_VERIFIED
+```
+
+---
+
+# 7. Geographic Information
+
+Every venue stores:
+
+```text
+Country
+Province
+Metro
+City
+District
+Suburb
+Postal Code
+Regional Cell ID
+Latitude
+Longitude
+PostGIS Point
+Time Zone
+```
+
+The geographic hierarchy is:
+
+```text
+Country
+ ↓
+Province
+ ↓
+Metro
+ ↓
+City
+ ↓
+District
+ ↓
+Suburb
+ ↓
+Postal Code
+ ↓
+Regional Cell
+ ↓
+Venue
+```
+
+The geographic hierarchy must be deterministic and queryable.
+
+---
+
+# 8. Address
+
+```text
+Street Address
+Building Name
+Municipality
+Postal Code
+```
+
+Postal Code is retained as both an address field and geographic index field.
+
+---
+
+# 9. Classification
+
+```text
+Country Pack
+Primary Category
+Secondary Categories
+Venue Type
+Search Tags
+```
+
+A venue can belong to multiple packs.
+
+For example:
+
+```text
+FOMO-ZA-GP-JHB-00000127
+
+Core
+Nightlife
+Food
+```
+
+The FOMO Venue ID remains unchanged.
+
+---
+
+# 10. Business Information
+
+```text
+Business Name
+Brand
+Chain
+Branch
+```
+
+This allows FOMO to distinguish:
+
+```text
+Brand
+   ↓
+Chain
+   ↓
+Branch
+   ↓
+Physical Venue
+```
+
+---
+
+# 11. Contact Information
+
+```text
+Phone
+Email
+Website
+```
+
+Contact information should maintain source provenance and verification metadata where available.
+
+---
+
+# 12. Social Media
+
+```text
+Instagram
+Facebook
+TikTok
+X
+YouTube
+```
+
+These are stored as references.
+
+They are not treated as authoritative venue identity.
+
+---
+
+# 13. Operating Information
+
+```text
+Opening Days
+Opening Hours
+Closing Hours
+Seasonal Hours
+Public Holiday Hours
+```
+
+The model must support:
+
+* different hours per day
+* venues operating past midnight
+* seasonal schedules
+* public holiday overrides
+* temporary closures
+
+Example:
+
+```text
+Friday
+18:00 → 04:00
+
+Saturday
+18:00 → 05:00
+```
+
+---
+
+# 14. Static Amenities
+
+```text
+Parking
+Wheelchair Access
+Outdoor Seating
+Indoor Seating
+Smoking Area
+Wi-Fi
+Card Payments
+Reservations
+Pet Friendly
+```
+
+These are **static venue attributes**.
+
+They must not be confused with runtime information such as:
+
+```text
+Current crowd
+Current queue
+Live status
+Current event
+Flash Drop
+Current wait time
+```
+
+Those belong to the dynamic FOMO systems.
+
+---
+
+# 15. Media References
+
+```text
+Logo
+Hero Image
+Cover Image
+Gallery References
+```
+
+### Storage rule
+
+Only references are stored in the Venue Record.
+
+The actual media assets reside in object storage.
+
+```text
+Venue Record
+│
+├── logoReference
+├── heroImageReference
+├── coverImageReference
+└── galleryReferences
+             │
+             ▼
+       Object Storage
+```
+
+Do not place large binary media files inside SQLite Country Packs.
+
+---
+
+# 16. External Provider References
+
+Provider IDs are maintained separately from permanent FOMO identity.
+
+```text
+External References
+│
+├── OSM ID
+├── Google Place ID
+├── Foursquare ID
+└── Other Provider IDs
+```
+
+These enable:
+
+* source synchronization
+* duplicate detection
+* provenance
+* source refresh
+* cross-provider matching
+
+They **do not determine FOMO identity**.
+
+---
+
+# 17. Complete Venue Data Model
+
+```text
+VENUE
+│
+├── IDENTITY
+│   ├── FOMO Venue ID
+│   ├── Name
+│   ├── Display Name
+│   ├── Slug
+│   ├── Description
+│   ├── Status
+│   └── Verification Level
+│
+├── GEOGRAPHIC INFORMATION
+│   ├── Country
+│   ├── Province
+│   ├── Metro
+│   ├── City
+│   ├── District
+│   ├── Suburb
+│   ├── Postal Code
+│   ├── Regional Cell ID
+│   ├── Latitude
+│   ├── Longitude
+│   ├── PostGIS Point
+│   └── Time Zone
+│
+├── ADDRESS
+│   ├── Street Address
+│   ├── Building Name
+│   ├── Municipality
+│   └── Postal Code
+│
+├── CLASSIFICATION
+│   ├── Country Pack
+│   ├── Primary Category
+│   ├── Secondary Categories
+│   ├── Venue Type
+│   └── Search Tags
+│
+├── BUSINESS
+│   ├── Business Name
+│   ├── Brand
+│   ├── Chain
+│   └── Branch
+│
+├── CONTACT
+│   ├── Phone
+│   ├── Email
+│   └── Website
+│
+├── SOCIAL
+│   ├── Instagram
+│   ├── Facebook
+│   ├── TikTok
+│   ├── X
+│   └── YouTube
+│
+├── OPERATING
+│   ├── Opening Days
+│   ├── Opening Hours
+│   ├── Closing Hours
+│   ├── Seasonal Hours
+│   └── Public Holiday Hours
+│
+├── STATIC AMENITIES
+│   ├── Parking
+│   ├── Wheelchair Access
+│   ├── Outdoor Seating
+│   ├── Indoor Seating
+│   ├── Smoking Area
+│   ├── Wi-Fi
+│   ├── Card Payments
+│   ├── Reservations
+│   └── Pet Friendly
+│
+├── MEDIA REFERENCES
+│   ├── Logo
+│   ├── Hero Image
+│   ├── Cover Image
+│   └── Gallery References
+│
+└── EXTERNAL REFERENCES
+    ├── OSM ID
+    ├── Google Place ID
+    ├── Foursquare ID
+    └── Other Provider IDs
+```
+
+---
+
+# 18. Regional Cell Engine
+
+Regional Cells are the smallest geographic acquisition unit.
+
+Each cell contains:
+
+```text
+Cell ID
+Country
+Province
+Metro
+City
+District
+Suburb
+Postal Code
+Geographic Boundary
+Coverage Status
+Venue Count
+Pack Coverage
+Last Scan
+Next Scan
+```
+
+Example:
+
+```text
+ZA-GP-JHB-SANDTON-CELL-001
+```
+
+---
+
+# 19. Regional Cell Lifecycle
+
+```text
+PENDING
+   ↓
+SCANNING
+   ↓
+IMPORTING
+   ↓
+NORMALIZING
+   ↓
+DEDUPLICATING
+   ↓
+VERIFYING
+   ↓
+CLASSIFYING
+   ↓
+INDEXING
+   ↓
+QUALITY CHECK
+   ↓
+COMPLETE
+   ↓
+MONITORING
+   ↓
+REFRESH
+```
+
+A cell cannot contribute to a production pack until it passes the required quality gates.
+
+---
+
+# 20. Venue Acquisition Engine
+
+Supported acquisition sources:
+
+```text
+OpenStreetMap
+Google Places
+Foursquare
+Official business registries
+Venue self-registration
+Venue owner claims
+Community submissions
+```
+
+Every source is accessed through an adapter.
+
+```text
+Source Adapter
+│
+├── OSM Adapter
+├── Google Adapter
+├── Foursquare Adapter
+├── Registry Adapter
+├── Owner Submission Adapter
+└── Community Adapter
+```
+
+Source-specific schemas must never leak into the canonical venue model.
+
+---
+
+# 21. Source Provenance
+
+Each imported field should retain provenance where practical.
+
+Example:
+
+```text
+Name
+Value: "The Vault"
+
+Sources:
+OSM
+Google
+Owner
+
+Confidence:
+0.97
+
+Last Verified:
+2026-07-31
+```
+
+This allows the platform to determine why a particular canonical value was selected.
+
+---
+
+# 22. Normalization Engine
+
+Every source record passes through:
+
+```text
+Raw Source Record
+        ↓
+Field Mapping
+        ↓
+Name Normalization
+        ↓
+Address Normalization
+        ↓
+Phone Normalization
+        ↓
+URL Normalization
+        ↓
+Coordinate Normalization
+        ↓
+Category Normalization
+        ↓
+Hours Normalization
+        ↓
+Canonical Record
+```
+
+---
+
+# 23. Duplicate Resolution Engine
+
+Duplicate detection uses:
+
+```text
+Normalized Name
+Coordinates
+Address
+Postal Code
+External Provider IDs
+```
+
+Pipeline:
+
+```text
+Imported Record
+      ↓
+Normalize
+      ↓
+Generate Fingerprint
+      ↓
+Exact Match?
+   ┌──┴──┐
+  YES    NO
+   │      │
+   ▼      ▼
+ Merge   Candidate Matching
+            ↓
+       Similarity Analysis
+            ↓
+       Confidence Score
+        ┌───┴───┐
+       HIGH    LOW
+        │        │
+        ▼        ▼
+      Merge    New Venue
+```
+
+Duplicate resolution must never accidentally create multiple FOMO Venue IDs for the same physical venue.
+
+---
+
+# 24. Identity Engine
+
+The Identity Engine is responsible for:
+
+* assigning new FOMO Venue IDs
+* preserving existing FOMO Venue IDs
+* resolving source relationships
+* maintaining identity history
+* preventing identity collisions
+
+### Hard invariant
+
+```text
+FOMO Venue ID = permanent
+```
+
+Never regenerate an ID because:
+
+* the provider changed
+* the venue name changed
+* the address changed
+* the category changed
+* the pack changed
+* the source disappeared
+* the pack was rebuilt
+
+---
+
+# 25. Venue Verification Engine
+
+Verification evaluates:
+
+```text
+Source Agreement
+Data Freshness
+Owner Confirmation
+Community Confirmation
+Geographic Consistency
+Business Existence
+Contact Validity
+Operating Hours
+```
+
+Possible states:
+
+```text
+UNVERIFIED
+SOURCE_VERIFIED
+MULTI_SOURCE_VERIFIED
+OWNER_VERIFIED
+COMMUNITY_VERIFIED
+PRODUCTION_VERIFIED
+```
+
+---
+
+# 26. Venue Completeness Engine
+
+Before entering a production pack, verify the required fields.
+
+Minimum production requirements:
+
+```text
+Name
+Coordinates
+Address
+Category
+Operating Hours
+Geographic Hierarchy
+Verification Source
+Pack Assignment
+```
+
+Where publicly available:
+
+```text
+Phone
+Website
+Social
+Amenities
+Media
+```
+
+should be populated.
+
+The system must distinguish:
+
+```text
+UNKNOWN
+NOT_AVAILABLE
+NOT_APPLICABLE
+MISSING
+```
+
+Do not treat all four as the same.
+
+---
+
+# 27. Geographic Intelligence Engine
+
+Generate indexes for:
+
+```text
+Country
+Province
+Metro
+City
+District
+Suburb
+Postal Code
+Regional Cell
+```
+
+Each geographic unit should support:
+
+```text
+Venue Count
+Core Count
+Nightlife Count
+Food Count
+Prep Count
+Wellness Count
+Travel Count
+Coverage
+Completeness
+```
+
+---
+
+# 28. Country Pack Architecture
+
+Production Country Packs:
+
+```text
+Core
+Nightlife
+Food
+Prep
+Wellness
+Travel
+```
+
+Example:
+
+```text
+packs/
+│
+├── south_africa_core.db
+├── south_africa_nightlife.db
+├── south_africa_food.db
+├── south_africa_prep.db
+├── south_africa_wellness.db
+└── south_africa_travel.db
+```
+
+A venue may exist in multiple packs.
+
+Its FOMO Venue ID remains identical across all packs.
+
+---
+
+# 29. Core Pack
+
+The Core Pack is the base FOMO venue identity dataset.
+
+It contains the canonical information required for general venue discovery.
+
+```text
+Core
+│
+├── Venue identity
+├── Geographic identity
+├── Address
+├── Core classification
+├── Contact references
+├── Basic operating information
+└── External references
+```
+
+---
+
+# 30. Category Packs
+
+Category packs extend the offline FOMO venue universe.
+
+### Nightlife
+
+```text
+Nightclubs
+Bars
+Lounges
+Pubs
+Dance venues
+Late-night venues
+```
+
+### Food
+
+```text
+Restaurants
+Cafés
+Fast food
+Takeaway
+Food markets
+```
+
+### Prep
+
+```text
+Shopping
+Beauty
+Barbers
+Salons
+Clothing
+Errands
+```
+
+### Wellness
+
+```text
+Gyms
+Spas
+Yoga
+Fitness
+Wellness
+```
+
+### Travel
+
+```text
+Hotels
+Attractions
+Tourism
+Transport
+Travel services
+```
+
+---
+
+# 31. Pack Builder
+
+```text
+Regional Cells
+       ↓
+Complete Cells
+       ↓
+Verified Venues
+       ↓
+Completeness Filter
+       ↓
+Category Assignment
+       ↓
+Geographic Index
+       ↓
+SQLite Builder
+       ↓
+Schema Validation
+       ↓
+Data Validation
+       ↓
+Coverage Validation
+       ↓
+Checksum
+       ↓
+Manifest
+       ↓
+Release
+```
+
+---
+
+# 32. SQLite Pack Requirements
+
+Every generated pack must be:
+
+* deterministic
+* versioned
+* checksum-protected
+* schema-versioned
+* internally validated
+* geographically indexed
+* query optimized
+* safe for atomic installation
+
+No partially generated pack may be released.
+
+---
+
+# 33. Pack Manifest
+
+Each pack must have a manifest containing:
+
+```text
+Pack ID
+Country
+Category
+Version
+Schema Version
+Generated At
+Venue Count
+Regional Cell Count
+Coverage
+Checksum
+Minimum Engine Version
+```
+
+Example:
+
+```text
+{
+    "packId": "za_nightlife",
+    "country": "ZA",
+    "category": "nightlife",
+    "version": "2026.07.31.001",
+    "schemaVersion": 2,
+    "venueCount": 48231,
+    "cellCount": 914,
+    "checksum": "...",
+    "minimumEngineVersion": "2.0.0"
+}
+```
+
+---
+
+# 34. Pack Validation Engine
+
+Before release:
+
+```text
+SQLite Integrity
+       ↓
+Schema Validation
+       ↓
+Venue Identity Validation
+       ↓
+Coordinate Validation
+       ↓
+Duplicate Validation
+       ↓
+Foreign Key Validation
+       ↓
+Completeness Validation
+       ↓
+Coverage Validation
+       ↓
+Checksum
+       ↓
+Manifest
+       ↓
+Release
+```
+
+---
+
+# 35. Versioning
+
+Every pack receives a version.
+
+Example:
+
+```text
+South Africa Nightlife
+v2026.07.31.001
+```
+
+The version is independent from the permanent FOMO Venue ID.
+
+Therefore:
+
+```text
+Venue ID
+FMO-ZA-GP-JHB-00000127
+       │
+       ├── Pack v1
+       ├── Pack v2
+       ├── Pack v3
+       └── Pack v4
+```
+
+The venue identity never changes.
+
+---
+
+# 36. Delta Updates
+
+The system should generate deltas for:
+
+```text
+NEW
+UPDATED
+CLOSED
+RENAMED
+RECLASSIFIED
+MOVED
+HOURS_CHANGED
+CONTACT_CHANGED
+MEDIA_CHANGED
+VERIFICATION_CHANGED
+```
+
+Example:
+
+```text
+Nightlife Pack v10
+        +
+Delta v11
+        ↓
+Nightlife Pack v11
+```
+
+This minimizes mobile bandwidth.
+
+---
+
+# 37. Device Installation
+
+The FOMO mobile app receives a Pack Catalog.
+
+```text
+Pack Catalog
+     ↓
+User selects Country
+     ↓
+Selects required packs
+     ↓
+Download
+     ↓
+Checksum validation
+     ↓
+Schema validation
+     ↓
+Atomic installation
+     ↓
+Index activation
+```
+
+If installation fails:
+
+```text
+Old version remains active.
+```
+
+Never leave the user with a corrupt or partially installed venue database.
+
+---
+
+# 38. Organic Maps Integration
+
+The venue platform must remain independent from Organic Maps' internal database.
+
+Device:
+
+```text
+DEVICE
+│
+├── ORGANIC MAPS
+│   ├── Geographic map data
+│   ├── Routing
+│   ├── Offline search
+│   └── Rendering
+│
+└── FOMO VENUE STORE
+    ├── Core
+    ├── Nightlife
+    ├── Food
+    ├── Prep
+    ├── Wellness
+    └── Travel
+```
+
+FOMO then connects them using:
+
+```text
+FOMO Venue ID
++
+Latitude
++
+Longitude
++
+OSM reference where available
+```
+
+---
+
+# 39. FOMO Map Runtime
+
+```text
+Organic Maps
+      │
+      │ geographic canvas
+      ▼
+FOMO Map Engine
+      ▲
+      │
+FOMO Venue Store
+      │
+      ├── Venue identity
+      ├── Categories
+      ├── Metadata
+      ├── Search
+      └── FOMO markers
+```
+
+The Map Engine is responsible for turning venue records into FOMO map overlays.
+
+---
+
+# 40. Offline Architecture
+
+When offline:
+
+```text
+Organic Maps
+      +
+Installed FOMO Venue Packs
+      +
+Local cached FOMO state
+```
+
+The user can still access the permanent venue/map layer without requiring Supabase.
+
+Potential offline capabilities:
+
+```text
+Map browsing
+GPS position
+Offline routing
+Offline geographic search
+FOMO venue search
+Venue browsing
+Saved venues
+Downloaded venue packs
+Offline planning
+```
+
+---
+
+# 41. Online Architecture
+
+When connected:
+
+```text
+FOMO Device
+      │
+      ├── Supabase
+      │
+      ├── Venue updates
+      ├── Pack updates
+      ├── Events
+      ├── Flash Drops
+      ├── Live activity
+      ├── Friends
+      └── Dynamic FOMO state
+```
+
+The permanent venue layer remains local.
+
+Dynamic information can be refreshed from the cloud.
+
+---
+
+# 42. Permanent vs Dynamic Venue Data
+
+This separation is critical.
+
+## Permanent / Semi-Permanent
+
+```text
+FOMO Venue ID
+Name
+Address
+Coordinates
+Category
+Amenities
+Operating information
+Contact
+Social
+Geographic hierarchy
+Provider references
+```
+
+## Dynamic
+
+```text
+Current crowd
+Current queue
+Current event
+Flash Drop
+Live activity
+Friend presence
+FOMO score
+Trending state
+Check-ins
+```
+
+Do not continuously rewrite the permanent Country Pack because someone checked into a venue.
+
+---
+
+# 43. Media Architecture
+
+```text
+FOMO Venue Record
+        │
+        ├── Logo reference
+        ├── Hero reference
+        ├── Cover reference
+        └── Gallery references
+                    │
+                    ▼
+              Object Storage
+```
+
+The Country Pack stores references and metadata, not large binary media.
+
+---
+
+# 44. Supabase Architecture
+
+Suggested logical structure:
+
+```text
+Supabase
+│
+├── Geographic
+│   ├── countries
+│   ├── provinces
+│   ├── metros
+│   ├── cities
+│   ├── districts
+│   ├── suburbs
+│   └── postal_codes
+│
+├── Regional
+│   └── regional_cells
+│
+├── Venue
+│   ├── venues
+│   ├── venue_sources
+│   ├── venue_versions
+│   ├── venue_verifications
+│   ├── venue_categories
+│   └── venue_external_references
+│
+├── Packs
+│   ├── country_packs
+│   ├── pack_versions
+│   ├── pack_manifests
+│   └── pack_deltas
+│
+├── Coverage
+│   ├── coverage_metrics
+│   └── completeness_metrics
+│
+└── Audit
+    ├── ingestion_logs
+    ├── changes
+    └── pipeline_runs
+```
+
+---
+
+# 45. Source Provenance Model
+
+A venue field should be able to answer:
+
+```text
+Who supplied this?
+When?
+What was the source?
+How confident are we?
+When was it verified?
+```
+
+Example:
+
+```text
+Venue Name
+│
+├── OSM
+├── Google
+└── Owner
+```
+
+The canonical value is selected by the verification/quality engine.
+
+Source records remain available for audit and future reconciliation.
+
+---
+
+# 46. Change Detection
+
+The platform continuously looks for:
+
+```text
+Name changes
+Address changes
+Coordinate changes
+Category changes
+Hours changes
+Contact changes
+Social changes
+Venue closures
+Venue reopening
+New venue
+Provider disappearance
+```
+
+Change:
+
+```text
+Source
+ ↓
+Detect Difference
+ ↓
+Candidate Update
+ ↓
+Validate
+ ↓
+Update Master
+ ↓
+Generate Pack Delta
+```
+
+---
+
+# 47. Venue Closure
+
+Never simply delete a closed venue.
+
+Instead:
+
+```text
+ACTIVE
+   ↓
+TEMPORARILY_CLOSED
+```
+
+or:
+
+```text
+ACTIVE
+   ↓
+PERMANENTLY_CLOSED
+```
+
+Historical identity remains available.
+
+The FOMO Venue ID remains reserved permanently.
+
+---
+
+# 48. Coverage Engine
+
+Every Regional Cell calculates:
+
+```text
+Expected Venues
+Discovered Venues
+Verified Venues
+Production Venues
+Missing Venues
+Duplicate Rate
+Completeness
+Freshness
+```
+
+Example:
+
+```text
+Johannesburg / Sandton
+
+Expected:        500
+Discovered:      487
+Verified:        471
+Production:      468
+
+Coverage:        97.4%
+Verification:    96.7%
+Completeness:    98.2%
+```
+
+---
+
+# 49. Pack Release Gate
+
+A pack cannot be released until:
+
+```text
+✓ All required cells processed
+✓ Required venue coverage achieved
+✓ Duplicate rate within threshold
+✓ Required venue fields valid
+✓ Coordinates valid
+✓ Geographic hierarchy valid
+✓ FOMO IDs unique
+✓ Provider references valid
+✓ SQLite integrity passes
+✓ Schema validation passes
+✓ Manifest generated
+✓ Checksum generated
+```
+
+---
+
+# 50. Monitoring
+
+Monitor:
+
+```text
+Source health
+API failures
+Import failures
+Normalization failures
+Duplicate rates
+Verification failures
+Coverage gaps
+Stale cells
+Pack build failures
+Pack validation failures
+Delta generation failures
+Distribution failures
+Checksum failures
+```
+
+---
+
+# 51. Licensing
+
+Every source adapter must have a licensing profile.
+
+```text
+Source
+License
+Attribution
+Commercial-use restrictions
+Caching rules
+Redistribution rules
+Retention requirements
+```
+
+The platform must not redistribute source-derived data unless the applicable license permits it.
+
+This is especially important for OSM-derived data and any Organic Maps-related distribution.
+
+---
+
+# 52. Security
+
+Never expose provider credentials to the mobile application.
+
+```text
+Provider APIs
+      ↓
+Secure Server
+      ↓
+Venue Intelligence Platform
+      ↓
+Country Packs
+      ↓
+Mobile Device
+```
+
+The mobile application receives the resulting venue intelligence, not the acquisition credentials.
+
+---
+
+# 53. Production Invariants
+
+These rules are **non-negotiable**.
+
+### Identity
+
+```text
+FOMO Venue ID never changes.
+```
+
+### Providers
+
+```text
+Provider IDs are references only.
+```
+
+### Organic Maps
+
+```text
+Never modify Organic Maps' internal geographic database
+to store FOMO venue intelligence.
+```
+
+### Packs
+
+```text
+Only validated packs can be released.
+```
+
+### Media
+
+```text
+Store references in venue records.
+Store actual media in object storage.
+```
+
+### Offline
+
+```text
+FOMO venue discovery must not require Supabase
+once the relevant Country Pack is installed.
+```
+
+### Dynamic data
+
+```text
+Realtime FOMO state must remain separate from
+the permanent venue identity layer.
+```
+
+### Updates
+
+```text
+Pack updates must be atomic.
+Failed updates must preserve the previous working version.
+```
+
+### Deletion
+
+```text
+Never recycle a FOMO Venue ID.
+```
+
+---
+
+# 54. Complete End-to-End Production Pipeline
+
+```text
+                    GLOBAL SOURCES
+                         │
+          ┌──────────────┼──────────────┐
+          ▼              ▼              ▼
+         OSM           Google        Foursquare
+          │              │              │
+          └──────────────┼──────────────┘
+                         ▼
+                 SOURCE ADAPTERS
+                         │
+                         ▼
+                REGIONAL CELL ENGINE
+                         │
+                         ▼
+                VENUE ACQUISITION
+                         │
+                         ▼
+                  NORMALIZATION
+                         │
+                         ▼
+               DUPLICATE RESOLUTION
+                         │
+                         ▼
+                  IDENTITY ENGINE
+                         │
+                         ▼
+             PERMANENT FOMO VENUE ID
+                         │
+                         ▼
+              CANONICAL VENUE RECORD
+                         │
+       ┌─────────────────┼─────────────────┐
+       ▼                 ▼                 ▼
+  VERIFICATION      GEO INTELLIGENCE   CLASSIFICATION
+       │                 │                 │
+       └─────────────────┼─────────────────┘
+                         ▼
+                  COMPLETENESS
+                         │
+                         ▼
+                    QUALITY
+                         │
+                         ▼
+                 COVERAGE CHECK
+                         │
+                         ▼
+                  PACK ASSIGNMENT
+                         │
+                         ▼
+                COUNTRY PACK BUILDER
+                         │
+        ┌────────────────┼────────────────┐
+        ▼                ▼                ▼
+      CORE          NIGHTLIFE           FOOD
+        │                │                │
+        ▼                ▼                ▼
+      PREP           WELLNESS           TRAVEL
+        │                │                │
+        └────────────────┼────────────────┘
+                         ▼
+                    SQLite PACK
+                         │
+                         ▼
+                 PACK VALIDATION
+                         │
+                         ▼
+               MANIFEST + CHECKSUM
+                         │
+                         ▼
+                    VERSIONING
+                         │
+                         ▼
+                     RELEASE
+                         │
+                         ▼
+                   FOMO DEVICE
+                         │
+          ┌──────────────┴──────────────┐
+          ▼                             ▼
+   ORGANIC MAPS                  FOMO VENUE STORE
+   geographic world              venue intelligence
+          │                             │
+          └──────────────┬──────────────┘
+                         ▼
+                  FOMO MAP ENGINE
+                         │
+                         ▼
+                      FOMO APP
+```
+
+---
+
+# 55. Final Data Ownership Model
+
+The complete FOMO ecosystem is therefore:
+
+```text
+┌────────────────────────────────────────────────────────────┐
+│                         FOMO                                │
+│                                                            │
+│  ┌─────────────────┐       ┌─────────────────────────────┐ │
+│  │  ORGANIC MAPS   │       │ GLOBAL VENUE PLATFORM       │ │
+│  │                 │       │                             │ │
+│  │ Roads           │       │ Permanent FOMO Venue IDs    │ │
+│  │ Buildings       │       │ Venue Records               │ │
+│  │ Terrain         │       │ Categories                  │ │
+│  │ Paths           │       │ Verification                │ │
+│  │ Routing         │       │ Geographic hierarchy        │ │
+│  │ Map rendering   │       │ Country Packs               │ │
+│  │ Offline search  │       │ Pack versions               │ │
+│  └────────┬────────┘       └─────────────┬───────────────┘ │
+│           │                              │                 │
+│           │                              │                 │
+│           └──────────────┬───────────────┘                 │
+│                          ▼                                 │
+│                   FOMO MAP ENGINE                           │
+│                          │                                 │
+│                          ▼                                 │
+│                    FOMO EXPERIENCE                          │
+└────────────────────────────────────────────────────────────┘
+```
+
+### The four critical layers are now crystal clear:
+
+**1. Organic Maps**
+The offline geographic world.
+
+**2. Global Venue Master**
+The authoritative FOMO venue universe.
+
+**3. Country Packs**
+The optimized offline distribution of that venue universe.
+
+**4. FOMO Map Engine**
+The runtime bridge that puts FOMO's venues, categories and intelligence onto the Organic Maps geographic canvas.
+
+That is the version I would treat as the **master specification** for the Global Venue Pack platform going forward.

@@ -1,0 +1,304 @@
+The DM (Direct Messages) screen is where users will spend the majority of their time, so it needs to be the most polished screen in FOMO. It should match the responsiveness of WhatsApp, the animations of iMessage, the media experience of Telegram, and the social integration of FOMO.
+I would design the DM system as follows.
+FOMO Direct Messages (DM) System
+Screen Layout
+Safe Area
+────────────────────────────
+← Avatar  Name            📞 📹 ⋮
+Online • Typing...
+────────────────────────────
+Pinned Message (optional)
+────────────────────────────
+Messages
+────────────────────────────
+Reply Preview (if replying)
+────────────────────────────
+＋  Message Input      🎤/➤
+────────────────────────────
+The conversation should open in under 100 ms using local storage while realtime updates continue in the background.
+
+Conversation Header
+The header should immediately communicate the user's status.
+Left:
+Back button
+Avatar
+Verified badge (if applicable)
+Center:
+Display name
+Username (@name)
+Presence
+Presence states:
+Online
+Last seen
+Typing…
+Recording voice…
+In voice call
+In video call
+Live on FOMO
+Sharing live location
+Right:
+Voice call
+Video call
+Overflow menu
+
+Header Actions
+The overflow menu should contain:
+View Profile
+Search Conversation
+Shared Media
+Shared Files
+Shared Links
+Shared Venues
+Shared Events
+Mute Notifications
+Wallpaper
+Export Chat (future)
+Block User
+Report User
+Clear Chat
+Delete Chat
+
+Message Bubbles
+Each message has:
+Outgoing:
+Delivery status
+Timestamp
+Edited indicator
+Reaction summary
+Incoming:
+Timestamp
+Reaction summary
+Bubble shapes should smoothly connect for consecutive messages from the same sender to reduce visual clutter.
+
+Supported Message Types
+The DM should support:
+Text
+Emoji
+Images
+Videos
+Voice notes
+Audio files
+GIFs
+Stickers
+Documents
+PDFs
+Contacts
+Current location
+Live location
+Venue cards
+Event cards
+Ticket QR codes
+Shared user profiles
+Shared Moments
+Shared Routes
+Flash Drop cards
+All are rendered as native message cards.
+
+Rich FOMO Cards
+Venue Card
+Displays:
+Venue image
+Venue name
+Distance
+Open/Closed status
+Crowd level
+Actions:
+Open Club Lobby
+Route
+Save
+Share
+
+Event Card
+Displays:
+Event poster
+Date and time
+Venue
+Going count
+Actions:
+Join
+Route
+Share
+
+User Card
+Displays:
+Avatar
+Username
+Bio
+Mutual friends
+Actions:
+View Profile
+Follow
+Message
+
+Moment Card
+Displays:
+Photo/video preview
+Creator
+Venue
+Time
+Actions:
+Open Moment
+React
+Share
+
+Composer
+The composer should stay minimal.
+Left:
+Attachment button
+Center:
+Expanding text field
+Right:
+Voice button
+As soon as the user starts typing, the microphone morphs into the send button with a smooth animation.
+
+Attachment Menu
+Instead of a large grid, use a bottom sheet.
+Options:
+Camera
+Gallery
+Document
+Venue
+Event
+Current Location
+Live Location
+Contact
+The Camera opens the dedicated FOMO Camera screen.
+
+Voice Notes
+Recording should behave like WhatsApp.
+Hold to record
+Swipe left to cancel
+Swipe up to lock
+Pause recording
+Resume recording
+Listen before sending
+Playback speeds:
+1×
+1.5×
+2×
+Waveforms should be generated locally before upload.
+
+Message Gestures
+Swipe right:
+Reply
+Double tap:
+Quick reaction ❤️
+Long press opens the action sheet:
+React
+Reply
+Forward
+Copy
+Pin
+Star
+Delete for me
+Delete for everyone
+Edit (within configured time limit)
+Message Info
+
+Replies
+Reply preview includes:
+Sender
+Message snippet
+Thumbnail for media
+Tapping the preview scrolls to the original message with a subtle highlight.
+
+Reactions
+Supported reactions:
+👍 ❤️ 😂 😮 😢 🙏 🔥 🎉
+Tap once to react.
+Tap again to remove.
+Reaction counts update in realtime.
+
+Search
+Conversation search should support:
+Text
+Dates
+Media
+Files
+Links
+Voice notes
+Venues
+Events
+Matched results highlight immediately.
+
+Media Gallery
+Automatically grouped into:
+Photos
+Videos
+Voice Notes
+Documents
+Links
+Venues
+Events
+Infinite scrolling with lazy loading.
+
+Live Location
+Sharing options:
+15 minutes
+1 hour
+8 hours
+Until manually stopped
+Display:
+Battery level
+Last updated
+Movement status
+Arrival confirmation
+NightGuard integrates directly with this feature.
+
+Temporary Messages
+Support optional disappearing messages.
+Choices:
+24 hours
+7 days
+30 days
+Off (default)
+Deletion should be handled by scheduled background cleanup.
+
+Draft Recovery
+If the user leaves without sending:
+Text
+Reply state
+Attachments
+Cursor position
+are restored automatically.
+
+Offline Behaviour
+Everything should continue working offline:
+Read cached messages
+Queue outgoing messages
+Queue uploads
+Queue reactions
+Queue edits
+Queue deletes
+Synchronization begins automatically once connectivity returns.
+
+Security
+For direct messages:
+End-to-end encryption for message content.
+Separate encryption keys for media.
+Device verification for new logins.
+Rate limiting to prevent spam.
+Attachment malware scanning before distribution.
+Abuse reporting and user blocking.
+Automatic key rotation for long-term security.
+
+Performance Targets
+Conversation open: <100 ms
+Send acknowledgement: <30 ms
+Typing indicator: <50 ms
+Media preview: instant from cache
+Image upload: background with progressive progress
+Voice note playback: <50 ms startup
+Smooth scrolling at 60–120 FPS depending on device capability.
+
+FOMO-Specific Integrations
+This is where FOMO can differentiate itself from traditional messengers.
+The DM should allow users to:
+Share venues directly from the Map.
+Share events from Discover with rich previews.
+Share Moments from the Feed.
+Share routes from the FOMO Route Engine.
+Start Buddy Pair, Safety Check, or Walk Me Home directly from the conversation.
+Open a shared venue into its Club Lobby without leaving the messaging context.
+Final Production Assessment
+A DM system built with these capabilities would be comparable to the leading messaging platforms in reliability and polish, while providing unique integrations with FOMO's venue, event, routing, and safety ecosystem. Rather than being "WhatsApp inside FOMO," it becomes the communication layer that ties together every core feature of the app.

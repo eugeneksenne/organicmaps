@@ -1,0 +1,470 @@
+FOMO Discover — Tonight Screen (V2)
+
+Premium UI/UX Design Specification
+
+This redesign transforms Tonight from a dashboard into the operating system for the user's night.
+
+The screen should answer four questions within 3 seconds:
+
+Am I safe?
+
+What's happening tonight?
+
+What are my plans?
+
+What's my next move?
+
+The experience should feel like a blend of Apple Wallet, Uber Live Activities, Netflix, and Tesla—clean, cinematic, and highly interactive.
+
+Product Goals
+
+The Tonight screen is where users:
+
+View and manage NightGuard
+
+Create nightlife plans
+
+Join invitations
+
+Coordinate with friends
+
+Track live progress
+
+Receive AI recommendations
+
+Stay safe
+
+Manage everything for tonight
+
+It is not a settings screen.
+
+It is not a dashboard.
+
+It is the command center for the night.
+
+Design Language
+
+Style
+
+Premium
+
+Luxury
+
+Minimal
+
+Glassmorphism
+
+High contrast
+
+Large typography
+
+Soft animations
+
+Dark UI
+
+Color Palette
+
+Background
+
+Pure Black
+#000000
+
+Glass Cards
+
+White 6% opacity
+
+Borders
+
+White 10%
+
+Primary Accent
+
+Electric Purple
+
+NightGuard
+
+Blue
+
+Success
+
+Emerald
+
+Warning
+
+Amber
+
+Danger
+
+Red
+
+No rainbow gradients.
+
+Use lighting instead of color.
+
+Screen Structure
+
+Header ↓ Tonight Overview ↓ NightGuard ↓ My Plans ↓ Create Plan ↓ Plan Invitations ↓ AI Suggestions ↓ Quick Actions 
+
+Everything fits within one smooth scroll.
+
+1. Header
+
+Large title.
+
+Tonight 
+
+Subtitle
+
+Examples
+
+Everything is ready. 2 plans tonight. NightGuard Active. Let's make tonight unforgettable. 
+
+Top Right
+
+[LIVE] 
+
+Small glowing capsule.
+
+Notification icon.
+
+2. Tonight Overview
+
+The hero card.
+
+Instead of statistics, show one intelligent summary.
+
+Tonight ✓ Protected 🎉 2 Active Plans 👥 8 Friends 📍 Sandton Next Stop Saint 8:30 PM 
+
+Bottom
+
+Continue → 
+
+Tapping opens today's timeline.
+
+Height
+
+220dp
+
+Large.
+
+Premium.
+
+3. NightGuard
+
+Second major card.
+
+Blue glow.
+
+Shield illustration.
+
+NightGuard You're protected tonight. 
+
+Status
+
+Monitoring until 4 AM 
+
+Feature Grid
+
+Trusted Contacts
+
+Emergency SOS
+
+Live Location
+
+Safe Arrival
+
+Route Awareness
+
+Group Separation
+
+Medical Info
+
+Emergency Notes
+
+Each item has:
+
+Icon
+
+Label
+
+Tiny status
+
+Example
+
+✓ Enabled 3 Contacts Active Off Updated 
+
+Bottom
+
+Manage NightGuard → 
+
+This opens the NightGuard module.
+
+4. My Plans
+
+Purple card.
+
+Header
+
+My Plans 
+
+Right
+
++ New Plan 
+
+Immediately accessible.
+
+No menus.
+
+Plan Card
+
+Each plan is its own beautiful card.
+
+Birthday Night 7:30 PM 4 Stops 6 Friends ACTIVE 
+
+Below
+
+Vertical timeline
+
+Marble ↓ Saint ↓ LIV ↓ Home 
+
+Friend avatars
+
+👤👤👤 +3 
+
+Arrival
+
+5/8 arrived 
+
+Buttons
+
+Open Edit 
+
+Swipe
+
+Delete
+
+Duplicate
+
+Leave Plan
+
+Multiple plans simply stack.
+
+5. Create Plan
+
+Large standalone card.
+
+Not hidden.
+
+Create Tonight's Plan 
+
+Subtitle
+
+Solo Date Night Friends Celebration Bar Crawl Festival Road Trip 
+
+Large buttons
+
+○ Solo ○ Duo ○ Group 
+
+Primary CTA
+
+Create Plan 
+
+Plan Creation Flow
+
+Bottom Sheet
+
+Step 1
+
+Choose type
+
+Solo
+
+Duo
+
+Group
+
+Step 2
+
+Choose title
+
+Friday Vibes Birthday After Work Girls Night Boys Night Custom 
+
+Step 3
+
+Add venues
+
+Search
+
+Recommended
+
+Saved
+
+Trending
+
+Map picker
+
+Step 4
+
+Choose time
+
+Timeline editor
+
+Drag & drop
+
+Step 5
+
+Invite
+
+Followers
+
+Contacts
+
+WhatsApp
+
+Instagram
+
+Copy Link
+
+Step 6
+
+Finish
+
+Beautiful animation
+
+Plan becomes Live.
+
+6. Invitations
+
+Only visible if invitations exist.
+
+Tonight Invitations 
+
+Card
+
+Amanda invited you Girls Night Starts 8 PM 4 friends attending 
+
+Buttons
+
+Accept Decline View 
+
+7. AI Suggestions
+
+Small adaptive card.
+
+Only one suggestion visible.
+
+Examples
+
+Leave now. Queue increasing at Saint. Ride prices dropping. Save R35. Konka becoming busy. 
+
+Swipe horizontally.
+
+8. Quick Actions
+
+Circular buttons
+
+Emergency Split Fare Find Friends Share Plan Ride Home 
+
+Empty State
+
+Instead of empty cards.
+
+Large illustration.
+
+Nothing planned tonight. 
+
+Button
+
+Create First Plan 
+
+Below
+
+Suggested venues.
+
+Live State
+
+As users move.
+
+Cards update automatically.
+
+Currently at Saint Next LIV 12 min away 
+
+Timeline animates.
+
+Friend avatars move.
+
+Arrival counters update.
+
+Ride ETAs update.
+
+Queue predictions refresh.
+
+Motion Design
+
+Everything should move gently.
+
+Cards float.
+
+Ambient lighting shifts.
+
+Live badge pulses.
+
+Timeline fills as the night progresses.
+
+Friend avatars animate between venues.
+
+Buttons have spring animations.
+
+Transitions should feel like Apple Wallet.
+
+Adaptive States
+
+Before Going Out
+
+Focus on planning.
+
+Create Plan appears prominently.
+
+AI recommends venues.
+
+During the Night
+
+Focus shifts to:
+
+Current venue
+
+Next stop
+
+NightGuard
+
+Friends
+
+Ride information
+
+Late Night
+
+Safety becomes the priority.
+
+Ride Home button expands.
+
+NightGuard card moves higher.
+
+Safe arrival prompts appear.
+
+Premium UX Principles
+
+One primary action per section.
+
+Never show more than one AI suggestion at a time.
+
+Surface the "Create Plan" action everywhere it makes sense.
+
+NightGuard should always remain one tap away.
+
+Users should understand their entire night in less than 5 seconds.
+
+Every card should have a clear purpose—no decorative widgets or redundant metrics.
+
+The interface should feel calm and effortless, using motion and spacing rather than visual clutter to communicate importance.
+
+This structure makes the Tonight screen feel less like a feature list and more like a luxury, real-time nightlife companion that users will naturally return to before, during, and after every night out.

@@ -1,0 +1,545 @@
+# FOMO Creator Studio — Ticketing Module
+
+## Product Vision
+
+The **Ticketing Module** is the complete ticket operations platform for FOMO Creator Studio.
+
+Its purpose is not only to sell tickets, but to manage the **entire ticket lifecycle**—from ticket creation and sales to guest check-in, refunds, reporting, and post-event reconciliation.
+
+Ticketing is deeply integrated with the Events Module. Creators configure ticket types inside an event, while the Ticketing Module provides a centralized operational view across all events.
+
+This makes Ticketing the **business operations hub** for admissions and event access.
+
+---
+
+# Design Principles
+
+The Ticketing Module should be:
+
+* Event-centric, with tickets created within event workspaces.
+* Operational, giving creators one place to manage sales and admissions.
+* Secure, protecting against fraud and duplicate entries.
+* Mobile-first, allowing door staff and organisers to work from anywhere.
+* Reliable, supporting offline scanning and automatic synchronization.
+
+---
+
+# Supported Creator Roles
+
+| Creator Role       | Access                 |
+| ------------------ | ---------------------- |
+| 🏙 Venue Owner     | ✅ Full                 |
+| 🎟 Event Organiser | ✅ Full                 |
+| 🏙 Venue Manager   | ✅ Configurable         |
+| 🚪 Door Staff      | ✅ Scanning & Check-ins |
+| 🎧 DJ              | ❌ No Access            |
+| 🎤 Music Artist    | ❌ No Access            |
+
+---
+
+## Venue Owner
+
+Can:
+
+* View ticket sales across all venue events
+* Manage ticket operations
+* View revenue
+* Issue complimentary tickets
+* Approve refunds
+* View reports
+* Manage scanners
+
+---
+
+## Event Organiser
+
+Can:
+
+* Manage ticket sales
+* View orders
+* Create promo codes
+* Manage guest lists
+* Process refunds (permission-based)
+* Monitor check-ins
+* View reports
+
+---
+
+## Venue Manager
+
+Permissions may include:
+
+* View ticket sales
+* Manage admissions
+* Issue complimentary tickets
+* View analytics
+
+---
+
+## Door Staff
+
+Can:
+
+* Scan tickets
+* Validate entry
+* View ticket status
+* Record check-ins
+* Operate offline
+
+Cannot:
+
+* View revenue
+* Modify ticket prices
+* Issue refunds
+
+---
+
+# Ticketing Dashboard
+
+Provides a centralized view of ticket operations.
+
+## Sections
+
+* Live Events
+* Upcoming Events
+* Orders
+* Check-ins
+* Refunds
+* Reports
+
+---
+
+## Dashboard Metrics
+
+* Tickets Sold Today
+* Total Revenue
+* Check-ins Today
+* Remaining Capacity
+* Refund Requests
+* Active Scanners
+
+---
+
+## Quick Actions
+
+* Open Scanner
+* View Orders
+* Guest List
+* Complimentary Tickets
+* Reports
+
+---
+
+# Ticket Lifecycle
+
+Every ticket follows a defined lifecycle.
+
+```text
+Draft Ticket Type
+
+↓
+
+Available for Sale
+
+↓
+
+Purchased
+
+↓
+
+Issued
+
+↓
+
+Checked-In
+
+↓
+
+Completed
+```
+
+Additional statuses:
+
+* Refunded
+* Cancelled
+* Expired
+* Transferred (future)
+
+---
+
+# Ticket Types
+
+Ticket types are created inside an Event Workspace.
+
+Supported ticket categories:
+
+* General Admission
+* VIP
+* Early Bird
+* Table Booking
+* Complimentary
+* Staff Pass
+* Media Pass
+* Performer Pass
+
+Each ticket type supports:
+
+* Name
+* Description
+* Price
+* Quantity
+* Sales start
+* Sales end
+* Maximum purchase quantity
+* Included benefits
+
+---
+
+# Orders
+
+Centralized order management.
+
+Displays:
+
+* Order number
+* Buyer
+* Event
+* Ticket type
+* Quantity
+* Payment status
+* Check-in status
+* Purchase date
+
+Actions:
+
+* View order
+* Resend ticket
+* Cancel order
+* Issue refund
+* Add notes
+
+---
+
+# QR Tickets
+
+Every ticket includes a secure QR code.
+
+QR codes contain:
+
+* Ticket ID
+* Event ID
+* Validation token
+
+QR codes are:
+
+* Unique
+* Time-independent
+* Single-use
+* Encrypted (implementation-specific)
+
+Future enhancements:
+
+* Dynamic QR codes
+* Anti-screenshot verification
+
+---
+
+# Ticket Scanner
+
+The Scanner is optimized for door operations.
+
+Features:
+
+* Camera scanning
+* Manual code entry
+* Fast validation
+* Audio confirmation
+* Visual confirmation
+
+Results include:
+
+* Valid
+* Already checked in
+* Invalid
+* Refunded
+* Cancelled
+* Expired
+
+---
+
+# Offline Mode
+
+The scanner supports offline operation.
+
+Capabilities:
+
+* Scan tickets without internet
+* Store check-ins locally
+* Synchronize automatically when connectivity returns
+
+Critical for venues with poor reception.
+
+---
+
+# Guest Lists
+
+Manage special admissions.
+
+Supports:
+
+* VIP Guests
+* Complimentary Guests
+* Performer Guests
+* Sponsors
+* Media
+* Staff
+
+Actions:
+
+* Add guest
+* Remove guest
+* Check-in guest
+* Export list
+
+---
+
+# Complimentary Tickets
+
+Creators can issue complimentary admissions.
+
+Use cases:
+
+* Sponsors
+* Performers
+* VIP guests
+* Competitions
+* Staff
+* Influencers (if supported by platform policy)
+
+Every complimentary ticket is logged for reporting.
+
+---
+
+# Promo Codes
+
+Create promotional pricing.
+
+Supports:
+
+* Percentage discounts
+* Fixed amount discounts
+* Free tickets
+* Early access
+
+Configuration:
+
+* Code
+* Validity period
+* Usage limit
+* Applicable ticket types
+
+---
+
+# Refunds
+
+Manage refund requests.
+
+Statuses:
+
+* Requested
+* Approved
+* Declined
+* Processed
+
+Refund history is stored for auditing.
+
+Permissions determine who can approve refunds.
+
+---
+
+# Check-ins
+
+Live attendance management.
+
+Displays:
+
+* Checked-in guests
+* Remaining guests
+* Current occupancy
+* Peak arrival times
+
+Useful for operational monitoring.
+
+---
+
+# Capacity Management
+
+Monitor admissions in real time.
+
+Displays:
+
+* Venue capacity
+* Tickets sold
+* Guests checked in
+* Remaining capacity
+
+Future:
+
+* Live occupancy estimates
+* Capacity alerts
+
+---
+
+# Reports
+
+Operational reporting.
+
+Includes:
+
+## Sales
+
+* Tickets sold
+* Revenue
+* Average order value
+* Sales trends
+
+---
+
+## Admissions
+
+* Check-ins
+* No-shows
+* Peak entry times
+
+---
+
+## Ticket Types
+
+* Sales by ticket category
+* Revenue by ticket type
+* Sell-through rate
+
+---
+
+## Promo Codes
+
+* Usage
+* Revenue impact
+* Conversion
+
+---
+
+## Complimentary Tickets
+
+* Total issued
+* Usage
+* Redemption rate
+
+---
+
+# Notifications
+
+Receive updates for:
+
+* Ticket purchases
+* Refund requests
+* Capacity alerts
+* Scanner issues
+* Event sold out
+* Check-in milestones
+
+---
+
+# AI Ticketing Insights (Future Roadmap)
+
+The Ticketing Module will provide intelligent recommendations.
+
+Examples:
+
+* Recommend ticket pricing.
+* Predict sell-out dates.
+* Suggest additional ticket releases.
+* Detect unusually slow sales.
+* Recommend promo code campaigns.
+* Forecast attendance.
+
+---
+
+# Integration with Other Modules
+
+## Events
+
+Ticket types are configured within individual events.
+
+---
+
+## Venue
+
+Check-ins contribute to venue occupancy and visitor analytics.
+
+---
+
+## Flash Drops
+
+Eligibility can be limited to specific ticket holders (e.g., VIP or General Admission).
+
+---
+
+## Marketing
+
+Campaigns can optimize for ticket sales and measure conversion.
+
+---
+
+## Audience
+
+Ticket buyers contribute to audience segmentation and loyalty insights.
+
+---
+
+## Intelligence
+
+Ticketing data powers revenue forecasting, attendance predictions, and business recommendations.
+
+---
+
+# Security
+
+The Ticketing Module should prioritize admission integrity.
+
+Security features include:
+
+* Single-use QR validation
+* Duplicate entry prevention
+* Audit logs
+* Role-based permissions
+* Offline synchronization validation
+* Refund tracking
+* Scanner authentication
+
+Future enhancements:
+
+* NFC ticket support
+* Apple Wallet / Google Wallet integration
+* Biometric staff authentication
+* Dynamic QR rotation
+
+---
+
+# Success Metrics
+
+The Ticketing Module should help creators:
+
+* Sell more tickets.
+* Reduce entry delays.
+* Prevent ticket fraud.
+* Improve guest experience.
+* Increase operational efficiency.
+* Monitor admissions in real time.
+* Make better pricing and capacity decisions.
+
+---
+
+# Guiding Principle
+
+The Ticketing Module should feel like **running the front door of a professional nightlife venue**, not simply processing transactions. While ticket types are created as part of an event, this module becomes the operational control center where creators monitor sales, manage admissions, validate guests, issue refunds, and understand the financial performance of every event. It should provide the speed and reliability needed on event night while delivering the insights required to improve future events.

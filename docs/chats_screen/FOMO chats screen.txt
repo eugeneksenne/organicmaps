@@ -1,0 +1,646 @@
+# FOMO Chats Production Readiness 10/10
+
+## 1. Communication Engine
+
+Every communication type should use one unified infrastructure.
+
+Support:
+
+* One-to-one chats
+* Group chats
+* Voice calls
+* Video calls
+* Story replies
+* Venue conversations
+* Event conversations
+* NightGuard conversations
+* Buddy Pair communication
+
+All use the same messaging engine.
+
+---
+
+# 2. Conversation Types
+
+Instead of only Direct and Group chats.
+
+Support:
+
+Personal Chat
+
+Group Chat
+
+Venue Chat
+
+Event Organizer Chat
+
+Business Chat (verified venues)
+
+Temporary NightGuard Chat
+
+This avoids building multiple messaging systems later.
+
+---
+
+# 3. Smart Chat Categories
+
+Instead of a single endless list.
+
+Automatically organize.
+
+Chats
+
+Calls
+
+Groups
+
+Users never manually organize chats.
+
+---
+
+# 4. Rich Message Types
+
+Current document already supports many.
+
+Expand to production level.
+
+Supported:
+
+✓ Text
+
+✓ Emoji
+
+✓ GIF
+
+✓ Stickers
+
+✓ Voice
+
+✓ Image
+
+✓ Video
+
+✓ Audio
+
+✓ PDF
+
+✓ ZIP
+
+✓ Contact
+
+✓ Current Location
+
+✓ Live Location
+
+✓ Venue Card
+
+✓ Event Card
+
+✓ Ticket QR
+
+✓ Flash Drop
+
+✓ Shared Profile
+
+✓ Shared Moment
+
+✓ Shared Route
+
+✓ Polls (future)
+
+---
+
+# 5. Premium Composer
+
+Like iMessage.
+
+Input grows naturally.
+
+Supports:
+
+@mentions
+
+Emoji search
+
+Sticker search
+
+Voice recording
+
+Media drag-drop
+
+Clipboard detection
+
+URL preview
+
+Draft recovery
+
+Undo send (few seconds)
+
+---
+
+# 6. Media Engine
+
+Production quality.
+
+Background uploads
+
+Pause upload
+
+Resume upload
+
+Chunk uploads
+
+Auto retry
+
+HEIC conversion
+
+Image compression
+
+Video transcoding
+
+Thumbnail generation
+
+Preview generation
+
+Duplicate detection
+
+Storage cleanup
+
+Telegram sync
+
+MinIO cache
+
+---
+
+# 7. Message Lifecycle
+
+Every message moves through states.
+
+Draft
+
+Queued
+
+Encrypt
+
+Uploading
+
+Sending
+
+Sent
+
+Delivered
+
+Read
+
+Edited
+
+Deleted
+
+Recovered
+
+Expired (temporary messages)
+
+Nothing skips states.
+
+---
+
+# 8. Offline Engine
+
+Current system has offline.
+
+Enhance it.
+
+Entire conversations cached.
+
+Offline search.
+
+Queue replay.
+
+Conflict resolution.
+
+Automatic merge.
+
+Background synchronization.
+
+Works perfectly without internet.
+
+---
+
+# 9. Realtime Engine
+
+Everything updates instantly.
+
+Typing
+
+Recording
+
+Online
+
+Seen
+
+Delivered
+
+Edits
+
+Deletes
+
+Story views
+
+Call invitations
+
+Presence
+
+Location
+
+Venue status
+
+No manual refresh.
+
+---
+
+# 10. Call Engine
+
+Already excellent.
+
+Improve production details.
+
+Adaptive bitrate.
+
+Packet loss recovery.
+
+Echo cancellation.
+
+Noise suppression.
+
+Bluetooth switching.
+
+Picture-in-picture.
+
+Background continuation.
+
+Network handover.
+
+Battery optimization.
+
+Automatic reconnect.
+
+Call diagnostics.
+
+---
+
+# 11. Groups
+
+Expand moderation.
+
+Owner
+
+Admin
+
+Moderator
+
+Member
+
+Guest (future)
+
+Permissions
+
+Approve members
+
+Mute members
+
+Delete messages
+
+Announcements
+
+Pinned posts
+
+Media permissions
+
+Invite links
+
+QR join
+
+---
+
+# 12. Story Integration
+
+Stories are no longer isolated.
+
+Reply opens chat.
+
+React opens chat.
+
+Share venue.
+
+Share event.
+
+Share moment.
+
+Share profile.
+
+Everything flows naturally into messaging.
+
+---
+
+# 13. Venue Integration
+
+Unique FOMO advantage.
+
+Venue chat supports:
+
+Open Lobby
+
+Route
+
+Reserve
+
+Website
+
+Flash Drops
+
+Live crowd
+
+Share venue
+
+Share with group
+
+Nobody else combines maps and messaging this well.
+
+---
+
+# 14. Event Integration
+
+Events become conversational.
+
+Share invitation.
+
+Invite friends.
+
+Going status.
+
+Meeting point.
+
+Countdown.
+
+Ticket sharing.
+
+Route.
+
+---
+
+# 15. NightGuard Integration
+
+One tap from chat.
+
+Safety Check
+
+Walk Me Home
+
+Buddy Pair
+
+Emergency alert
+
+Trusted contacts
+
+Live location
+
+Arrival confirmation
+
+This is a major differentiator.
+
+---
+
+# 16. Search Engine
+
+One global search.
+
+Users
+
+Messages
+
+Groups
+
+Venues
+
+Events
+
+Files
+
+Voice Notes
+
+Photos
+
+Videos
+
+Links
+
+Documents
+
+Profiles
+
+Fast and indexed.
+
+---
+
+# 17. Storage Management
+
+Like WhatsApp.
+
+Users can see:
+
+Images
+
+Videos
+
+Voice Notes
+
+Documents
+
+Largest Chats
+
+Largest Groups
+
+Cache
+
+Downloads
+
+One-tap cleanup.
+
+---
+
+# 18. Notification Engine
+
+Priority aware.
+
+Silent chats
+
+Mention alerts
+
+Reaction alerts
+
+Missed calls
+
+Group mentions
+
+Venue announcements
+
+Event reminders
+
+NightGuard alerts
+
+Flash Drop alerts
+
+Smart batching prevents notification spam.
+
+---
+
+# 19. Accessibility
+
+Production requirement.
+
+Dynamic fonts
+
+VoiceOver
+
+TalkBack
+
+Large touch targets
+
+Color contrast
+
+Reduced motion
+
+Haptic feedback
+
+Keyboard navigation
+
+---
+
+# 20. Security
+
+Production level.
+
+End-to-end encryption for personal messages.
+
+Encrypted media keys.
+
+Device verification.
+
+Rate limiting.
+
+Spam detection.
+
+Abuse reporting.
+
+Malware scanning for attachments.
+
+Secure key rotation.
+
+Remote logout.
+
+Session management.
+
+---
+
+# 21. Performance Targets
+
+Raise the standard.
+
+App launch → Chats ready: **<500 ms**
+
+Chat list render: **<80 ms**
+
+Conversation open: **<100 ms**
+
+Send message acknowledgement: **<30 ms**
+
+Typing indicator latency: **<50 ms**
+
+Story open: **<80 ms**
+
+Call setup: **<1.5 s**
+
+60–120 FPS scrolling.
+
+Memory optimized for low-end Android devices.
+
+Battery impact minimized during background synchronization.
+
+---
+
+# 22. Scalability
+
+Design for hundreds of millions of users.
+
+Stateless API services.
+
+Redis caching.
+
+BullMQ queues.
+
+Supabase Realtime.
+
+Socket.IO clustering.
+
+Horizontal scaling.
+
+PostgreSQL partitioning.
+
+Regional media storage.
+
+Graceful degradation under heavy load.
+
+Zero downtime deployments.
+
+---
+
+# 23. AI Optimization (Invisible)
+
+Rather than exposing an AI assistant, use intelligence behind the scenes.
+
+Preload likely conversations.
+
+Predict frequently contacted users.
+
+Optimize media quality to network speed.
+
+Prioritize active chat synchronization.
+
+Reduce battery usage intelligently.
+
+Recover failed messages automatically.
+
+Users simply experience a faster, smoother app.
+
+---
+
+# 24. FOMO Ecosystem Integration
+
+Chats should connect seamlessly with the rest of FOMO.
+
+* Share venues directly from the Map.
+* Share events from Discover.
+* Send Moments from the Feed.
+* Launch NightGuard features from conversations.
+* Open Club Lobbies from venue cards.
+* Share routes using the FOMO Route Engine.
+* Invite friends to Flash Drops with rich previews.
+
+This makes Chats a central communication layer for the entire platform rather than a standalone messenger.
+
+## Final Production Score
+
+With these refinements, the FOMO Chats platform reaches **10/10 production readiness**:
+
+* **User Experience:** 10/10
+* **Realtime Messaging:** 10/10
+* **Voice & Video Calling:** 10/10
+* **Offline Reliability:** 10/10
+* **Scalability:** 10/10
+* **Security:** 10/10
+* **Performance:** 10/10
+* **Nightlife Integration:** 10/10
+* **Maintainability:** 10/10
+* **Differentiation from WhatsApp:** 10/10
+
+The key differentiator is that FOMO remains a **social discovery platform first**. Messaging should amplify the app's core experiences—venues, events, nightlife, safety, and shared moments—while delivering the reliability and polish users expect from the world's leading communication apps.

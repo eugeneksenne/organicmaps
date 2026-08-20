@@ -1,0 +1,545 @@
+Yes. **I would incorporate this architecture into the master agent prompt**, but with one important correction:
+
+> **OSM should be the primary geographic/POI acquisition source, not the permanent FOMO source of truth.**
+
+Organic Maps itself is powered by OpenStreetMap data and provides the offline map/search/navigation infrastructure. ([GitHub][1]) OSM data can also be obtained through regional extracts, Planet OSM, Geofabrik and other distribution mechanisms. ([OpenStreetMap][2])
+
+So your architecture should be:
+
+```text
+                 OPENSTREETMAP
+                 PRIMARY DATASET
+                       │
+                       ▼
+              ORGANIC MAPS ENGINE
+        map / search / geographic context
+                       │
+                       │
+                       ▼
+             FOMO ACQUISITION ENGINE
+                       │
+             ┌─────────┴─────────┐
+             │                   │
+             ▼                   ▼
+        OSM / OM             Regional Cell
+        POI Data               Scanner
+             │                   │
+             └─────────┬─────────┘
+                       ▼
+                 NORMALIZATION
+                       │
+                       ▼
+               SOURCE INTELLIGENCE
+                       │
+          ┌────────────┼────────────┐
+          ▼            ▼            ▼
+       Google      Foursquare   Community
+      enrichment    fallback     / claims
+          │            │            │
+          └────────────┼────────────┘
+                       ▼
+                DEDUPLICATION
+                       │
+                       ▼
+             PERMANENT FOMO VENUE
+                       │
+                       ▼
+             CANONICAL VENUE STORE
+                       │
+             ┌─────────┴─────────┐
+             ▼                   ▼
+       Country Packs          Delta Engine
+             │
+             ▼
+        FOMO Mobile App
+```
+
+That distinction matters enormously.
+
+### The key rule
+
+Do **not** tell the agent:
+
+> "OSM is the source of truth."
+
+Tell it:
+
+> **"OSM is the primary external geographic and venue acquisition source. The FOMO Canonical Venue Store is the authoritative source of truth for FOMO venue identity and FOMO-specific venue data."**
+
+That gives you the best of both worlds.
+
+---
+
+# I would add this section to your master agent prompt
+
+## PRIMARY VENUE ACQUISITION ARCHITECTURE
+
+The FOMO Internal Venue Pack Engine must use an **OSM-first acquisition strategy**.
+
+OpenStreetMap is the primary external geographic and POI dataset.
+
+Organic Maps is the primary offline map/geographic engine used by FOMO.
+
+Commercial providers must be treated primarily as **enrichment and verification sources**, not as the foundation of the global venue database.
+
+The acquisition architecture must therefore follow:
+
+```text
+OSM / Organic Maps
+        ↓
+Primary Venue Discovery
+        ↓
+FOMO Normalization
+        ↓
+Source Quality Analysis
+        ↓
+Deduplication
+        ↓
+FOMO Identity
+        ↓
+Canonical Venue Store
+        ↓
+Conditional Enrichment
+        ├── Google Places
+        ├── Foursquare
+        ├── Business Registries
+        ├── Venue Claims
+        └── Community Contributions
+        ↓
+Verification
+        ↓
+Quality
+        ↓
+Country Pack
+```
+
+---
+
+# OSM / Organic Maps responsibilities
+
+The agent must distinguish between **OpenStreetMap data** and the **Organic Maps engine**.
+
+### OpenStreetMap provides
+
+```text
+POIs
+Coordinates
+Roads
+Buildings
+Addresses
+OSM categories/tags
+Geographic features
+Administrative boundaries
+Place names
+```
+
+### Organic Maps provides
+
+```text
+Offline map rendering
+Offline search
+Geographic context
+Map data consumption
+Routing/navigation infrastructure
+Mobile map functionality
+```
+
+Organic Maps is an offline maps application powered by OSM data. ([GitHub][1])
+
+Do not treat Organic Maps as if it were a commercial venue API.
+
+---
+
+# Important acquisition rule
+
+The agent must **not assume that the mobile Organic Maps application itself is the backend venue database**.
+
+The Internal Venue Pack Engine must establish an appropriate OSM acquisition/import mechanism for server-side processing.
+
+Where appropriate, use:
+
+```text
+OSM regional extracts
+Planet OSM
+Geofabrik extracts
+OSM-compatible datasets
+```
+
+rather than attempting to scrape the Organic Maps mobile application.
+
+OSM itself documents Planet and regional extracts as mechanisms for obtaining bulk data. ([OpenStreetMap][2])
+
+---
+
+# OSM becomes the first acquisition pass
+
+For every Regional Cell:
+
+```text
+Regional Cell
+      ↓
+OSM Dataset
+      ↓
+Extract POIs
+      ↓
+Extract Geographic Context
+      ↓
+Extract Address Information
+      ↓
+Extract Categories
+      ↓
+Extract Coordinates
+      ↓
+Create Candidate Venues
+```
+
+The system should attempt to discover as much as possible from OSM **before querying commercial providers**.
+
+This is especially important for the global scale of FOMO.
+
+---
+
+# Conditional enrichment engine
+
+Do **not** call Google or Foursquare for every venue.
+
+After OSM processing, calculate:
+
+```text
+Venue Enrichment Score
+```
+
+based on missing or low-confidence fields.
+
+For example:
+
+```text
+Name                  ✓
+Coordinates           ✓
+Address               ✓
+Category              ✓
+Opening Hours         ✗
+Phone                 ✗
+Website               ✗
+Social Links          ✗
+Images                ✗
+```
+
+The engine determines:
+
+```text
+ENRICHMENT_REQUIRED
+```
+
+Then selectively queries providers.
+
+---
+
+# Provider escalation
+
+Implement configurable provider escalation:
+
+```text
+OSM
+ │
+ ├── Complete/high confidence
+ │          │
+ │          ▼
+ │      Stop enrichment
+ │
+ └── Incomplete/low confidence
+            │
+            ▼
+       Google Places
+            │
+            ├── Complete
+            │      ↓
+            │    Stop
+            │
+            └── Still incomplete
+                    ↓
+                Foursquare
+                    │
+                    ▼
+              Community / Claims
+```
+
+This should be configurable per country and pack.
+
+---
+
+# Field-level source provenance
+
+This is something I strongly recommend making **mandatory**.
+
+Never store only:
+
+```text
+opening_hours = "09:00-02:00"
+```
+
+Store provenance as well:
+
+```text
+opening_hours:
+    value: "09:00-02:00"
+    source: GOOGLE
+    source_id: "..."
+    confidence: 0.94
+    observed_at: "..."
+    verified_at: "..."
+```
+
+Likewise:
+
+```text
+coordinates:
+    source: OSM
+
+phone:
+    source: GOOGLE
+
+instagram:
+    source: COMMUNITY
+
+hero_image:
+    source: VENUE_OWNER
+```
+
+This creates a proper **Field Provenance Engine**.
+
+---
+
+# Source precedence must be field-specific
+
+Do **not** create one universal rule such as:
+
+```text
+OSM > Google > Foursquare > Community
+```
+
+because different providers are stronger for different fields.
+
+Instead:
+
+```text
+FIELD SOURCE POLICY
+```
+
+Example configuration:
+
+```json
+{
+  "coordinates": [
+    "OSM",
+    "GOOGLE",
+    "FOURSQUARE",
+    "COMMUNITY"
+  ],
+  "address": [
+    "OSM",
+    "GOOGLE",
+    "COMMUNITY"
+  ],
+  "phone": [
+    "GOOGLE",
+    "COMMUNITY",
+    "FOURSQUARE",
+    "OSM"
+  ],
+  "website": [
+    "GOOGLE",
+    "COMMUNITY",
+    "FOURSQUARE",
+    "OSM"
+  ],
+  "opening_hours": [
+    "GOOGLE",
+    "COMMUNITY",
+    "OSM"
+  ],
+  "coordinates": [
+    "OSM",
+    "GOOGLE",
+    "FOURSQUARE",
+    "COMMUNITY"
+  ]
+}
+```
+
+And critically:
+
+> **Source priority is not the same as source truth.**
+
+A lower-priority source may contain newer or more trustworthy information.
+
+The engine must compare:
+
+```text
+source priority
++
+freshness
++
+verification
++
+agreement
++
+field quality
+```
+
+before replacing a canonical value.
+
+---
+
+# Add a Source Intelligence Engine
+
+I would actually add this as a formal subsystem:
+
+```text
+Venue Pack Engine
+
+├── Acquisition
+├── Source Intelligence
+│   ├── Provenance
+│   ├── Confidence
+│   ├── Freshness
+│   ├── Conflict Detection
+│   └── Field Precedence
+├── Normalization
+├── Duplicate Engine
+├── Identity Engine
+├── Verification
+├── Quality
+└── ...
+```
+
+This becomes one of the most valuable parts of your platform.
+
+---
+
+# Source conflict example
+
+Suppose:
+
+```text
+OSM:
+Opening hours = 18:00-02:00
+Updated = 3 months ago
+
+Google:
+Opening hours = 18:00-03:00
+Updated = 4 days ago
+
+Community:
+Opening hours = 18:00-03:00
+Updated = yesterday
+```
+
+The engine should not blindly use:
+
+```text
+OSM
+```
+
+because OSM was designated the "primary" source.
+
+Instead:
+
+```text
+Field = Opening Hours
+
+OSM       → 3 months old
+Google    → 4 days old
+Community → 1 day old
+```
+
+Result:
+
+```text
+Canonical:
+18:00-03:00
+
+Provenance:
+COMMUNITY + GOOGLE
+
+Confidence:
+HIGH
+```
+
+That's much more intelligent.
+
+---
+
+# Most important architectural distinction
+
+I would lock this into the prompt:
+
+```text
+                    OSM
+                     │
+             PRIMARY EXTERNAL
+               DATA SOURCE
+                     │
+                     ▼
+               FOMO INGESTION
+                     │
+                     ▼
+            SOURCE INTELLIGENCE
+                     │
+              ┌──────┴──────┐
+              ▼             ▼
+         ENRICHMENT      VERIFICATION
+              └──────┬──────┘
+                     ▼
+             CANONICAL FOMO
+              VENUE STORE
+                     │
+              AUTHORITATIVE
+                FOMO DATA
+                     │
+             ┌───────┴───────┐
+             ▼               ▼
+       COUNTRY PACKS       REALTIME
+             │
+             ▼
+       MOBILE FOMO APP
+```
+
+This prevents a future developer or AI agent from accidentally turning OSM into your permanent identity system.
+
+---
+
+## One more important point
+
+I would also **not promise "OSM supplies 80-95% of the venue database" as a hard requirement**.
+
+That can vary enormously by country, city and venue category. OSM is an excellent global foundation, but coverage and attribute completeness are heterogeneous. OSM's own distribution mechanisms provide the raw geographic dataset, while Organic Maps uses OSM for its offline maps. ([OpenStreetMap][2])
+
+Make it a **target/optimization objective**, not an invariant:
+
+```text
+TARGET:
+
+Maximize OSM-derived venue coverage.
+
+Minimize commercial API calls.
+
+Never sacrifice venue quality merely to increase OSM percentage.
+```
+
+That is a much better production rule.
+
+### So your final philosophy becomes:
+
+**OSM = global foundation** 🌍
+**Organic Maps = offline map engine** 🗺️
+**Google/Foursquare = selective enrichment** 🔎
+**Community/owners = continuous correction** 👥
+**FOMO Canonical Venue Store = permanent authority** 🏛️
+**Country Packs = optimized distribution** 📦
+**Delta Engine = continuous updates** ⚡
+
+That architecture fits your existing FOMO Offline Map Engine and Internal Venue Pack Engine much better than making Google Places the initial global discovery layer.
+
+[1]: https://github.com/organicmaps/organicmaps?utm_source=chatgpt.com "GitHub - organicmaps/organicmaps: 🍃 Organic Maps is a free Android & iOS offline maps app for more than 6M travelers, tourists, hikers, and cyclists. It uses crowd-sourced OpenStreetMap data and is developed with love by the community. No ads, no tracking, no data collection, no crapware. Please donate to support the development! · GitHub"
+[2]: https://wiki.openstreetmap.org/wiki/Download?utm_source=chatgpt.com "Downloading data - OpenStreetMap Wiki"

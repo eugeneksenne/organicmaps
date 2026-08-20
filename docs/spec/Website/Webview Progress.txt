@@ -1,0 +1,72 @@
+# FOMO Venue Web Experience Engine — Implementation Progress Tracker
+
+Read and written by the agent every run, per `VENUEWEB_AGENT_LOOP.md`. Don't hand-edit statuses without a note — the agent trusts this file as ground truth.
+
+Status values: `Not Started` · `In Progress` · `Blocked` · `Complete`
+
+---
+
+## Session Log
+
+*(Newest run at top.)*
+
+| Date | Completed this run | Assumptions logged | Open blockers | Recommended next |
+|---|---|---|---|---|
+| — | *(no runs yet)* | — | — | Start with Phase 0 |
+
+---
+
+## Phase 0 — Foundation
+
+| Module | Status | Assumptions | Blockers | Last Updated |
+|---|---|---|---|---|
+| venueweb-core | Not Started | | | |
+| venueweb-security | Not Started | | | |
+
+## Phase 1 — Session & Performance
+
+| Module | Status | Assumptions | Blockers | Last Updated |
+|---|---|---|---|---|
+| venueweb-session | Not Started | | | |
+| venueweb-preloading | Not Started | | | |
+| venueweb-performance | Not Started | | | |
+
+## Phase 2 — UI Shell
+
+| Module | Status | Assumptions | Blockers | Last Updated |
+|---|---|---|---|---|
+| venueweb-ui (top nav + bottom bar + container) | Not Started | | | |
+| Navigation entry wiring (Venue Details ↔ engine) | Not Started | | | |
+
+## Phase 3 — Action Delegation
+
+| Module | Status | Assumptions | Blockers | Last Updated |
+|---|---|---|---|---|
+| venueweb-action-delegation (Route/Comms/Share hooks) | Not Started | | | |
+| venueweb-planning-overlay | Not Started | | | |
+
+## Phase 4 — Support Systems
+
+| Module | Status | Assumptions | Blockers | Last Updated |
+|---|---|---|---|---|
+| venueweb-download-centre | Not Started | | | |
+| venueweb-error-recovery | Not Started | | | |
+
+## Phase 5 — Analytics & Store Readiness
+
+| Module | Status | Assumptions | Blockers | Last Updated |
+|---|---|---|---|---|
+| venueweb-analytics | Not Started | | | |
+| Apple 3.1.1 physical-vs-digital goods audit (per venue category) | Not Started | | | |
+| Apple 4.2 minimum functionality review notes | Not Started | | | |
+| Google Play payments/WebView policy audit | Not Started | | | |
+| App Review notes draft | Not Started | | | |
+| "Report Website" end-to-end verification | Not Started | | | |
+
+---
+
+## Blocker Detail Log
+
+*(Full detail for anything marked `Blocked` above — the table cell should be a one-line pointer here.)*
+
+*(none yet)*

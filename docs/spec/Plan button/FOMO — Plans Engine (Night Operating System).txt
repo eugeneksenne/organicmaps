@@ -1,0 +1,490 @@
+﻿# FOMO Planning Philosophy (Night Operating System)
+
+## Vision
+
+**Plan together. Move together. Experience together. Remember forever.**
+
+Planning in FOMO is not a feature or a checklist.
+
+It is a **living operating system** that manages an entire night out—from the first idea to the final memory.
+
+Users should never feel like they are opening a traditional planner.
+
+Instead, they should feel like they are entering a **private command center** that intelligently coordinates people, places, timing, transport, safety, spending, reservations, and memories in one seamless experience. This aligns with the Plans Engine vision and lifecycle described in your architecture.  
+
+---
+
+# Core Philosophy
+
+> **Discovery inspires. Planning coordinates. Experiences unfold. Memories last forever.**
+
+Every experience inside FOMO naturally progresses through four stages.
+
+```
+Discover
+      ↓
+Plan
+      ↓
+Experience
+      ↓
+Remember
+```
+
+The interface adapts automatically as users move through each stage.
+
+---
+
+# Stage 1 — Discover
+
+## Purpose
+
+Help users discover experiences worth sharing.
+
+Users browse:
+
+* Venues
+* Events
+* Restaurants
+* Festivals
+* Creators
+* Friends
+* Channels
+* AI recommendations
+
+At this stage users are exploring.
+
+They haven't decided where to go yet.
+
+Planning should never interrupt discovery.
+
+---
+
+## Discovery Screens
+
+* Discover
+* Feed
+* Stories
+* Map
+* Search
+* Creator Profiles
+* Venue Listings
+
+These screens exist to inspire curiosity.
+
+---
+
+# Stage 2 — Plan
+
+## Purpose
+
+Transform an interesting discovery into a coordinated night.
+
+Planning begins only after users decide:
+
+> "I want this to be part of my night."
+
+At that moment, the Plans Engine activates.
+
+---
+
+# The Plan Wizard
+
+The Plan button never creates a plan immediately.
+
+Instead, it launches a lightweight **Plan Wizard** that guides users into the right planning experience.
+
+## Step 1 — Choose Your Night
+
+Three planning modes are available.
+
+### Solo Plan
+
+Perfect for independent nightlife.
+
+Best for:
+
+* Exploring new venues
+* Solo dinners
+* Club hopping
+* Business travel
+* Personal adventures
+
+The Plans Engine automatically prepares:
+
+* AI itinerary
+* Route optimisation
+* Budget
+* Calendar
+* NightGuard
+* Personal memories
+
+These capabilities are part of the Solo Plans Engine. 
+
+---
+
+### Duo Plan
+
+Perfect for:
+
+* Dates
+* Couples
+* Best friends
+
+The wizard asks:
+
+Who are you planning with?
+
+Once accepted, the engine creates:
+
+* Shared timeline
+* Shared chat
+* Shared budget
+* Calendar sync
+* Ride coordination
+* Optional live location
+
+These are the collaboration features defined for Duo plans. 
+
+---
+
+### Group Plan
+
+Perfect for:
+
+* Birthdays
+* Friend groups
+* Club crews
+* Festivals
+* Work socials
+
+The wizard allows users to:
+
+* Add members
+* Select a host
+* Invite everyone
+* Define a budget
+* Pick a start time
+
+The engine then enables:
+
+* Live attendance
+* Polls
+* Shared expenses
+* Temporary group chat
+* Shared album
+* AI coordination
+
+Matching the Group Plans Engine capabilities. 
+
+---
+
+# Step 2 — Choose How to Start
+
+Users can begin planning in different ways.
+
+### AI Planner
+
+Simply type:
+
+> Luxury dinner then dancing until sunrise.
+
+FOMO builds the complete itinerary using:
+
+* Traffic
+* Weather
+* Queue times
+* Venue popularity
+* Opening hours
+* Budget
+* Music preferences
+* Friend preferences
+
+Exactly as described in the AI Planning engine. 
+
+---
+
+### Start Empty
+
+Create everything manually.
+
+---
+
+### Use a Template
+
+Examples:
+
+* Date Night
+* Girls Night
+* Boys Night
+* Birthday
+* Club Hop
+* Festival
+* Food Adventure
+* Luxury Night
+
+Users can also save their own templates. 
+
+---
+
+### Remix a Public Plan
+
+Duplicate an existing public itinerary and personalise it.
+
+---
+
+# Step 3 — Review
+
+The wizard presents a summary before creating the plan.
+
+Example:
+
+```
+Friday Night
+
+Group Plan
+
+6 Friends
+
+4 Venues
+
+Budget
+R1 200
+
+Starts
+19:00
+
+Host
+Koketso
+```
+
+Users confirm before entering the Plan Lobby.
+
+---
+
+# The Plan Lobby
+
+Every plan begins inside a collaborative lobby.
+
+The lobby includes:
+
+* Chat
+* Countdown
+* Polls
+* Weather
+* Playlist
+* Budget
+* Checklist
+* Ride planning
+* AI Assistant
+
+When the night begins, the lobby automatically becomes the live operating dashboard. 
+
+---
+
+# Stage 3 — Experience
+
+When the countdown reaches zero:
+
+The plan becomes alive.
+
+It continuously updates throughout the night.
+
+---
+
+## Live Timeline
+
+Examples:
+
+* Friends joining
+* Venue arrivals
+* Venue changes
+* Ride progress
+* Check-ins
+
+All updates happen in real time. 
+
+---
+
+## Live Map
+
+Displays:
+
+* Friends
+* Current venue
+* ETA
+* Ride progress
+* Walking routes
+* Venue capacity
+
+Helping everyone stay coordinated. 
+
+---
+
+## AI Concierge
+
+Every plan includes an AI assistant capable of:
+
+* Finding quieter venues
+* Rebooking reservations
+* Updating schedules
+* Removing venues
+* Splitting rides
+* Suggesting nearby alternatives
+
+The itinerary updates automatically. 
+
+---
+
+## Dynamic Planning
+
+The plan adapts automatically when conditions change.
+
+Triggers include:
+
+* Rain
+* Heavy traffic
+* Long queues
+* Venue closure
+* Surge pricing
+* Friend delays
+
+Users can approve suggested changes before the itinerary is updated. 
+
+---
+
+## Collaboration
+
+Members can:
+
+* Suggest venue changes
+* Join later
+* Leave early
+* Reduce budgets
+* Vote
+* Split expenses
+
+The host sees all changes live. 
+
+---
+
+## Integrated Services
+
+The Plans Engine also coordinates:
+
+* Calendar synchronisation
+* Shared wallet
+* Ride planning
+* Reservations
+* Collaborative playlists
+* NightGuard safety
+
+These capabilities are built directly into the operating system. 
+
+---
+
+# Stage 4 — Remember
+
+After the night ends, the plan becomes a memory.
+
+Each completed plan includes:
+
+* Photos
+* Videos
+* Stories
+* Timeline
+* Friends
+* Venues
+* Route
+* Music
+* AI recap
+
+Users can then:
+
+* Share
+* Duplicate
+* Plan Again
+
+Creating a continuous nightlife history. 
+
+---
+
+# The Tonight Hub
+
+The **Tonight** section is the permanent home of the Plans Engine.
+
+From here users can:
+
+* Create a Solo, Duo, or Group plan
+* Continue active plans
+* Manage invitations
+* Browse templates
+* Explore public plans
+* View planning history
+
+It serves as the user's command center for every night out.
+
+---
+
+# Plan Button Philosophy
+
+The **Plan** button is **not** a universal call-to-action.
+
+It is a contextual gateway into FOMO's Night Operating System.
+
+It appears only when the user has enough information to confidently decide:
+
+> **"I want this to be part of my night."**
+
+---
+
+# Where the Plan Button Appears
+
+Planning entry points are reserved for high-intent moments:
+
+* Venue Details
+* Event Details
+* Restaurant Details
+* Venue preview cards on the Map
+* Search results
+* Chat conversations
+* User profiles (**Plan Together**)
+
+---
+
+# Where It Does Not Appear
+
+Planning is intentionally absent from low-intent discovery surfaces:
+
+* Feed
+* Stories
+* General Discover cards
+* Creator posts
+* Camera
+* Memories
+
+These screens are designed to inspire, not to initiate planning.
+
+---
+
+# Active Plan Experience
+
+Once a plan exists, the **Plan** button is replaced by a persistent **Tonight** pill above the bottom navigation.
+
+The pill reflects the current state of the night:
+
+* Draft
+* Planning
+* Waiting for replies
+* Countdown
+* Active
+* Ride in progress
+* Completed
+
+Tapping it instantly returns the user to the live Plans Engine, ensuring that planning remains a continuous experience rather than a repeated action.
+
+---
+
+# Final Design Rule
+
+> **The Plan button is not a feature—it is the gateway into FOMO's Night Operating System. Discovery surfaces inspire exploration, decision surfaces launch the Plan Wizard, and once a plan is created, the Tonight hub becomes the user's living command center. Every Solo, Duo, and Group plan evolves before, during, and after the night through AI, collaboration, realtime coordination, and memories, making FOMO the operating system for nightlife rather than just another discovery app.** 
+
