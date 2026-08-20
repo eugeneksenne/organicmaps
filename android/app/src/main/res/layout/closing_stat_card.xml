@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="wrap_content" android:layout_height="64dp"
+  android:layout_marginEnd="10dp" android:background="@drawable/camera_venue_pill"
+  android:gravity="center" android:orientation="vertical" android:paddingStart="18dp" android:paddingEnd="18dp">
+  <TextView android:id="@+id/stat_number" android:layout_width="wrap_content" android:layout_height="wrap_content"
+    android:textColor="#FFB06A" android:textSize="20sp" android:textStyle="bold"/>
+  <TextView android:id="@+id/stat_label" android:layout_width="wrap_content" android:layout_height="wrap_content"
+    android:layout_marginTop="2dp" android:textColor="#CCFFFFFF" android:textSize="11sp"/>
+</LinearLayout>
