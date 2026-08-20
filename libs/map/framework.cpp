@@ -124,6 +124,9 @@ std::string_view constexpr kLastAskedForRateUsTimeKey = "LastAskedForRateUsTime"
 std::string_view constexpr kDonationTapTimeKey = "DonationTapTime";
 std::string_view constexpr kDonationTapCountKey = "DonationTapCount";
 
+// The gift box is shown from 00:00 UTC of the start date until 00:00 UTC of the end date,
+// i.e. the end date is the first day without it. Update both dates to run the next campaign.
+auto const kCrowdfundingStartTime = base::YYMMDDToSecondsSinceEpoch(251220);
 auto const kCrowdfundingEndTime = base::YYMMDDToSecondsSinceEpoch(260120);
 
 auto constexpr kLargeFontsScaleFactor = 1.6;
@@ -939,10 +942,49 @@ void Framework::ShowTrack(kml::TrackId trackId)
 
   auto es = bm.GetEditSession();
   es.SetIsVisible(track->GetGroupId(), true /* visible */);
+  // Also unhide the individual track so imported tracks with m_visible=false
+  // become visible when navigated to from the bookmark list.
+  es.SetTrackVisibility(trackId, true /* visible */);
 
   ShowRect(rect, true /* isAnim */, true /* useVisibleViewport */);
 
   ActivateMapSelection();
+}
+
+void Framework::SetTrackVisibility(kml::TrackId trackId, bool visible)
+{
+  {
+    auto es = GetBookmarkManager().GetEditSession();
+    es.SetTrackVisibility(trackId, visible);
+  }
+
+  // Hiding the track shown in the Place Page must reset the selection so nothing
+  // stays selected on an invisible track.
+  if (!visible && m_currentPlacePageInfo && m_currentPlacePageInfo->GetTrackId() == trackId)
+    DeactivateMapSelection();
+}
+
+void Framework::DeleteTrack(kml::TrackId trackId)
+{
+  // Close the Place Page first (while the track still exists) so nothing stays selected on a
+  // deleted track; otherwise the selection would be rebuilt for a track that is already gone.
+  if (m_currentPlacePageInfo && m_currentPlacePageInfo->GetTrackId() == trackId)
+    DeactivateMapSelection();
+
+  GetBookmarkManager().GetEditSession().DeleteTrack(trackId);
+}
+
+void Framework::DeleteBookmarksAndTracks(kml::MarkIdCollection const & bookmarkIds,
+                                         kml::TrackIdCollection const & trackIds)
+{
+  // Same reason as in DeleteTrack(), extended to bookmarks: a batch deletion has no undo, so a Place Page left
+  // on one of its items could not be restored. The invalid ids a non-bookmark/non-track selection reports are
+  // never in the collections.
+  if (m_currentPlacePageInfo && (base::IsExist(bookmarkIds, m_currentPlacePageInfo->GetBookmarkId()) ||
+                                 base::IsExist(trackIds, m_currentPlacePageInfo->GetTrackId())))
+    DeactivateMapSelection();
+
+  GetBookmarkManager().GetEditSession().DeleteBookmarksAndTracks(bookmarkIds, trackIds);
 }
 
 void Framework::SelectTrackCandidate(kml::TrackId trackId, RelationID const & relationId)
@@ -3890,8 +3932,12 @@ std::optional<products::ProductsConfig> Framework::GetProductsConfiguration() co
 
 void Framework::DidCloseProductsPopup(ProductsPopupCloseReason reason) const
 {
-  settings::Set(kPlacePageProductsPopupCloseTime, base::SecondsSinceEpoch());
+  auto const now = base::SecondsSinceEpoch();
+  settings::Set(kPlacePageProductsPopupCloseTime, now);
   settings::Set(kPlacePageProductsPopupCloseReason, ToString(reason));
+  // Users who say they have already donated shouldn't see the crowdfunding promo either.
+  if (reason == ProductsPopupCloseReason::AlreadyDonated)
+    settings::Set(kDonationTapTimeKey, now);
 }
 
 void Framework::DidSelectProduct(products::ProductsConfig::Product const & product) const
@@ -4000,16 +4046,14 @@ std::string Framework::GetDonateUrl() const
 
 bool Framework::CanShowCrowdfundingPromo() const
 {
-  if (GetDonateUrl().empty())
+  auto const now = base::SecondsSinceEpoch();
+  if (now < kCrowdfundingStartTime || now > kCrowdfundingEndTime)
     return false;
 
+  // Don't nag users who have already opened the donation page during this campaign.
   uint64_t lastDonationTapTime = 0;
-  bool const donationWasTapped = settings::Get(kDonationTapTimeKey, lastDonationTapTime) && lastDonationTapTime > 0;
-  bool const crowdfundingHasEnded = base::SecondsSinceEpoch() > kCrowdfundingEndTime;
-  if (donationWasTapped && crowdfundingHasEnded)
-    return false;
-
-  return true;
+  settings::TryGet(kDonationTapTimeKey, lastDonationTapTime);
+  return lastDonationTapTime < kCrowdfundingStartTime;
 }
 
 void Framework::DidShowDonationPage() const

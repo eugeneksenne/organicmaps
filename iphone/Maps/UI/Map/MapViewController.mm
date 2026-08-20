@@ -25,8 +25,6 @@
 
 #include "geometry/mercator.hpp"
 
-// If you have a "missing header error" here, then please run configure.sh script in the root repo
-// folder.
 #import "../../../private.h"
 
 extern NSString * const kMap2FBLoginSegue = @"Map2FBLogin";
@@ -530,7 +528,7 @@ NSString * const kCategorySelectorSegue = @"MapToCategorySelectorSegue";
 
   /// @todo: Uncomment update dialog when will be ready to handle big traffic bursts.
   /*
-  if (!DeepLinkHandler.shared.isLaunchedByDeeplink)
+  if (!DeepLinkHandler.shared.isLaunchedByDeepLink)
   {
     auto const todo = GetFramework().ToDoAfterUpdate();
     switch (todo) {
@@ -551,7 +549,7 @@ NSString * const kCategorySelectorSegue = @"MapToCategorySelectorSegue";
   [super viewDidAppear:animated];
   // Cold start deep links should be handled when the map is initialized.
   // Otherwise PP container view is nil, or there is no animation/selection of the point.
-  if (DeepLinkHandler.shared.isLaunchedByDeeplink)
+  if (DeepLinkHandler.shared.hasPendingColdLaunchDeepLink)
     (void)[DeepLinkHandler.shared handleDeepLinkAndReset];
 }
 
@@ -1129,7 +1127,7 @@ NSString * const kCategorySelectorSegue = @"MapToCategorySelectorSegue";
   __weak __typeof(self) weakSelf = self;
   [self.trackRecordingManager addObserver:self
         recordingIsActiveDidChangeHandler:^(TrackRecordingState state, TrackInfo * _Nonnull trackInfo,
-                                            ElevationProfileData * _Nonnull (^_Nullable elevationData)()) {
+                                            ElevationProfileData * _Nullable (^elevationData)()) {
           __strong __typeof(weakSelf) self = weakSelf;
           if (!self)
             return;

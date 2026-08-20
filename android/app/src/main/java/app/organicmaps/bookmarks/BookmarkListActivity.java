@@ -1,7 +1,9 @@
 package app.organicmaps.bookmarks;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import androidx.activity.SystemBarStyle;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
@@ -13,6 +15,17 @@ import app.organicmaps.sdk.bookmarks.data.BookmarkManager;
 
 public class BookmarkListActivity extends BaseToolbarActivity
 {
+  /**
+   * The toolbar continues the ?cardBackground surface of the list instead of the branded bar, so the status bar
+   * icons have to follow the theme - light on the dark surface, dark on the light one - rather than stay light.
+   */
+  @NonNull
+  @Override
+  protected SystemBarStyle getStatusBarStyle()
+  {
+    return SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT);
+  }
+
   @CallSuper
   @Override
   public void onResume()
@@ -44,7 +57,7 @@ public class BookmarkListActivity extends BaseToolbarActivity
   @Override
   protected int getContentLayoutResId()
   {
-    return R.layout.bookmarks_activity;
+    return R.layout.bookmark_list_activity;
   }
 
   static void startForResult(@NonNull Fragment fragment, ActivityResultLauncher<Intent> startBookmarkListForResult,

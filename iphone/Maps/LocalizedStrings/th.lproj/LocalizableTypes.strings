@@ -877,6 +877,8 @@
 "type.natural.meadow" = "ทุ่งหญ้า";
 "type.natural.orchard" = "สวนผลไม้";
 "type.natural.peak" = "จุดสูงสุด";
+"type.natural.hill" = "เนินเขา";
+"type.natural.arch" = "ซุ้มหิน";
 "type.natural.saddle" = "อานภูเขา";
 "type.natural.rock" = "หิน";
 "type.natural.scrub" = "ป่าละเมาะ";
@@ -1574,6 +1576,7 @@
 
 /* https://wiki.openstreetmap.org/wiki/Key:social_facility */
 "type.amenity.social_facility" = "สิ่งอำนวยความสะดวกทางสังคม";
+"type.amenity.stage" = "เวที";
 
 /* https://wiki.openstreetmap.org/wiki/Tag:emergency=emergency_ward_entrance */
 "type.emergency.emergency_ward_entrance" = "ทางเข้าแผนกฉุกเฉิน";

@@ -31,9 +31,6 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v6
 
-      - name: Cache Boost submodule
-        uses: ./.github/actions/cache-boost
-
       - name: Parallel submodules checkout
         run: git submodule update --depth 1 --init --recursive --jobs=$(($(sysctl -n hw.logicalcpu) * 20))
 
@@ -44,9 +41,6 @@ jobs:
         run: |
           brew install qt@6
           pip3 install tornado --break-system-packages
-
-      - name: Configure repository
-        run: ./configure.sh
 
       - name: Configure ccache
         uses: hendrikmuhs/ccache-action@v1.2
@@ -95,10 +89,11 @@ jobs:
       # (test preset "ci-xcode"). Excluded suites and why:
       #   drape_tests, drape_frontend_tests, shaders_tests - need offscreen GL, run separately
       #   generator_integration_tests - https://github.com/organicmaps/organicmaps/issues/225
-      #   opening_hours_integration_tests - https://github.com/organicmaps/organicmaps/issues/219
-      #   opening_hours_supported_features_tests - https://github.com/organicmaps/organicmaps/issues/219
       #   routing_integration_tests - https://github.com/organicmaps/organicmaps/issues/221
       #   world_feed_integration_tests - https://github.com/organicmaps/organicmaps/issues/215
+      #   routing_benchmarks, routing_quality_tests, search_quality_tests - benchmarks, not pass/fail tests
+      #   storage_integration_tests - downloads real maps from planet.organicmaps.app (~28 min, ~690 MB);
+      #     the offline part of that coverage lives in storage_tests
       - name: Run tests
         run: ctest --preset ci-xcode -C ${{ matrix.cmake-build-type }} -j$(sysctl -n hw.logicalcpu)
 

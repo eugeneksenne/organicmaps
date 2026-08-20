@@ -717,6 +717,8 @@
     <string name="type.natural.meadow">Çəmən</string>
     <string name="type.natural.orchard">Meyvə bağı</string>
     <string name="type.natural.peak">Pik</string>
+    <string name="type.natural.hill">Təpə</string>
+    <string name="type.natural.arch">Daş qövs</string>
     <string name="type.natural.saddle">Dağ yəhəri</string>
     <string name="type.natural.rock">Qaya</string>
     <string name="type.natural.scrub">Kollar</string>
@@ -1367,6 +1369,7 @@
     <string name="type.self_service.no">Özünə xidmət yoxdur</string>
     <!-- https://wiki.openstreetmap.org/wiki/Key:social_facility -->
     <string name="type.amenity.social_facility">Sosial obyekt</string>
+    <string name="type.amenity.stage">Səhnə</string>
     <!-- https://wiki.openstreetmap.org/wiki/Tag:emergency=emergency_ward_entrance -->
     <string name="type.emergency.emergency_ward_entrance">Təcili yardım şöbəsinin girişi</string>
     <!-- https://wiki.openstreetmap.org/wiki/Tag:amenity=dojo -->

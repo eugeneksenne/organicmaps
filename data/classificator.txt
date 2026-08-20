@@ -169,6 +169,7 @@ world  +
             {}
         shower  -
         social_facility  -
+        stage  -
         stripclub  -
         student_accommodation  -
         studio  -
@@ -777,6 +778,7 @@ world  +
         {}
     mountain_pass  -
     natural  +
+        arch  -
         bare_rock  -
         bay  -
         beach  +
@@ -793,6 +795,7 @@ world  +
         glacier  -
         grassland  -
         heath  -
+        hill  -
         hot_spring  -
         land  -
         peak  -

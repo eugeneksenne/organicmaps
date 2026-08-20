@@ -23,12 +23,12 @@
 #include <algorithm>
 #include <chrono>
 #include <future>
+#include <memory>
 #include <set>
 #include <vector>
 
 namespace
 {
-using TCuisine = std::pair<std::string, std::string>;
 osm::EditableMapObject g_editableMapObject;
 
 jclass g_localNameClazz;
@@ -67,8 +67,6 @@ osm::NewFeatureCategories & GetFeatureCategories()
 
 extern "C"
 {
-using osm::Editor;
-
 JNIEXPORT void Java_app_organicmaps_sdk_editor_Editor_nativeInit(JNIEnv * env, jclass)
 {
   g_localNameClazz = jni::GetGlobalClassRef(env, "app/organicmaps/sdk/editor/data/LocalizedName");
@@ -294,31 +292,45 @@ JNIEXPORT void Java_app_organicmaps_sdk_editor_Editor_nativeSetHouseNumber(JNIEn
 
 JNIEXPORT jboolean Java_app_organicmaps_sdk_editor_Editor_nativeHasSomethingToUpload(JNIEnv * env, jclass clazz)
 {
-  return Editor::Instance().HaveMapEditsOrNotesToUpload();
+  return osm::Editor::Instance().HaveMapEditsOrNotesToUpload();
 }
 
 JNIEXPORT jint Java_app_organicmaps_sdk_editor_Editor_nativeUploadChanges(JNIEnv * env, jclass clazz, jstring token,
                                                                           jstring appVersion, jstring appId)
 {
-  std::promise<Editor::UploadResult> promise;
-  auto future = promise.get_future();
+  using osm::Editor;
 
-  if (!Editor::Instance().UploadChanges(
-          jni::ToNativeString(env, token),
-          {{"created_by", "Organic Maps " OMIM_OS_NAME " " + jni::ToNativeString(env, appVersion)},
-           {"bundle_id", jni::ToNativeString(env, appId)}},
-          [&promise](Editor::UploadResult result) { promise.set_value(result); }))
-    promise.set_value(Editor::UploadResult::NothingToUpload);
+  // The wait below is bounded, so the completion callback may outlive this frame. Share the promise
+  // with the callback instead of keeping it on the stack. This non-empty callback is called exactly
+  // once when UploadChanges returns Started.
+  auto const promise = std::make_shared<std::promise<Editor::UploadResult>>();
+  auto future = promise->get_future();
 
-  auto status = future.wait_for(std::chrono::minutes(5));
-  if (status == std::future_status::timeout)
+  switch (Editor::Instance().UploadChanges(
+      jni::ToNativeString(env, token),
+      {{"created_by", "Organic Maps " OMIM_OS_NAME " " + jni::ToNativeString(env, appVersion)},
+       {"bundle_id", jni::ToNativeString(env, appId)}},
+      [promise](Editor::UploadResult result) { promise->set_value(result); }))
+  {
+  case Editor::UploadStart::Started: break;
+  // Returning NothingToUpload while a previous upload is running would make the worker finish even
+  // though its outcome is still unknown. Report an error so that the worker retries instead.
+  case Editor::UploadStart::AlreadyUploading: return static_cast<jint>(Editor::UploadResult::Error);
+  case Editor::UploadStart::NothingToUpload: return static_cast<jint>(Editor::UploadResult::NothingToUpload);
+  }
+
+  if (future.wait_for(std::chrono::minutes(5)) == std::future_status::timeout)
+  {
+    // Reported as an error so that the caller reschedules, but the upload itself keeps running.
+    LOG(LWARNING, ("Timed out waiting for the OSM upload, it continues in background."));
     return static_cast<jint>(Editor::UploadResult::Error);
+  }
   return static_cast<jint>(future.get());
 }
 
 JNIEXPORT void Java_app_organicmaps_sdk_editor_Editor_nativeClearLocalEdits(JNIEnv * env, jclass clazz)
 {
-  Editor::Instance().ClearAllLocalEdits();
+  osm::Editor::Instance().ClearAllLocalEdits();
 }
 
 JNIEXPORT void Java_app_organicmaps_sdk_editor_Editor_nativeStartEdit(JNIEnv *, jclass)
@@ -405,10 +417,10 @@ JNIEXPORT void Java_app_organicmaps_sdk_editor_Editor_nativeAddToRecentCategorie
 
 JNIEXPORT jobjectArray Java_app_organicmaps_sdk_editor_Editor_nativeGetCuisines(JNIEnv * env, jclass clazz)
 {
-  osm::AllCuisines const & cuisines = osm::Cuisines::Instance().AllSupportedCuisines();
+  auto const & cuisines = osm::Cuisines::Instance().AllSupportedCuisines();
   std::vector<std::string> keys;
   keys.reserve(cuisines.size());
-  for (TCuisine const & cuisine : cuisines)
+  for (auto const & cuisine : cuisines)
     keys.push_back(cuisine.first);
   return jni::ToJavaStringArray(env, keys);
 }
@@ -423,17 +435,13 @@ JNIEXPORT jobjectArray Java_app_organicmaps_sdk_editor_Editor_nativeFilterCuisin
 {
   std::string const substr = jni::ToNativeString(env, jSubstr);
   bool const noFilter = substr.length() == 0;
-  osm::AllCuisines const & cuisines = osm::Cuisines::Instance().AllSupportedCuisines();
+  auto const & cuisines = osm::Cuisines::Instance().AllSupportedCuisines();
   std::vector<std::string> keys;
   keys.reserve(cuisines.size());
 
-  for (TCuisine const & cuisine : cuisines)
-  {
-    std::string const & key = cuisine.first;
-    std::string const & label = cuisine.second;
+  for (auto const & [key, label] : cuisines)
     if (noFilter || search::ContainsNormalized(key, substr) || search::ContainsNormalized(label, substr))
       keys.push_back(key);
-  }
 
   return jni::ToJavaStringArray(env, keys);
 }

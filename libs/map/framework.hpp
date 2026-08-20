@@ -281,6 +281,14 @@ public:
   void ShowBookmark(kml::MarkId id);
   void ShowBookmark(Bookmark const * bookmark);
   void ShowTrack(kml::TrackId trackId);
+  // Sets individual track visibility. Hiding the track that is currently shown in the
+  // Place Page also resets the selection so nothing stays selected on an invisible track.
+  void SetTrackVisibility(kml::TrackId trackId, bool visible);
+  // Deletes the track, closing the Place Page first if it currently shows this track.
+  void DeleteTrack(kml::TrackId trackId);
+  // Same for a whole multi-select batch. Call this rather than the EditSession method it wraps, so that the
+  // Place Page cleanup does not have to be repeated per platform.
+  void DeleteBookmarksAndTracks(kml::MarkIdCollection const & bookmarkIds, kml::TrackIdCollection const & trackIds);
   void ShowFeature(FeatureID const & featureId);
   void ShowBookmarkCategory(kml::MarkGroupId categoryId, bool animation = true);
 
@@ -837,7 +845,6 @@ public:
   std::string GetDonateUrl() const;
   bool CanShowCrowdfundingPromo() const;
   void DidShowDonationPage() const;
-  void DidPossiblyReturnFromDonationPage() const;
   // Only for testing purposes.
   void ResetDonations();
 

@@ -40,6 +40,8 @@ public enum BookmarkManager {
 
   private final BookmarkCategoriesCache mBookmarkCategoriesCache = new BookmarkCategoriesCache();
 
+  private int mLoadingGeneration;
+
   @NonNull
   private final List<BookmarksLoadingListener> mListeners = new ArrayList<>();
 
@@ -126,10 +128,23 @@ public enum BookmarkManager {
   @MainThread
   private void onBookmarksLoadingFinished()
   {
+    ++mLoadingGeneration;
     updateCache();
     mCurrentDataProvider = new CacheBookmarkCategoriesDataProvider();
     for (BookmarksLoadingListener listener : mListeners)
       listener.onBookmarksLoadingFinished();
+  }
+
+  /**
+   * Counts the loads of the bookmark files that have completed. A load rebuilds every category from its file and
+   * hands out fresh ids, so a screen holding ids has to notice one even when it happened while the screen was
+   * not registered as a listener - between {@code onViewCreated()} and {@code onStart()}, or while stopped.
+   * Comparing a snapshot of this against the current value is the only way: the callback above reaches
+   * registered listeners only.
+   */
+  public int getLoadingGeneration()
+  {
+    return mLoadingGeneration;
   }
 
   // Called from JNI.
@@ -259,6 +274,39 @@ public enum BookmarkManager {
   public void deleteBookmark(long bmkId)
   {
     nativeDeleteBookmark(bmkId);
+  }
+
+  /**
+   * Unlike {@link #getTrack(long)}, it does not assert on an already deleted track.
+   */
+  public boolean hasTrack(long trackId)
+  {
+    return nativeHasTrack(trackId);
+  }
+
+  /**
+   * Deletes several bookmarks and tracks at once. Ids that no longer exist are skipped.
+   */
+  public void deleteBookmarksAndTracks(@NonNull long[] bookmarkIds, @NonNull long[] trackIds)
+  {
+    nativeDeleteBookmarksAndTracks(bookmarkIds, trackIds);
+  }
+
+  /**
+   * Moves several bookmarks and tracks into {@code newCategoryId} at once. Ids that no longer exist and items that
+   * already belong to the destination category are skipped.
+   */
+  public void moveBookmarksAndTracks(@NonNull long[] bookmarkIds, @NonNull long[] trackIds, long newCategoryId)
+  {
+    nativeMoveBookmarksAndTracks(bookmarkIds, trackIds, newCategoryId);
+  }
+
+  /**
+   * Applies a custom color to several bookmarks and tracks at once. Ids that no longer exist are skipped.
+   */
+  public void changeBookmarksAndTracksColor(@NonNull long[] bookmarkIds, @NonNull long[] trackIds, @ColorInt int color)
+  {
+    nativeChangeBookmarksAndTracksColor(bookmarkIds, trackIds, color);
   }
 
   public long createCategory(@NonNull String name)
@@ -523,6 +571,13 @@ public enum BookmarkManager {
     nativeSetAllCategoriesVisibility(visible);
   }
 
+  /// Sets individual track visibility. Uses EditSession internally for thread safety.
+  /// Category visibility takes precedence: a track renders only if both category and track are visible.
+  public void setTrackVisibility(long trackId, boolean visible)
+  {
+    nativeSetTrackVisibility(trackId, visible);
+  }
+
   public void prepareCategoriesForSharing(long[] catIds, @NonNull FileType fileType)
   {
     nativePrepareFileForSharing(catIds, fileType.ordinal());
@@ -585,6 +640,16 @@ public enum BookmarkManager {
 
   private native void nativeDeleteBookmark(long bmkId);
 
+  private static native boolean nativeHasTrack(long trackId);
+
+  private static native void nativeDeleteBookmarksAndTracks(@NonNull long[] bookmarkIds, @NonNull long[] trackIds);
+
+  private static native void nativeMoveBookmarksAndTracks(@NonNull long[] bookmarkIds, @NonNull long[] trackIds,
+                                                          long newCatId);
+
+  private static native void nativeChangeBookmarksAndTracksColor(@NonNull long[] bookmarkIds, @NonNull long[] trackIds,
+                                                                 @ColorInt int color);
+
   /**
    * @return category Id
    */
@@ -613,6 +678,8 @@ public enum BookmarkManager {
   private static native boolean nativeAreAllCategoriesInvisible();
 
   private static native void nativeSetAllCategoriesVisibility(boolean visible);
+
+  private static native void nativeSetTrackVisibility(long trackId, boolean visible);
 
   private static native void nativePrepareFileForSharing(long[] catIds, int fileType);
 

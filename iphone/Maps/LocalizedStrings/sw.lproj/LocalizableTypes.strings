@@ -877,6 +877,8 @@
 "type.natural.meadow" = "Meadow";
 "type.natural.orchard" = "Bustani";
 "type.natural.peak" = "Kilele";
+"type.natural.hill" = "Kilima";
+"type.natural.arch" = "Dhoruba ya mwamba";
 "type.natural.saddle" = "Tandiko la mlima";
 "type.natural.rock" = "Mwamba";
 "type.natural.scrub" = "Eneo la Vichaka";
@@ -1574,6 +1576,7 @@
 
 /* https://wiki.openstreetmap.org/wiki/Key:social_facility */
 "type.amenity.social_facility" = "Kituo cha Kijamii";
+"type.amenity.stage" = "Jukwaa";
 
 /* https://wiki.openstreetmap.org/wiki/Tag:emergency=emergency_ward_entrance */
 "type.emergency.emergency_ward_entrance" = "Mlango wa Wadi ya Dharura";

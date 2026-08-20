@@ -698,6 +698,8 @@
     <string name="type.natural.meadow">Weiland</string>
     <string name="type.natural.orchard">Boord</string>
     <string name="type.natural.peak">Piek</string>
+    <string name="type.natural.hill">Heuwel</string>
+    <string name="type.natural.arch">Rotsboog</string>
     <string name="type.natural.saddle">Bergsaal</string>
     <string name="type.natural.rock">Klip</string>
     <string name="type.natural.scrub">Ruigte</string>
@@ -1352,6 +1354,7 @@
     <string name="type.self_service.no">Geen selfbediening nie</string>
     <!-- https://wiki.openstreetmap.org/wiki/Key:social_facility -->
     <string name="type.amenity.social_facility">Sosiale fasiliteit</string>
+    <string name="type.amenity.stage">Toneel</string>
     <!-- https://wiki.openstreetmap.org/wiki/Tag:emergency=emergency_ward_entrance -->
     <string name="type.emergency.emergency_ward_entrance">Noodsaal-ingang</string>
     <!-- https://wiki.openstreetmap.org/wiki/Tag:amenity=dojo -->

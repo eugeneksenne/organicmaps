@@ -877,6 +877,8 @@
 "type.natural.meadow" = "Skógarlundur";
 "type.natural.orchard" = "Trjágarður";
 "type.natural.peak" = "Tindur";
+"type.natural.hill" = "Hóll";
+"type.natural.arch" = "Steinbogagöng";
 "type.natural.saddle" = "Fjallsröðull";
 "type.natural.rock" = "Klettar";
 "type.natural.scrub" = "Runnar";
@@ -1574,6 +1576,7 @@
 
 /* https://wiki.openstreetmap.org/wiki/Key:social_facility */
 "type.amenity.social_facility" = "Félagsþjónusta";
+"type.amenity.stage" = "Svið";
 
 /* https://wiki.openstreetmap.org/wiki/Tag:emergency=emergency_ward_entrance */
 "type.emergency.emergency_ward_entrance" = "Inngangur á bráðamóttöku";

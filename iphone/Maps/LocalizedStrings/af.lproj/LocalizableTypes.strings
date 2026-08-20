@@ -877,6 +877,8 @@
 "type.natural.meadow" = "Weiland";
 "type.natural.orchard" = "Boord";
 "type.natural.peak" = "Piek";
+"type.natural.hill" = "Heuwel";
+"type.natural.arch" = "Rotsboog";
 "type.natural.saddle" = "Bergsaal";
 "type.natural.rock" = "Klip";
 "type.natural.scrub" = "Ruigte";
@@ -1574,6 +1576,7 @@
 
 /* https://wiki.openstreetmap.org/wiki/Key:social_facility */
 "type.amenity.social_facility" = "Sosiale fasiliteit";
+"type.amenity.stage" = "Toneel";
 
 /* https://wiki.openstreetmap.org/wiki/Tag:emergency=emergency_ward_entrance */
 "type.emergency.emergency_ward_entrance" = "Noodsaal-ingang";

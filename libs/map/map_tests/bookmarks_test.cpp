@@ -570,6 +570,129 @@ UNIT_CLASS_TEST(VisualParamsFixture, Bookmarks_CustomColorAndLastEdited)
   TEST_EQUAL(bm2->GetData().m_color.m_rgba, customB.GetRGBA(), ());
 }
 
+// Creates a bookmark at a unique point so several of them can coexist in one category.
+kml::MarkId AddBookmark(BookmarkManager & bmManager, kml::MarkGroupId groupId, double x)
+{
+  kml::BookmarkData bmData;
+  bmData.m_point = m2::PointD(x, x);
+  return bmManager.GetEditSession().CreateBookmark(std::move(bmData), groupId)->GetId();
+}
+
+kml::TrackId AddTrack(BookmarkManager & bmManager, kml::MarkGroupId groupId)
+{
+  auto es = bmManager.GetEditSession();
+  auto const trackId = es.CreateTrack(MakeLineTrackData())->GetId();
+  es.AttachTrack(trackId, groupId);
+  return trackId;
+}
+
+UNIT_CLASS_TEST(VisualParamsFixture, Bookmarks_BatchDelete)
+{
+  ScopedBookmarksDir scopedDir;
+  Framework fm(kFrameworkParams);
+  BookmarkManager & bmManager = fm.GetBookmarkManager();
+  bmManager.EnableTestMode(true);
+
+  auto const cat = bmManager.CreateBookmarkCategory("cat", false /* autoSave */);
+  auto const bm1 = AddBookmark(bmManager, cat, 10);
+  auto const bm2 = AddBookmark(bmManager, cat, 20);
+  auto const bm3 = AddBookmark(bmManager, cat, 30);
+  auto const trk1 = AddTrack(bmManager, cat);
+  auto const trk2 = AddTrack(bmManager, cat);
+
+  // A stale id - the UI acts on a snapshot that can lag the core - must be skipped, not crash.
+  bmManager.GetEditSession().DeleteBookmark(bm3);
+  TEST(bmManager.HasRecentlyDeletedBookmark(), ("A single deletion stashes its undo"));
+
+  // Tracks only: the unrelated single-deletion undo above must survive.
+  bmManager.GetEditSession().DeleteBookmarksAndTracks({} /* bookmarkIds */, {trk1});
+  TEST_EQUAL(bmManager.GetTrackIds(cat).size(), 1, ());
+  TEST(bmManager.HasRecentlyDeletedBookmark(), ("A tracks-only batch must not drop the Place Page undo"));
+
+  // Bookmark ids that are all stale: still nothing was stashed by this batch.
+  bmManager.GetEditSession().DeleteBookmarksAndTracks({bm3}, {} /* trackIds */);
+  TEST(bmManager.HasRecentlyDeletedBookmark(), ("An all-stale batch must not drop the undo either"));
+
+  // A batch that really deletes a bookmark has no undo of its own, so the stash is dropped.
+  bmManager.GetEditSession().DeleteBookmarksAndTracks({bm1, bm3}, {trk2});
+  TEST_EQUAL(bmManager.GetUserMarkIds(cat).size(), 1, ());
+  TEST_EQUAL(bmManager.GetTrackIds(cat).size(), 0, ());
+  TEST(bmManager.HasBookmark(bm2), ("Only the listed bookmarks are deleted"));
+  TEST(!bmManager.HasRecentlyDeletedBookmark(), ());
+}
+
+UNIT_CLASS_TEST(VisualParamsFixture, Bookmarks_BatchMove)
+{
+  ScopedBookmarksDir scopedDir;
+  Framework fm(kFrameworkParams);
+  BookmarkManager & bmManager = fm.GetBookmarkManager();
+  bmManager.EnableTestMode(true);
+
+  auto const cat1 = bmManager.CreateBookmarkCategory("cat1", false /* autoSave */);
+  auto const cat2 = bmManager.CreateBookmarkCategory("cat2", false /* autoSave */);
+  auto const bm1 = AddBookmark(bmManager, cat1, 10);
+  auto const bm2 = AddBookmark(bmManager, cat1, 20);
+  auto const trk = AddTrack(bmManager, cat1);
+  auto const staleBm = AddBookmark(bmManager, cat1, 30);
+  bmManager.GetEditSession().DeleteBookmark(staleBm);
+
+  bmManager.GetEditSession().MoveBookmarksAndTracks({bm1, staleBm}, {trk}, cat2);
+  TEST_EQUAL(bmManager.GetUserMarkIds(cat1).size(), 1, ("bm2 stays behind"));
+  TEST_EQUAL(bmManager.GetUserMarkIds(cat2).size(), 1, ());
+  TEST_EQUAL(bmManager.GetTrackIds(cat1).size(), 0, ());
+  TEST_EQUAL(bmManager.GetTrackIds(cat2).size(), 1, ());
+  TEST_EQUAL(bmManager.GetBookmark(bm1)->GetGroupId(), cat2, ());
+  // A move is a real change of the last edited category, so the SetLastEditedBmCategory() guard must not swallow it.
+  TEST_EQUAL(bmManager.LastEditedBMCategory(), cat2, ());
+
+  // Moving into the category the items already belong to is the no-op the chooser hands back when the current
+  // list is picked; it must not detach anything.
+  bmManager.GetEditSession().MoveBookmarksAndTracks({bm1}, {trk}, cat2);
+  TEST_EQUAL(bmManager.GetUserMarkIds(cat2).size(), 1, ());
+  TEST_EQUAL(bmManager.GetTrackIds(cat2).size(), 1, ());
+
+  // A destination that disappeared between snapshot and tap leaves everything where it was.
+  bmManager.GetEditSession().DeleteBmCategory(cat2, true /* permanently */);
+  bmManager.GetEditSession().MoveBookmarksAndTracks({bm2}, {} /* trackIds */, cat2);
+  TEST_EQUAL(bmManager.GetUserMarkIds(cat1).size(), 1, ());
+  TEST_EQUAL(bmManager.GetBookmark(bm2)->GetGroupId(), cat1, ());
+}
+
+UNIT_CLASS_TEST(VisualParamsFixture, Bookmarks_BatchColor)
+{
+  ScopedBookmarksDir scopedDir;
+  Framework fm(kFrameworkParams);
+  BookmarkManager & bmManager = fm.GetBookmarkManager();
+  bmManager.EnableTestMode(true);
+
+  auto const cat = bmManager.CreateBookmarkCategory("cat", false /* autoSave */);
+  auto const bm = AddBookmark(bmManager, cat, 10);
+  auto const trk = AddTrack(bmManager, cat);
+  auto const staleBm = AddBookmark(bmManager, cat, 20);
+  bmManager.GetEditSession().DeleteBookmark(staleBm);
+
+  auto const seed = dp::Color(1, 2, 3, 255);
+  bmManager.SetLastEditedBmColor(kml::MakeCustomBookmarkColorData(seed));
+
+  // Tracks only: the color the next new bookmark gets must not move.
+  auto const trackColor = dp::Color(200, 100, 50, 255);
+  bmManager.GetEditSession().SetBookmarksAndTracksColor({} /* bookmarkIds */, {trk}, trackColor);
+  TEST_EQUAL(bmManager.GetTrack(trk)->GetColor(0), trackColor, ());
+  TEST_EQUAL(bmManager.LastEditedBMColor().m_rgba, seed.GetRGBA(), ());
+
+  // Bookmark ids that are all stale must be treated as a tracks-only batch.
+  bmManager.GetEditSession().SetBookmarksAndTracksColor({staleBm}, {trk}, dp::Color(9, 9, 9, 255));
+  TEST_EQUAL(bmManager.LastEditedBMColor().m_rgba, seed.GetRGBA(), ());
+
+  // Reaching a live bookmark does move it, and the color is stored as an explicit custom one.
+  auto const newColor = dp::Color(10, 20, 30, 255);
+  bmManager.GetEditSession().SetBookmarksAndTracksColor({bm, staleBm}, {trk}, newColor);
+  TEST_EQUAL(bmManager.GetBookmark(bm)->GetData().m_color.m_rgba, newColor.GetRGBA(), ());
+  TEST_EQUAL(bmManager.GetBookmark(bm)->GetData().m_color.m_predefinedColor, kml::PredefinedColor::None, ());
+  TEST_EQUAL(bmManager.GetTrack(trk)->GetColor(0), newColor, ());
+  TEST_EQUAL(bmManager.LastEditedBMColor().m_rgba, newColor.GetRGBA(), ());
+}
+
 UNIT_CLASS_TEST(VisualParamsFixture, Bookmarks_Getting)
 {
   ScopedBookmarksDir scopedDir;
@@ -2029,6 +2152,30 @@ UNIT_CLASS_TEST(Runner, ExportSingleUnicode)
   bmManager.PrepareFileForSharing(std::move(categories), checker, FileType::Kml);
 }
 
+UNIT_CLASS_TEST(Runner, ExportSingleMultilingualCategoryName)
+{
+  BookmarkManager bmManager(BM_CALLBACKS);
+  bmManager.EnableTestMode(true);
+
+  kml::CategoryData category;
+  category.m_name[StringUtf8Multilang::GetLangIndex("ru")] = "Категория";
+  category.m_name[StringUtf8Multilang::GetLangIndex("de")] = "Kategorie";
+  auto const categoryId = bmManager.CreateBookmarkCategory(std::move(category), false /* autoSave */);
+
+  kml::BookmarkData bookmark;
+  bookmark.m_point = m2::PointD(0.0, 0.0);
+  kml::SetDefaultStr(bookmark.m_name, "Bookmark");
+  bmManager.GetEditSession().CreateBookmark(std::move(bookmark), categoryId);
+
+  auto const checker = [](BookmarkManager::SharingResult const & result)
+  {
+    TEST(result.m_code == BookmarkManager::SharingResult::Code::Success, (result.m_errorString));
+    TEST_EQUAL(base::FileNameFromFullPath(result.m_sharingPath), "Kategorie.geojson", ());
+    TEST(base::DeleteFileX(result.m_sharingPath), ());
+  };
+  bmManager.PrepareFileForSharing(kml::GroupIdCollection{categoryId}, checker, FileType::GeoJson);
+}
+
 UNIT_CLASS_TEST(Runner, ExportSingleTrackKmz)
 {
   std::string const file = GetPlatform().TestsDataPathForFile("test_data/gpx/export_test.gpx");
@@ -2235,6 +2382,183 @@ UNIT_TEST(Bookmarks_LastEditedCategoryIsAlwaysValid)
 
   auto const lastEdited = fm.LastEditedBMCategory();
   TEST(bmManager.HasBmCategory(lastEdited), ("LastEditedBMCategory must always return a valid category"));
+}
+
+UNIT_CLASS_TEST(Runner, Bookmarks_TrackVisibilityPersistence)
+{
+  string const dir = GetBookmarksDirectory();
+  bool const delDirOnExit = Platform::MkDir(dir) == Platform::ERR_OK;
+  SCOPE_GUARD(dirDeleter, [&]()
+  {
+    if (delDirOnExit)
+      (void)Platform::RmDir(dir);
+  });
+  string const fileName = base::JoinPath(dir, "UnitTestBookmarks.kml");
+  SCOPE_GUARD(fileDeleter, [&]() { (void)base::DeleteFileX(fileName); });
+
+  BookmarkManager bmManager(BM_CALLBACKS);
+  bmManager.EnableTestMode(true);
+
+  // Import file with a single visible track
+
+  string const kmlFile = GetPlatform().TestsDataPathForFile("test_data/kml/single_track.kml");
+  BookmarkManager::KMLDataCollection kmlDataCollection1;
+  kmlDataCollection1.emplace_back("", LoadKmlData(FileReader(kmlFile), GetActiveFileType()));
+  bmManager.CreateCategories(std::move(kmlDataCollection1));
+
+  auto const groupId1 = bmManager.GetUnsortedBmGroupsIdList().front();
+  auto const trackId1 = *bmManager.GetTrackIds(groupId1).begin();
+
+  TEST_EQUAL(true, bmManager.GetTrack(trackId1)->IsVisible(), ());
+
+  // Change visibility and save
+  kml::TrackData trackData = bmManager.GetTrack(trackId1)->GetData();
+  trackData.m_visible = false;
+  bmManager.GetEditSession().UpdateTrack(trackId1, trackData);
+
+  {
+    FileWriter writer(fileName);
+    bmManager.SaveBookmarkCategory(groupId1, writer, GetActiveFileType());
+  }
+
+  // Reload file and verify track visibility
+  bmManager.GetEditSession().DeleteBmCategory(groupId1, true);
+
+  BookmarkManager::KMLDataCollection kmlDataCollection2;
+  kmlDataCollection2.emplace_back("", LoadKmlData(FileReader(fileName), GetActiveFileType()));
+
+  bmManager.CreateCategories(std::move(kmlDataCollection2));
+
+  auto const groupId2 = bmManager.GetUnsortedBmGroupsIdList().front();
+  auto const trackId2 = *bmManager.GetTrackIds(groupId2).begin();
+  TEST_EQUAL(false, bmManager.GetTrack(trackId2)->IsVisible(), ());
+}
+
+// Verify SetTrackVisibility via EditSession toggles individual track visibility
+// and that the change survives a save/load round-trip.
+UNIT_CLASS_TEST(Runner, Bookmarks_SetTrackVisibilityRoundTrip)
+{
+  string const dir = GetBookmarksDirectory();
+  bool const delDirOnExit = Platform::MkDir(dir) == Platform::ERR_OK;
+  SCOPE_GUARD(dirDeleter, [&]()
+  {
+    if (delDirOnExit)
+      (void)Platform::RmDir(dir);
+  });
+  string const fileName = base::JoinPath(dir, "UnitTestTrackVisibility.kml");
+  SCOPE_GUARD(fileDeleter, [&]() { (void)base::DeleteFileX(fileName); });
+
+  BookmarkManager bmManager(BM_CALLBACKS);
+  bmManager.EnableTestMode(true);
+
+  string const kmlFile = GetPlatform().TestsDataPathForFile("test_data/kml/single_track.kml");
+  BookmarkManager::KMLDataCollection kmlDataCollection1;
+  kmlDataCollection1.emplace_back("", LoadKmlData(FileReader(kmlFile), GetActiveFileType()));
+  bmManager.CreateCategories(std::move(kmlDataCollection1));
+
+  auto const groupId = bmManager.GetUnsortedBmGroupsIdList().front();
+  auto const trackId = *bmManager.GetTrackIds(groupId).begin();
+
+  TEST(bmManager.GetTrack(trackId)->IsVisible(), ());
+
+  bmManager.GetEditSession().SetTrackVisibility(trackId, false);
+  TEST(!bmManager.GetTrack(trackId)->IsVisible(), ());
+
+  bmManager.GetEditSession().SetTrackVisibility(trackId, true);
+  TEST(bmManager.GetTrack(trackId)->IsVisible(), ());
+
+  // Hide and save.
+  bmManager.GetEditSession().SetTrackVisibility(trackId, false);
+  {
+    FileWriter writer(fileName);
+    bmManager.SaveBookmarkCategory(groupId, writer, GetActiveFileType());
+  }
+
+  // Reload and verify hidden state persisted.
+  bmManager.GetEditSession().DeleteBmCategory(groupId, true);
+
+  BookmarkManager::KMLDataCollection kmlDataCollection2;
+  kmlDataCollection2.emplace_back("", LoadKmlData(FileReader(fileName), GetActiveFileType()));
+  bmManager.CreateCategories(std::move(kmlDataCollection2));
+
+  auto const groupId2 = bmManager.GetUnsortedBmGroupsIdList().front();
+  auto const trackId2 = *bmManager.GetTrackIds(groupId2).begin();
+  TEST(!bmManager.GetTrack(trackId2)->IsVisible(), ());
+}
+
+// Verify that FindTracksInRect skips hidden tracks.
+UNIT_CLASS_TEST(Runner, Bookmarks_FindTracksInRectFiltersHidden)
+{
+  BookmarkManager bmManager(BM_CALLBACKS);
+  bmManager.EnableTestMode(true);
+
+  string const kmlFile = GetPlatform().TestsDataPathForFile("test_data/kml/single_track.kml");
+  BookmarkManager::KMLDataCollection kmlDataCollection;
+  kmlDataCollection.emplace_back("", LoadKmlData(FileReader(kmlFile), GetActiveFileType()));
+  bmManager.CreateCategories(std::move(kmlDataCollection));
+
+  auto const groupId = bmManager.GetUnsortedBmGroupsIdList().front();
+  auto const trackId = *bmManager.GetTrackIds(groupId).begin();
+
+  // Make the group visible so tracks can be found.
+  bmManager.GetEditSession().SetIsVisible(groupId, true);
+
+  // Build a large touch rect that should include the track.
+  auto const trackRect = bmManager.GetTrack(trackId)->GetLimitRect();
+  auto const bigRect = mercator::RectByCenterXYAndSizeInMeters(trackRect.Center(), 1e5);
+
+  // Visible track should be findable.
+  auto const tracks1 = bmManager.FindTracksInRect(bigRect);
+  TEST(!tracks1.empty(), ());
+  TEST_EQUAL(tracks1.front().m_trackId, trackId, ());
+
+  // Hide the track.
+  bmManager.GetEditSession().SetTrackVisibility(trackId, false);
+
+  // Hidden track should NOT be findable.
+  auto const tracks2 = bmManager.FindTracksInRect(bigRect);
+  TEST(tracks2.empty(), ());
+}
+
+// Verify that group visibility and individual track visibility are independent.
+// Hiding a group does not change individual track m_visible flags.
+UNIT_CLASS_TEST(Runner, Bookmarks_GroupAndIndividualVisibilityIndependent)
+{
+  BookmarkManager bmManager(BM_CALLBACKS);
+  bmManager.EnableTestMode(true);
+
+  string const kmlFile = GetPlatform().TestsDataPathForFile("test_data/kml/single_track.kml");
+  BookmarkManager::KMLDataCollection kmlDataCollection;
+  kmlDataCollection.emplace_back("", LoadKmlData(FileReader(kmlFile), GetActiveFileType()));
+  bmManager.CreateCategories(std::move(kmlDataCollection));
+
+  auto const groupId = bmManager.GetUnsortedBmGroupsIdList().front();
+  auto const trackId = *bmManager.GetTrackIds(groupId).begin();
+
+  // Initially both group and track are visible.
+  TEST(bmManager.IsVisible(groupId), ());
+  TEST(bmManager.GetTrack(trackId)->IsVisible(), ());
+
+  // Hide the group — individual track m_visible should remain true.
+  bmManager.GetEditSession().SetIsVisible(groupId, false);
+  TEST(!bmManager.IsVisible(groupId), ());
+  TEST(bmManager.GetTrack(trackId)->IsVisible(), ("Group hide must not change individual track visibility"));
+
+  // Show the group — track should still be individually visible.
+  bmManager.GetEditSession().SetIsVisible(groupId, true);
+  TEST(bmManager.IsVisible(groupId), ());
+  TEST(bmManager.GetTrack(trackId)->IsVisible(), ());
+
+  // Now hide the individual track — group should remain visible.
+  bmManager.GetEditSession().SetTrackVisibility(trackId, false);
+  TEST(bmManager.IsVisible(groupId), ("Individual track hide must not change group visibility"));
+  TEST(!bmManager.GetTrack(trackId)->IsVisible(), ());
+
+  // Show the group again after hiding it — individually hidden track should stay hidden.
+  bmManager.GetEditSession().SetIsVisible(groupId, false);
+  bmManager.GetEditSession().SetIsVisible(groupId, true);
+  TEST(!bmManager.GetTrack(trackId)->IsVisible(),
+       ("Individually hidden track must stay hidden after group show/hide cycle"));
 }
 
 }  // namespace bookmarks_test

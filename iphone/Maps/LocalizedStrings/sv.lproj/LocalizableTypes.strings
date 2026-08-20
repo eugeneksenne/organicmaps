@@ -877,6 +877,8 @@
 "type.natural.meadow" = "Äng";
 "type.natural.orchard" = "Fruktodling";
 "type.natural.peak" = "Bergstopp";
+"type.natural.hill" = "Kulle";
+"type.natural.arch" = "Stenbågen";
 "type.natural.saddle" = "Fjällsadel";
 "type.natural.rock" = "Bergart";
 "type.natural.scrub" = "Ruggen";
@@ -1574,6 +1576,7 @@
 
 /* https://wiki.openstreetmap.org/wiki/Key:social_facility */
 "type.amenity.social_facility" = "Social anläggning";
+"type.amenity.stage" = "Scen";
 
 /* https://wiki.openstreetmap.org/wiki/Tag:emergency=emergency_ward_entrance */
 "type.emergency.emergency_ward_entrance" = "Ingång till akutmottagning";

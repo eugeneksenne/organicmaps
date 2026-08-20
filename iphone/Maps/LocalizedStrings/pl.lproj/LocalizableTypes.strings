@@ -877,6 +877,8 @@
 "type.natural.meadow" = "Łąka";
 "type.natural.orchard" = "Sad";
 "type.natural.peak" = "Szczyt";
+"type.natural.hill" = "Wzgórze";
+"type.natural.arch" = "Skalny łuk";
 "type.natural.saddle" = "Siodło";
 "type.natural.rock" = "Skała";
 "type.natural.scrub" = "Zarośla";
@@ -1574,6 +1576,7 @@
 
 /* https://wiki.openstreetmap.org/wiki/Key:social_facility */
 "type.amenity.social_facility" = "Obiekt socjalny";
+"type.amenity.stage" = "Scena";
 
 /* https://wiki.openstreetmap.org/wiki/Tag:emergency=emergency_ward_entrance */
 "type.emergency.emergency_ward_entrance" = "Wejście na oddział ratunkowy";

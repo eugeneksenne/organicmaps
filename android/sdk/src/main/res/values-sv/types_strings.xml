@@ -729,6 +729,8 @@
     <string name="type.natural.meadow">Äng</string>
     <string name="type.natural.orchard">Fruktodling</string>
     <string name="type.natural.peak">Bergstopp</string>
+    <string name="type.natural.hill">Kulle</string>
+    <string name="type.natural.arch">Stenbågen</string>
     <string name="type.natural.saddle">Fjällsadel</string>
     <string name="type.natural.rock">Bergart</string>
     <string name="type.natural.scrub">Ruggen</string>
@@ -1381,6 +1383,7 @@
     <string name="type.self_service.no">Ingen självbetjäning</string>
     <!-- https://wiki.openstreetmap.org/wiki/Key:social_facility -->
     <string name="type.amenity.social_facility">Social anläggning</string>
+    <string name="type.amenity.stage">Scen</string>
     <!-- https://wiki.openstreetmap.org/wiki/Tag:emergency=emergency_ward_entrance -->
     <string name="type.emergency.emergency_ward_entrance">Ingång till akutmottagning</string>
     <!-- https://wiki.openstreetmap.org/wiki/Tag:amenity=dojo -->

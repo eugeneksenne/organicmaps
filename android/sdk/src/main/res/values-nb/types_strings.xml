@@ -635,6 +635,8 @@
     <string name="type.natural.meadow">Eng</string>
     <string name="type.natural.orchard">Frukthage</string>
     <string name="type.natural.peak">Topp</string>
+    <string name="type.natural.hill">Bakke</string>
+    <string name="type.natural.arch">Steinbuen</string>
     <string name="type.natural.saddle">Fjellsadel</string>
     <string name="type.natural.rock">Fjell</string>
     <string name="type.natural.scrub">Kratt</string>
@@ -1229,6 +1231,7 @@
     <string name="type.self_service.no">Ingen selvbetjening</string>
     <!-- https://wiki.openstreetmap.org/wiki/Key:social_facility -->
     <string name="type.amenity.social_facility">Sosialt anlegg</string>
+    <string name="type.amenity.stage">Scene</string>
     <!-- https://wiki.openstreetmap.org/wiki/Tag:emergency=emergency_ward_entrance -->
     <string name="type.emergency.emergency_ward_entrance">Inngang til akuttmottaket</string>
     <!-- https://wiki.openstreetmap.org/wiki/Tag:amenity=dojo -->

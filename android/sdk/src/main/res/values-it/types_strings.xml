@@ -749,6 +749,8 @@
     <string name="type.natural.meadow">Prato</string>
     <string name="type.natural.orchard">Frutteto</string>
     <string name="type.natural.peak">Monte</string>
+    <string name="type.natural.hill">Collina</string>
+    <string name="type.natural.arch">Arco roccioso</string>
     <string name="type.natural.saddle">Sella</string>
     <string name="type.natural.rock">Roccia</string>
     <string name="type.natural.scrub">Boscaglia</string>
@@ -1430,6 +1432,7 @@
     <string name="type.self_service.no">Nessun self-service</string>
     <!-- https://wiki.openstreetmap.org/wiki/Key:social_facility -->
     <string name="type.amenity.social_facility">Struttura sociale</string>
+    <string name="type.amenity.stage">Palcoscenico</string>
     <!-- https://wiki.openstreetmap.org/wiki/Tag:emergency=emergency_ward_entrance -->
     <string name="type.emergency.emergency_ward_entrance">Ingresso del reparto di emergenza</string>
     <!-- https://wiki.openstreetmap.org/wiki/Tag:amenity=dojo -->

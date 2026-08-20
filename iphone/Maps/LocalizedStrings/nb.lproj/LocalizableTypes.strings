@@ -877,6 +877,8 @@
 "type.natural.meadow" = "Eng";
 "type.natural.orchard" = "Frukthage";
 "type.natural.peak" = "Topp";
+"type.natural.hill" = "Bakke";
+"type.natural.arch" = "Steinbuen";
 "type.natural.saddle" = "Fjellsadel";
 "type.natural.rock" = "Fjell";
 "type.natural.scrub" = "Kratt";
@@ -1574,6 +1576,7 @@
 
 /* https://wiki.openstreetmap.org/wiki/Key:social_facility */
 "type.amenity.social_facility" = "Sosialt anlegg";
+"type.amenity.stage" = "Scene";
 
 /* https://wiki.openstreetmap.org/wiki/Tag:emergency=emergency_ward_entrance */
 "type.emergency.emergency_ward_entrance" = "Inngang til akuttmottaket";

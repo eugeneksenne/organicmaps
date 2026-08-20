@@ -718,6 +718,8 @@
     <string name="type.natural.meadow">Lúka</string>
     <string name="type.natural.orchard">Sad</string>
     <string name="type.natural.peak">Hora</string>
+    <string name="type.natural.hill">Kopec</string>
+    <string name="type.natural.arch">Skalný oblúk</string>
     <string name="type.natural.saddle">Sedlo</string>
     <string name="type.natural.rock">Kameň</string>
     <string name="type.natural.scrub">Krovie</string>
@@ -1360,6 +1362,7 @@
     <string name="type.self_service.no">Žiadna samoobsluha</string>
     <!-- https://wiki.openstreetmap.org/wiki/Key:social_facility -->
     <string name="type.amenity.social_facility">Sociálne zariadenie</string>
+    <string name="type.amenity.stage">Javisko</string>
     <!-- https://wiki.openstreetmap.org/wiki/Tag:emergency=emergency_ward_entrance -->
     <string name="type.emergency.emergency_ward_entrance">Vchod do pohotovostného oddelenia</string>
     <!-- https://wiki.openstreetmap.org/wiki/Tag:amenity=dojo -->

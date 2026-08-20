@@ -84,7 +84,10 @@ public:
 
 std::string GetFileNameForExport(BookmarkManager::KMLDataCollectionPtr::element_type::value_type const & kmlToShare)
 {
-  std::string fileName = RemoveInvalidSymbols(kml::GetDefaultStr(kmlToShare.second->m_categoryData.m_name));
+  // Same name resolution as the exported file content, so a category named in one language only
+  // is not shared under its on-disk file name.
+  std::string fileName =
+      RemoveInvalidSymbols(std::string{kml::GetStringForExport(kmlToShare.second->m_categoryData.m_name)});
   if (fileName.empty())
     fileName = base::GetNameFromFullPathWithoutExt(kmlToShare.first);
   return TruncateToValidFileName(std::move(fileName));
@@ -953,6 +956,8 @@ std::vector<Track::TrackSelectionInfo> BookmarkManager::FindTracksInRect(m2::Rec
     for (auto trackId : category.GetUserLines())
     {
       auto const track = GetTrack(trackId);
+      if (!track->IsVisible())
+        continue;
       if (tracksFilter && !tracksFilter(track))
         continue;
 
@@ -1867,19 +1872,8 @@ void BookmarkManager::UpdateTrackMarksMinZoom()
 
 void BookmarkManager::UpdateTrackMarksVisibility(kml::MarkGroupId groupId)
 {
-  auto const isVisible = IsVisible(groupId);
-  auto const tracksIds = GetTrackIds(groupId);
-  auto infoMark = GetMarkForEdit<TrackInfoMark>(m_trackInfoMarkId);
-  for (auto trackId : tracksIds)
-  {
-    auto markId = GetTrackSelectionMarkId(trackId);
-    if (markId == kml::kInvalidMarkId)
-      continue;
-    if (infoMark->GetTrackId() == trackId && infoMark->IsVisible())
-      infoMark->SetIsVisible(isVisible);
-    auto mark = GetMarkForEdit<TrackSelectionMark>(markId);
-    mark->SetIsVisible(isVisible);
-  }
+  for (auto trackId : GetTrackIds(groupId))
+    UpdateTrackSelectionMark(trackId);
 }
 
 void BookmarkManager::RequestSymbolSizes()
@@ -1986,11 +1980,15 @@ Track * BookmarkManager::AddTrack(std::unique_ptr<Track> && track)
 
 void BookmarkManager::SaveState() const
 {
-  settings::Set(kLastEditedBookmarkCategory, m_lastCategoryFileName);
+  // The three keys are one logical value - a color belongs next to the category it was last used in - and one
+  // Update() persists them in a single rewrite of the settings file.
   // A custom color has m_predefinedColor == None, so old clients read it as "unset" and fall back
   // to the default preset; new clients pick up the real color from the RGBA key below.
-  settings::Set(kLastEditedBookmarkColor, static_cast<uint32_t>(m_lastColor.m_predefinedColor));
-  settings::Set(kLastEditedBookmarkColorRGBA, m_lastColor.m_rgba);
+  // Update() drops keys with an empty value, which is what an unset last category should be anyway.
+  settings::Update(
+      {{kLastEditedBookmarkCategory, m_lastCategoryFileName},
+       {kLastEditedBookmarkColor, settings::ToString(static_cast<uint32_t>(m_lastColor.m_predefinedColor))},
+       {kLastEditedBookmarkColorRGBA, settings::ToString(m_lastColor.m_rgba)}});
 }
 
 void BookmarkManager::LoadState()
@@ -2382,8 +2380,46 @@ void BookmarkManager::ChangeTrackColor(kml::TrackId trackId, dp::Color color)
 void BookmarkManager::UpdateTrack(kml::TrackId trackId, kml::TrackData const & trackData)
 {
   CHECK_THREAD_CHECKER(m_threadChecker, ());
+  // GetTrackForEdit() already marks the line dirty for re-rendering. Visibility is changed only
+  // via SetTrackVisibility(), so the selection mark needs no update here.
+  GetTrackForEdit(trackId)->SetData(trackData);
+}
+
+bool BookmarkManager::IsTrackEffectivelyVisible(kml::TrackId trackId) const
+{
+  auto const * track = GetTrack(trackId);
+  return track != nullptr && track->IsVisible() && IsVisible(track->GetGroupId());
+}
+
+// The elevation selection dot and its info bubble belong to the active track selection. Show them
+// only while the track is the current selection and effectively visible; otherwise a deselected or
+// hidden track would keep a stale dot on the map with no Place Page.
+void BookmarkManager::UpdateTrackSelectionMark(kml::TrackId trackId)
+{
+  auto const markId = GetTrackSelectionMarkId(trackId);
+  if (markId == kml::kInvalidMarkId)
+    return;
+
+  bool const markVisible = trackId == m_selectedTrackId && IsTrackEffectivelyVisible(trackId);
+  if (auto infoMark = GetMarkForEdit<TrackInfoMark>(m_trackInfoMarkId); infoMark->GetTrackId() == trackId)
+    infoMark->SetIsVisible(markVisible);
+  GetMarkForEdit<TrackSelectionMark>(markId)->SetIsVisible(markVisible);
+}
+
+// Sets individual track visibility independent of the parent category visibility.
+// See IsTrackEffectivelyVisible() for how the two combine during rendering.
+// Must be called through EditSession to ensure thread safety and change notification.
+void BookmarkManager::SetTrackVisibility(kml::TrackId trackId, bool visible)
+{
+  CHECK_THREAD_CHECKER(m_threadChecker, ());
   auto * track = GetTrackForEdit(trackId);
-  track->SetData(trackData);
+  if (track == nullptr || track->IsVisible() == visible)
+    return;
+
+  // GetTrackForEdit() already marked the line dirty; the lightweight setter avoids copying the
+  // whole TrackData (geometry included) just to flip one flag.
+  track->SetVisibility(visible);
+  UpdateTrackSelectionMark(trackId);
 }
 
 kml::MarkGroupId BookmarkManager::LastEditedBMCategory()
@@ -2410,14 +2446,25 @@ kml::ColorData BookmarkManager::LastEditedBMColor() const
 
 void BookmarkManager::SetLastEditedBmCategory(kml::MarkGroupId groupId)
 {
+  // SaveState() rewrites the settings file, and a batch move calls this once per item with the same destination.
+  // The file name is compared too, because LastEditedBMCategory() can fall back to CheckAndCreateDefaultCategory()
+  // and leave m_lastEditedGroupId pointing at a category whose name was never persisted.
+  auto fileName = CategoryFileName(*GetBmCategory(groupId));
+  if (m_lastEditedGroupId == groupId && m_lastCategoryFileName == fileName)
+    return;
+
   m_lastEditedGroupId = groupId;
-  m_lastCategoryFileName = CategoryFileName(*GetBmCategory(groupId));
+  m_lastCategoryFileName = std::move(fileName);
   SaveState();
 }
 
 void BookmarkManager::SetLastEditedBmColor(kml::ColorData const & color)
 {
-  m_lastColor = kml::NormalizeBookmarkColorData(color);
+  auto const normalized = kml::NormalizeBookmarkColorData(color);
+  if (m_lastColor == normalized)
+    return;
+
+  m_lastColor = normalized;
   SaveState();
 }
 
@@ -3655,6 +3702,86 @@ void BookmarkManager::EditSession::DeleteTrack(kml::TrackId trackId)
   m_bmManager.DeleteTrack(trackId);
 }
 
+void BookmarkManager::EditSession::DeleteBookmarksAndTracks(kml::MarkIdCollection const & bookmarkIds,
+                                                            kml::TrackIdCollection const & trackIds)
+{
+  bool deletedBookmark = false;
+  for (auto const markId : bookmarkIds)
+  {
+    if (!m_bmManager.HasBookmark(markId))
+      continue;
+    m_bmManager.DeleteBookmark(markId);
+    deletedBookmark = true;
+  }
+
+  for (auto const trackId : trackIds)
+    if (m_bmManager.HasTrack(trackId))
+      m_bmManager.DeleteTrack(trackId);
+
+  // DeleteBookmark() stashes the last deleted bookmark so the Place Page can restore it, and a batch offers no
+  // such undo. Reset only when this batch really stashed something: a tracks-only batch, or one whose bookmark
+  // ids all turned out to be stale, must leave an unrelated single deletion's undo alone.
+  if (deletedBookmark)
+    m_bmManager.ResetRecentlyDeletedBookmark();
+}
+
+void BookmarkManager::EditSession::MoveBookmarksAndTracks(kml::MarkIdCollection const & bookmarkIds,
+                                                          kml::TrackIdCollection const & trackIds,
+                                                          kml::MarkGroupId newGroupId)
+{
+  // The destination comes from a category list the UI snapshotted, so it can already be deleted; attaching to it
+  // would fail a CHECK deeper down.
+  if (!m_bmManager.HasBmCategory(newGroupId))
+    return;
+
+  for (auto const markId : bookmarkIds)
+  {
+    auto const * bookmark = m_bmManager.GetBookmark(markId);
+    if (bookmark == nullptr)
+      continue;
+    // The current group is read from the core rather than trusted from the caller: MoveBookmark() detaches from
+    // whatever group it is told, and a stale one would corrupt that category. It also skips the no-op move that
+    // the chooser hands back when the current list is picked.
+    auto const curGroupId = bookmark->GetGroupId();
+    if (curGroupId != newGroupId)
+      m_bmManager.MoveBookmark(markId, curGroupId, newGroupId);
+  }
+
+  for (auto const trackId : trackIds)
+  {
+    auto const * track = m_bmManager.GetTrack(trackId);
+    if (track == nullptr)
+      continue;
+    auto const curGroupId = track->GetGroupId();
+    if (curGroupId != newGroupId)
+      m_bmManager.MoveTrack(trackId, curGroupId, newGroupId);
+  }
+}
+
+void BookmarkManager::EditSession::SetBookmarksAndTracksColor(kml::MarkIdCollection const & bookmarkIds,
+                                                              kml::TrackIdCollection const & trackIds, dp::Color color)
+{
+  bool recoloredBookmark = false;
+  for (auto const markId : bookmarkIds)
+  {
+    if (auto * bookmark = m_bmManager.GetBookmarkForEdit(markId))
+    {
+      bookmark->SetColor(color);
+      recoloredBookmark = true;
+    }
+  }
+
+  for (auto const trackId : trackIds)
+    if (auto * track = m_bmManager.GetTrackForEdit(trackId))
+      track->SetColor(color);
+
+  // The last edited bookmark color seeds the next new bookmark, so a batch that recolored tracks only - or whose
+  // bookmark ids were all stale - must not move it. Reaching a live bookmark is enough: the user picked this color
+  // for bookmarks, whether or not one of them already had it.
+  if (recoloredBookmark)
+    m_bmManager.SetLastEditedBmColor(kml::MakeCustomBookmarkColorData(color));
+}
+
 void BookmarkManager::EditSession::ClearGroup(kml::MarkGroupId groupId)
 {
   m_bmManager.ClearGroup(groupId);
@@ -3663,6 +3790,11 @@ void BookmarkManager::EditSession::ClearGroup(kml::MarkGroupId groupId)
 void BookmarkManager::EditSession::SetIsVisible(kml::MarkGroupId groupId, bool visible)
 {
   m_bmManager.SetIsVisible(groupId, visible);
+}
+
+void BookmarkManager::EditSession::SetTrackVisibility(kml::TrackId trackId, bool visible)
+{
+  m_bmManager.SetTrackVisibility(trackId, visible);
 }
 
 void BookmarkManager::EditSession::MoveBookmark(kml::MarkId bmID, kml::MarkGroupId curGroupID,

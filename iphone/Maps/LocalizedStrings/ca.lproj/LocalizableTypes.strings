@@ -877,6 +877,8 @@
 "type.natural.meadow" = "Prat de dall";
 "type.natural.orchard" = "Verger";
 "type.natural.peak" = "Cim";
+"type.natural.hill" = "Turó";
+"type.natural.arch" = "Arc rocós";
 "type.natural.saddle" = "Sella de muntanya";
 "type.natural.rock" = "Roca";
 "type.natural.scrub" = "Matoll";
@@ -1574,6 +1576,7 @@
 
 /* https://wiki.openstreetmap.org/wiki/Key:social_facility */
 "type.amenity.social_facility" = "Servei social";
+"type.amenity.stage" = "Escenari";
 
 /* https://wiki.openstreetmap.org/wiki/Tag:emergency=emergency_ward_entrance */
 "type.emergency.emergency_ward_entrance" = "Entrada d’urgències";

@@ -134,9 +134,21 @@ public:
     void DeleteBookmark(kml::MarkId bmId);
     void DeleteTrack(kml::TrackId trackId);
 
+    /// Batch counterparts of the single-item operations above, for a multi-select UI to call.
+    /// Ids that no longer exist are skipped, because the caller acts on a UI snapshot that can lag the core
+    /// state. Holding one session for the whole batch is the point: the kml files are written, and observers
+    /// notified, once instead of once per item.
+    /// @note Prefer Framework::DeleteBookmarksAndTracks(), which also closes a Place Page showing a deleted item.
+    void DeleteBookmarksAndTracks(kml::MarkIdCollection const & bookmarkIds, kml::TrackIdCollection const & trackIds);
+    void MoveBookmarksAndTracks(kml::MarkIdCollection const & bookmarkIds, kml::TrackIdCollection const & trackIds,
+                                kml::MarkGroupId newGroupId);
+    void SetBookmarksAndTracksColor(kml::MarkIdCollection const & bookmarkIds, kml::TrackIdCollection const & trackIds,
+                                    dp::Color color);
+
     void ClearGroup(kml::MarkGroupId groupId);
 
     void SetIsVisible(kml::MarkGroupId groupId, bool visible);
+    void SetTrackVisibility(kml::TrackId trackId, bool visible);
 
     void MoveBookmark(kml::MarkId bmID, kml::MarkGroupId curGroupID, kml::MarkGroupId newGroupID);
     /// @todo Get data by value and make moves by call-chain.
@@ -589,6 +601,7 @@ private:
 
   void ClearGroup(kml::MarkGroupId groupId);
   void SetIsVisible(kml::MarkGroupId groupId, bool visible);
+  void SetTrackVisibility(kml::TrackId trackId, bool visible);
 
   void SetCategoryName(kml::MarkGroupId categoryId, std::string const & name);
   void SetCategoryDescription(kml::MarkGroupId categoryId, std::string const & desc);
@@ -719,6 +732,9 @@ private:
   void SetTrackSelectionMark(kml::TrackId trackId, m2::PointD const & pt, double distance);
   void DeleteTrackSelectionMark(kml::TrackId trackId);
   void ResetTrackInfoMark(kml::TrackId trackId);
+
+  bool IsTrackEffectivelyVisible(kml::TrackId trackId) const;
+  void UpdateTrackSelectionMark(kml::TrackId trackId);
 
   void UpdateTrackMarksMinZoom();
   void UpdateTrackMarksVisibility(kml::MarkGroupId groupId);

@@ -747,6 +747,8 @@
     <string name="type.natural.meadow">ທົ່ງຫຍ້າ</string>
     <string name="type.natural.orchard">ສວນໝາກໄມ້</string>
     <string name="type.natural.peak">ຈອມພູ</string>
+    <string name="type.natural.hill">ພູ</string>
+    <string name="type.natural.arch">Rock Arch</string>
     <string name="type.natural.saddle">ກິ່ວພູ</string>
     <string name="type.natural.rock">ໂງ່ນຫີນ</string>
     <string name="type.natural.scrub">ປ່າເລົ່າ</string>
@@ -1415,6 +1417,7 @@
     <string name="type.self_service.no">ບໍ່ມີບໍລິການຕົນເອງ</string>
     <!-- https://wiki.openstreetmap.org/wiki/Key:social_facility -->
     <string name="type.amenity.social_facility">ສິ່ງອຳນວຍຄວາມສະດວກທາງສັງຄົມ</string>
+    <string name="type.amenity.stage">ເວທີ</string>
     <!-- https://wiki.openstreetmap.org/wiki/Tag:emergency=emergency_ward_entrance -->
     <string name="type.emergency.emergency_ward_entrance">ທາງເຂົ້າແຜນກສຸກເສີນ</string>
     <!-- https://wiki.openstreetmap.org/wiki/Tag:amenity=dojo -->

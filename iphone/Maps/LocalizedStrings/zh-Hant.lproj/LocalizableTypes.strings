@@ -877,6 +877,8 @@
 "type.natural.meadow" = "草甸";
 "type.natural.orchard" = "果園";
 "type.natural.peak" = "山峰";
+"type.natural.hill" = "山丘";
+"type.natural.arch" = "岩石拱門";
 "type.natural.saddle" = "山坳";
 "type.natural.rock" = "岩石";
 "type.natural.scrub" = "叢林";
@@ -1574,6 +1576,7 @@
 
 /* https://wiki.openstreetmap.org/wiki/Key:social_facility */
 "type.amenity.social_facility" = "社會設施";
+"type.amenity.stage" = "舞台";
 
 /* https://wiki.openstreetmap.org/wiki/Tag:emergency=emergency_ward_entrance */
 "type.emergency.emergency_ward_entrance" = "急診病房入口";
