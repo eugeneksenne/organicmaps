@@ -1,6 +1,6 @@
 # FOMO Chats — Implementation Progress
 
-_Last reviewed: 2026-08-05_
+_Last reviewed: 2026-08-20_
 
 ## Status
 
@@ -29,11 +29,13 @@ The Android project now has native prototype screens for Chats, DMs, Calls, Grou
 ## Identity and authorization
 
 - [x] Initial profile schema and Row Level Security enablement.
-- [ ] Implement Android Supabase Auth: sign-up, sign-in, sign-out, session refresh, account deletion, and recovery.
-- [ ] Create profile bootstrap trigger/function after an Auth user is created.
+- [x] Implement Android Supabase Auth: sign-up, sign-in, sign-out, and session refresh.
+- [ ] Add account deletion and recovery.
+- [x] Create profile bootstrap trigger/function after an Auth user is created.
 - [ ] Implement follow/friend/block relationships and privacy settings.
 - [ ] Finish and test RLS policies for every table and Storage object path.
-- [ ] Add authorization RPCs for direct conversation creation, group management, invitations, moderation, and read receipts.
+- [x] Add authorization RPCs for direct conversation creation, group creation, and read receipts.
+- [ ] Add invitation, moderation, and administrator workflows.
 - [ ] Add rate limits, abuse reporting, audit events, and administrator workflows.
 
 ## Realtime engine
@@ -43,7 +45,8 @@ The Android project now has native prototype screens for Chats, DMs, Calls, Grou
 - [x] Add Android Socket.IO transport, lifecycle-aware connection state, exponential reconnect, typing and call-signal listeners, and SQLite durable operation outbox foundation.
 - [x] Add authenticated Supabase Edge Function operation queue and Android OkHttp dispatcher for durable queued operations.
 - [x] Add public Android build configuration and an engine factory that binds Socket.IO transport to the authenticated Supabase operation dispatcher.
-- [ ] Connect Android repositories/UI to the engine; implement local message cache hydration, delivery state, presence, stories, attachment, analytics, and notification managers.
+- [x] Connect Android repositories/UI to the engine with local inbox/message cache, optimistic send, and delivery state.
+- [ ] Implement presence, attachment, analytics, and notification managers.
 - [ ] Add Supabase Realtime subscriptions, presence, database reconciliation cursor, foreground/background handling, and network-change tests.
 - [ ] Add OpenTelemetry traces, rate limits, Redis-backed distributed presence, and operational dashboards.
 
@@ -51,9 +54,11 @@ The Android project now has native prototype screens for Chats, DMs, Calls, Grou
 
 - [x] Native chats inbox and direct-message UI flow.
 - [x] Initial tables for conversations, members, messages, attachments, and idempotent client operations.
-- [ ] Add Android data layer and repositories for Supabase REST/RPC and Realtime.
-- [ ] Add encrypted local database, local search index, drafts, and migration strategy.
-- [ ] Implement conversation pagination, optimistic sends, idempotency, retries, editing, deletion, reply threading, reactions, pins, and read/delivery receipts.
+- [x] Add Android data layer and repositories for Supabase REST/RPC.
+- [x] Add local SQLite inbox/message cache, drafts, and outbox replay.
+- [ ] Add encrypted local database and local search index.
+- [x] Implement conversation pagination, optimistic sends, idempotency, retries, pins, and read receipts.
+- [ ] Add editing, deletion, reply threading, and reactions in the UI.
 - [ ] Add realtime subscriptions for messages, typing, presence, edits, reactions, and membership.
 - [ ] Implement offline operation queue replay and conflict handling.
 - [ ] Add composer attachment bottom sheet, camera/gallery/document/location/contact integrations, and upload progress.
@@ -115,7 +120,7 @@ The Android project now has native prototype screens for Chats, DMs, Calls, Grou
 
 ## Quality, accessibility, and release readiness
 
-- [ ] Replace prototype/static UI content with repository-backed state and loading/error/empty states.
+- [x] Replace prototype chats inbox/conversation UI with repository-backed state and loading/error/empty states.
 - [ ] Add TalkBack labels, keyboard behavior, font scaling, contrast testing, reduced-motion behavior, and localization.
 - [ ] Add unit, integration, migration, contract, security, load, and end-to-end tests.
 - [ ] Measure launch/open/send/call targets on supported devices and network conditions.

@@ -271,6 +271,7 @@ dependencies {
   implementation libs.google.material
   implementation libs.devnullorthrow.mpandroidchart
   implementation libs.socket.io.client
+  implementation libs.okhttp
   implementation libs.livekit.android
 
   // Test Dependencies
