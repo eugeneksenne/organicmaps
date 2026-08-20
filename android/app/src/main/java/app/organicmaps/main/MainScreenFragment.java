@@ -25,6 +25,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import app.organicmaps.R;
+import app.organicmaps.chat.data.ChatConversationBinder;
+import app.organicmaps.chat.data.ChatInboxBinder;
 import app.organicmaps.discover.data.CityExploreRepository;
 import app.organicmaps.discover.data.DiscoverHeroRepository;
 import app.organicmaps.discover.data.FlashDropsRepository;
@@ -132,35 +134,21 @@ public class MainScreenFragment extends Fragment
   }
 
   @NonNull
+  @NonNull
   private View createChatsScreen(@NonNull LayoutInflater inflater, @Nullable ViewGroup container)
   {
     final View view = inflater.inflate(R.layout.chats_screen, container, false);
-    view.findViewById(R.id.chats_search).setOnClickListener(v -> Toast.makeText(requireContext(), "Search messages, people, venues, and files", Toast.LENGTH_SHORT).show());
-    view.findViewById(R.id.chats_new).setOnClickListener(v -> Toast.makeText(requireContext(), "Start a new conversation", Toast.LENGTH_SHORT).show());
-    view.findViewById(R.id.chats_story_add).setOnClickListener(v -> openStories());
-    view.findViewById(R.id.chats_story_alfred).setOnClickListener(v -> openStory("Alfred M."));
-    view.findViewById(R.id.chats_story_nomsa).setOnClickListener(v -> openStory("Nomsa"));
-    view.findViewById(R.id.chats_story_vault).setOnClickListener(v -> openStory("The Vault"));
-    final LinearLayout categories = view.findViewById(R.id.chats_categories);
-    for (int i = 0; i < categories.getChildCount(); ++i)
+    new ChatInboxBinder(this, view, new ChatInboxBinder.Host()
     {
-      final TextView category = (TextView) categories.getChildAt(i);
-      category.setOnClickListener(v -> {
-        if ("Calls".contentEquals(((TextView) v).getText()))
-          openCalls();
-        else if ("Groups".contentEquals(((TextView) v).getText()))
-          openGroups();
-        else if ("Stories".contentEquals(((TextView) v).getText()))
-          openStories();
-        else
-          selectChatCategory(categories, (TextView) v);
-      });
-    }
-    view.findViewById(R.id.chat_row_nightguard).setOnClickListener(v -> openConversation("NightGuard"));
-    view.findViewById(R.id.chat_row_alfred).setOnClickListener(v -> openConversation("Alfred M."));
-    view.findViewById(R.id.chat_row_truth).setOnClickListener(v -> openConversation("Truth Nightclub"));
-    view.findViewById(R.id.chat_row_group).setOnClickListener(v -> openConversation("Joburg Fridays"));
-    view.findViewById(R.id.chat_row_lerato).setOnClickListener(v -> openConversation("Lerato"));
+      @Override public void openConversation(@NonNull String conversationId)
+      {
+        MainScreenFragment.this.openConversation(conversationId);
+      }
+      @Override public void openStories() { MainScreenFragment.this.openStories(); }
+      @Override public void openStory(@NonNull String name) { MainScreenFragment.this.openStory(name); }
+      @Override public void openCalls() { MainScreenFragment.this.openCalls(); }
+      @Override public void openGroups() { MainScreenFragment.this.openGroups(); }
+    }).start();
     return view;
   }
 
@@ -210,10 +198,10 @@ public class MainScreenFragment extends Fragment
     view.findViewById(R.id.groups_back).setOnClickListener(v -> getParentFragmentManager().popBackStack());
     view.findViewById(R.id.groups_search).setOnClickListener(v -> showConversationNotice("Search groups, members, plans, and venues"));
     view.findViewById(R.id.groups_create).setOnClickListener(v -> showConversationNotice("Create group: choose members, details, then permissions"));
-    view.findViewById(R.id.group_joburg).setOnClickListener(v -> openConversation("Joburg Fridays"));
-    view.findViewById(R.id.group_birthday).setOnClickListener(v -> openConversation("Bongi’s Birthday"));
-    view.findViewById(R.id.group_roadtrip).setOnClickListener(v -> openConversation("Durban Road Trip"));
-    view.findViewById(R.id.group_vault).setOnClickListener(v -> openConversation("The Vault Crew"));
+    view.findViewById(R.id.group_joburg).setOnClickListener(v -> openConversation("demo-group"));
+    view.findViewById(R.id.group_birthday).setOnClickListener(v -> openConversation("demo-group"));
+    view.findViewById(R.id.group_roadtrip).setOnClickListener(v -> openConversation("demo-group"));
+    view.findViewById(R.id.group_vault).setOnClickListener(v -> openConversation("demo-group"));
     return view;
   }
 
@@ -259,37 +247,25 @@ public class MainScreenFragment extends Fragment
   }
 
   @NonNull
+  @NonNull
   private View createConversationScreen(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @NonNull String name)
   {
     final View view = inflater.inflate(R.layout.chat_conversation, container, false);
-    ((TextView) view.findViewById(R.id.conversation_name)).setText(name);
-    view.findViewById(R.id.conversation_back).setOnClickListener(v -> getParentFragmentManager().popBackStack());
-    view.findViewById(R.id.conversation_voice).setOnClickListener(v -> openCall("outgoing_voice", name));
-    view.findViewById(R.id.conversation_video).setOnClickListener(v -> openCall("outgoing_video", name));
-    view.findViewById(R.id.conversation_attach).setOnClickListener(v -> showConversationNotice("Camera • Gallery • Document • Venue • Event • Location"));
-    view.findViewById(R.id.conversation_cancel_reply).setOnClickListener(v -> view.findViewById(R.id.conversation_reply).setVisibility(View.GONE));
-    view.findViewById(R.id.conversation_menu).setOnClickListener(v -> showConversationMenu(v));
-    final EditText input = view.findViewById(R.id.conversation_input);
-    final TextView sent = view.findViewById(R.id.conversation_sent);
-    final TextView send = view.findViewById(R.id.conversation_send);
-    input.addTextChangedListener(new TextWatcher()
+    new ChatConversationBinder(this, view, name, new ChatConversationBinder.Host()
     {
-      @Override public void beforeTextChanged(CharSequence text, int start, int count, int after) {}
-      @Override public void onTextChanged(CharSequence text, int start, int before, int count)
+      @Override public void openCall(@NonNull String mode, @NonNull String participant)
       {
-        send.setText(text.length() == 0 ? "🎤" : "↑");
+        MainScreenFragment.this.openCall(mode, participant);
       }
-      @Override public void afterTextChanged(Editable text) {}
-    });
-    send.setOnClickListener(v -> {
-      if (input.getText().length() > 0)
+      @Override public void openProfile(@NonNull String username)
       {
-        sent.setText(input.getText());
-        input.setText("");
+        MainScreenFragment.this.openProfile(username);
       }
-      else
-        showConversationNotice("Hold to record a voice note");
-    });
+      @Override public void showNotice(@NonNull String message)
+      {
+        showConversationNotice(message);
+      }
+    }).start();
     return view;
   }
 
@@ -309,7 +285,8 @@ public class MainScreenFragment extends Fragment
     ((TextView) view.findViewById(R.id.profile_avatar)).setText(username.substring(0, 1).toUpperCase());
     view.findViewById(R.id.profile_back).setOnClickListener(v -> getParentFragmentManager().popBackStack());
     view.findViewById(R.id.profile_follow).setOnClickListener(v -> { ((TextView) v).setText("Following"); v.setClickable(false); });
-    view.findViewById(R.id.profile_message).setOnClickListener(v -> openConversation(displayName));
+    view.findViewById(R.id.profile_message).setOnClickListener(
+        v -> openConversation("alfredm".equals(username) ? "demo-alfred" : username));
     view.findViewById(R.id.profile_more).setOnClickListener(v -> showConversationNotice("Share, block, or report profile"));
     return view;
   }

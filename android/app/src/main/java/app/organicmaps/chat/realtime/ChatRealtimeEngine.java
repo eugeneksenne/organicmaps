@@ -10,7 +10,6 @@ import io.socket.client.Socket;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -112,9 +111,17 @@ public class ChatRealtimeEngine
   /** Queue a persistent operation first; a repository writes it to Supabase during flush. */
   public void queueOperation(@NonNull String type, @NonNull JSONObject payload)
   {
-    mStore.enqueue(UUID.randomUUID().toString(), type, payload.toString());
+    queueOperation(UUID.randomUUID().toString(), type, payload);
+  }
+
+  public void queueOperation(@NonNull String id, @NonNull String type, @NonNull JSONObject payload)
+  {
+    mStore.enqueue(id, type, payload.toString());
     flushOutbox();
   }
+
+  @NonNull
+  public ChatLocalStore store() { return mStore; }
 
   public void flushOutbox()
   {

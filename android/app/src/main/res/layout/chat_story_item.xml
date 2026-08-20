@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  style="@style/ChatStoryPreview">
+  <TextView
+    android:id="@+id/chat_story_avatar"
+    style="@style/StoryAvatar"/>
+  <TextView
+    android:id="@+id/chat_story_name"
+    style="@style/CallFavoriteName"/>
+</LinearLayout>
