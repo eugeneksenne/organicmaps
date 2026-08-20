@@ -169,6 +169,8 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Determining your location is necessary for navigation and for saving your recently travelled track.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>FOMO uses your contacts so you can share a contact card or start a chat with people you already know. Your address book is not uploaded.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>fonts/organic_maps_emoji.ttf</string>

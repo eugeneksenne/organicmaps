@@ -3,6 +3,8 @@ package app.organicmaps.chat.calls
 import android.content.Context
 import io.livekit.android.LiveKit
 import io.livekit.android.room.Room
+import io.livekit.android.room.track.LocalVideoTrack
+import io.livekit.android.room.track.Track
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -49,6 +51,13 @@ class LiveKitCallEngine(
 
   fun setCameraEnabled(enabled: Boolean) {
     scope.launch { room?.localParticipant?.setCameraEnabled(enabled) }
+  }
+
+  fun switchCamera() {
+    scope.launch {
+      val publication = room?.localParticipant?.getTrackPublication(Track.Source.CAMERA)
+      (publication?.track as? LocalVideoTrack)?.switchCamera()
+    }
   }
 
   fun disconnect() {

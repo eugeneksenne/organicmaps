@@ -25,8 +25,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import app.organicmaps.R;
+import app.organicmaps.chat.calls.CallScreenBinder;
+import app.organicmaps.chat.data.ChatCallsBinder;
 import app.organicmaps.chat.data.ChatConversationBinder;
+import app.organicmaps.chat.data.ChatGroupsBinder;
 import app.organicmaps.chat.data.ChatInboxBinder;
+import app.organicmaps.chat.data.ChatStoriesBinder;
+import app.organicmaps.chat.data.StoryComposer;
+import app.organicmaps.chat.data.StoryViewerBinder;
+import app.organicmaps.feed.FeedBinder;
 import app.organicmaps.discover.data.CityExploreRepository;
 import app.organicmaps.discover.data.DiscoverHeroRepository;
 import app.organicmaps.discover.data.FlashDropsRepository;
@@ -145,7 +152,8 @@ public class MainScreenFragment extends Fragment
         MainScreenFragment.this.openConversation(conversationId);
       }
       @Override public void openStories() { MainScreenFragment.this.openStories(); }
-      @Override public void openStory(@NonNull String name) { MainScreenFragment.this.openStory(name); }
+      @Override public void openStory(@NonNull String storyId) { MainScreenFragment.this.openStory(storyId); }
+      @Override public void composeStory() { MainScreenFragment.this.composeStory(); }
       @Override public void openCalls() { MainScreenFragment.this.openCalls(); }
       @Override public void openGroups() { MainScreenFragment.this.openGroups(); }
     }).start();
@@ -161,28 +169,43 @@ public class MainScreenFragment extends Fragment
   private View createStoriesScreen(@NonNull LayoutInflater inflater, @Nullable ViewGroup container)
   {
     final View view = inflater.inflate(R.layout.stories_screen, container, false);
-    view.findViewById(R.id.stories_back).setOnClickListener(v -> getParentFragmentManager().popBackStack());
-    view.findViewById(R.id.stories_camera).setOnClickListener(v -> showConversationNotice("Open FOMO Camera to add a story"));
-    view.findViewById(R.id.story_add).setOnClickListener(v -> showConversationNotice("Open FOMO Camera to add a story"));
-    view.findViewById(R.id.story_alfred).setOnClickListener(v -> openStory("Alfred M."));
-    view.findViewById(R.id.story_nomsa).setOnClickListener(v -> openStory("Nomsa"));
-    view.findViewById(R.id.story_vault).setOnClickListener(v -> openStory("The Vault"));
-    view.findViewById(R.id.story_lerato).setOnClickListener(v -> openStory("Lerato"));
+    new ChatStoriesBinder(this, view, new ChatStoriesBinder.Host()
+    {
+      @Override public void openStory(@NonNull String storyId) { MainScreenFragment.this.openStory(storyId); }
+      @Override public void openCamera()
+      {
+        getParentFragmentManager().beginTransaction()
+            .replace(R.id.main_screen_container, newInstance("camera")).addToBackStack("camera").commit();
+      }
+      @Override public void composeStory() { MainScreenFragment.this.composeStory(); }
+    }).start();
     return view;
   }
 
-  private void openStory(@NonNull String name)
+  private void openStory(@NonNull String storyId)
   {
-    getParentFragmentManager().beginTransaction().replace(R.id.main_screen_container, newInstance("story:" + name)).addToBackStack("story").commit();
+    getParentFragmentManager().beginTransaction().replace(R.id.main_screen_container, newInstance("story:" + storyId)).addToBackStack("story").commit();
+  }
+
+  private void composeStory()
+  {
+    StoryComposer.show(this, this::openStory, () -> getParentFragmentManager().beginTransaction()
+        .replace(R.id.main_screen_container, newInstance("camera")).addToBackStack("camera").commit());
   }
 
   @NonNull
-  private View createStoryViewer(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @NonNull String name)
+  private View createStoryViewer(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @NonNull String storyId)
   {
     final View view = inflater.inflate(R.layout.story_viewer, container, false);
-    ((TextView) view.findViewById(R.id.story_viewer_name)).setText(name);
-    view.findViewById(R.id.story_viewer_close).setOnClickListener(v -> getParentFragmentManager().popBackStack());
-    view.findViewById(R.id.story_react).setOnClickListener(v -> ((TextView) v).setText("♥"));
+    new StoryViewerBinder(this, view, storyId, new StoryViewerBinder.Host()
+    {
+      @Override public void close() { getParentFragmentManager().popBackStack(); }
+      @Override public void openChat(@NonNull String username)
+      {
+        openConversation(username.isEmpty() ? "demo-alfred" : username);
+      }
+      @Override public void showNotice(@NonNull String message) { showConversationNotice(message); }
+    }).start();
     return view;
   }
 
@@ -195,13 +218,7 @@ public class MainScreenFragment extends Fragment
   private View createGroupsScreen(@NonNull LayoutInflater inflater, @Nullable ViewGroup container)
   {
     final View view = inflater.inflate(R.layout.groups_screen, container, false);
-    view.findViewById(R.id.groups_back).setOnClickListener(v -> getParentFragmentManager().popBackStack());
-    view.findViewById(R.id.groups_search).setOnClickListener(v -> showConversationNotice("Search groups, members, plans, and venues"));
-    view.findViewById(R.id.groups_create).setOnClickListener(v -> showConversationNotice("Create group: choose members, details, then permissions"));
-    view.findViewById(R.id.group_joburg).setOnClickListener(v -> openConversation("demo-group"));
-    view.findViewById(R.id.group_birthday).setOnClickListener(v -> openConversation("demo-group"));
-    view.findViewById(R.id.group_roadtrip).setOnClickListener(v -> openConversation("demo-group"));
-    view.findViewById(R.id.group_vault).setOnClickListener(v -> openConversation("demo-group"));
+    new ChatGroupsBinder(this, view, conversationId -> openConversation(conversationId)).start();
     return view;
   }
 
@@ -214,19 +231,17 @@ public class MainScreenFragment extends Fragment
   private View createCallsScreen(@NonNull LayoutInflater inflater, @Nullable ViewGroup container)
   {
     final View view = inflater.inflate(R.layout.calls_screen, container, false);
-    view.findViewById(R.id.calls_back).setOnClickListener(v -> getParentFragmentManager().popBackStack());
-    view.findViewById(R.id.calls_search).setOnClickListener(v -> showConversationNotice("Search call history"));
-    view.findViewById(R.id.calls_start).setOnClickListener(v -> showConversationNotice("Start a voice or video call"));
-    final LinearLayout filters = view.findViewById(R.id.call_filters);
-    for (int i = 0; i < filters.getChildCount(); ++i)
+    new ChatCallsBinder(this, view, new ChatCallsBinder.Host()
     {
-      final TextView filter = (TextView) filters.getChildAt(i);
-      filter.setOnClickListener(v -> selectChatCategory(filters, (TextView) v));
-    }
-    view.findViewById(R.id.call_alfred).setOnClickListener(v -> openCall("outgoing_video", "Alfred M."));
-    view.findViewById(R.id.call_nomsa).setOnClickListener(v -> openCall("voice", "Nomsa"));
-    view.findViewById(R.id.call_lerato).setOnClickListener(v -> openCall("incoming_video", "Lerato"));
-    view.findViewById(R.id.call_group).setOnClickListener(v -> openCall("group_voice", "Joburg Fridays"));
+      @Override public void openCall(@NonNull String mode, @NonNull String name)
+      {
+        MainScreenFragment.this.openCall(mode, name);
+      }
+      @Override public void openConversation(@NonNull String conversationId)
+      {
+        MainScreenFragment.this.openConversation(conversationId);
+      }
+    }).start();
     return view;
   }
 
@@ -264,6 +279,11 @@ public class MainScreenFragment extends Fragment
       @Override public void showNotice(@NonNull String message)
       {
         showConversationNotice(message);
+      }
+      @Override public void openFeature(@NonNull String destination)
+      {
+        getParentFragmentManager().beginTransaction()
+            .replace(R.id.main_screen_container, newInstance(destination)).addToBackStack(destination).commit();
       }
     }).start();
     return view;
@@ -304,31 +324,12 @@ public class MainScreenFragment extends Fragment
     final String mode = parts[0];
     final String name = parts.length > 1 ? parts[1] : "FOMO Call";
     final View view = inflater.inflate(R.layout.call_screen, container, false);
-    ((TextView) view.findViewById(R.id.call_screen_name)).setText(name);
-    ((TextView) view.findViewById(R.id.call_screen_avatar)).setText(name.substring(0, 1).toUpperCase());
-    final boolean incoming = mode.startsWith("incoming");
-    final boolean video = mode.contains("video");
-    final boolean group = mode.startsWith("group");
-    ((TextView) view.findViewById(R.id.call_screen_status)).setText(incoming ? "Incoming " + (video ? "video" : "voice") + " call" : mode.startsWith("outgoing") ? "Calling…" : "00:12");
-    view.findViewById(R.id.call_screen_answer).setVisibility(incoming ? View.VISIBLE : View.GONE);
-    view.findViewById(R.id.call_screen_local_preview).setVisibility(video ? View.VISIBLE : View.GONE);
-    view.findViewById(R.id.call_screen_camera).setVisibility(video ? View.VISIBLE : View.GONE);
-    view.findViewById(R.id.call_screen_participant_button).setVisibility(group ? View.VISIBLE : View.GONE);
-    if (group)
+    new CallScreenBinder(this, view, mode, name, new CallScreenBinder.Host()
     {
-      final TextView participants = view.findViewById(R.id.call_screen_participants);
-      participants.setVisibility(View.VISIBLE);
-      participants.setText("8 participants • 3 speaking");
-    }
-    view.findViewById(R.id.call_screen_answer).setOnClickListener(v -> {
-      ((TextView) view.findViewById(R.id.call_screen_status)).setText("00:00");
-      v.setVisibility(View.GONE);
-    });
-    view.findViewById(R.id.call_screen_decline).setOnClickListener(v -> getParentFragmentManager().popBackStack());
-    view.findViewById(R.id.call_screen_mute).setOnClickListener(v -> ((TextView) v).setText("♩\nMuted"));
-    view.findViewById(R.id.call_screen_speaker).setOnClickListener(v -> ((TextView) v).setText("◖\nSpeaker on"));
-    view.findViewById(R.id.call_screen_camera).setOnClickListener(v -> ((TextView) v).setText("▣\nCamera off"));
-    view.findViewById(R.id.call_screen_participant_button).setOnClickListener(v -> showConversationNotice("Participants and moderator controls"));
+      @Override public void endCall() { getParentFragmentManager().popBackStack(); }
+      @Override public void openChat() { getParentFragmentManager().popBackStack(); }
+      @Override public void showNotice(@NonNull String message) { showConversationNotice(message); }
+    }).start();
     return view;
   }
 
@@ -351,33 +352,21 @@ public class MainScreenFragment extends Fragment
   private View createFeedScreen(@NonNull LayoutInflater inflater, @Nullable ViewGroup container)
   {
     final View view = inflater.inflate(R.layout.feed_screen, container, false);
-    final TextView context = view.findViewById(R.id.feed_context);
-    final TextView[] tabs = {view.findViewById(R.id.feed_for_you), view.findViewById(R.id.feed_following),
-                             view.findViewById(R.id.feed_nearby), view.findViewById(R.id.feed_live)};
-    final String[] details = {"2h ago • Sandton", "42m ago • Following", "5m ago • 280m away", "● LIVE • 2.4K watching"};
-    for (int i = 0; i < tabs.length; ++i)
+    new FeedBinder(this, view, new FeedBinder.Host()
     {
-      final int index = i;
-      tabs[i].setOnClickListener(v -> selectFeedTab(tabs, index, context, details[index]));
-    }
-    view.findViewById(R.id.feed_search).setOnClickListener(
-        v -> Toast.makeText(requireContext(), "Search creators, venues, events, sounds, and hashtags", Toast.LENGTH_SHORT).show());
-    view.findViewById(R.id.feed_profile).setOnClickListener(v -> openProfile("alfredm"));
-    view.findViewById(R.id.feed_follow).setOnClickListener(v -> {
-      ((TextView) v).setText("✓\nFollowing");
-      v.setClickable(false);
-    });
-    view.findViewById(R.id.feed_like).setOnClickListener(v -> ((TextView) v).setText("♥\n2.8K"));
-    view.findViewById(R.id.feed_ripple).setOnClickListener(v -> ((TextView) v).setText("≋\nRippled"));
-    view.findViewById(R.id.feed_save).setOnClickListener(v -> ((TextView) v).setText("⌑\nSaved"));
-    view.findViewById(R.id.feed_comment).setOnClickListener(
-        v -> Toast.makeText(requireContext(), "Comments", Toast.LENGTH_SHORT).show());
-    view.findViewById(R.id.feed_share).setOnClickListener(
-        v -> Toast.makeText(requireContext(), "Share this Moment", Toast.LENGTH_SHORT).show());
-    view.findViewById(R.id.feed_lobby).setOnClickListener(
-        v -> Toast.makeText(requireContext(), "Opening Cocoon Nightclub lobby", Toast.LENGTH_SHORT).show());
-    view.findViewById(R.id.feed_route).setOnClickListener(
-        v -> Toast.makeText(requireContext(), "Opening route to Cocoon Nightclub", Toast.LENGTH_SHORT).show());
+      @Override public void openProfile(@NonNull String username)
+      {
+        MainScreenFragment.this.openProfile(username.isEmpty() ? "alfredm" : username);
+      }
+      @Override public void showNotice(@NonNull String message)
+      {
+        showConversationNotice(message);
+      }
+      @Override public void openFeature(@NonNull String destination)
+      {
+        showConversationNotice(destination);
+      }
+    }).start();
     return view;
   }
 
@@ -638,6 +627,7 @@ public class MainScreenFragment extends Fragment
     final String[] tabNames = {"Following", "Trending", "Nearby", "Events"}; final TextView[] tabs = new TextView[tabNames.length]; final LinearLayout tabRow = view.findViewById(R.id.prep_tabs);
     for (int i = 0; i < tabNames.length; ++i) { TextView tab = eventText(tabNames[i], 14, i == 1 ? Color.WHITE : 0x9FFFFFFF, i == 1 ? 1 : 0); tab.setGravity(android.view.Gravity.CENTER); tabRow.addView(tab, new LinearLayout.LayoutParams(dp(92), dp(40))); tabs[i] = tab; final String selected = tabNames[i]; tab.setOnClickListener(v -> selectPrepTab(view, tabs, tab, selected)); }
     final LinearLayout filters = view.findViewById(R.id.prep_filters); for (String filter : new String[] {"👗 Looks", "💄 Makeup", "💇 Hair", "💅 Nails", "👞 Shoes", "🎥 Tutorials", "✨ Tips"}) { TextView chip = eventText(filter, 12, 0xDFFFFFFF, 0); chip.setGravity(android.view.Gravity.CENTER); chip.setBackgroundResource(R.drawable.event_chip_background); LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dp(100), dp(32)); params.setMargins(0, 0, dp(8), 0); filters.addView(chip, params); chip.setOnClickListener(v -> { chip.setSelected(!chip.isSelected()); chip.setTextColor(chip.isSelected() ? 0xFFFFC477 : 0xDFFFFFFF); }); }
+    final LinearLayout plan = view.findViewById(R.id.prep_plan); eventLine(plan, "TONIGHT", 11, 0xDFFFFFFF, 1); eventLine(plan, "AfroHaus Rooftop", 24, Color.WHITE, 1); eventLine(plan, "Starts in 03:12:18  ·  6 friends going", 13, 0xE6FFFFFF, 0); TextView continueButton ewById(R.id.prep_filters); for (String filter : new String[] {"👗 Looks", "💄 Makeup", "💇 Hair", "💅 Nails", "👞 Shoes", "🎥 Tutorials", "✨ Tips"}) { TextView chip = eventText(filter, 12, 0xDFFFFFFF, 0); chip.setGravity(android.view.Gravity.CENTER); chip.setBackgroundResource(R.drawable.event_chip_background); LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dp(100), dp(32)); params.setMargins(0, 0, dp(8), 0); filters.addView(chip, params); chip.setOnClickListener(v -> { chip.setSelected(!chip.isSelected()); chip.setTextColor(chip.isSelected() ? 0xFFFFC477 : 0xDFFFFFFF); }); }
     final LinearLayout plan = view.findViewById(R.id.prep_plan); eventLine(plan, "TONIGHT", 11, 0xDFFFFFFF, 1); eventLine(plan, "AfroHaus Rooftop", 24, Color.WHITE, 1); eventLine(plan, "Starts in 03:12:18  ·  6 friends going", 13, 0xE6FFFFFF, 0); TextView continueButton = eventText("Continue Preparing  →", 13, 0xFF1E1623, 1); continueButton.setGravity(android.view.Gravity.CENTER); continueButton.setBackground(roundBackground(0xFFFFC477, 14)); LinearLayout.LayoutParams continueParams = new LinearLayout.LayoutParams(dp(185), dp(38)); continueParams.setMargins(0, dp(13), 0, 0); plan.addView(continueButton, continueParams); continueButton.setOnClickListener(v -> Toast.makeText(requireContext(), "Opening AfroHaus preparation session", Toast.LENGTH_SHORT).show());
     final LinearLayout circle = view.findViewById(R.id.prep_circle); for (String person : new String[] {"Sarah\nOutfit poll", "Jessica\nTutorial", "Mike\nPreparing", "Sip Squad\n4 active"}) { TextView item = eventText(person, 11, Color.WHITE, 1); item.setGravity(android.view.Gravity.CENTER); item.setBackground(roundBackground(0xFF292232, 16)); LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dp(92), dp(56)); params.setMargins(0, 0, dp(9), 0); circle.addView(item, params); }
     selectPrepTab(view, tabs, tabs[1], "Trending"); return view;
@@ -1231,6 +1221,11 @@ public class MainScreenFragment extends Fragment
       mCameraPreviewEngine.start();
     else if (requestCode == CAMERA_PERMISSION_REQUEST)
       Toast.makeText(requireContext(), "Camera permission is needed to capture moments", Toast.LENGTH_LONG).show();
+    else if (requestCode == app.organicmaps.chat.data.DeviceContacts.REQUEST)
+    {
+      if (!app.organicmaps.chat.data.DeviceContacts.onPermissionResult(grantResults))
+        Toast.makeText(requireContext(), R.string.contacts_permission, Toast.LENGTH_LONG).show();
+    }
   }
 
   @Override

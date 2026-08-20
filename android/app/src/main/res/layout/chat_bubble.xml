@@ -5,12 +5,31 @@
   android:orientation="vertical"
   android:paddingTop="8dp">
   <TextView
+    android:id="@+id/chat_bubble_reply"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="4dp"
+    android:background="#FFF3E9FF"
+    android:maxLines="2"
+    android:padding="8dp"
+    android:textColor="#FF5D1FD0"
+    android:textSize="12sp"
+    android:visibility="gone"/>
+  <TextView
     android:id="@+id/chat_bubble_text"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:padding="12dp"
     android:textColor="@color/text_dark"
     android:textSize="15sp"/>
+  <TextView
+    android:id="@+id/chat_bubble_reactions"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="2dp"
+    android:textColor="@color/text_dark"
+    android:textSize="12sp"
+    android:visibility="gone"/>
   <TextView
     android:id="@+id/chat_bubble_meta"
     android:layout_width="wrap_content"
